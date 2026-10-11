@@ -1,0 +1,32 @@
+.env
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+*.jks
+*.keystore
+keystore.properties
+/signing/
+/.claude/
+/.idea/
+*.mp4
+!docs/*.mp4
+tools/__pycache__/
+
+# Build fingerprint (auto-generated)
+app/src/main/assets/.pcfp
+
+# Claude Code local session state (not for git)
+CLAUDE.local.md
+thoughts/
+.claudeignore
+/.kotlin/
+
+# Local AI/tooling state and scratch captures
+/.opencode/
+/shot-chat.png

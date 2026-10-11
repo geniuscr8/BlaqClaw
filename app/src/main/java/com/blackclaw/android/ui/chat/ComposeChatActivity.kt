@@ -1,0 +1,570 @@
+package com.blackclaw.android.ui.chat
+
+import com.blackclaw.android.AppCapabilityCoordinator
+import com.blackclaw.android.ServiceBindingState
+import android.content.Intent
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
+import com.blackclaw.android.TaskEvent
+import com.blackclaw.android.agent.llm.ModelConfigRepository
+import com.blackclaw.android.automation.ExternalAutomationContract
+import com.blackclaw.android.automation.ExternalAutomationEntrypoint
+import com.blackclaw.android.appViewModel
+import com.blackclaw.android.floating.FloatingCircleManager
+import com.blackclaw.android.ui.settings.LlmConfigActivity
+import com.blackclaw.android.ui.settings.SettingsActivity
+import com.blackclaw.android.utils.KVUtils
+import com.blackclaw.android.utils.XLog
+import java.util.concurrent.Executors
+
+/**
+ * BlackClaw Chat Activity — Compose shell for the chat screen.
+ *
+ * Chat runtime ownership lives in [ChatSessionController].
+ * This activity keeps lifecycle wiring, task flows, and sidebar/history UI state.
+ */
+class ComposeChatActivity : ComponentActivity() {
+
+    companion object {
+        private const val TAG = "ComposeChatActivity"
+        private const val EXTRA_TASK = "task"
+        private const val EXTRA_CHAT = "chat"
+    }
+
+    private val executor = Executors.newSingleThreadExecutor()
+    private val conversationStore by lazy { ConversationStore(this) }
+
+    /** Image picker: preserve the original image for visual models and add OCR as context. */
+    private val pickImageLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.GetContent()
+    ) { uri: android.net.Uri? ->
+        if (uri != null) onImagePicked(uri)
+    }
+
+    private fun onImagePicked(uri: android.net.Uri) {
+        Toast.makeText(this, "Analizando imagen…", Toast.LENGTH_SHORT).show()
+        executor.submit {
+            val image = runCatching { com.blackclaw.android.perception.VisionImageLoader.load(this, uri) }
+            runOnUiThread {
+                image.onSuccess { chatSessionController.sendImage(it) }
+                    .onFailure {
+                        Toast.makeText(this, it.message ?: "Could not read the image", Toast.LENGTH_LONG).show()
+                    }
+            }
+        }
+    }
+
+    // Compose state — observed by ChatScreen
+    private val _messages = mutableStateListOf<ChatMessage>()
+    private val _modelStatus = mutableStateOf("No model loaded")
+    private val _isLocalModelActive = mutableStateOf(ModelConfigRepository.isLocalActive())
+    private val _isAutomaticModeActive = mutableStateOf(ModelConfigRepository.isAutomaticActive())
+    private val _needsPermission = mutableStateOf(false)
+    private val _isAwaitingReply = mutableStateOf(false)
+    private val _isTaskRunning = mutableStateOf(false)
+    private val _inputEnabled = mutableStateOf(true)    // False when model not ready (no task running)
+    private val _conversations = mutableStateListOf<ChatHistoryManager.ConversationSummary>()
+    private val _isDownloading = mutableStateOf(false)
+    private val _downloadProgress = mutableStateOf(0)
+
+    // Session-level token tracking for chat mode
+    private val _sessionTokens = mutableStateOf(0)
+    private val _sessionCost = mutableStateOf(0.0)
+    private var deferLocalChatBootstrapForAutoTask = false
+    private var pendingExternalRequestId: String? = null
+    private var pendingExternalReturnAction: String? = null
+    private var pendingExternalReturnPackage: String? = null
+    private var automaticNetworkCallback: android.net.ConnectivityManager.NetworkCallback? = null
+    private val automaticNetworkHandler = Handler(Looper.getMainLooper())
+    private val automaticNetworkSync = Runnable { syncModelModeFromRuntime() }
+
+    private val chatSessionController by lazy {
+        ChatSessionController(
+            activity = this,
+            executor = executor,
+            uiState = ChatSessionUiState(
+                messages = _messages,
+                modelStatus = _modelStatus,
+                isAwaitingReply = _isAwaitingReply,
+                inputEnabled = _inputEnabled,
+                isDownloading = _isDownloading,
+                downloadProgress = _downloadProgress,
+                sessionTokens = _sessionTokens,
+                sessionCost = _sessionCost,
+            ),
+            onPersistConversation = { saveChat() },
+            onRefreshSidebarHistory = { refreshSidebarHistory() },
+            isTaskRunning = { appViewModel.isTaskRunning() },
+        ).also { it.onChatReply = { /* spoken by VoiceWakeService when from voice */ } }
+    }
+
+    private val taskFlowController by lazy {
+        TaskFlowController(
+            activity = this,
+            executor = executor,
+            appViewModel = appViewModel,
+            chatSessionController = chatSessionController,
+            currentConversationId = { conversationStore.currentConversationId },
+            uiState = TaskFlowUiState(
+                messages = _messages,
+                modelStatus = _modelStatus,
+                isAwaitingReply = _isAwaitingReply,
+                isTaskRunning = _isTaskRunning,
+            ),
+            onPersistConversation = { saveChat() },
+            onTaskSettled = { deferLocalChatBootstrapForAutoTask = false },
+            onTaskTerminal = {
+                sendExternalAutomationTerminalCallback(it)
+            },
+        )
+    }
+
+    private val activeTaskShellController by lazy {
+        ActiveTaskShellController(appViewModel = appViewModel)
+    }
+
+    // Accessibility state is refreshed onResume. Changing the system accessibility
+    // setting necessarily backgrounds this Activity, so polling it every second while
+    // the chat is visible only caused needless wakeups/recompositions.
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // Hide floating circle only when no task is running
+        // (task running = keep floating pill visible for step/token status)
+        try {
+            if (!appViewModel.isTaskRunning()) {
+                FloatingCircleManager.hide()
+            } else {
+                XLog.d(TAG, "onCreate: task running, keeping floating circle visible")
+            }
+        } catch (_: Exception) {}
+
+        // Check for updates (GitHub Releases → in-app download + install)
+        com.blackclaw.android.utils.AppUpdater.checkForUpdate(this)
+
+        // Status bar color
+        val themeColors = ThemeManager.getColors()
+        window.statusBarColor = themeColors.toolbarBg
+
+        // Build Compose colors from ThemeManager
+        val composeColors = with(ThemeManager) { themeColors.toComposeColors() }
+
+        setContent {
+            val activeTasks by activeTaskShellController.activeTasks.collectAsState()
+
+            ChatScreen(
+                messages = _messages.toList(),
+                modelStatus = _modelStatus.value,
+                needsPermission = _needsPermission.value,
+                isAwaitingReply = _isAwaitingReply.value,
+                isTaskRunning = _isTaskRunning.value,
+                inputEnabled = _inputEnabled.value,
+                isDownloading = _isDownloading.value,
+                downloadProgress = _downloadProgress.value,
+                isLocalModel = _isLocalModelActive.value,
+                isAutomaticMode = _isAutomaticModeActive.value,
+                sessionTokens = _sessionTokens.value,
+                sessionCost = _sessionCost.value,
+                onSendChat = { sendChat(it) },
+                onSendTask = { taskFlowController.sendTask(it) },
+                onStartMonitor = { target -> taskFlowController.startMonitor(target) },
+                onSendDirectMessage = { contact, app, message ->
+                    taskFlowController.sendTask("send \"$message\" to $contact on $app")
+                },
+                onNewChat = { newChat() },
+                onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
+                onOpenModels = { startActivity(Intent(this, LlmConfigActivity::class.java)) },
+                onOpenAutoReplies = { startActivity(Intent(this, com.blackclaw.android.ui.autoreply.AutoRepliesActivity::class.java)) },
+                onOpenAssistant = { startActivity(Intent(this, com.blackclaw.android.ui.assistant.AssistantActivity::class.java)) },
+                onFixPermissions = { startActivity(Intent(this, SettingsActivity::class.java)) },
+                onAttach = { runCatching { pickImageLauncher.launch("image/*") } },
+                conversations = _conversations.toList(),
+                onSelectConversation = { loadConversation(it) },
+                onDeleteConversation = { conv ->
+                    val deleted = conversationStore.deleteConversation(conv)
+                    XLog.i(TAG, "Delete conversation: ${conv.file.absolutePath} deleted=$deleted")
+                    refreshSidebarHistory()
+                },
+                onRenameConversation = { conv, newName ->
+                    val renamed = conversationStore.renameConversation(conv, newName)
+                    XLog.i(TAG, "Rename conversation: '${conv.title}' → '$newName' renamed=$renamed")
+                    refreshSidebarHistory()
+                },
+                activeTasks = activeTasks,
+                onStopTask = { contact ->
+                    _isTaskRunning.value = appViewModel.isTaskRunning()
+                    Toast.makeText(
+                        this,
+                        activeTaskShellController.stopTask(contact),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onStopAllTasks = {
+                    _isAwaitingReply.value = false
+                    _isTaskRunning.value = false
+                    Toast.makeText(
+                        this,
+                        activeTaskShellController.stopAllTasks(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onModelSwitch = { modelId, displayName -> switchModel(modelId, displayName) },
+                colors = composeColors,
+            )
+        }
+
+        refreshSidebarHistory()
+
+        // Restore last conversation if Activity was recreated (e.g., system killed it during a task)
+        if (_messages.isEmpty()) {
+            conversationStore.restoreLastConversation()?.let { restored ->
+                syncSidebar(restored.conversations)
+                if (restored.messages.isNotEmpty()) {
+                    _messages.addAll(restored.messages)
+                    XLog.i(
+                        TAG,
+                        "Restored ${restored.messages.size} messages from conversation ${restored.conversationId}"
+                    )
+                }
+            }
+        }
+
+        deferLocalChatBootstrapForAutoTask = shouldDeferLocalChatBootstrap(intent)
+        if (!deferLocalChatBootstrapForAutoTask) {
+            chatSessionController.loadModelIfReady(
+                conversationId = conversationStore.currentConversationId,
+                visibleMessages = _messages.toList(),
+            )
+        }
+        syncModelModeFromRuntime()
+
+        // Release local LLM conversation before task starts so the agent can use the engine
+        // (LiteRT-LM only supports 1 session at a time)
+        appViewModel.onBeforeTask = {
+            chatSessionController.releaseForTask()
+        }
+
+        // Debug: auto-trigger task from ADB intent
+        // Usage: adb shell am start -n com.blackclaw.android/.ui.chat.ComposeChatActivity --es task "open my camera"
+        handleIntentAutomation(intent, initialDelayMs = 2000)
+
+        // First-launch: show the features guide once so users discover what's here.
+        if (!KVUtils.getBoolean("seen_features_guide", false)) {
+            KVUtils.putBoolean("seen_features_guide", true); KVUtils.sync()
+            Handler(Looper.getMainLooper()).postDelayed({
+                runCatching {
+                    startActivity(Intent(this, com.blackclaw.android.ui.guide.FeaturesGuideActivity::class.java))
+                }
+            }, 800)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        deferLocalChatBootstrapForAutoTask = shouldDeferLocalChatBootstrap(intent)
+        handleIntentAutomation(intent, initialDelayMs = 1000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Record user interaction for smart quiet detection
+        runCatching { com.blackclaw.android.proactive.SmartQuietDetector.recordInteraction() }
+        _needsPermission.value =
+            AppCapabilityCoordinator.accessibilityState(this) != ServiceBindingState.READY
+        syncModelModeFromRuntime()
+        _isTaskRunning.value = appViewModel.isTaskRunning()
+        refreshSidebarHistory()
+        activeTaskShellController.onResume()
+        if (!deferLocalChatBootstrapForAutoTask) {
+            chatSessionController.onResume(
+                conversationId = conversationStore.currentConversationId,
+                visibleMessages = _messages.toList(),
+            )
+        }
+        maybeStartVoiceWakeLoop()
+        runCatching { com.blackclaw.android.agent.OpenCodeZenModels.refreshIfStale() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerAutomaticNetworkMonitor()
+    }
+
+    override fun onStop() {
+        unregisterAutomaticNetworkMonitor()
+        super.onStop()
+    }
+
+    /**
+     * Hands-free mode: if the user enabled the wake word and granted mic
+     * permission, run the always-listening foreground service (works in
+     * background and releases the mic during phone calls).
+     */
+    private fun maybeStartVoiceWakeLoop() {
+        if (!com.blackclaw.android.assistant.VoiceInputManager.wakeEnabled) return
+        val granted = androidx.core.content.ContextCompat.checkSelfPermission(
+            this, android.Manifest.permission.RECORD_AUDIO
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        // Do not surprise the user with a microphone prompt just because the chat
+        // Activity resumed. Voice Settings and Quick Assist show the permission
+        // rationale at the moment the user explicitly chooses voice.
+        if (!granted) return
+        runCatching { com.blackclaw.android.service.VoiceWakeService.start(this) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveChat()
+        activeTaskShellController.onPause()
+        chatSessionController.onPause(conversationStore.currentConversationId)
+        // Note: do NOT stop the voice wake service here — it intentionally keeps
+        // listening in the background (it's a foreground service).
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chatSessionController.onDestroy()
+        executor.shutdown()
+    }
+
+    // ==================== CHAT ====================
+
+    private fun sendChat(text: String) {
+        // Record interaction for profile learning
+        runCatching { com.blackclaw.android.memory.UserProfile.recordInteraction("chat", text.take(80)) }
+        // A short "continúa" after an interrupted task must return to the task
+        // agent, not the plain chat model. TaskFlowController also hands it the
+        // visible transcript, so it can resume instead of starting from zero.
+        if (TaskContinuationDetector.isContinuationRequest(text, _messages.toList())) {
+            XLog.i(TAG, "sendChat: continuation request → resuming previous task")
+            taskFlowController.sendTask(TaskContinuationDetector.buildPrompt(text))
+            return
+        }
+        // If the message is clearly an action ("pon una alarma", "manda un mensaje"),
+        // route it to the agent (which has tools) instead of plain chat — otherwise
+        // the chat model just *describes* doing it instead of actually doing it.
+        if (com.blackclaw.android.agent.DefaultAgentService.isTaskLike(text)) {
+            XLog.i(TAG, "sendChat: task-like message → routing to agent (chars=${text.length})")
+            taskFlowController.sendTask(text)
+            return
+        }
+        chatSessionController.sendChat(text)
+    }
+
+    private fun handleIntentAutomation(intent: Intent?, initialDelayMs: Long) {
+        val taskText = intent?.getStringExtra(EXTRA_TASK)?.takeIf { it.isNotBlank() }
+        val chatText = intent?.getStringExtra(EXTRA_CHAT)?.takeIf { it.isNotBlank() }
+        val automationText = taskText ?: chatText ?: return
+        val isTask = taskText != null
+        captureExternalAutomationCallback(intent, isTask)
+
+        XLog.i(
+            TAG,
+            "Intent automation mode=${if (isTask) "task" else "chat"} chars=${automationText.length}"
+        )
+
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (isTask) {
+                    taskFlowController.sendTask(
+                        automationText,
+                        com.blackclaw.android.tool.guard.ToolRiskPolicy.Origin.AUTOMATION,
+                    )
+                    return
+                }
+                if (!KVUtils.hasLlmConfig()) {
+                    _messages.add(ChatMessage(ChatMessage.Role.USER, automationText))
+                    _messages.add(ChatMessage(ChatMessage.Role.SYSTEM, "Configure LLM in Settings first."))
+                    saveChat()
+                    return
+                }
+                if (chatSessionController.isModelReady()) {
+                    sendChat(automationText)
+                } else {
+                    handler.postDelayed(this, 1000)
+                }
+            }
+        }, initialDelayMs)
+    }
+
+    private fun shouldDeferLocalChatBootstrap(intent: Intent?): Boolean {
+        val taskText = intent?.getStringExtra(EXTRA_TASK)?.takeIf { it.isNotBlank() } ?: return false
+        return taskText.isNotBlank() && ModelConfigRepository.isLocalActive()
+    }
+
+    private fun captureExternalAutomationCallback(intent: Intent?, isTask: Boolean) {
+        pendingExternalRequestId = null
+        pendingExternalReturnAction = null
+        pendingExternalReturnPackage = null
+        if (!isTask) return
+        pendingExternalRequestId = intent?.getStringExtra(ExternalAutomationEntrypoint.EXTRA_EXTERNAL_REQUEST_ID)
+        pendingExternalReturnAction = intent?.getStringExtra(ExternalAutomationEntrypoint.EXTRA_EXTERNAL_RETURN_ACTION)
+        pendingExternalReturnPackage = intent?.getStringExtra(ExternalAutomationEntrypoint.EXTRA_EXTERNAL_RETURN_PACKAGE)
+    }
+
+    private fun sendExternalAutomationTerminalCallback(event: TaskEvent) {
+        val returnAction = pendingExternalReturnAction ?: return
+        val requestId = pendingExternalRequestId
+        val returnPackage = pendingExternalReturnPackage
+        val status: String
+        var result: String? = null
+        var error: String? = null
+        when (event) {
+            is TaskEvent.Completed -> {
+                status = ExternalAutomationContract.STATUS_COMPLETED
+                result = event.answer
+            }
+            is TaskEvent.Failed -> {
+                status = ExternalAutomationContract.STATUS_FAILED
+                error = event.error
+            }
+            is TaskEvent.Cancelled -> {
+                status = ExternalAutomationContract.STATUS_CANCELLED
+                error = "Task cancelled."
+            }
+            is TaskEvent.Blocked -> {
+                status = ExternalAutomationContract.STATUS_BLOCKED
+                error = "Task blocked by a system dialog."
+            }
+            else -> return
+        }
+        ExternalAutomationContract.sendCallback(
+            context = this,
+            returnAction = returnAction,
+            requestId = requestId,
+            status = status,
+            result = result,
+            error = error,
+            returnPackage = returnPackage,
+            mode = ExternalAutomationContract.Mode.TASK,
+        )
+        pendingExternalRequestId = null
+        pendingExternalReturnAction = null
+        pendingExternalReturnPackage = null
+    }
+
+    private fun syncTaskAgentConfig() {
+        if (!appViewModel.updateAgentConfig()) {
+            XLog.w(TAG, "syncTaskAgentConfig: failed to update task agent config")
+        }
+    }
+
+    private fun switchModel(modelId: String, displayName: String) {
+        chatSessionController.switchModel(modelId, displayName)
+        syncModelModeFromRuntime()
+        if (modelId != "NONE") {
+            syncTaskAgentConfig()
+        }
+        XLog.i(TAG, "Model switched to: $modelId ($displayName)")
+    }
+
+    private fun syncModelModeFromRuntime() {
+        val config = ModelConfigRepository.snapshot()
+        _isAutomaticModeActive.value = config.isAutomaticActive()
+        _isLocalModelActive.value = config.isLocalActive()
+        if (config.isAutomaticActive()) {
+            chatSessionController.syncUiToActiveModel()
+        }
+    }
+
+    private fun registerAutomaticNetworkMonitor() {
+        if (automaticNetworkCallback != null) return
+        val connectivity = getSystemService(android.content.Context.CONNECTIVITY_SERVICE)
+            as? android.net.ConnectivityManager ?: return
+        val callback = object : android.net.ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: android.net.Network) = scheduleAutomaticNetworkSync()
+            override fun onLost(network: android.net.Network) = scheduleAutomaticNetworkSync()
+            override fun onCapabilitiesChanged(
+                network: android.net.Network,
+                networkCapabilities: android.net.NetworkCapabilities,
+            ) = scheduleAutomaticNetworkSync()
+        }
+        runCatching {
+            connectivity.registerDefaultNetworkCallback(callback)
+            automaticNetworkCallback = callback
+            scheduleAutomaticNetworkSync()
+        }.onFailure { XLog.w(TAG, "Could not register automatic network monitor", it) }
+    }
+
+    private fun unregisterAutomaticNetworkMonitor() {
+        automaticNetworkHandler.removeCallbacks(automaticNetworkSync)
+        val callback = automaticNetworkCallback ?: return
+        val connectivity = getSystemService(android.content.Context.CONNECTIVITY_SERVICE)
+            as? android.net.ConnectivityManager
+        runCatching { connectivity?.unregisterNetworkCallback(callback) }
+        automaticNetworkCallback = null
+    }
+
+    private fun scheduleAutomaticNetworkSync() {
+        automaticNetworkHandler.removeCallbacks(automaticNetworkSync)
+        automaticNetworkHandler.postDelayed(automaticNetworkSync, 450L)
+    }
+
+    private fun newChat() {
+        // Save conversation memory before clearing
+        if (_messages.isNotEmpty()) {
+            runCatching {
+                val msgs = _messages.map { it.role.name to it.content }
+                val summary = com.blackclaw.android.memory.ConversationMemory.extractSummary(msgs)
+                val topics = com.blackclaw.android.memory.ConversationMemory.extractTopics(msgs)
+                if (summary.isNotBlank()) {
+                    com.blackclaw.android.memory.ConversationMemory.record(
+                        conversationStore.currentConversationId, summary, topics
+                    )
+                }
+            }
+        }
+        val session = conversationStore.startNewConversation(_messages, currentConversationModelName())
+        syncSidebar(session.conversations)
+        _messages.clear()
+        _sessionTokens.value = 0
+        _sessionCost.value = 0.0
+        _isAwaitingReply.value = false
+        _isTaskRunning.value = false
+        chatSessionController.startNewConversationRuntime()
+    }
+
+    private fun loadConversation(conv: ChatHistoryManager.ConversationSummary) {
+        val session = conversationStore.openConversation(conv, _messages, currentConversationModelName())
+        syncSidebar(session.conversations)
+        _messages.clear()
+        _messages.addAll(session.messages)
+        _isAwaitingReply.value = false
+        _isTaskRunning.value = false
+        chatSessionController.restoreConversationRuntime(session.conversationId, session.messages)
+    }
+
+    private fun saveChat() {
+        syncSidebar(conversationStore.saveCurrent(_messages, currentConversationModelName()))
+    }
+
+    private fun refreshSidebarHistory() {
+        syncSidebar(conversationStore.refreshSidebar())
+    }
+
+    private fun syncSidebar(convos: List<ChatHistoryManager.ConversationSummary>) {
+        _conversations.clear()
+        _conversations.addAll(convos)
+    }
+
+    private fun currentConversationModelName(): String {
+        val config = ModelConfigRepository.snapshot()
+        return if (config.isLocalActive()) {
+            config.local.displayName.ifBlank {
+                KVUtils.getLocalModelPath().substringAfterLast('/').substringBeforeLast('.')
+            }
+        } else {
+            config.activeCloud.modelName
+        }
+    }
+}

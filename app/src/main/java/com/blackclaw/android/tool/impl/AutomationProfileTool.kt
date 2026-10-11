@@ -1,0 +1,431 @@
+package com.blackclaw.android.tool.impl
+
+import com.blackclaw.android.ClawApplication
+import com.blackclaw.android.automation.AutomationProfileEngine
+import com.blackclaw.android.automation.AutomationGeofenceManager
+import com.blackclaw.android.automation.SavedPlaceStore
+import com.blackclaw.android.automation.AutomationProfileScheduler
+import com.blackclaw.android.automation.AutomationProfileStore
+import com.blackclaw.android.automation.AutomationProfileValidator
+import com.blackclaw.android.tool.BaseTool
+import com.blackclaw.android.tool.ToolParameter
+import com.blackclaw.android.tool.ToolRegistry
+import com.blackclaw.android.tool.ToolResult
+import com.blackclaw.android.tool.guard.ToolRiskPolicy
+import com.blackclaw.android.tool.guard.ToolExecutionContext
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
+/**
+ * AI-facing authoring surface for Tasker-like profiles.
+ *
+ * A first call without confirm=true is a dry-run preview. The model can explain the
+ * trigger/conditions/actions and requested permissions; only the user's confirmation
+ * enables the profile. This prevents a prompt-injected notification from silently
+ * creating a persistent automation.
+ */
+class AutomationProfileTool : BaseTool() {
+    private val gson = Gson()
+
+    override fun getName() = "automation_profile"
+    override fun getDisplayName() = "Automation profiles"
+    override fun getDescriptionEN() =
+        "Author Tasker-like automation profiles with multiple triggers, conditions and " +
+            "bounded actions. Use capabilities before authoring when you need the live catalog. " +
+            "Use draft to save a disabled profile the user can inspect visually; create/update are previews unless confirm=true. " +
+            "Update is PATCH-like: only fields supplied by the agent are changed. " +
+            "Triggers include time/interval, notification, reusable named-place enter/exit, app, connectivity, battery, charging, screen, " +
+            "headset, bluetooth, wifi, call/SMS, boot, airplane/power-save/idle, USB/storage/timezone/locale and webhook/Tasker intent. " +
+            "Actions: tool, agent_task, run_routine, notify, set_variable, wait, if and bounded loop. " +
+            "Webhook triggers accept the broadcast action com.blackclaw.android.AUTOMATION_WEBHOOK with extra token."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "create and control Tasker-style automations with preview and confirmation"
+
+    override fun getParameters() = listOf(
+        ToolParameter("operation", "string", "capabilities, validate, draft, create, update (partial), list, enable, disable, delete, run, or test", true),
+        ToolParameter("name", "string", "Profile name", false),
+        ToolParameter("description", "string", "What the profile does", false),
+        ToolParameter("triggers", "string", "JSON o lista: [{\"type\":\"notification\",\"params\":{...}}]", false),
+        ToolParameter("conditions", "string", "JSON o lista: [{\"type\":\"time_window\",\"params\":{\"start\":\"07:00\",\"end\":\"22:00\"}}]", false),
+        ToolParameter("condition_logic", "string", "all, any, none o xor", false),
+        ToolParameter("actions", "string", "JSON o lista: [{\"type\":\"tool\",\"params\":{\"tool\":\"set_volume\",\"params\":{...}}}]", false),
+        ToolParameter("cooldown_ms", "integer", "Minimum cooldown between runs", false),
+        ToolParameter("max_runs_per_day", "integer", "Daily limit; 0 = unlimited", false),
+        ToolParameter("max_runtime_ms", "integer", "Maximum run time; default 600000", false),
+        ToolParameter("concurrency", "string", "skip_if_running, queue o replace", false),
+        ToolParameter("confirm", "boolean", "true only after the user confirms the preview", false),
+        ToolParameter("id", "string", "ID o nombre para enable/disable/delete/run/test", false),
+    )
+
+    override fun execute(params: Map<String, Any>): ToolResult = when (requireString(params, "operation").lowercase()) {
+        "capabilities" -> capabilities()
+        "validate" -> validate(params)
+        "draft" -> draft(params)
+        "create" -> create(params)
+        "update" -> update(params)
+        "list" -> list()
+        "enable" -> toggle(params, true)
+        "disable" -> toggle(params, false)
+        "delete" -> {
+            val id = optionalString(params, "id", optionalString(params, "name", ""))
+            if (AutomationProfileStore.delete(id)) {
+                syncRuntimes()
+                ToolResult.success("Profile deleted.")
+            } else ToolResult.error("Profile '$id' not found.")
+        }
+        "run", "test" -> run(params)
+        else -> ToolResult.error("operation must be capabilities, validate, draft, create, update, list, enable, disable, delete, run, or test.")
+    }
+
+    private fun create(params: Map<String, Any>): ToolResult {
+        val profile = parseProfile(params).getOrElse { return ToolResult.error(it.message ?: "Invalid profile.") }
+        profileErrors(profile).takeIf { it.isNotEmpty() }?.let { return ToolResult.error(it.joinToString(" ")) }
+        val confirm = optionalBoolean(params, "confirm", false)
+        val preview = preview(profile)
+        if (!confirm) {
+            return ToolResult.success(
+                "PREVIEW — nothing was activated.\n$preview\n" +
+                    "To show it in the editor without running it, use operation=draft. " +
+                    "After approval, use create with confirm=true to activate it."
+            )
+        }
+        requireLocalConfirmation()?.let { return it }
+        val stored = AutomationProfileStore.create(profile, enable = true)
+            .getOrElse { return ToolResult.error(it.message ?: "No se pudo guardar el perfil.") }
+        syncRuntimes()
+        return ToolResult.success("✓ Flujo '${stored.name}' activo [${stored.id}].\n$preview")
+    }
+
+    /** Save an editable, non-running automation authored by the agent. */
+    private fun draft(params: Map<String, Any>): ToolResult {
+        val profile = parseProfile(params).getOrElse { return ToolResult.error(it.message ?: "Invalid profile.") }
+        profileErrors(profile).takeIf { it.isNotEmpty() }?.let { return ToolResult.error(it.joinToString(" ")) }
+        val duplicate = profile.id.takeIf { it.isNotBlank() }?.let { AutomationProfileStore.find(it) }
+            ?: AutomationProfileStore.find(profile.name)
+        if (duplicate != null) {
+            return ToolResult.error("'${duplicate.name}' [${duplicate.id}] already exists. Use update to avoid replacing it accidentally.")
+        }
+        val stored = AutomationProfileStore.create(profile, enable = false)
+            .getOrElse { return ToolResult.error(it.message ?: "No se pudo guardar el borrador.") }
+        syncRuntimes()
+        return ToolResult.success(
+                "✓ Draft '${stored.name}' saved [${stored.id}] and DISABLED.\n${preview(stored)}\n" +
+                "The user can review it in Automations and activate it from the phone."
+        )
+    }
+
+    /** PATCH-like update: omitted fields are preserved instead of being erased. */
+    private fun update(params: Map<String, Any>): ToolResult {
+        val id = optionalString(params, "id", optionalString(params, "name", "")).trim()
+        if (id.isBlank()) return ToolResult.error("update necesita id o name del perfil existente.")
+        val existing = AutomationProfileStore.find(id)
+            ?: return ToolResult.error("Profile '$id' not found.")
+        val updated = parseProfile(params, existing).getOrElse {
+            return ToolResult.error(it.message ?: "Invalid update.")
+        }
+        profileErrors(updated).takeIf { it.isNotEmpty() }?.let { return ToolResult.error(it.joinToString(" ")) }
+        val preview = preview(updated)
+        if (!optionalBoolean(params, "confirm", false)) {
+            return ToolResult.success(
+                "CHANGE PREVIEW — nothing was modified.\n$preview\n" +
+                    "Only submitted fields will change; the rest is preserved. " +
+                    "After approval, call update again with confirm=true."
+            )
+        }
+        requireLocalConfirmation()?.let { return it }
+        val stored = AutomationProfileStore.create(updated, enable = existing.enabled)
+            .getOrElse { return ToolResult.error(it.message ?: "No se pudo actualizar el perfil.") }
+        syncRuntimes()
+        return ToolResult.success(
+            "✓ Flujo '${stored.name}' actualizado [${stored.id}] · ${if (stored.enabled) "activo" else "desactivado"}.\n$preview"
+        )
+    }
+
+    private fun validate(params: Map<String, Any>): ToolResult {
+        val id = optionalString(params, "id", "").trim()
+        val base = id.takeIf { it.isNotBlank() }?.let { AutomationProfileStore.find(it) }
+        val profile = parseProfile(params, base).getOrElse { return ToolResult.error(it.message ?: "Invalid profile.") }
+        val errors = profileErrors(profile)
+        return if (errors.isEmpty()) ToolResult.success("✓ Valid profile.\n${preview(profile)}")
+        else ToolResult.error(errors.joinToString("\n") { "• $it" })
+    }
+
+    private fun capabilities(): ToolResult {
+        val runnableTools = ToolRegistry.getInstance().getAllTools()
+            .map { it.getName() }
+            .filter { it != getName() && ToolRiskPolicy.classify(it) != ToolRiskPolicy.Tier.PRIVILEGED }
+        val safe = runnableTools.filter { ToolRiskPolicy.classify(it) == ToolRiskPolicy.Tier.SAFE }.sorted()
+        val sensitive = runnableTools.filter { ToolRiskPolicy.classify(it) == ToolRiskPolicy.Tier.SENSITIVE }.sorted()
+        return ToolResult.success(buildString {
+            append("AUTOMATION CAPABILITIES\n")
+            append("Triggers: ${AutomationProfileStore.TriggerType.values().joinToString { it.name.lowercase() }}\n")
+            append("Conditions: ${AutomationProfileStore.ConditionType.values().joinToString { it.name.lowercase() }}\n")
+            append("Actions: ${AutomationProfileStore.ActionType.values().joinToString { it.name.lowercase() }}\n")
+            append("Safe tools (${safe.size}): ${safe.joinToString()}\n")
+            append("Sensitive tools (${sensitive.size}, require user-approved profile): ${sensitive.joinToString()}\n")
+            append("Named places: use saved_place first, then location trigger/condition params {place_id:...}; names are arbitrary and encrypted.\n")
+            append("Condition logic: all/any/none/xor. Action strings support {{event.key}}, {{var.name}}, {{profile.name}} templates.\n")
+            append("Privileged arbitrary-shell/network tools are intentionally unavailable inside automations. ")
+            append("Prefer deterministic TOOL actions; use AGENT_TASK only when the action genuinely needs reasoning.")
+        })
+    }
+
+    private fun requireLocalConfirmation(): ToolResult? =
+        if (ToolExecutionContext.origin == ToolRiskPolicy.Origin.LOCAL) null
+        else ToolResult.error("Creating or modifying an active automation must be confirmed from BlackClaw on the phone.")
+
+    private fun profileErrors(profile: AutomationProfileStore.Profile): List<String> = buildList {
+        addAll(AutomationProfileValidator.validate(profile))
+        fun validateActions(actions: List<AutomationProfileStore.Action>, depth: Int = 0) {
+            if (depth > 3) return
+            actions.forEach { action ->
+                if (action.type == AutomationProfileStore.ActionType.TOOL) {
+                    val toolName = action.params["tool"]?.toString().orEmpty()
+                    if (toolName.isNotBlank() && ToolRegistry.getInstance().getTool(toolName) == null) {
+                        add("La herramienta '$toolName' no existe en este dispositivo.")
+                    }
+                }
+                listOf("then", "else", "actions").forEach { key ->
+                    val nested = objectList(action.params[key], "action.$key")
+                    val parsed = nested.mapNotNull { row ->
+                        val type = runCatching {
+                            AutomationProfileStore.ActionType.valueOf(
+                                row["type"]?.toString()?.uppercase()?.replace('-', '_') ?: return@mapNotNull null,
+                            )
+                        }.getOrNull() ?: return@mapNotNull null
+                        val nestedParams = objectMap(row["params"], "action.$key.params")
+                        AutomationProfileStore.Action(type, nestedParams)
+                    }
+                    validateActions(parsed, depth + 1)
+                }
+            }
+        }
+        validateActions(profile.actions)
+    }.distinct()
+
+    private fun list(): ToolResult {
+        val profiles = AutomationProfileStore.list()
+        if (profiles.isEmpty()) return ToolResult.success("There are no automation profiles.")
+        return ToolResult.success(profiles.joinToString("\n") { profile ->
+            "${if (profile.enabled) "●" else "○"} [${profile.id}] ${profile.name} · " +
+                "${profile.triggers.size} trigger(s), ${profile.actions.size} action(s), " +
+                "run ${profile.runCount}x · ${profile.lastStatus}"
+        })
+    }
+
+    private fun toggle(params: Map<String, Any>, enabled: Boolean): ToolResult {
+        if (enabled && ToolExecutionContext.origin != ToolRiskPolicy.Origin.LOCAL) {
+            return ToolResult.error("Activating an automation requires local confirmation on the phone.")
+        }
+        val id = optionalString(params, "id", optionalString(params, "name", ""))
+        return if (AutomationProfileStore.setEnabled(id, enabled)) {
+            syncRuntimes()
+            ToolResult.success("Perfil '${id}' ${if (enabled) "activado" else "desactivado"}.")
+        } else ToolResult.error("Profile '$id' not found.")
+    }
+
+    private fun run(params: Map<String, Any>): ToolResult {
+        if (ToolExecutionContext.origin == ToolRiskPolicy.Origin.AUTOMATION) {
+            return ToolResult.error("A profile cannot start another profile; avoid automation cycles.")
+        }
+        val id = optionalString(params, "id", optionalString(params, "name", ""))
+        val profile = AutomationProfileStore.find(id) ?: return ToolResult.error("Profile '$id' not found.")
+        val result = AutomationProfileEngine.runNow(ClawApplication.instance, profile)
+        return if (result.isSuccess) ToolResult.success("Profile '${profile.name}' is running.")
+        else ToolResult.error(result.exceptionOrNull()?.message ?: "No se pudo ejecutar.")
+    }
+
+    private fun parseProfile(
+        params: Map<String, Any>,
+        base: AutomationProfileStore.Profile? = null,
+    ): Result<AutomationProfileStore.Profile> = runCatching {
+        val name = when {
+            params.containsKey("name") -> requireString(params, "name").trim()
+            base != null -> base.name
+            else -> throw IllegalArgumentException("Falta name.")
+        }
+        val triggers = if (params.containsKey("triggers")) {
+            parseArray(jsonText(params, "triggers", "[]")) { row ->
+                val type = enumValue(row["type"], AutomationProfileStore.TriggerType.values())
+                AutomationProfileStore.Trigger(
+                    type = type,
+                    params = canonicalizeLocationParams(type.name.startsWith("LOCATION_"), objectMap(row["params"], "trigger.params")),
+                )
+            }
+        } else base?.triggers ?: emptyList()
+        val conditions = if (params.containsKey("conditions")) {
+            parseArray(jsonText(params, "conditions", "[]")) { row ->
+                val type = enumValue(row["type"], AutomationProfileStore.ConditionType.values())
+                AutomationProfileStore.Condition(
+                    type = type,
+                    params = canonicalizeLocationParams(type == AutomationProfileStore.ConditionType.LOCATION, objectMap(row["params"], "condition.params")),
+                    negate = row["negate"]?.toString()?.toBoolean() ?: false,
+                )
+            }
+        } else base?.conditions ?: emptyList()
+        val actions = if (params.containsKey("actions")) {
+            parseArray(jsonText(params, "actions", "[]")) { row ->
+                val type = enumValue(row["type"], AutomationProfileStore.ActionType.values())
+                val actionParams = objectMap(row["params"], "action.params")
+                val toolName = actionParams["tool"]?.toString().orEmpty()
+                val automaticConfirmation = type == AutomationProfileStore.ActionType.AGENT_TASK ||
+                    (type == AutomationProfileStore.ActionType.TOOL &&
+                        ToolRiskPolicy.classify(toolName) != ToolRiskPolicy.Tier.SAFE)
+                AutomationProfileStore.Action(
+                    type = type,
+                    params = actionParams,
+                    requireConfirmation = row["requireConfirmation"]?.toString()?.toBoolean() == true || automaticConfirmation,
+                )
+            }
+        } else base?.actions ?: emptyList()
+        val description = if (params.containsKey("description")) {
+            optionalString(params, "description", "")
+        } else base?.description.orEmpty()
+        val conditionLogic = if (params.containsKey("condition_logic")) {
+            AutomationProfileStore.ConditionLogic.valueOf(
+                optionalString(params, "condition_logic", "ALL").uppercase().replace('-', '_')
+            )
+        } else base?.conditionLogic ?: AutomationProfileStore.ConditionLogic.ALL
+        val cooldownMs = if (params.containsKey("cooldown_ms")) {
+            optionalLong(params, "cooldown_ms", 60_000L)
+        } else base?.cooldownMs ?: 60_000L
+        val maxRunsPerDay = if (params.containsKey("max_runs_per_day")) {
+            optionalInt(params, "max_runs_per_day", 0)
+        } else base?.maxRunsPerDay ?: 0
+        val maxRuntimeMs = if (params.containsKey("max_runtime_ms")) {
+            optionalLong(params, "max_runtime_ms", 10 * 60_000L)
+        } else base?.maxRuntimeMs ?: 10 * 60_000L
+        val concurrency = if (params.containsKey("concurrency")) {
+            AutomationProfileStore.Concurrency.valueOf(
+                optionalString(params, "concurrency", "SKIP_IF_RUNNING")
+                    .uppercase().replace('-', '_'),
+            )
+        } else base?.concurrency ?: AutomationProfileStore.Concurrency.SKIP_IF_RUNNING
+
+        if (base != null) {
+            base.copy(
+                name = name,
+                description = description,
+                triggers = triggers,
+                conditions = conditions,
+                conditionLogic = conditionLogic,
+                actions = actions,
+                cooldownMs = cooldownMs,
+                maxRunsPerDay = maxRunsPerDay,
+                maxRuntimeMs = maxRuntimeMs,
+                concurrency = concurrency,
+            )
+        } else {
+            AutomationProfileStore.Profile(
+                id = optionalString(params, "id", ""),
+                name = name,
+                description = description,
+                triggers = triggers,
+                conditions = conditions,
+                conditionLogic = conditionLogic,
+                actions = actions,
+                cooldownMs = cooldownMs,
+                maxRunsPerDay = maxRunsPerDay,
+                maxRuntimeMs = maxRuntimeMs,
+                concurrency = concurrency,
+            )
+        }
+    }
+
+    private fun canonicalizeLocationParams(isLocation: Boolean, params: Map<String, Any>): Map<String, Any> {
+        if (!isLocation) return params
+        val placeId = params["place_id"]?.toString().orEmpty().trim()
+        val placeName = params["place"]?.toString().orEmpty().trim()
+        if (placeId.isBlank() && placeName.isBlank()) return params
+        val place = if (placeId.isNotBlank()) SavedPlaceStore.findById(placeId) else {
+            val resolution = SavedPlaceStore.resolve(placeName)
+            when {
+                resolution.place != null -> resolution.place
+                resolution.isAmbiguous -> throw IllegalArgumentException(
+                    "Lugar ambiguo '$placeName': ${resolution.candidates.joinToString { it.name }}. Usa saved_place(resolve) y un place_id exacto."
+                )
+                else -> null
+            }
+        } ?: throw IllegalArgumentException("Saved place '${placeName.ifBlank { placeId }}' not found. Save it first with saved_place.")
+        return params + mapOf("place_id" to place.id, "place" to place.name)
+    }
+
+    private fun syncRuntimes() {
+        AutomationProfileScheduler.sync(ClawApplication.instance)
+        AutomationGeofenceManager.sync(ClawApplication.instance)
+        if (com.blackclaw.android.assistant.GeofenceChecker.hasActiveGeofences()) {
+            com.blackclaw.android.service.KeepAliveJobService.schedule(ClawApplication.instance)
+        }
+    }
+
+    private fun <T> parseArray(raw: String, transform: (Map<String, Any>) -> T): List<T> {
+        val type = object : TypeToken<List<Map<String, Any>>>() {}.type
+        val rows: List<Map<String, Any>> = gson.fromJson(raw, type) ?: emptyList()
+        return rows.map(transform)
+    }
+
+    /** Convert a JSON/object value to the profile's strongly shaped params map.
+     * Rejecting non-object values here is safer than an unchecked generic cast. */
+    private fun objectMap(value: Any?, field: String): Map<String, Any> = when (value) {
+        null -> emptyMap()
+        is Map<*, *> -> buildMap {
+            value.forEach { (rawKey, rawValue) ->
+                val key = rawKey as? String
+                    ?: throw IllegalArgumentException("$field contiene una clave que no es texto.")
+                if (rawValue != null) put(key, rawValue)
+            }
+        }
+        else -> throw IllegalArgumentException("$field debe ser un objeto JSON.")
+    }
+
+    private fun objectList(value: Any?, field: String): List<Map<String, Any>> = when (value) {
+        null -> emptyList()
+        is List<*> -> value.mapIndexed { index, item -> objectMap(item, "$field[$index]") }
+        else -> throw IllegalArgumentException("$field debe ser una lista JSON.")
+    }
+
+    /** Tool transports sometimes preserve arrays/maps instead of serializing them. */
+    private fun jsonText(params: Map<String, Any>, key: String, defaultValue: String): String {
+        val value = params[key] ?: return defaultValue
+        return if (value is String) value else gson.toJson(value)
+    }
+
+    private fun <T : Enum<T>> enumValue(raw: Any?, values: Array<T>): T {
+        val normalized = raw?.toString()?.trim()?.uppercase()?.replace('-', '_')
+            ?: throw IllegalArgumentException("Falta type.")
+        return values.firstOrNull { it.name == normalized }
+            ?: throw IllegalArgumentException("Tipo desconocido '$raw'.")
+    }
+
+    private fun preview(profile: AutomationProfileStore.Profile): String {
+        val permissions = linkedSetOf<String>()
+        profile.triggers.forEach {
+            when (it.type) {
+                AutomationProfileStore.TriggerType.NOTIFICATION -> permissions += "Notification Access"
+                AutomationProfileStore.TriggerType.LOCATION_ENTER,
+                AutomationProfileStore.TriggerType.LOCATION_EXIT -> permissions += "Precise background location"
+                AutomationProfileStore.TriggerType.APP_FOREGROUND,
+                AutomationProfileStore.TriggerType.APP_CLOSED -> permissions += "Accesibilidad"
+                AutomationProfileStore.TriggerType.CALL_STATE -> permissions += "Phone state"
+                AutomationProfileStore.TriggerType.SMS_RECEIVED -> permissions += "Permiso de SMS recibido"
+                AutomationProfileStore.TriggerType.WEBHOOK -> permissions += "Intent externo con token"
+                else -> Unit
+            }
+        }
+        profile.actions.forEach { action ->
+            if (action.type == AutomationProfileStore.ActionType.NOTIFY) permissions += "Notificaciones"
+            if (action.type == AutomationProfileStore.ActionType.TOOL &&
+                ToolRiskPolicy.classify(action.params["tool"].toString()) == ToolRiskPolicy.Tier.SENSITIVE) {
+                permissions += "Confirmation for a sensitive action"
+            }
+        }
+        return buildString {
+            append("Nombre: ${profile.name}\n")
+            append("Disparadores: ${profile.triggers.joinToString { it.type.name.lowercase() }}\n")
+            append("Conditions: ${profile.conditions.size} · logic ${profile.conditionLogic.name.lowercase()}\n")
+            append("Acciones: ${profile.actions.joinToString { it.type.name.lowercase() }}\n")
+            append("Limits: cooldown ${profile.cooldownMs}ms, daily maximum ${if (profile.maxRunsPerDay == 0) "unlimited" else profile.maxRunsPerDay}, maximum time ${profile.maxRuntimeMs}ms, concurrency ${profile.concurrency.name.lowercase()}\n")
+            append("Permisos/capacidades: ${if (permissions.isEmpty()) "ninguno adicional" else permissions.joinToString()}")
+        }
+    }
+}

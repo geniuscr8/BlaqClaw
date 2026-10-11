@@ -1,0 +1,685 @@
+package com.blackclaw.android.tool.impl
+
+import com.blackclaw.android.ClawApplication
+import com.blackclaw.android.assistant.AssistantItemType
+import com.blackclaw.android.assistant.AssistantReceiver
+import com.blackclaw.android.assistant.AssistantScheduler
+import com.blackclaw.android.assistant.AssistantStore
+import com.blackclaw.android.assistant.AssistantTime
+import com.blackclaw.android.tool.BaseTool
+import com.blackclaw.android.tool.ToolParameter
+import com.blackclaw.android.tool.ToolResult
+
+/**
+ * Native Assistant tools. These write into BlackClaw's own Assistant hub
+ * (AssistantStore) and arm native push notifications via AssistantScheduler —
+ * no external Clock / Calendar / Notes app required. The proactive assistant
+ * and the chat agent both use these.
+ */
+
+/** Reminder: fires a native push notification at a future time. */
+class AssistantReminderTool : BaseTool() {
+    override fun getName() = "assistant_reminder"
+    override fun getDisplayName() = "Reminder"
+    override fun getDescriptionEN() =
+        "Create a native in-app reminder that fires a BlackClaw push notification at a time. " +
+        "Use for 'remind me to…'. Time: 'YYYY-MM-DD HH:MM', 'tomorrow 09:00', 'in 30m', or 'HH:MM'. " +
+        "Optional repeat: none|daily|weekly. Stored in the Assistant hub — no external app."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "creates a native reminder with a push notification"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "What to remind about.", true),
+        ToolParameter("when", "string", "When to fire (e.g. 'tomorrow 09:00', 'in 2h').", true),
+        ToolParameter("body", "string", "Optional extra detail.", false),
+        ToolParameter("repeat", "string", "none | daily | weekly (default none).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        val ts = AssistantTime.parse(optionalString(params, "when", ""))
+        if (ts <= 0) return ToolResult.error("I could not understand the date/time '${params["when"]}'.")
+        val item = AssistantStore.create(
+            type = AssistantItemType.REMINDER, title = title,
+            body = optionalString(params, "body", ""),
+            triggerAtMs = ts, repeat = optionalString(params, "repeat", "none").lowercase(),
+            source = "ai",
+        )
+        AssistantScheduler.arm(ClawApplication.instance, item)
+        return ToolResult.success("Reminder saved: '$title' for ${AssistantTime.format(ts)}")
+    }
+}
+
+/** Alarm: like a reminder but high-priority/heads-up at a clock time. */
+class AssistantAlarmTool : BaseTool() {
+    override fun getName() = "assistant_alarm"
+    override fun getDisplayName() = "Alarm"
+    override fun getDescriptionEN() =
+        "Set a native in-app alarm that fires a high-priority BlackClaw notification at a clock time. " +
+        "Time: 'HH:MM' (next occurrence), 'tomorrow 07:00', or 'YYYY-MM-DD HH:MM'. " +
+        "Optional repeat: none|daily|weekly. Optional challenge to force the user awake: " +
+        "none|math|memory|type (math problem / memory sequence / type a phrase). " +
+        "Use for wake-ups and 'be somewhere at X'."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "sets a native alarm (high-priority notification, with an optional challenge)"
+    override fun getParameters() = listOf(
+        ToolParameter("when", "string", "Clock time, e.g. '07:30', 'tomorrow 07:00'.", true),
+        ToolParameter("label", "string", "Optional alarm label.", false),
+        ToolParameter("repeat", "string", "none | daily | weekly (default none).", false),
+        ToolParameter("challenge", "string",
+            "none | math | memory | type — a wake-up challenge required to dismiss. Default none.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val ts = AssistantTime.parse(requireString(params, "when"))
+        if (ts <= 0) return ToolResult.error("I could not understand the time '${params["when"]}'.")
+        val label = optionalString(params, "label", "Alarm")
+        val challenge = optionalString(params, "challenge", "none").lowercase()
+        val item = AssistantStore.create(
+            type = AssistantItemType.ALARM, title = label,
+            triggerAtMs = ts, repeat = optionalString(params, "repeat", "none").lowercase(),
+            challenge = challenge, source = "ai",
+        )
+        AssistantScheduler.arm(ClawApplication.instance, item)
+        val extra = if (challenge != "none") " (reto: $challenge)" else ""
+        return ToolResult.success("Alarm set: '$label' at ${AssistantTime.format(ts)}$extra")
+    }
+}
+
+/** Note: a persistent text note / todo in the hub. */
+class AssistantNoteTool : BaseTool() {    override fun getName() = "assistant_note"
+    override fun getDisplayName() = "Nota"
+    override fun getDescriptionEN() =
+        "Save a native in-app note or todo in the Assistant hub. Use for things to remember " +
+        "with no specific time. No external app."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "guarda una nota/todo nativa en el hub del asistente"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "Short note title.", true),
+        ToolParameter("body", "string", "Optional note detail.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        AssistantStore.create(
+            type = AssistantItemType.NOTE, title = title,
+            body = optionalString(params, "body", ""), source = "ai",
+        )
+        return ToolResult.success("Nota guardada: '$title'")
+    }
+}
+
+/** Calendar event stored natively (also fires a reminder push at start time). */
+class AssistantEventTool : BaseTool() {
+    override fun getName() = "assistant_event"
+    override fun getDisplayName() = "Evento"
+    override fun getDescriptionEN() =
+        "Create a native in-app calendar event in the Assistant hub and notify at start time. " +
+        "Time: 'YYYY-MM-DD HH:MM', 'tomorrow 15:00'. No external calendar app."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "crea un evento de calendario nativo y avisa al iniciar"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "Event title.", true),
+        ToolParameter("start", "string", "Start time.", true),
+        ToolParameter("location", "string", "Optional location.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        val ts = AssistantTime.parse(requireString(params, "start"))
+        if (ts <= 0) return ToolResult.error("I could not understand the date '${params["start"]}'.")
+        val loc = optionalString(params, "location", "")
+        val item = AssistantStore.create(
+            type = AssistantItemType.EVENT, title = title,
+            body = if (loc.isNotBlank()) "📍 $loc" else "", triggerAtMs = ts, source = "ai",
+        )
+        AssistantScheduler.arm(ClawApplication.instance, item)
+        return ToolResult.success("Event created: '$title' on ${AssistantTime.format(ts)}")
+    }
+}
+
+/**
+ * Smart appointment: the one-shot "tengo una reunión a las 7" flow. Creates a
+ * single calendar EVENT that ALSO rings like an alarm at its time, shows on the
+ * calendar/agenda, warns about conflicts, and can add an early heads-up
+ * reminder. Works for anything from "a las 7" to "en 3 semanas" — the native
+ * alarm fires whenever that moment arrives.
+ */
+class AssistantAppointmentTool : BaseTool() {
+    override fun getName() = "assistant_appointment"
+    override fun getDisplayName() = "Appointment / meeting"
+    override fun getDescriptionEN() =
+        "Schedule an appointment/meeting the user mentions ('tengo una reunión a las 7', " +
+        "'cita el viernes 10:00', 'en 3 semanas tengo X'). Creates ONE calendar event that ALSO " +
+        "rings like an alarm at its time and shows on the calendar/agenda. Use this for ANY future " +
+        "commitment with a time — it handles near and far future. " +
+        "Time: 'HH:MM', 'tomorrow 15:00', 'el viernes 10:00', 'YYYY-MM-DD HH:MM'. " +
+        "Set ring=false for a silent calendar entry (no alarm). remind_before_min adds an early " +
+        "heads-up reminder (e.g. 30 = notify 30 min before)."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "schedules an appointment or meeting in the calendar, sounds an alarm, and alerts you beforehand"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "What the appointment is (e.g. 'Reunión con cliente').", true),
+        ToolParameter("when", "string", "When it starts (e.g. 'a las 7' → '19:00', 'el viernes 10:00').", true),
+        ToolParameter("location", "string", "Optional place.", false),
+        ToolParameter("ring", "string", "true (rings like an alarm, default) | false (silent calendar entry).", false),
+        ToolParameter("remind_before_min", "string", "Optional minutes before to send an early reminder (e.g. '30').", false),
+        ToolParameter("repeat", "string", "none|daily|weekly|weekdays|weekends|monthly (default none).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        val ts = AssistantTime.parse(requireString(params, "when"))
+        if (ts <= 0) return ToolResult.error("I could not understand the date/time '${params["when"]}'.")
+        val loc = optionalString(params, "location", "")
+        val ring = optionalString(params, "ring", "true").lowercase() != "false"
+        val repeat = optionalString(params, "repeat", "none").lowercase()
+        val remindBefore = optionalString(params, "remind_before_min", "").toIntOrNull() ?: 0
+
+        // Warn about conflicts (something else within 30 min).
+        val conflicts = AssistantStore.conflictsAt(ts, windowMin = 30)
+        val event = AssistantStore.create(
+            type = AssistantItemType.EVENT, title = title,
+            body = if (loc.isNotBlank()) "📍 $loc" else "",
+            triggerAtMs = ts, repeat = repeat, ring = ring, source = "ai",
+        )
+        AssistantScheduler.arm(ClawApplication.instance, event)
+
+        // Optional early heads-up reminder.
+        if (remindBefore > 0) {
+            val remindAt = ts - remindBefore * 60_000L
+            if (remindAt > System.currentTimeMillis()) {
+                val r = AssistantStore.create(
+                    type = AssistantItemType.REMINDER,
+                    title = "Pronto: $title",
+                    body = "In $remindBefore min" + if (loc.isNotBlank()) " · 📍 $loc" else "",
+                    triggerAtMs = remindAt, source = "ai", category = "lead",
+                )
+                AssistantScheduler.arm(ClawApplication.instance, r)
+            }
+        }
+
+        val sb = StringBuilder("Done. Scheduled '$title' for ${AssistantTime.format(ts)}")
+        if (ring) sb.append(" and it will sound as an alarm")
+        if (remindBefore > 0) sb.append("; I will alert you $remindBefore min early")
+        sb.append(". It is in your calendar and schedule.")
+        if (conflicts.isNotEmpty()) {
+            val c = conflicts.first()
+            sb.append(" ⚠️ Note: you already have '${c.title}' at ${AssistantTime.format(c.triggerAtMs)}.")
+        }
+        return ToolResult.success(sb.toString())
+    }
+}
+
+/** Read the upcoming agenda (alarms/reminders/events) for a spoken summary. */
+class AssistantAgendaTool : BaseTool() {
+    override fun getName() = "assistant_agenda"
+    override fun getDisplayName() = "Agenda"
+    override fun getDescriptionEN() =
+        "Read the user's upcoming agenda (alarms, reminders, events) from the Assistant hub. " +
+        "Use for 'qué tengo hoy', 'qué tengo mañana', 'mi agenda de esta semana', 'what's coming up'. " +
+        "range: today | tomorrow | week | all (default today). Returns a chronological list."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "reads the upcoming schedule (today/tomorrow/week) and summarizes it"
+    override fun getParameters() = listOf(
+        ToolParameter("range", "string", "today | tomorrow | week | all (default today).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val range = optionalString(params, "range", "today").lowercase()
+        val now = System.currentTimeMillis()
+        val cal = java.util.Calendar.getInstance()
+        fun startOfDay(offsetDays: Int): Long {
+            val c = java.util.Calendar.getInstance()
+            c.add(java.util.Calendar.DAY_OF_YEAR, offsetDays)
+            c.set(java.util.Calendar.HOUR_OF_DAY, 0); c.set(java.util.Calendar.MINUTE, 0)
+            c.set(java.util.Calendar.SECOND, 0); c.set(java.util.Calendar.MILLISECOND, 0)
+            return c.timeInMillis
+        }
+        val (from, to) = when (range) {
+            "tomorrow", "mañana" -> startOfDay(1) to startOfDay(2)
+            "week", "semana" -> now to startOfDay(8)
+            "all", "todo" -> now to Long.MAX_VALUE
+            else -> now to startOfDay(1) // today
+        }
+        val items = AssistantStore.upcoming(limit = 50, fromMs = from)
+            .filter { it.triggerAtMs < to }
+        if (items.isEmpty()) {
+            val label = when (range) {
+                "tomorrow", "mañana" -> "tomorrow"
+                "week", "semana" -> "this week"
+                "all", "todo" -> "in the near future"
+                else -> "today"
+            }
+            return ToolResult.success("You have nothing scheduled $label, boss.")
+        }
+        val sb = StringBuilder()
+        items.forEach { i ->
+            val kind = when {
+                i.ring || i.type == AssistantItemType.ALARM -> "⏰"
+                i.type == AssistantItemType.EVENT -> "📅"
+                else -> "🔔"
+            }
+            sb.append("$kind ${AssistantTime.format(i.triggerAtMs)} — ${i.title}")
+            if (i.body.isNotBlank()) sb.append(" (${i.body})")
+            sb.append("\n")
+        }
+        return ToolResult.success(sb.toString().trim())
+    }
+}
+
+/** Immediate alert push (no scheduling). */
+class AssistantAlertTool : BaseTool() {    override fun getName() = "assistant_alert"
+    override fun getDisplayName() = "Aviso"
+    override fun getDescriptionEN() =
+        "Surface an important heads-up to the user right now as a native push notification, " +
+        "and log it in the Assistant hub. Use for time-critical info the user should see immediately."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "sends an immediate push alert and records it in the hub"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "Alert title.", true),
+        ToolParameter("body", "string", "Alert message.", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        val body = requireString(params, "body").trim()
+        AssistantStore.create(type = AssistantItemType.ALERT, title = title, body = body, source = "ai")
+        AssistantReceiver.postNotification(ClawApplication.instance, "📢 $title", body, highPriority = true)
+        return ToolResult.success("Aviso enviado: '$title'")
+    }
+}
+
+/** Finance entry: income (positive) or expense (negative). */
+class AssistantFinanceTool : BaseTool() {
+    override fun getName() = "assistant_finance"
+    override fun getDisplayName() = "Finanzas"
+    override fun getDescriptionEN() =
+        "Record a native finance entry (income or expense) in the Assistant hub. " +
+        "amount is positive for income, negative for expense. Useful when a notification or the user " +
+        "mentions a payment, charge, salary, or purchase. Tracks a running balance."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "registra un ingreso/gasto en el control de finanzas del hub"
+    override fun getParameters() = listOf(
+        ToolParameter("description", "string", "What the entry is for.", true),
+        ToolParameter("amount", "number", "Positive = income, negative = expense.", true),
+        ToolParameter("category", "string", "Optional category (food, salary, bills…).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val desc = requireString(params, "description").trim()
+        val amount = (params["amount"] as? Number)?.toDouble()
+            ?: params["amount"]?.toString()?.toDoubleOrNull()
+            ?: return ToolResult.error("Invalid amount")
+        AssistantStore.create(
+            type = AssistantItemType.FINANCE, title = desc,
+            amount = amount, category = optionalString(params, "category", ""), source = "ai",
+        )
+        val bal = AssistantStore.financeBalance()
+        val sign = if (amount >= 0) "+" else ""
+        return ToolResult.success("Registrado: $desc ($sign$amount). Balance: ${"%.2f".format(bal)}")
+    }
+}
+
+/** Read what's currently in the Assistant hub (so the AI can manage it). */
+class AssistantListTool : BaseTool() {
+    override fun getName() = "assistant_list"
+    override fun getDisplayName() = "Ver asistente"
+    override fun getDescriptionEN() =
+        "List items in the Assistant hub. Optional type filter: reminder|alarm|note|event|alert|finance. " +
+        "Use to check what reminders/alarms/notes/events exist, the finance balance, or before " +
+        "editing/avoiding duplicates. Returns a compact summary with ids."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "lista lo que hay en el hub del asistente (recordatorios, notas, finanzas…)"
+    override fun getParameters() = listOf(
+        ToolParameter("type", "string",
+            "Optional filter: reminder|alarm|note|event|alert|finance. Omit for all.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val filter = optionalString(params, "type", "").trim().uppercase()
+        val items = if (filter.isNotBlank()) {
+            val t = runCatching { com.blackclaw.android.assistant.AssistantItemType.valueOf(filter) }.getOrNull()
+                ?: return ToolResult.error("Invalid type. Use reminder|alarm|note|event|alert|finance.")
+            com.blackclaw.android.assistant.AssistantStore.byType(t)
+        } else {
+            com.blackclaw.android.assistant.AssistantStore.all()
+        }
+        if (items.isEmpty()) return ToolResult.success("The assistant hub is empty.")
+        val sb = StringBuilder()
+        items.forEach { i ->
+            sb.append("[${i.id}] ${i.type.name.lowercase()}: ${i.title}")
+            if (i.triggerAtMs > 0) sb.append(" @ ${com.blackclaw.android.assistant.AssistantTime.format(i.triggerAtMs)}")
+            if (i.type == com.blackclaw.android.assistant.AssistantItemType.FINANCE) sb.append(" (${i.amount})")
+            if (i.done) sb.append(" ✓")
+            sb.append('\n')
+        }
+        val bal = com.blackclaw.android.assistant.AssistantStore.financeBalance()
+        if (filter.isBlank() || filter == "FINANCE") sb.append("Balance finanzas: ${"%.2f".format(bal)}")
+        return ToolResult.success(sb.toString().trim())
+    }
+}
+
+/** Delete / complete an item by id. */
+class AssistantRemoveTool : BaseTool() {
+    override fun getName() = "assistant_remove"
+    override fun getDisplayName() = "Quitar del asistente"
+    override fun getDescriptionEN() =
+        "Delete an Assistant hub item by id (from assistant_list). Use to cancel a reminder/alarm/event " +
+        "or remove a done note. Cancels its alarm too."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "borra o cancela un elemento del hub por id"
+    override fun getParameters() = listOf(
+        ToolParameter("id", "string", "Item id from assistant_list.", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val id = requireString(params, "id").trim()
+        com.blackclaw.android.assistant.AssistantScheduler.cancel(ClawApplication.instance, id)
+        val ok = com.blackclaw.android.assistant.AssistantStore.delete(id)
+        return if (ok) ToolResult.success("Elemento $id eliminado.")
+        else ToolResult.error("Could not find item $id.")
+    }
+}
+
+/** Location-based reminder (geofence): fires when the user enters/exits a place. */
+class AssistantLocationReminderTool : BaseTool() {
+    override fun getName() = "assistant_location_reminder"
+    override fun getDisplayName() = "Location reminder"
+    override fun getDescriptionEN() =
+        "Create a location reminder that fires when the user ARRIVES at or LEAVES a place. " +
+        "Provide lat & lon (use get_location for the current spot, e.g. 'remind me when I get home' " +
+        "while at home) and a radius in meters (default 150). trigger=enter|exit. " +
+        "Fires within a few minutes of crossing — no constant GPS."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "reminder triggered when arriving at or leaving a place (geofence)"
+    override fun getParameters() = listOf(
+        ToolParameter("title", "string", "What to remind.", true),
+        ToolParameter("lat", "number", "Latitude of the place.", true),
+        ToolParameter("lon", "number", "Longitude of the place.", true),
+        ToolParameter("radius_m", "integer", "Radius in meters (default 150).", false),
+        ToolParameter("trigger", "string", "enter | exit (default enter).", false),
+        ToolParameter("body", "string", "Optional detail.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val title = requireString(params, "title").trim()
+        val lat = (params["lat"] as? Number)?.toDouble() ?: params["lat"]?.toString()?.toDoubleOrNull()
+            ?: return ToolResult.error("Invalid latitude")
+        val lon = (params["lon"] as? Number)?.toDouble() ?: params["lon"]?.toString()?.toDoubleOrNull()
+            ?: return ToolResult.error("Invalid longitude")
+        val radius = optionalInt(params, "radius_m", 150).coerceIn(50, 5000)
+        val trigger = optionalString(params, "trigger", "enter").lowercase()
+        AssistantStore.create(
+            type = AssistantItemType.REMINDER, title = title,
+            body = optionalString(params, "body", ""),
+            lat = lat, lon = lon, radiusM = radius, geoTrigger = trigger, source = "ai",
+        )
+        val verb = if (trigger == "exit") "salgas de" else "llegues a"
+        return ToolResult.success("Location reminder: '$title' when you $verb that place (${radius}m).")
+    }
+}
+
+/** Add an item to the shopping list. */
+class AssistantShoppingTool : BaseTool() {
+    override fun getName() = "assistant_shopping_add"
+    override fun getDisplayName() = "Lista de compras"
+    override fun getDescriptionEN() =
+        "Add one or more items to the shopping list in the Assistant hub. " +
+        "Pass a single item in 'item', or several comma-separated in 'items'."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "adds items to the shopping list"
+    override fun getParameters() = listOf(
+        ToolParameter("item", "string", "A single item to add.", false),
+        ToolParameter("items", "string", "Comma-separated items to add.", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val single = optionalString(params, "item", "").trim()
+        val multi = optionalString(params, "items", "")
+        val list = buildList {
+            if (single.isNotBlank()) add(single)
+            addAll(multi.split(",").map { it.trim() }.filter { it.isNotBlank() })
+        }.distinct()
+        if (list.isEmpty()) return ToolResult.error("Provide 'item' or 'items'.")
+        list.forEach {
+            com.blackclaw.android.assistant.AssistantStore.create(
+                type = com.blackclaw.android.assistant.AssistantItemType.SHOPPING,
+                title = it, source = "ai")
+        }
+        return ToolResult.success("Added to the list: ${list.joinToString()}")
+    }
+}
+
+/** Set the monthly spending budget. */
+class AssistantBudgetTool : BaseTool() {
+    override fun getName() = "assistant_set_budget"
+    override fun getDisplayName() = "Budget"
+    override fun getDescriptionEN() =
+        "Set the user's monthly spending budget. The assistant warns when expenses approach it. " +
+        "amount in the user's currency; 0 clears the budget."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "set the monthly spending budget"
+    override fun getParameters() = listOf(
+        ToolParameter("amount", "number", "Monthly budget amount (0 to clear).", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val amount = (params["amount"] as? Number)?.toDouble()
+            ?: params["amount"]?.toString()?.toDoubleOrNull()
+            ?: return ToolResult.error("Invalid amount")
+        com.blackclaw.android.assistant.AssistantStore.monthlyBudget = amount.coerceAtLeast(0.0)
+        val spent = com.blackclaw.android.assistant.AssistantStore.monthExpenses()
+        return if (amount <= 0) ToolResult.success("Monthly budget cleared.")
+        else ToolResult.success("Monthly budget: ${"%.2f".format(amount)}. Spent this month: ${"%.2f".format(spent)}.")
+    }
+}
+
+/** Medication reminder: a daily repeating reminder at a clock time. */
+class AssistantMedicationTool : BaseTool() {
+    override fun getName() = "assistant_medication"
+    override fun getDisplayName() = "Medication"
+    override fun getDescriptionEN() =
+        "Set a recurring medication reminder. Fires a notification daily at the given time. " +
+        "Use for 'remind me to take X every day at HH:MM'. times can be a single 'HH:MM' or " +
+        "comma-separated for multiple doses."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "daily medication reminder (one or more doses)"
+    override fun getParameters() = listOf(
+        ToolParameter("medication", "string", "Medication name / what to take.", true),
+        ToolParameter("times", "string", "Time(s) HH:MM, comma-separated for several doses.", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val med = requireString(params, "medication").trim()
+        val times = requireString(params, "times").split(",").map { it.trim() }.filter { it.isNotBlank() }
+        if (times.isEmpty()) return ToolResult.error("Provide at least one HH:MM time.")
+        var made = 0
+        times.forEach { t ->
+            val ts = com.blackclaw.android.assistant.AssistantTime.parse(t)
+            if (ts > 0) {
+                val item = com.blackclaw.android.assistant.AssistantStore.create(
+                    type = com.blackclaw.android.assistant.AssistantItemType.REMINDER,
+                    title = "💊 Tomar $med",
+                    body = "Medication reminder",
+                    triggerAtMs = ts, repeat = "daily", category = "medication", source = "ai")
+                com.blackclaw.android.assistant.AssistantScheduler.arm(ClawApplication.instance, item)
+                made++
+            }
+        }
+        if (made == 0) return ToolResult.error("I could not understand the times.")
+        return ToolResult.success("Medication reminder for $med created ($made dose(s) per day).")
+    }
+}
+
+/** Promise tracking: create a follow-up reminder so the user keeps a commitment. */
+class AssistantTrackPromiseTool : BaseTool() {
+    override fun getName() = "assistant_track_promise"
+    override fun getDisplayName() = "Seguir promesa"
+    override fun getDescriptionEN() =
+        "Track a commitment the user made (e.g. 'I'll call Ana tomorrow') so BlackClaw reminds " +
+        "them if they haven't done it. Provide what was promised and when to follow up."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "crea un seguimiento de una promesa/compromiso del usuario"
+    override fun getParameters() = listOf(
+        ToolParameter("promise", "string", "What the user committed to do.", true),
+        ToolParameter("follow_up", "string", "When to remind, e.g. 'tomorrow 18:00', 'in 3h'.", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val promise = requireString(params, "promise").trim()
+        val ts = com.blackclaw.android.assistant.AssistantTime.parse(requireString(params, "follow_up"))
+        if (ts <= 0) return ToolResult.error("I could not understand when to remind you.")
+        val item = com.blackclaw.android.assistant.AssistantStore.create(
+            type = com.blackclaw.android.assistant.AssistantItemType.REMINDER,
+            title = "Did you do this? $promise",
+            body = "Follow-up for something you said you would do.",
+            triggerAtMs = ts, category = "promise", source = "ai")
+        com.blackclaw.android.assistant.AssistantScheduler.arm(ClawApplication.instance, item)
+        return ToolResult.success("I will remind you: '$promise' on ${com.blackclaw.android.assistant.AssistantTime.format(ts)}")
+    }
+}
+
+/** Leave-soon reminder: alert the user to leave ahead of an appointment. */
+class AssistantLeaveReminderTool : BaseTool() {
+    override fun getName() = "assistant_leave_reminder"
+    override fun getDisplayName() = "Leave reminder"
+    override fun getDescriptionEN() =
+        "Remind the user to LEAVE for an appointment ahead of time. Give the appointment time and " +
+        "how many minutes before to alert (travel + prep buffer). Creates a reminder at " +
+        "(appointment - lead_minutes)."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "remind the user to leave ahead of an appointment"
+    override fun getParameters() = listOf(
+        ToolParameter("what", "string", "The appointment/where to go.", true),
+        ToolParameter("appointment", "string", "Appointment time, e.g. 'today 15:00', 'tomorrow 09:00'.", true),
+        ToolParameter("lead_minutes", "integer", "Minutes before to alert (default 30).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val what = requireString(params, "what").trim()
+        val appt = com.blackclaw.android.assistant.AssistantTime.parse(requireString(params, "appointment"))
+        if (appt <= 0) return ToolResult.error("I could not understand the appointment time.")
+        val lead = optionalInt(params, "lead_minutes", 30).coerceIn(1, 240)
+        val triggerAt = appt - lead * 60_000L
+        if (triggerAt <= System.currentTimeMillis())
+            return ToolResult.error("That departure time has passed or is too soon.")
+        val item = com.blackclaw.android.assistant.AssistantStore.create(
+            type = com.blackclaw.android.assistant.AssistantItemType.REMINDER,
+            title = "🚗 Leave now: $what",
+            body = "Your appointment is at ${com.blackclaw.android.assistant.AssistantTime.format(appt)} ($lead min early).",
+            triggerAtMs = triggerAt, category = "leave", source = "ai")
+        com.blackclaw.android.assistant.AssistantScheduler.arm(ClawApplication.instance, item)
+        return ToolResult.success("I will alert you to leave at ${com.blackclaw.android.assistant.AssistantTime.format(triggerAt)} for '$what'.")
+    }
+}
+
+/** Draft reply: store a suggested reply the user can review/copy/send. */
+class AssistantDraftReplyTool : BaseTool() {
+    override fun getName() = "assistant_draft_reply"
+    override fun getDisplayName() = "Reply draft"
+    override fun getDescriptionEN() =
+        "Save a suggested reply draft for a message the user received, so they can review and " +
+        "send it later. Provide who it's for and the drafted text. Shows up in the assistant hub " +
+        "as a draft the user can copy."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "save a suggested reply draft for review or sending"
+    override fun getParameters() = listOf(
+        ToolParameter("to", "string", "Who the reply is for (contact / app).", true),
+        ToolParameter("draft", "string", "The drafted reply text.", true),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val to = requireString(params, "to").trim()
+        val draft = requireString(params, "draft").trim()
+        if (draft.isEmpty()) return ToolResult.error("Draft is empty")
+        com.blackclaw.android.assistant.AssistantStore.create(
+            type = com.blackclaw.android.assistant.AssistantItemType.ALERT,
+            title = "✍️ Draft for $to",
+            body = draft, category = "draft", source = "ai")
+        return ToolResult.success("Draft saved for $to.")
+    }
+}
+
+/** Recurring bill: a monthly reminder a few days before a charge. */
+class AssistantRecurringBillTool : BaseTool() {
+    override fun getName() = "assistant_recurring_bill"
+    override fun getDisplayName() = "Recurring bill"
+    override fun getDescriptionEN() =
+        "Track a recurring bill/subscription. Creates a monthly reminder a few days before it's " +
+        "charged so the user is never surprised. Optionally records the amount."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "monthly reminder before a recurring charge (subscription/bill)"
+    override fun getParameters() = listOf(
+        ToolParameter("name", "string", "Bill/subscription name (e.g. Netflix).", true),
+        ToolParameter("day_of_month", "integer", "Day it charges (1-28).", true),
+        ToolParameter("amount", "number", "Optional amount.", false),
+        ToolParameter("days_before", "integer", "Days before to remind (default 2).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val name = requireString(params, "name").trim()
+        val day = requireInt(params, "day_of_month").coerceIn(1, 28)
+        val daysBefore = optionalInt(params, "days_before", 2).coerceIn(0, 10)
+        val amount = (params["amount"] as? Number)?.toDouble()
+            ?: params["amount"]?.toString()?.toDoubleOrNull() ?: 0.0
+
+        // Compute the next reminder date: (charge day - daysBefore) this or next month.
+        val cal = java.util.Calendar.getInstance()
+        cal.set(java.util.Calendar.DAY_OF_MONTH, day)
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 10); cal.set(java.util.Calendar.MINUTE, 0)
+        cal.set(java.util.Calendar.SECOND, 0); cal.set(java.util.Calendar.MILLISECOND, 0)
+        cal.add(java.util.Calendar.DAY_OF_MONTH, -daysBefore)
+        if (cal.timeInMillis <= System.currentTimeMillis()) cal.add(java.util.Calendar.MONTH, 1)
+
+        val amtStr = if (amount != 0.0) " (~${"%.2f".format(kotlin.math.abs(amount))})" else ""
+        val item = com.blackclaw.android.assistant.AssistantStore.create(
+            type = com.blackclaw.android.assistant.AssistantItemType.REMINDER,
+            title = "💳 Upcoming charge: $name$amtStr",
+            body = "Charged on day $day of each month.",
+            triggerAtMs = cal.timeInMillis, repeat = "monthly",
+            amount = if (amount != 0.0) -kotlin.math.abs(amount) else 0.0,
+            category = "bill", source = "ai")
+        com.blackclaw.android.assistant.AssistantScheduler.arm(ClawApplication.instance, item)
+        return ToolResult.success(
+            "Bill '$name' recorded: alert on ${com.blackclaw.android.assistant.AssistantTime.format(cal.timeInMillis)} and monthly thereafter.")
+    }
+}
+
+
+/** Savings goal: set a target the weekly summary tracks against. */
+class AssistantSavingsGoalTool : BaseTool() {
+    override fun getName() = "assistant_savings_goal"
+    override fun getDisplayName() = "Savings goal"
+    override fun getDescriptionEN() =
+        "Set or clear the user's savings goal (a target amount, optionally named, e.g. 'vacaciones'). " +
+        "The weekly finance summary will report progress toward it. amount=0 clears the goal."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "set a savings goal (the app reports progress)"
+    override fun getParameters() = listOf(
+        ToolParameter("amount", "number", "Target amount to save (0 to clear).", true),
+        ToolParameter("name", "string", "Optional label for the goal (e.g. vacaciones).", false),
+    )
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val amount = (params["amount"] as? Number)?.toDouble()
+            ?: params["amount"]?.toString()?.toDoubleOrNull()
+            ?: return ToolResult.error("Invalid amount")
+        AssistantStore.savingsGoal = amount.coerceAtLeast(0.0)
+        AssistantStore.savingsGoalName = optionalString(params, "name", "").trim()
+        if (amount <= 0) return ToolResult.success("Savings goal cleared.")
+        val label = AssistantStore.savingsGoalName.ifBlank { "savings" }
+        val bal = AssistantStore.financeBalance()
+        return ToolResult.success(
+            "$label goal: ${"%.2f".format(amount)}. Current balance: ${"%.2f".format(bal)}.")
+    }
+}
+
+/** Export all finance entries to a CSV file the user can open/share. */
+class AssistantExportFinanceTool : BaseTool() {
+    override fun getName() = "assistant_export_finance"
+    override fun getDisplayName() = "Export finances (CSV)"
+    override fun getDescriptionEN() =
+        "Export all recorded finance entries (income & expenses) to a CSV file saved in the app's " +
+        "external files (Documents/BlackClaw). Use when the user wants a backup or to open their " +
+        "data in a spreadsheet. Returns the file path."
+    override fun getDescriptionCN() = getDescriptionEN()
+    override fun getBrief() = "export finances to a CSV file"
+    override fun getParameters() = emptyList<ToolParameter>()
+    override fun execute(params: Map<String, Any>): ToolResult {
+        val csv = AssistantStore.financeCsv()
+        if (csv.lines().size <= 1) return ToolResult.error("There are no finance entries to export.")
+        return try {
+            val ctx = ClawApplication.instance
+            val dir = java.io.File(ctx.getExternalFilesDir(null), "exports").apply { mkdirs() }
+            val stamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.US)
+                .format(java.util.Date())
+            val file = java.io.File(dir, "blackclaw_finance_$stamp.csv")
+            file.writeText(csv)
+            val rows = csv.lines().size - 1
+            ToolResult.success("Exported $rows entries to ${file.absolutePath}")
+        } catch (e: Exception) {
+            ToolResult.error("Could not write the CSV: ${e.message}")
+        }
+    }
+}
