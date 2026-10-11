@@ -25,7 +25,7 @@ class AutomationProfileToolValidationTest {
             )
         )
         assertTrue(result.isSuccess)
-        assertTrue(result.data.orEmpty().contains("Perfil válido"))
+        assertTrue(result.data.orEmpty().contains("Valid profile"))
     }
 
     @Test fun `validate rejects non object action params`() {
@@ -52,6 +52,6 @@ class AutomationProfileToolValidationTest {
         )
         assertTrue(result.isSuccess)
         assertTrue(result.data.orEmpty().contains("PREVIEW"))
-        assertTrue(result.data.orEmpty().contains("no se activó nada"))
+        assertTrue(result.data.orEmpty().contains("nothing was activated"))
     }
 }

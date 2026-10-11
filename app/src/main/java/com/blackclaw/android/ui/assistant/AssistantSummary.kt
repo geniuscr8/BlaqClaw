@@ -54,7 +54,7 @@ object AssistantSummary {
         val headline = when {
             total == 0 -> "Nothing yet"
             pending.isEmpty() -> "All caught up"
-            else -> "${pending.size} pendiente${plural(pending.size)}"
+            else -> "${pending.size} pending"
         }
 
         val next = pending
@@ -67,8 +67,8 @@ object AssistantSummary {
                 val rel = AssistantCardModel.relativeTime(next.triggerAtMs, nowMs)
                 "Next $rel · ${next.title.take(40)}"
             }
-            pending.isNotEmpty() -> "Sin hora asignada"
-            total > 0 -> "$done completado${plural(done)}"
+            pending.isNotEmpty() -> "No time assigned"
+            total > 0 -> "$done completed${plural(done)}"
             else -> "Ask the AI or tap +"
         }
         return Summary(headline, subtitle, progress)
@@ -79,11 +79,11 @@ object AssistantSummary {
         val total = items.size
         val progress = if (total == 0) NO_PROGRESS else (total - pending).toFloat() / total.toFloat()
         return Summary(
-            headline = if (pending == 0 && total > 0) "Lista completa"
+            headline = if (pending == 0 && total > 0) "List complete"
                 else if (total == 0) "Empty list"
-                else "$pending por comprar",
+                else "$pending to buy",
             subtitle = if (total == 0) "Add whatever you need"
-                else "${total - pending} de $total en el carrito",
+                else "${total - pending} of $total in the cart",
             progress = progress,
         )
     }
@@ -104,7 +104,7 @@ object AssistantSummary {
             Summary(
                 headline = headline,
                 subtitle = "Mes: ${formatMoney(spent)} de ${formatMoney(budget)}" +
-                    if (spent > budget) " · presupuesto excedido" else "",
+                    if (spent > budget) " · budget exceeded" else "",
                 // Here the bar means "budget consumed", so a full bar is bad news, not
                 // an achievement. The subtitle says so explicitly for that reason.
                 progress = used,
@@ -112,7 +112,7 @@ object AssistantSummary {
         } else {
             Summary(
                 headline = headline,
-                subtitle = "Gastado este mes: ${formatMoney(spent)} · sin presupuesto fijado",
+                subtitle = "Spent this month: ${formatMoney(spent)} · no budget set",
                 progress = NO_PROGRESS,
             )
         }

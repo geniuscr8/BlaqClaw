@@ -76,12 +76,12 @@ class ExecutePlanTool : BaseTool() {
             if (!ok) {
                 results.add("$label → ✗ $detail")
                 return ToolResult.error(
-                    "Plan abortado en paso $idx (${step.tool}): $detail\n\n" +
+                    "Plan aborted at step $idx (${step.tool}): $detail\n\n" +
                     "Facts so far:\n" + results.joinToString("\n"))
             }
             results.add("$label → ✓ ${detail.take(160)}")
         }
-        return ToolResult.success("Plan completado (${plan.size} pasos):\n" + results.joinToString("\n"))
+        return ToolResult.success("Plan completed (${plan.size} steps):\n" + results.joinToString("\n"))
     }
 
     /** Run a step, honoring its expect/verify_text, retrying once on failure. */
@@ -141,8 +141,8 @@ class ExecutePlanTool : BaseTool() {
     internal fun validate(plan: List<Step>): String? {
         if (plan.isEmpty()) return "Plan is empty"
         if (plan.size > 6) return "Plan is too long (${plan.size}). Maximum 6 steps."
-        if (plan.any { it.tool == "execute_plan" }) return "execute_plan dentro de execute_plan no permitido."
-        if (plan.any { it.tool.isBlank() }) return "un paso no tiene 'tool'."
+        if (plan.any { it.tool == "execute_plan" }) return "Nested execute_plan is not allowed."
+        if (plan.any { it.tool.isBlank() }) return "A step is missing 'tool'."
         return null
     }
 

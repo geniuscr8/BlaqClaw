@@ -33,7 +33,7 @@ class GameControlPolicyTest {
     @Test fun sessionRejectsBlindStaleAndCrossAppActions() {
         GameControlSession.observe("com.supercell.clashofclans", 1L, nowMs = 1_000L)
         assertEquals(null, GameControlSession.validate("com.supercell.clashofclans", nowMs = 2_000L))
-        assertTrue(GameControlSession.validate("com.supercell.clashroyale", nowMs = 2_000L)!!.contains("cambió"))
-        assertTrue(GameControlSession.validate("com.supercell.clashofclans", nowMs = 40_000L)!!.contains("caducó"))
+        assertTrue(GameControlSession.validate("com.supercell.clashroyale", nowMs = 2_000L)!!.contains("changed"))
+        assertTrue(GameControlSession.validate("com.supercell.clashofclans", nowMs = 40_000L)!!.contains("expired"))
     }
 }

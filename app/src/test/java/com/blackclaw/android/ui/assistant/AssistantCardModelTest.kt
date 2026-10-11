@@ -64,21 +64,21 @@ class AssistantCardModelTest {
 
     // ── Relative time ─────────────────────────────────────────────────────────
 
-    @Test fun `future times read as en`() {
-        assertEquals("en 20 min", AssistantCardModel.relativeTime(now + 20 * minute, now))
-        assertEquals("en 3 h", AssistantCardModel.relativeTime(now + 3 * hour, now))
-        assertEquals("en 2 d", AssistantCardModel.relativeTime(now + 2 * day, now))
-        assertEquals("en 2 sem", AssistantCardModel.relativeTime(now + 14 * day, now))
+    @Test fun `future times read as English`() {
+        assertEquals("in 20 min", AssistantCardModel.relativeTime(now + 20 * minute, now))
+        assertEquals("in 3 h", AssistantCardModel.relativeTime(now + 3 * hour, now))
+        assertEquals("in 2 d", AssistantCardModel.relativeTime(now + 2 * day, now))
+        assertEquals("in 2 wk", AssistantCardModel.relativeTime(now + 14 * day, now))
     }
 
-    @Test fun `past times read as hace`() {
-        assertEquals("hace 5 min", AssistantCardModel.relativeTime(now - 5 * minute, now))
-        assertEquals("hace 2 h", AssistantCardModel.relativeTime(now - 2 * hour, now))
+    @Test fun `past times read as English`() {
+        assertEquals("5 min ago", AssistantCardModel.relativeTime(now - 5 * minute, now))
+        assertEquals("2 h ago", AssistantCardModel.relativeTime(now - 2 * hour, now))
     }
 
     @Test fun `sub-minute collapses to ahora in both directions`() {
-        assertEquals("ahora", AssistantCardModel.relativeTime(now + 5_000L, now))
-        assertEquals("ahora", AssistantCardModel.relativeTime(now - 5_000L, now))
+        assertEquals("now", AssistantCardModel.relativeTime(now + 5_000L, now))
+        assertEquals("now", AssistantCardModel.relativeTime(now - 5_000L, now))
     }
 
     @Test fun `no trigger yields no relative time`() {
@@ -106,8 +106,8 @@ class AssistantCardModelTest {
     // ── Repeat ────────────────────────────────────────────────────────────────
 
     @Test fun `known repeats get a label and none does not`() {
-        assertEquals("Cada día", AssistantCardModel.repeatLabel("daily"))
-        assertEquals("Cada semana", AssistantCardModel.repeatLabel("weekly"))
+        assertEquals("Every day", AssistantCardModel.repeatLabel("daily"))
+        assertEquals("Every week", AssistantCardModel.repeatLabel("weekly"))
         assertEquals("", AssistantCardModel.repeatLabel("none"))
         assertEquals("", AssistantCardModel.repeatLabel("gibberish"))
     }
@@ -163,7 +163,7 @@ class AssistantCardModelTest {
     // ── Titles ────────────────────────────────────────────────────────────────
 
     @Test fun `a blank title falls back rather than rendering an empty card`() {
-        assertEquals("(sin título)", AssistantCardModel.of(item(title = "   "), now).title)
+        assertEquals("(untitled)", AssistantCardModel.of(item(title = "   "), now).title)
     }
 
     @Test fun `every type maps to an accent, an emoji and a label`() {

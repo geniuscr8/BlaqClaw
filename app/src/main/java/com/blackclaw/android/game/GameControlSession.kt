@@ -18,15 +18,15 @@ object GameControlSession {
     fun current(): Snapshot? = state
 
     fun validate(packageName: String, nowMs: Long = System.currentTimeMillis()): String? {
-        val snapshot = state ?: return "Primero llama game_observe; no se permiten acciones a ciegas."
+        val snapshot = state ?: return "Call game_observe first; blind actions are not allowed."
         if (snapshot.packageName != packageName) {
             return "The app changed since observation (${snapshot.packageName} → $packageName). Observe again."
         }
         if (nowMs - snapshot.observedAtMs > GameControlPolicy.OBSERVATION_TTL_MS) {
-            return "La observación caducó. Llama game_observe otra vez."
+            return "The observation expired. Call game_observe again."
         }
         if (snapshot.actionCount >= GameControlPolicy.MAX_ACTIONS_PER_OBSERVATION) {
-            return "Límite de acciones alcanzado; vuelve a observar antes de continuar."
+            return "The action limit was reached; observe again before continuing."
         }
         return null
     }

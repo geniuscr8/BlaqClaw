@@ -30,19 +30,19 @@ class AssistantSummaryTest {
 
     @Test fun `an empty category says so and hides the progress bar`() {
         val s = AssistantSummary.timedSummary(emptyList(), now)
-        assertEquals("Nada aún", s.headline)
+        assertEquals("Nothing yet", s.headline)
         assertEquals(AssistantSummary.NO_PROGRESS, s.progress)
     }
 
     @Test fun `all done reports being up to date with a full bar`() {
         val s = AssistantSummary.timedSummary(listOf(item(done = true), item("b", done = true)), now)
-        assertEquals("Todo al día", s.headline)
+        assertEquals("All caught up", s.headline)
         assertEquals(1f, s.progress, 0.001f)
     }
 
     @Test fun `pending count is pluralised`() {
-        assertEquals("1 pendiente", AssistantSummary.timedSummary(listOf(item()), now).headline)
-        assertEquals("2 pendientes",
+        assertEquals("1 pending", AssistantSummary.timedSummary(listOf(item()), now).headline)
+        assertEquals("2 pending",
             AssistantSummary.timedSummary(listOf(item("a"), item("b")), now).headline)
     }
 
@@ -59,34 +59,34 @@ class AssistantSummaryTest {
             item("futuro", triggerAtMs = now + hour),
         )
         val s = AssistantSummary.timedSummary(items, now)
-        assertTrue(s.subtitle, s.subtitle.contains("vencido"))
-        assertTrue(s.subtitle, s.subtitle.contains("atención"))
+        assertTrue(s.subtitle, s.subtitle.contains("overdue"))
+        assertTrue(s.subtitle, s.subtitle.contains("needs attention"))
     }
 
     @Test fun `overdue count is pluralised`() {
         val one = AssistantSummary.timedSummary(listOf(item("a", triggerAtMs = now - hour)), now)
-        assertTrue(one.subtitle, one.subtitle.startsWith("1 vencido "))
+        assertTrue(one.subtitle, one.subtitle.startsWith("1 overdue "))
         val two = AssistantSummary.timedSummary(
             listOf(item("a", triggerAtMs = now - hour), item("b", triggerAtMs = now - 2 * hour)), now)
-        assertTrue(two.subtitle, two.subtitle.startsWith("2 vencidos "))
+        assertTrue(two.subtitle, two.subtitle.startsWith("2 overdues "))
     }
 
     @Test fun `with nothing overdue the subtitle previews the next item`() {
         val items = listOf(item("Dentista", triggerAtMs = now + 2 * hour))
         val s = AssistantSummary.timedSummary(items, now)
-        assertTrue(s.subtitle, s.subtitle.contains("Próximo"))
+        assertTrue(s.subtitle, s.subtitle.contains("Next"))
         assertTrue(s.subtitle, s.subtitle.contains("Dentista"))
     }
 
     @Test fun `a done item in the past is not counted as overdue`() {
         val s = AssistantSummary.timedSummary(listOf(item(triggerAtMs = now - hour, done = true)), now)
-        assertEquals("Todo al día", s.headline)
-        assertTrue(s.subtitle, !s.subtitle.contains("vencido"))
+        assertEquals("All caught up", s.headline)
+        assertTrue(s.subtitle, !s.subtitle.contains("overdue"))
     }
 
     @Test fun `pending items without a time say so instead of inventing one`() {
         val s = AssistantSummary.timedSummary(listOf(item(triggerAtMs = 0L)), now)
-        assertEquals("Sin hora asignada", s.subtitle)
+        assertEquals("No time assigned", s.subtitle)
     }
 
     @Test fun `a very long next title is truncated so the hero cannot overflow`() {
@@ -99,21 +99,21 @@ class AssistantSummaryTest {
 
     @Test fun `an empty shopping list is described as empty`() {
         val s = AssistantSummary.shoppingSummary(emptyList())
-        assertEquals("Lista vacía", s.headline)
+        assertEquals("Empty list", s.headline)
         assertEquals(AssistantSummary.NO_PROGRESS, s.progress)
     }
 
     @Test fun `a fully bought list is described as complete`() {
         val s = AssistantSummary.shoppingSummary(listOf(item(done = true)))
-        assertEquals("Lista completa", s.headline)
+        assertEquals("List complete", s.headline)
         assertEquals(1f, s.progress, 0.001f)
     }
 
     @Test fun `a partial list counts what is left and what is in the cart`() {
         val items = listOf(item("a", done = true), item("b"), item("c"))
         val s = AssistantSummary.shoppingSummary(items)
-        assertEquals("2 por comprar", s.headline)
-        assertEquals("1 de 3 en el carrito", s.subtitle)
+        assertEquals("2 to buy", s.headline)
+        assertEquals("1 of 3 in the cart", s.subtitle)
         assertEquals(1f / 3f, s.progress, 0.001f)
     }
 
@@ -121,7 +121,7 @@ class AssistantSummaryTest {
 
     @Test fun `of dispatches shopping to the shopping rules`() {
         val s = AssistantSummary.of(AssistantItemType.SHOPPING, emptyList(), now)
-        assertEquals("Lista vacía", s.headline)
+        assertEquals("Empty list", s.headline)
     }
 
     @Test fun `of dispatches every timed type to the counting rules`() {
@@ -129,7 +129,7 @@ class AssistantSummaryTest {
             AssistantItemType.REMINDER, AssistantItemType.ALARM, AssistantItemType.NOTE,
             AssistantItemType.EVENT, AssistantItemType.ALERT,
         ).forEach { type ->
-            assertEquals("$type", "Nada aún", AssistantSummary.of(type, emptyList(), now).headline)
+            assertEquals("$type", "Nothing yet", AssistantSummary.of(type, emptyList(), now).headline)
         }
     }
 

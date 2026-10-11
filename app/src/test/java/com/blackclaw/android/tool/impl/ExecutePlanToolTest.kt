@@ -32,7 +32,7 @@ class ExecutePlanToolTest {
         val plan = (1..7).map { step("wait") }
         val err = tool.validate(plan)
         assertNotNull(err)
-        assertTrue(err!!.contains("demasiado largo"))
+        assertTrue(err!!.contains("too long"))
     }
 
     @Test

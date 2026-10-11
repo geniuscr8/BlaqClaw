@@ -89,20 +89,20 @@ object AssistantCardModel {
         val past = delta < 0
         val magnitude = kotlin.math.abs(delta)
         val unit = when {
-            magnitude < MINUTE -> "ahora"
+            magnitude < MINUTE -> "now"
             magnitude < HOUR -> "${magnitude / MINUTE} min"
             magnitude < DAY -> "${magnitude / HOUR} h"
             magnitude < 7 * DAY -> "${magnitude / DAY} d"
-            else -> "${magnitude / (7 * DAY)} sem"
+            else -> "${magnitude / (7 * DAY)} wk"
         }
-        if (unit == "ahora") return "ahora"
-        return if (past) "hace $unit" else "en $unit"
+        if (unit == "now") return "now"
+        return if (past) "$unit ago" else "in $unit"
     }
 
     fun repeatLabel(repeat: String): String = when (repeat.lowercase()) {
         "daily" -> "Every day"
-        "weekly" -> "Cada semana"
-        "monthly" -> "Cada mes"
+        "weekly" -> "Every week"
+        "monthly" -> "Every month"
         else -> ""
     }
 
@@ -166,11 +166,11 @@ object AssistantCardModel {
 
     fun label(type: AssistantItemType): String = when (type) {
         AssistantItemType.REMINDER -> "Reminders"
-        AssistantItemType.ALARM -> "Alarmas"
-        AssistantItemType.NOTE -> "Notas"
-        AssistantItemType.EVENT -> "Calendario"
-        AssistantItemType.ALERT -> "Avisos"
-        AssistantItemType.FINANCE -> "Finanzas"
-        AssistantItemType.SHOPPING -> "Compras"
+        AssistantItemType.ALARM -> "Alarms"
+        AssistantItemType.NOTE -> "Notes"
+        AssistantItemType.EVENT -> "Calendar"
+        AssistantItemType.ALERT -> "Alerts"
+        AssistantItemType.FINANCE -> "Finance"
+        AssistantItemType.SHOPPING -> "Shopping"
     }
 }
