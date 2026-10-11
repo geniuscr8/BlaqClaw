@@ -44,6 +44,13 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug
 
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
@@ -63,9 +70,3 @@ jobs:
         with:
           name: lint-report
           path: app/build/reports/lint-results-debug.html
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug/*.apk
