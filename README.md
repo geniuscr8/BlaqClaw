@@ -2,937 +2,322 @@
 
 # BlaqClaw
 
-**An on-device AI agent that operates your Android phone.**
+**A local-first AI assistant that can operate your Android phone.**
 
-BlaqClaw lets a language model see the screen, decide what to do, and drive any
-app end to end — taps, swipes, typing, navigation — using your own LLM, locally
-or in the cloud.
+BlaqClaw combines an LLM with Android accessibility, OCR, voice, automation,
+and device-control tools. Describe what you want in plain English and BlaqClaw
+can inspect the screen, choose an action, verify the result, and continue until
+the task is complete.
 
 [![Platform](https://img.shields.io/badge/platform-Android%209%2B-3DDC84?logo=android&logoColor=white)](#requirements)
-[![Language](https://img.shields.io/badge/Kotlin%20%2F%20Java-7F52FF?logo=kotlin&logoColor=white)](#tech-stack)
-[![Release](https://img.shields.io/github/v/release/tuangel134/BlaqClaw?include_prereleases&label=release)](https://github.com/tuangel134/BlaqClaw/releases)
+[![Build](https://github.com/geniuscr8/BlaqClaw/actions/workflows/build.yml/badge.svg)](https://github.com/geniuscr8/BlaqClaw/actions/workflows/build.yml)
+[![Language](https://img.shields.io/badge/Kotlin%20%2F%20Java-7F52FF?logo=kotlin&logoColor=white)](#technology)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-### [⬇️ Download the latest APK](https://github.com/tuangel134/BlaqClaw/releases/latest)
+### [Download the latest APK](https://github.com/geniuscr8/BlaqClaw/releases/latest)
 
-<sub>Sideload the signed APK from the Releases page. Android 9+ · ~160 MB</sub>
-
-> ⚠️ **Beta.** BlaqClaw is under active development. Expect rough edges and
-> behavior that varies across OEM skins. Bug reports are very welcome — see
-> [Reporting bugs](#reporting-bugs).
+<sub>BlaqClaw is currently distributed as a sideloaded beta APK. Android 9+ is required.</sub>
 
 </div>
 
----
+> **Beta notice:** BlaqClaw is under active development. Android behavior varies
+> between manufacturers, and some capabilities require additional permissions or
+> privileged access. Review every permission and automation before enabling it.
 
-## Screenshots
+## Contents
 
-<div align="center">
+- [What BlaqClaw does](#what-blaqclaw-does)
+- [Example requests](#example-requests)
+- [Models](#models)
+- [Privacy and safety](#privacy-and-safety)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Building](#building)
+- [Project structure](#project-structure)
+- [Contributing](#contributing)
+- [Reporting bugs](#reporting-bugs)
+- [License](#license)
 
-<img src="screenshots/screenshot_01.jpg" width="24%" /> <img src="screenshots/screenshot_02.jpg" width="24%" /> <img src="screenshots/screenshot_03.jpg" width="24%" /> <img src="screenshots/screenshot_04.jpg" width="24%" />
-<img src="screenshots/screenshot_05.jpg" width="24%" /> <img src="screenshots/screenshot_06.jpg" width="24%" /> <img src="screenshots/screenshot_07.jpg" width="24%" /> <img src="screenshots/screenshot_08.jpg" width="24%" />
-<img src="screenshots/screenshot_09.jpg" width="24%" /> <img src="screenshots/screenshot_10.jpg" width="24%" /> <img src="screenshots/screenshot_11.jpg" width="24%" />
+## What BlaqClaw does
 
-</div>
+### Control apps through the Android UI
 
----
+BlaqClaw uses the accessibility tree, screen capture, and OCR to work with
+installed apps without requiring a custom integration for every app. It can:
 
-## Overview
+- open apps, navigate, tap, long-press, swipe, scroll, drag, and type;
+- read visible text and controls, including custom-rendered screens through OCR;
+- verify tool results and screen changes before reporting success;
+- use deep links and deterministic shortcuts for common navigation, music,
+  maps, messaging, shopping, and ride-hailing tasks.
 
-BlaqClaw turns an Android device into an AI-operated phone. A model — running
-**on-device** (Gemma via LiteRT-LM) or in the **cloud** (any OpenAI-compatible
-endpoint, Anthropic, Groq, etc.) — drives a generic tool layer that reads the
-live accessibility tree and acts on it.
+### Voice and assistant mode
 
-You describe a task in plain language. BlaqClaw observes the screen, picks the
-right tools, performs the steps, verifies the result, and reports back. It works
-across any installed app because it operates the UI the same way a person does,
-rather than relying on per-app integrations.
+- Offline wake-word and speech recognition through Vosk.
+- Streaming responses with text-to-speech support.
+- Optional Android default-assistant integration, including lock-screen flows
+  where supported by the device.
+- Continuous conversation, whisper mode, and voice activity detection.
 
-- **Local-first.** On-device inference needs no account and no API key. Your
-  screen content and messages never leave the phone.
-- **Cloud-optional.** Bring your own key for a frontier model when you want more
-  reasoning power. The key is stored only in local app storage.
-- **Automatic model routing.** In Settings → Models, BlaqClaw can probe every
-  configured cloud/local model with a minimal request, remember its latency, use
-  the fastest successful model in AUTO mode, and silently fail over when a
-  provider times out, rate-limits, or rejects a model. The probe never sends chat
-  history or screen content (paid providers may charge the tiny probe request).
-- **Hands-free voice.** A wake word ("garra"/"BlaqClaw") and an offline speech
-  engine let you talk to it; set BlaqClaw as the phone's assistant and invoke it
-  with the power button — even over the lock screen — with a full-screen animated
-  panel that streams the answer and speaks it back.
-- **Fast app control.** 70+ popular apps (Uber, Uber Eats, Spotify, Maps,
-  WhatsApp, Amazon…) are driven straight to the right screen via deep links, and
-  a deterministic fast-path runs common commands instantly with zero LLM calls.
-- **Android Auto.** A voice-first, driving-safe surface on the car head unit:
-  one-tap actions (navigate, play music, call, notifications) plus a "Preguntar"
-  search that uses the car's own speech-to-text — answers read aloud.
-- **Remote-controllable.** Drive the phone by messaging it from Telegram,
-  Discord, or WeChat — useful for an agent that runs while the device is away.
-- **Broad reach.** 181 built-in tools spanning UI control, device settings,
-  messaging, files, network, perception, and automation — browsable in-app via
-  Settings → Tools → Tool Catalog.
+### Built-in assistant hub
 
----
+BlaqClaw includes native surfaces for:
 
-## What you can ask it
+- reminders and alarms, including recurring items and notification delivery;
+- notes, calendar events, alerts, shopping lists, and promises;
+- finance entries, budgets, recurring bills, and spending summaries;
+- location-based reminders and a home-screen widget;
+- draft replies that require the user to review and send them.
 
-Plain-language examples — BlaqClaw figures out the steps:
+### Automation
 
-- *"Open WhatsApp and tell Mom I'll be 20 minutes late."*
-- *"Check my notifications and summarize anything important."*
-- *"How much battery do I have, and turn on battery saver if it's under 20%."*
-- *"Order me an Uber to the airport."* / *"Play Bad Bunny."* / *"Take me to the nearest Walmart."*
-- *"I have a meeting at 7"* → sets an alarm, adds it to your calendar and agenda.
-- *"Search YouTube for lo-fi beats and play the first result."*
-- *"Read the text on screen and tap the Continue button"* (works in games via OCR).
-- *"Every weekday at 8am, read me the weather out loud."* (scheduled task).
-- *"Watch for messages from my boss and auto-reply that I'm in a meeting."*
-- *"What does my clipboard say, and translate it to English."*
+Create and manage automations from the app or through natural-language requests.
+The automation engine supports scheduled tasks, notifications, app and device
+state, connectivity, battery, calls, messages, boot, location, geofences,
+conditions, variables, branches, cooldowns, run limits, and safe concurrency
+modes.
 
-If a request is just a question or a chat, BlaqClaw answers in text without
-touching the phone.
+Automations run locally after they are configured. Sensitive actions require
+explicit confirmation or local approval, depending on the operation.
 
----
+### Android Auto and remote channels
 
-## Tools at a glance (181)
+- A voice-first Android Auto surface for navigation, music, calls,
+  notifications, and questions.
+- Optional remote control through supported Telegram, Discord, and WeChat
+  channels.
+- External automation entry points for compatible Tasker, MacroDroid, and ADB
+  workflows.
 
-| Category | Examples |
-|---|---|
-| **UI control** | tap · long-press · swipe · pinch · drag-and-drop · path trace · type · scroll-to-find |
-| **Navigation** | open app · switch app · back/home/recents · find & tap by text |
-| **App shortcuts** | deep-link 70+ apps (Uber · Uber Eats · Spotify · Maps · Amazon…) · play music in any player · discover installed-app actions |
-| **Voice** | wake word · offline STT (Vosk) · system-assistant panel · streaming TTS · continuous conversation |
-| **Android Auto** | voice-first car surface · one-tap navigate/music/call/notifications · car speech-to-text · answers read aloud |
-| **Privileged (ADB/Shizuku)** | fast tap/swipe in games · force-stop · arbitrary shell · burst tap |
-| **Perception** | read screen (accessibility tree) · OCR over screen capture · screenshot |
-| **Device** | battery · memory · network · volume · brightness · WiFi/BT/flashlight toggles |
-| **Comms** | send message (WhatsApp/Telegram/…) · SMS · calls · contacts · notifications |
-| **Personal data** | calendar · call log · clipboard |
-| **Web & data** | web search · fetch URL · weather · translate · currency/unit convert · QR · hash · JSON/regex |
-| **Files & memory** | read/write files · long-term facts · shared knowledge base |
-| **Assistant hub** | reminders · alarms · notes · calendar · alerts · finances (native, push) |
-| **Automation** | semantic named places · Play Services geofences + fallback · recurring schedules · Tasker-style profiles · conditions/variables/branches · external API |
-| **Terminal** | persistent internal shell (local/privileged) · adb-over-wifi to remote devices (pair/connect/shell) without a PC |
-| **Security** | app risk scanner · real-time ad attribution · neutralize/block/disable/uninstall problem apps |
+### Device tools and privileged access
 
----
+The built-in tool catalog includes device status, notifications, contacts,
+calendar, SMS, calls, files, clipboard, network, volume, brightness, Wi-Fi,
+Bluetooth, flashlight, QR utilities, translation, web access, and more.
 
-## Features
+Optional privileged backends provide additional capabilities:
 
-### Phone control
-- Reads the live accessibility tree and computes element coordinates
-- Tap, long-press, swipe, pinch, drag-and-drop, multi-point path tracing
-- Type into any field, scroll-to-find, open and switch apps
-- Handles popups, permission dialogs, and paywalls intelligently
+- self-paired ADB over Android Wireless Debugging;
+- Shizuku, when installed and authorized;
+- a persistent internal terminal;
+- guarded shell and game-control operations.
 
-### Voice & system assistant
-- **Hands-free wake word** ("garra" or "BlaqClaw") with an **offline** speech
-  engine (Vosk) — no internet, no key. Fuzzy matching tuned for how the
-  recognizer mishears the word.
-- **Set BlaqClaw as the phone's assistant** and summon it with the power-button
-  gesture — it appears in a **full-screen animated panel** (an audio-reactive
-  claw orb) **even over the lock screen**, like Gemini/Assistant.
-- The assistant settings verify both Android's assistant role and the active
-  `VoiceInteractionService`. If an OEM leaves them out of sync, BlaqClaw shows
-  a repair prompt instead of falsely claiming that the power button is ready.
-- **Streaming replies:** the answer types out live and is **spoken sentence by
-  sentence as it generates** (cloud models); tap the orb to interrupt.
-- **Continuous conversation:** it re-listens after answering so you can go back
-  and forth without repeating the wake word. Rich answers render **links and
-  images inline**. Suggestion chips hint what to say.
-- Whisper mode (Alexa-style), voice activity detection, and phone-call mic
-  handling so it yields the microphone during calls.
+Privileged access is optional. The core chat and many app-control features do
+not require root or a computer.
 
-### Android Auto
-- A **voice-first, driving-safe** surface built on the **Android for Cars App
-  Library**. When the phone is connected to Android Auto, BlaqClaw shows a grid
-  of large one-tap actions on the car screen: **Preguntar** (ask anything),
-  **Navigate**, **Music**, **Call**, and **Notifications**.
-- The action screens use a **search template**, so the **car's own
-  speech-to-text** transcribes what you say — you never touch the phone. The
-  transcribed request runs through the same task pipeline as the phone (deep-link
-  fast-path, tools, agent loop) and the answer is **read aloud** with TTS.
-- Because it reuses the full pipeline, anything BlaqClaw can do by voice on the
-  phone also works from the car.
-- Distributed as a sideload app (not on Play), so to use it you enable **"Unknown
-  sources"** for developer apps in the Android Auto settings on the phone.
+## Example requests
 
-### App control via deep links
-- **70+ popular apps** open straight to the useful screen via deep links —
-  ride-hailing (Uber, DiDi, Cabify, Lyft, Bolt), food (Uber Eats, Rappi,
-  DoorDash, Glovo), music, maps, shopping (Amazon, Mercado Libre, AliExpress),
-  streaming, social, travel and more — far faster than tapping through the UI.
-- **Play music in any player** via Android's universal play-from-search
-  (Spotify, YouTube Music, Musicolet, Poweramp…), with a preferred-player setting.
-- **Auto-discovery:** BlaqClaw asks the system which installed apps can handle
-  each capability (music, navigation, email, calling…), so it adapts to *your*
-  app set instead of a hardcoded list.
-- **Deterministic fast-path ("Quick shortcuts"):** common commands ("open X",
-  "play Y", "navigate to Z", "get me an Uber") run **instantly with zero LLM
-  calls**. Toggle it off in Settings → Advanced if you want *everything* — even
-  trivial commands — to go through the model instead.
+```text
+Open WhatsApp and draft a message to Mom saying I will be 20 minutes late.
 
-### Privileged control (no PC, no root)
-- **Built-in self-ADB pairing.** BlaqClaw can pair with its own `adbd` over the
-  loopback interface using Android's Wireless Debugging (TLS 1.3 + SPAKE2), with
-  the 6-digit code read automatically from the system dialog via accessibility.
-  No computer and no second app required.
-- Optional **Shizuku** backend is also supported.
-- Either backend unlocks shell-level actions: ultra-fast taps/swipes that work
-  inside games and `SurfaceView`, real `force-stop`, and arbitrary shell commands.
+Read my notifications and summarize anything important.
 
-### Perception
-- On-device OCR (ML Kit) over a `MediaProjection` screen capture, so the agent
-  can read and tap text in games and custom-rendered surfaces where the
-  accessibility tree is empty.
+Set a reminder to call the dentist tomorrow at 5 PM.
 
-### Assistant hub (native)
-- A built-in **Assistant** that keeps reminders, alarms, notes, calendar
-  events, alerts and **finances** inside the app — no bouncing out to the
-  system Clock / Calendar / Notes apps
-- **Real alarms:** full-screen ringing over the lock screen, looping sound,
-  vibration, and dismiss / snooze — not just a passive notification
-- Time-based items fire **native push notifications** and survive reboots
-- A modern, color-coded UI (gradient header, native clock time picker, swipe-in
-  access from the chat drawer) with manual add / complete / delete
-- **Calendar & agenda view:** a month grid marks days with scheduled items and a
-  chronological agenda lists what's coming up; tap any item to reschedule, and
-  optionally overlay your **system (Google) calendar**
-- **Voice appointments:** *"I have a meeting at 7"* creates one entry that shows
-  on the calendar/agenda **and** rings like an alarm — now or weeks out — plus an
-  optional early heads-up; conflict warnings included
-- The AI manages the hub end-to-end: *"remind me to call the dentist tomorrow
-  at 5"*, *"what reminders do I have?"*, *"cancel the 7am alarm"*, *"log that I
-  spent 200 on food"*, *"undo that"* all read and write the native hub
-- **Important alarms with challenges:** mark an alarm as critical and it won't
-  dismiss until you solve a quick math, **memory** (digits shown briefly then
-  hidden), or typing challenge — so you actually wake up
-- **Shopping list, monthly budget, location reminders** (geofence, no constant
-  GPS), **home-screen widget** and a **Quick Settings tile** showing your next item
-- **Draft replies:** the assistant can draft a suggested answer to a message and
-  drop it in the hub with a one-tap copy button — you stay in control of sending
-- **Recurring bills & subscriptions:** monthly reminders a few days before a
-  charge so you're never surprised
-- **Medication reminders** (one or several daily doses) and **promise tracking**
-  (*"te llamo el lunes"* → follow-up reminder)
+Search YouTube for lo-fi music and play the first result.
 
-### Proactive assistant
-- Opt-in mode where **every incoming notification wakes the AI** for a cheap
-  one-shot check against your natural-language instructions
-- If something is time-sensitive and you didn't act, it acts for you: a night
-  message saying *"be at the office at 7am"* with no alarm set → it sets the
-  alarm; a deadline → it adds a reminder; a charge → it logs the expense
-- You choose which autonomous actions are allowed (alarms, reminders, notes,
-  calendar, finances) and which apps to watch; a log shows everything it did
-- **Daily briefings** (morning / night) summarize what's ahead and suggest
-  actions, optionally **read aloud via TTS** with a configurable voice
-- **Weekly finance summary:** a recap of the week's spending vs your budget, top
-  categories, **spending-anomaly alerts** (this week vs your 4-week average) and
-  **savings-goal** progress — all computed on-device
-- **Gating you control:** quiet hours, max actions per hour, "ask when unsure",
-  and per-app watch lists keep it from being noisy
-- **Export finances to CSV** for a backup or to open in a spreadsheet
+Turn on battery saver if my battery is below 20 percent.
 
-### Automation engine
-- **Semantic places with any name:** say *“BlaqClaw, this place is my girlfriend’s house”*, *“this is my room”* or *“save this as gym”*. BlaqClaw stores a stable place ID plus the coordinates in Android Keystore-backed encrypted storage; automations reuse the ID instead of asking the model to remember coordinates.
-- **Hybrid geofencing:** Google Play Services geofences are the primary low-power enter/exit path, with BlaqClaw’s last-known-location checker as a best-effort fallback when Play Services/background location is unavailable. Geofence request IDs are opaque hashes and location events do not expose saved coordinates to action templates.
-- **Tasker-class profile core:** multiple OR triggers, reusable conditions, `ALL` / `ANY` / `NONE` / `XOR` logic, negation, ordered actions, IF/ELSE, bounded loops, encrypted variables, templates, cooldowns, daily/runtime limits, and `skip` / `queue` / `replace` concurrency.
-- **More Android state triggers:** time/interval, notification, location, app foreground/closed, connectivity/Wi-Fi, battery/charging, screen, headset/Bluetooth, call/SMS, boot, airplane mode, power saver, device idle, USB, storage, timezone, locale and token-protected webhooks.
-- **Visual + conversational authoring:** use **Automatizaciones → Flujos / Lugares** or describe the automation in normal language. The AI can author/edit the structure, but event matching and deterministic actions run locally without needing an LLM round-trip.
-- Design/parity notes: [`docs/AUTOMATION_PARITY.md`](docs/AUTOMATION_PARITY.md).
+Every weekday at 8 AM, read the weather to me.
 
-### Reliability and assistant polish
-- Hardened ActionGuard with anti-prompt-injection defense
-- Guided permissions onboarding
-- Multi-step plans verified before execution
-- TTS voice for morning and evening summaries
-- Explicit task requests are routed to BlaqClaw's native task and automation
-  tools instead of being answered with recommendations for another app
-- Direct Wi‑Fi status questions stay instant, while Wi‑Fi actions and automations
-  reach the correct device or scheduling tools
-
-### Learning and memory
-- The assistant learns from your habits and anticipates your needs
-- Learns from your corrections (when you delete actions)
-- Context memory across tasks
-- Active learning of preferences (ignored apps)
-
-### Auto-correction
-- Automatically attaches what's on screen when a plan fails
-- Intelligent memory consolidation
-
-### Visual refinement
-- Cleaner and clearer onboarding
-- Improved suggestion cards
-- Interactive task creation sheet with selectable execution mode, date/time,
-  recurrence and live preview
-
-### Messaging & remote control
-- Send messages on WhatsApp, Telegram, Discord, and more
-- **Drive the phone remotely** by messaging it from a Telegram / Discord / WeChat
-  bot — the agent runs tasks and replies with the result, even while the device
-  is away from you
-- **Auto-Replies:** dedicated profiles with free-form personality and context,
-  plus the ability to import a WhatsApp chat export so a reply persona matches
-  how you actually write
-- Cron-style scheduled tasks via `AlarmManager`
-- External automation API (Tasker / MacroDroid / ADB broadcasts)
-
-### Models — local or cloud, your choice
-- **On-device (private):** Google Gemma 4 E2B / E4B via LiteRT-LM, with optional
-  **uncensored (abliterated)** Gemma 4 community ports — same architecture, so
-  they load on the same runtime — downloadable from within the app. You can also
-  paste a custom `.litertlm` URL.
-- **Cloud, free, no account (BlaqClaw Free tier):** a set of hosted models
-  usable out of the box with **no API key and no signup** — Settings → Modelo →
-  **BlaqClaw Free**. Currently includes DeepSeek V4 Flash, Mimo V2.5,
-  Nemotron 3 Ultra, and North Mini Code, each tagged with a speed/quality rating
-  so you can pick fast vs. smart per task.
-- **Automatic mode:** choose **Automatic** in the model picker and BlaqClaw
-  uses the configured cloud model while the connection is validated, then
-  falls back to the downloaded local model when the phone is offline. The chat
-  shows which backend is active.
-- **Cloud (bring your own key):** OpenAI, Anthropic, Google Gemini, Groq,
-  DeepSeek, Cerebras, or any OpenAI-compatible endpoint via a custom base URL
-- Switch modes anytime; chat can stay local, free-tier, or paid-cloud, and heavy
-  tasks can use a stronger model while quick replies stay cheap or offline
-- The picker can refresh the current free-model catalog without reopening
-  Settings. Compatible local models found in shared Downloads, Documents and
-  AI folders can also be imported and selected.
-
-### Reliability & safety
-- **Stuck detection** breaks out of loops and re-plans instead of repeating a
-  failed action
-- **Action guard** refuses destructive calls (uninstall, data wipe) and never
-  auto-confirms purchases, payments, or password entry
-- **Token budget + rate-limit handling** keep cloud usage bounded and recover
-  automatically when a provider asks you to slow down
-
-### Productivity tools
-- Device state (battery, memory, network), settings toggles, volume/brightness
-- Calendar, SMS, contacts, call log
-
-### Internal terminal
-- **Persistent shell session** shared between the user and the AI — working
-  directory, backend and adb connections survive across commands
-- Backends: LOCAL (app-level, works always) or PRIVILEGED (Shizuku / self-paired
-  ADB for `pm`, `am`, `settings`, `input`…)
-- **adb-over-WiFi without a PC:** `adb pair <host:port> <code>`, `adb connect`,
-  `adb shell <cmd>` — operate another device from inside BlaqClaw
-- Activatable toggle in Settings → Advanced
-
-### Security (antimalware)
-- **Real-time ad attribution:** the accessibility service tracks which app's
-  window just interrupted you, attributing pop-up ads to their source package
-- **App risk scanner:** scores all installed apps on overlay permission, hidden
-  icon, accessibility service, device-admin, sideloaded origin, dangerous
-  permissions, and recently-installed timing
-- **Actions:** "neutralize" (revoke overlay + force-stop), disable, uninstall,
-  open settings — via Shizuku/ADB when available, system UI otherwise
-- Enable from Settings → Advanced → Security
-- Weather, web search, translation, currency/unit conversion, QR, hashing,
-  JSON/regex utilities, file read/write, and more
-- Long-term memory facts and a shared knowledge base
-
-### Experience
-- Modern Jetpack Compose UI with 10 built-in themes and an animated splash
-- Fully localized Spanish interface
-- User-defined **Skills** (Markdown playbooks) to script repeatable flows
-
----
-
-## How it works
-
-```
-┌─────────────┐   task    ┌──────────────────────┐
-│   You        │─────────▶│   Agent loop          │
-└─────────────┘           │  observe → think → act │
-        ▲                 └───────────┬───────────┘
-        │ result                      │ tool calls
-        │                             ▼
-┌───────┴───────┐          ┌──────────────────────┐
-│  LLM           │◀────────│  Tool layer (181)     │
-│ local / cloud  │ schemas │  a11y · ADB · OCR ·   │
-└───────────────┘          │  net · device · files │
-                           └───────────┬───────────┘
-                                       ▼
-                           ┌──────────────────────┐
-                           │  Android device       │
-                           │  (any installed app)  │
-                           └──────────────────────┘
+Save this location as home and remind me to buy groceries when I arrive.
 ```
 
-Each round the agent reads the screen, reasons about the next step, and calls a
-tool. Action results carry a fresh screen snapshot so the model can decide the
-next move without a wasted round.
+BlaqClaw asks for confirmation when an action could be destructive, costly,
+privacy-sensitive, or difficult to undo. It does not treat model text alone as
+proof that an action succeeded.
 
-### Token-efficient tool disclosure
+## Models
 
-Sending 181 full tool schemas on every request is expensive and trips cloud rate
-limits. BlaqClaw uses **progressive disclosure**: a compact one-line catalog of
-every tool is shown in the system prompt, a task-relevant subset is preloaded
-with full schemas, and the model loads anything else on demand via a
-`request_tool` meta-tool. The model always sees the full catalog — it never loses
-awareness of a capability — while a typical request stays small. Rate-limit
-responses are honored automatically (the agent waits the time the provider asks
-for and retries).
+BlaqClaw supports local and cloud model workflows:
 
----
+- **Local models:** compatible LiteRT-LM models can run on the device. Local
+  inference is useful when privacy or offline operation matters.
+- **BlaqClaw Free:** the app can expose the configured no-key free-model route
+  when that service is available.
+- **Bring your own provider:** configure OpenAI, Anthropic, Google Gemini,
+  Groq, DeepSeek, Cerebras, or another OpenAI-compatible endpoint.
+- **Automatic routing:** choose a configured cloud model when online and fall
+  back to a downloaded local model when offline, where supported.
+
+Model availability, memory requirements, provider limits, and pricing can
+change. Review the active model and endpoint in **Settings → Model** before
+using a cloud provider.
+
+## Privacy and safety
+
+In local mode, inference can run entirely on the phone. In cloud mode, prompts,
+screen context, and tool data may be sent to the provider you selected. Read the
+provider's terms before enabling cloud access.
+
+API keys and sensitive app data are stored in local app storage. Never commit
+keys, keystores, `local.properties`, or provider credentials to Git.
+
+Several capabilities require powerful permissions:
+
+- **Accessibility:** read and operate the visible UI.
+- **Notification access:** inspect notifications and support proactive flows.
+- **Overlay:** display the floating control and assistant surfaces.
+- **Microphone:** voice input and wake-word features.
+- **Screen capture:** OCR and visual perception.
+- **Location:** location reminders and geofences.
+- **Wireless debugging or Shizuku:** optional privileged tools.
+
+Grant only the permissions required for the features you intend to use. Review
+automation profiles and proactive actions regularly.
 
 ## Requirements
 
-- Android 9+ (API 28)
-- ~4 GB RAM minimum for the local Gemma E2B model (E4B for 10 GB+ devices)
-- Permissions granted once in-app as needed: Accessibility, Notification access, Overlay,
-  battery whitelist, and precise/background location only for always-on geofence automations
-- Cloud mode: your own API key for OpenAI / Anthropic / Google Gemini / Groq /
-  DeepSeek / Cerebras, or any OpenAI-compatible endpoint
+- Android 9 / API 28 or newer.
+- Android Studio or the Android command-line SDK for development.
+- JDK 17 for building.
+- Android SDK Platform 36 and Build Tools 35.0.0 for the project build.
+- Approximately 4 GB of RAM for smaller local models; larger models require
+  substantially more memory.
 
----
+## Installation
+
+1. Download a signed APK from the [Releases](https://github.com/geniuscr8/BlaqClaw/releases)
+   page or download the `debug-apk` artifact from a successful
+   [GitHub Actions build](https://github.com/geniuscr8/BlaqClaw/actions/workflows/build.yml).
+2. Enable installation from the source you are using when Android asks.
+3. Open BlaqClaw and complete the guided setup.
+4. Enable only the permissions and optional services needed by your workflow.
+5. Configure a local model or a cloud provider in **Settings → Model**.
+
+Debug APKs are intended for testing and are not a substitute for a signed
+release build.
 
 ## Building
 
-Debug build:
+Clone the repository and build the debug APK:
 
 ```bash
+git clone https://github.com/geniuscr8/BlaqClaw.git
+cd BlaqClaw
 ./gradlew assembleDebug
 ```
 
-The APK lands in `app/build/outputs/apk/debug/`.
+The output is written to:
 
-Release builds require a keystore. Provide the signing values via environment
-variables or `local.properties`:
-
+```text
+app/build/outputs/apk/debug/
 ```
-KEYSTORE_FILE=/absolute/path/to/blaqclaw-release.keystore
+
+Run unit tests and lint with:
+
+```bash
+./gradlew testDebugUnitTest
+./gradlew lintDebug
+```
+
+Install a debug APK on a connected device:
+
+```bash
+adb install -r app/build/outputs/apk/debug/*.apk
+```
+
+### Release signing
+
+Release builds require a keystore. Supply signing values through environment
+variables or local signing configuration; never commit the keystore or
+passwords:
+
+```text
+KEYSTORE_FILE=/absolute/path/to/release.keystore
 KEYSTORE_PASSWORD=...
 KEY_ALIAS=...
 KEY_PASSWORD=...
 ```
 
-Then:
+Then run:
 
 ```bash
 ./gradlew assembleRelease
 ```
 
-See [`RELEASING.md`](RELEASING.md) for the full release process.
-For the complete route map, Android entry points, ADB recipes and GitHub commands,
-see [`MAPA_PROYECTO_Y_COMANDOS.md`](MAPA_PROYECTO_Y_COMANDOS.md). For the automation architecture and competitor-parity audit, see [`docs/AUTOMATION_PARITY.md`](docs/AUTOMATION_PARITY.md).
+See [`RELEASING.md`](RELEASING.md) for the release checklist.
 
----
+### GitHub Actions
 
-## Project layout
+The [`Build Debug APK`](.github/workflows/build.yml) workflow runs on pushes
+and pull requests targeting `main` or `master`, and can also be started
+manually. It performs the following checks:
 
+1. installs the Android SDK;
+2. builds the debug APK;
+3. uploads the APK as the `debug-apk` artifact;
+4. runs unit tests;
+5. runs Android lint and uploads diagnostic reports.
+
+The APK is uploaded before tests so a test failure does not discard a usable
+debug build. A red workflow still means the code needs attention before it is
+treated as a verified release.
+
+## Project structure
+
+```text
+app/src/main/java/com/blackclaw/android/
+├── agent/        Model clients, prompts, agent loop, tool selection
+├── assistant/    Reminders, alarms, notes, finance, and assistant storage
+├── automation/   Profiles, triggers, conditions, variables, and runtime
+├── car/          Android Auto integration
+├── channel/      Remote messaging channels
+├── perception/   Screen capture and OCR
+├── proactive/    Notification-driven assistant actions
+├── service/      Accessibility, notification, and foreground services
+├── shizuku/      Optional privileged backend
+├── tool/         Device, UI, network, file, and app tools
+├── ui/           Compose screens, settings, chat, themes, and skills
+└── utils/        Storage, logging, matching, and shared helpers
+
+app/src/main/res/       Android resources and localized strings
+app/src/test/            JVM unit tests
+docs/                    Architecture and skill documentation
+scripts/                 ADB and smoke-test helpers
+.github/workflows/       Continuous integration workflows
 ```
-app/
-  src/main/java/com/blackclaw/android/
-    adb/              Self-ADB pairing + connection (TLS 1.3 + SPAKE2) and shell
-    agent/            LLM clients, agent loop, prompts, tool selection, skills
-    assistant/        Native Assistant hub (reminders/alarms/notes/finance) + alarm ring
-    autoreply/        Auto-reply profiles + WhatsApp export parser
-    automation/       External automation API (RUN_TASK / RUN_CHAT)
-    car/              Android Auto (Car App Library) — voice-first car surface
-    channel/          Discord, Telegram, WeChat handlers
-    floating/         Overlay floating control
-    perception/       MediaProjection screen capture + ML Kit OCR
-    proactive/        Proactive assistant (notification → AI → autonomous action)
-    scheduler/        Cron-style scheduled tasks
-    server/           NanoHTTPD LAN config server
-    service/          Accessibility, notification listener, foreground services
-    shizuku/          Optional Shizuku backend
-    game/             Guarded visual game sessions + normalized coordinates
-    tool/             Generic tool layer (181 tools)
-    ui/               Compose UI: chat, settings, themes, skills, auto-replies, ADB
-    utils/            Logging, KV storage, contact / UI matching
-docs/                 Skill file specification
-gradle/               Version catalog
-scripts/              ADB-driven smoke and E2E harnesses
-```
 
----
+## Technology
 
-## Tech stack
-
-| Layer | Stack |
-|---|---|
-| Language / build | Kotlin · Java 17 · Android Gradle Plugin 9.1 |
-| UI | Jetpack Compose (BOM 2025.05) · Material 3 · 10 built-in themes |
-| On-device LLM | LiteRT-LM 0.10 (Gemma 4 E2B / E4B, incl. abliterated ports) |
-| Cloud LLM clients | LangChain4j (OpenAI / Anthropic) · BlaqClaw Free routing layer (no-key hosted models) |
-| Offline speech | Vosk (wake word + STT, zero network) |
-| Privileged control | libadb-android + Conscrypt (self-ADB pairing, TLS 1.3 + SPAKE2) · Shizuku |
-| Perception | ML Kit Text Recognition (OCR) · MediaProjection screen capture |
-| Networking / data | OkHttp · Retrofit · Gson · MMKV · Glide · ZXing · NanoHTTPD |
-
----
-
-## Privacy
-
-In local mode, inference runs entirely on the device and no screen content,
-message, or device data is sent anywhere. In cloud mode, requests go only to the
-provider whose key you configured. API keys are stored in local app storage and
-are never transmitted to any third party by BlaqClaw.
-
----
-
-## Download
-
-Grab the latest signed APK from the
-[**Releases**](https://github.com/tuangel134/BlaqClaw/releases) page and
-sideload it. BlaqClaw is distributed as a sideload APK (not on Play Store) and
-is currently in **beta**.
-
-Two APKs are published per release:
-
-- **`BlaqClaw-vX.Y.Z-arm64-v8a.apk`** — recommended for virtually every modern
-  phone (~half the size, includes the on-device LLM).
-- **`BlaqClaw-vX.Y.Z-universal.apk`** — fallback that runs on any architecture
-  if the arm64 build won't install.
-
-Verify your download against `SHA256SUMS.txt` with `sha256sum -c SHA256SUMS.txt`.
-
-After installing, grant the one-time permissions the app requests
-(Accessibility, Notification access, Overlay, battery whitelist). For privileged
-control without a PC, follow the in-app **Pro mode** flow to pair over Wireless
-Debugging.
-
----
-
-## Reporting bugs
-
-BlaqClaw is in beta and OEM behavior varies, so reports are valuable.
-
-1. In the app, open **Settings → About → Share debug report** to generate a ZIP
-   (device fingerprint, ABIs, RAM, permission state, recent logs).
-2. Open a new issue on
-   [**GitHub Issues**](https://github.com/tuangel134/BlaqClaw/issues/new) — the
-   **Settings → About → Report a bug** button pre-fills one for you — and
-   **attach the debug ZIP**.
+| Area | Technology |
+| --- | --- |
+| Language and build | Kotlin, Java, Gradle, Android Gradle Plugin |
+| UI | Jetpack Compose, Material 3 |
+| Local inference | LiteRT-LM-compatible models |
+| Cloud inference | OpenAI-compatible and provider-specific clients |
+| Speech | Vosk and Android voice services |
+| Perception | Android screen capture and ML Kit OCR |
+| Networking and storage | OkHttp, Retrofit, Gson, MMKV, NanoHTTPD |
+| Privileged control | libadb-android and optional Shizuku |
 
 ## Contributing
 
-Contributions are welcome. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup,
-PR guidelines, and conventions.
+Contributions are welcome. Before opening a pull request:
 
----
+1. create a focused branch from `master`;
+2. keep user-facing text and documentation in English;
+3. do not commit secrets, API keys, keystores, or generated build output;
+4. run the relevant tests and lint checks;
+5. describe the change, verification steps, and device/OEM details for Android
+   behavior changes.
 
-## Changelog
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full workflow and coding
+guidelines.
 
-### v1.3.3
+## Reporting bugs
 
-- Fixed OpenAI-compatible chat templates such as Qwen's Jinja template rejecting conversations after a cloud model switch: system instructions are now merged and kept at the beginning of every request.
-- Added per-model local generation controls for presets, temperature, top-p, top-k, seed, output budget, context/KV-cache size, and automatic context compaction.
-- Added local context guards that recreate the conversation before overflow and preserve recent chat context when a long conversation approaches its configured budget.
+Please include:
 
-### v1.3.2
+- device model, Android version, and manufacturer skin;
+- BlaqClaw version and model/provider configuration;
+- exact reproduction steps and expected behavior;
+- relevant logs or the debug report generated from **Settings → About**.
 
-- Fixed local **text-only LiteRT-LM models** failing at startup with `TF_LITE_VISION_ENCODER not found`: BlaqClaw now detects/probes model modality, retries the same backend without `visionBackend` when the optional encoder is absent, and releases partially initialized native engines before retrying.
-- Local image chat now respects the loaded model capability: multimodal bundles receive image bytes, while text-only bundles use the existing OCR fallback instead of sending an unsupported vision payload. Missing vision assets no longer quarantine a healthy GPU as a backend failure.
-- Updated the on-device runtime from **LiteRT-LM 0.10.0 to 0.16.1** and expanded the model UI with explicit **Vision + text**, **Text only · images via OCR**, or **modality detected on load** labels. Automatic bootstrap remains on vetted default Gemma models; community/uncensored models are always explicit opt-in choices.
-- Added three recently published, public LiteRT-LM community choices: **Gemma 4 E4B Abliterated MTP (3.7 GB)**, **Huihui Gemma 4 E2B Abliterated multimodal (5.2 GB)** and **Huihui Gemma 4 E4B Abliterated multimodal (8.4 GB)**, with verified public download artifacts and RAM guidance.
-
-### v1.3.1
-
-- Added a reusable **permission education** experience: before a sensitive Android permission or special-access screen opens, BlaqClaw explains why the capability is needed, what stops working if it is denied, and the relevant privacy behavior.
-- Added **Settings → Permissions → Why does BlaqClaw need permissions?** with a catalog covering 23 permission/capability families, including Accessibility, notifications, microphone, camera, location/background location, files, contacts, calendar, SMS/call access, Bluetooth and Android-managed technical capabilities.
-- Extended contextual explanations to onboarding, Quick Assist, voice mode, calendar, ZIM storage access, geofence/location setup, scheduled tasks and emergency protection; emergency permissions are explained together before Android asks only for the missing ones.
-- Removed surprise permission prompts from ordinary chat/task startup: microphone and notification requests now happen only from an explicit feature flow, and voice mode no longer remains enabled when microphone permission is declined.
-
-### v1.3.0
-
-- Added encrypted **semantic places** with arbitrary user-defined names and aliases: users can say “this place is my girlfriend’s house”, “this is my room”, “save this as gym”, then reference that place naturally in future automations through a stable `place_id`. Saved coordinates stay local/encrypted and are not returned in place-resolution prompts.
-- Added a hybrid location runtime with Google Play Services geofencing as the primary low-power enter/exit path, opaque hashed geofence IDs, background-location guidance, reboot/profile re-arming, and the existing last-known-location checker as a platform fallback.
-- Expanded automation profiles to schema v2 with interval and Android-state triggers, live state/location conditions, `ALL`/`ANY`/`NONE`/`XOR` condition logic, encrypted variables with comparison operators, recursive action templates, and improved runtime broadcast handling for modern Android.
-- Added **Automatizaciones → Lugares**, enhanced the visual flow editor, taught the agent to resolve semantic places without inventing coordinates, migrated legacy automation rules to encrypted storage, and documented the Tasker/MacroDroid/Automate parity model and deliberate safety boundaries.
-
-### v1.2.20
-
-- Sensitive BlaqClaw data now moves to Android Keystore-backed AES-GCM storage, including cloud/channel credentials, SSH connections, memories, routines, scheduled/offline tasks, automation profiles, auto-reply profiles and WeChat context tokens; legacy MMKV values are removed only after verified encrypted migration.
-- External automation is hardened with fail-closed caller/token checks, explicit callback destinations, constant-time webhook token comparison, safer boot/assistant component exposure and encrypted automation tokens.
-- Agent, channel, ADB, Shizuku, SSH, messaging and local-model diagnostics no longer copy prompts, message bodies, tool parameters, commands, credentials or API responses into logcat.
-- Secure-storage failures are surfaced to the UI/tools without crashing, and reboot schedule normalization avoids replaying expired one-shot tasks while advancing recurring schedules to their next valid slot.
-
-### v1.2.19
-
-- Quick Assist now keeps direct cloud LLM clients warm between turns instead of rebuilding the transport before every request.
-- Plain conversational questions use a compact fast-chat prompt with no Android tool schemas or screen pre-warm, reducing time to first token while ambiguous/actionable requests keep the full agent.
-- Voice replies no longer queue a generic acknowledgement ahead of normal chat answers, and Quick Assist now logs time-to-first-token and total response latency for diagnostics.
-
-### v1.2.17
-
-- Added configurable **AUTO model routing**. BlaqClaw can benchmark every
-  configured cloud/local model with a minimal request, remember latency, use the
-  fastest valid route, and fail over automatically when a provider times out,
-  rate-limits, rejects a model, or returns an empty response.
-- AUTO now uses cloud models while internet is validated and downloaded/local
-  LiteRT-LM models offline. Visible compatible `.litertlm` files in shared
-  storage (including Edge Gallery exports) are included in the model test.
-- Fixed OEM assistant desynchronization: Settings now checks both Android's
-  assistant role and the active `VoiceInteractionService`, and guides users to
-  repair devices where the role says BlaqClaw but the power gesture still goes
-  to Google.
-
-### v1.2.16
-
-- Fixed repeated power-button assistant invocations. The voice session no
-  longer hides itself immediately after launching Quick Assist, so Android can
-  reuse it safely and deliver subsequent assistant presses.
-- Every new assistant show still resets its panel-launch guard, while the
-  direct lock-screen fallback remains available for OEMs that reject the voice
-  session.
-
-### v1.2.15
-
-- Fixed the Android default-assistant flow used by the power-button gesture.
-  Quick Assist now launches through Android's assistant-activity layer instead
-  of the voice-activity layer, opens without a timing delay, and falls back to
-  a direct lock-screen-safe launch if an OEM cannot create the voice session.
-- Added regression-safe handling for failed assistant sessions so the power
-  button no longer appears to do nothing when the OEM voice service rejects the
-  session.
-- Kept the existing capability-question routing fix: confirmation questions
-  using any action verb stay conversational instead of entering the slow agent
-  loop.
-
-### v1.2.14
-
-- Added an interactive task-creation sheet in **Automatizaciones → Horarios**:
-  choose between executing an action or only receiving a notification, pick a
-  quick or custom date/time, configure daily/weekly recurrence, and review a
-  live preview before scheduling it. The same flow is available from the empty
-  state and the top-bar `+` button.
-- Added a native task-creation guard. Explicit requests such as “create a task”
-  now prioritize BlaqClaw's task, reminder, schedule and automation tools and
-  cannot finish as a generic recommendation for Todoist, Tasker or another app.
-- Fixed Wi‑Fi routing: read-only status questions still use the instant device
-  shortcut, while Wi‑Fi actions, schedules and automations reach the agent and
-  the correct native tools.
-- Spanish request matching now normalizes accents, so commands such as “how is
-  the Wi‑Fi” behave consistently with their unaccented equivalents.
-- Added regression coverage for Wi‑Fi actions, native task creation and the
-  guarded tool-selection path.
-- Updated the in-app **What can BlaqClaw do?** guide with automatic
-  local/cloud switching, OCR and vision, the Termux-like terminal, offline ZIM
-  libraries, scheduled automations and the refreshed free/local model workflow.
-
-### v1.2.13
-
-- Replaced Android-incompatible `Path.of` calls in the fixed terminal bootstrap with API 28-compatible path conversion.
-
-### v1.2.12
-
-- Hardened Bluetooth automation events so device-name reads respect Android 12+ runtime permissions and never crash when access is revoked.
-
-### v1.2.11
-
-- Corrected the handoff test fixture so it explicitly marks its successful tool evidence as successful.
-
-### v1.2.10
-
-- Fixed a pre-existing chat handoff test regression that incorrectly treated accessibility connection noise as authoritative task evidence.
-
-### v1.2.9
-
-- Corrected the GitHub release compilation issues found in the first v1.2.8 build attempt; this release contains the same automation feature set with the editor and runtime fixes applied.
-
-### v1.2.8
-
-- Added Tasker-style automation profiles with multiple triggers, conditions, ordered actions, cooldowns, daily/runtime limits, concurrency control, and safe execution boundaries.
-- Added a visual automation editor with create, edit, test, delete, and action/condition/trigger reordering support.
-- Added Android system triggers plus a token-protected `com.blackclaw.android.AUTOMATION_WEBHOOK` broadcast for Tasker and compatible automation apps.
-- Added shared validation, recovery for malformed stored profiles, and unit coverage for profile events and safety rules.
-
-### v1.2.7
-
-- Tool results are now persisted as authoritative execution evidence, so a follow-up such as “ya”, “pudiste?” or “otros 30” resumes the task instead of falling back to chat and losing context.
-- The task prompt no longer treats the model’s prose as proof of success; only verified tool results can confirm an action.
-- Bulk contact creation verifies every requested name and phone after Android accepts the batch and reports missing entries as a failure, preventing false “contactos creados” confirmations.
-- Release compilation is delegated to GitHub Actions; local development no longer requires running a resource-heavy Gradle build.
-
-### v1.2.6
-
-- Updated paid cloud-provider model catalogs, pricing metadata, and Google OpenAI-compatible base URL migration.
-- Long-running tasks now use bounded continuation windows, preserve task failures in history, and resume correctly when the user says “continúa”.
-- Added an in-task UI pattern accelerator: repeated form actions can be condensed into a verified `execute_plan` while text fields remain variable.
-- Added native bulk contact creation with duplicate protection and a 100-contact limit, avoiding slow row-by-row navigation.
-
-### v1.2.5
-
-- The chat model picker now resolves the active provider correctly and includes
-  **Actualizar modelos gratis** for an immediate, verified OpenCode Zen refresh.
-  Newly available free models appear in the picker without reopening Settings.
-- Cloud chat and device tasks are now separate modes. Normal conversation such
-  as "hola" no longer enters the agent task loop, and a stalled streaming reply
-  ends with a clear error instead of leaving the typing indicator indefinitely.
-- Improved the offline ZIM library: it accepts compatible alternate title-index
-  layouts and legacy zlib clusters, and reports the exact archive-read failure
-  rather than incorrectly blaming every failure on an incomplete download.
-
-### v1.2.4
-
-- Image attachments now preserve the original image for compatible vision models
-  while including on-device OCR as supporting text. Text-only or incompatible
-  endpoints automatically fall back to OCR instead of failing the request.
-- Added local-model discovery and import: BlaqClaw searches shared Downloads,
-  Documents and AI folders for visible model files, imports compatible
-  `.litertlm` files, and clearly marks detected formats that the current local
-  runtime cannot execute.
-
-### v1.2.3
-
-- Emergency and discreet protection now activate immediately from Quick Assist on
-  the lock screen, without waiting for the agent. Wake-word emergency commands
-  also open the protected assist surface even when the regular visual panel is off.
-- Emergency video defaults to the rear camera and now prefers a genuine 60-fps
-  H.264 recording profile (including 4K60 when the device declares one). Other
-  devices use the best stable supported mode, up to Full HD, rather than forcing
-  an unsupported camera configuration.
-
-### v1.2.2
-
-- Fixed an audio race in Quick Assist: opening it now pauses the background
-  wake-word service, releases its microphone and cancels any queued response.
-  Only the Quick Assist conversation can listen or speak until the panel closes.
-- Excluded BlaqClaw's Android 11 voice-service compatibility bridge from the
-  speech recognizer picker, preventing it from being selected as a real
-  recognizer and emitting a second false failure.
-
-### v1.2.1
-
-- Delivery-only version bump after `v1.2.0` shared its version name with an
-  earlier local build. The higher version name and code ensure the in-app updater
-  offers this signed public release to those installations.
-
-### v1.2.0
-
-- Quick Assist is now a native Android default-assistant integration: it receives
-  the foreground app's AssistStructure and screenshot before the assistant UI
-  appears, then combines that context with accessibility and OCR fallback data.
-- Rebuilt the Quick Assist surface around an obsidian-and-gold visual system,
-  including an animated claw core, dedicated listening/thinking/speaking states,
-  refined controls, transcript bubbles and result cards.
-- Screen understanding now combines ordered OCR with accessibility text, and keeps
-  only short-lived extracted context rather than persisting screenshots.
-- Added a manual refresh path for OpenCode free models and improved model refresh
-  resilience when the upstream free catalog changes.
-- Added a fixed local Linux terminal environment for the agent, with a persistent
-  Termux-style command surface that does not require Shizuku.
-
-- Added Conversation Engine 2.0: chat, Quick Assist, wake-word voice, Android
-  Auto and automation tasks now share a bounded local conversation context.
-  Requests are routed as `CONVERSE`, `READ` or `ACT`, including explicit
-  confirmation metadata for destructive actions.
-- Remote-channel conversations remain isolated per sender by default. A new
-  Settings switch can deliberately bridge them into local assistant memory;
-  the bridge is disabled by default to avoid leaking personal context.
-- Added the first dedicated Emergency Mode foundation. The user preconfigures a
-  trusted SMS contact and message; activation provides a five-second cancel
-  window, sends a timestamped location alert independently of the LLM, records
-  visible audio evidence when permitted, and exposes a persistent Stop action
-  plus an append-only local event log. No real alert is sent during setup.
-- Added `zim_search` and `zim_read` for direct offline knowledge access. They
-  parse local `.zim` files inside BlaqClaw, return bounded source-labelled
-  excerpts suitable for local 2B–4B models, and never place a whole archive in
-  the prompt. No external reader app is required.
-- Added `zim_index` and persistent full-content search for local `.zim` files.
-  BlaqClaw builds its own SQLite FTS index in resumable atomic batches, shows
-  progress in a foreground notification, supports pause/resume/rebuild, and
-  returns relevant article-body snippets even when the query is not in a title.
-- Added `zim_consult`, BlaqClaw's index-free Book Retriever. It analyses the
-  question, locates likely chapters through the ZIM's built-in title tree, reads
-  only a bounded set of candidate articles, ranks their passages and returns
-  source-labelled excerpts. The archive is never copied or loaded into context;
-  the local FTS builder is now explicitly an optional fallback.
-- Added a native ZIM library inside BlaqClaw: discover local archives, search
-  titles/content, read articles, manage background indexing and hand a selected
-  topic to Quick Assist without installing or controlling Kiwix.
-- Expanded personal protection with separate Emergency and Discreet modes,
-  fresh five-minute location updates, front/back/concurrent-camera evidence,
-  silent Quick Assist activation, neutral foreground controls and device-bound
-  encrypted audio/video segments.
-- Strengthened adware remediation with evidence-based confidence, enabled-only
-  Accessibility detection, command/package validation, post-action checks and a
-  hard protection boundary for Android system apps, launchers, active
-  Accessibility services and device administrators.
-- Added a unified Automation Engine with persistent IF→THEN rules for incoming
-  notifications and location enter/exit events. Rules can launch ordered agent
-  tasks, ring an immediate wake-up alarm, use cooldowns, and run without asking
-  again after the user explicitly creates them.
-- Scheduled tasks now wake and execute in the background instead of depending
-  on an Activity launch. Spanish timers such as `en 30 minutos`, `hoy a las
-  17:00` and `tomorrow at 17:00` are supported.
-- Added an Automations screen with Horarios and Si→Entonces tabs, manual rule
-  creation, enable/disable, test and delete controls. Required confirmations now
-  expose actionable **Yes** and **No** notification buttons.
-- Added guarded game control with `game_observe` and `game_action`. BlaqClaw
-  now observes SurfaceView/OpenGL games through screen capture and OCR, uses
-  resolution-independent coordinates, verifies visual changes, and refuses
-  blind or stale action sequences.
-- Game actions that can start battles, spend currency, purchase or upgrade
-  require explicit user confirmation.
-- Added a visible Accessibility-based autoclicker editor that needs no ADB or
-  Shizuku. Users can place taps/swipes over a game, name and save macros, then
-  ask BlaqClaw to open the matching game and run them. Playback supports loops
-  up to 30 minutes, speed control, pause/resume/restart/stop and foreground guards.
-- Fixed Android lint errors around Bluetooth permission, predictive Back,
-  Android 12 splash resources, Quick Settings launch behavior and missing
-  Japanese/Chinese translations.
-
-### v1.1.3
-- **Fixed notification intent routing in chat.** Merely mentioning notifications in a question, explanation, example, or general conversation no longer triggers immediate access to device notifications.
-- Reading notifications now requires an explicit request, such as “read my notifications” or “what notifications do I have”.
-- Negated requests such as “do not read my notifications” are respected.
-- Added regression tests for explicit requests, contextual mentions, and negated commands.
-
-
-### v1.1.2
-
-- **Fixed a crash-loop that could disable accessibility.** Any tool that
-  triggers screen-capture consent (OCR/screenshot tools, used automatically
-  when the accessibility tree is empty — e.g. games and other apps that render
-  their own UI via SurfaceView/OpenGL) crashed the app instantly
-  (`IllegalStateException: You need to use a Theme.AppCompat theme`) because
-  the permission dialog's activity used a non-AppCompat theme. Repeated crashes
-  killed the whole process, which took the Accessibility service down with it —
-  looking like BlaqClaw's accessibility permission "turned itself off".
-  Confirmed fixed on-device (Honor Magic 7 Pro / MagicOS) via crash-log
-  analysis (`dumpsys dropbox`) before and after.
-
-### v1.1.1
-
-- **Assist panel: type instead of talk.** A keyboard toggle next to the mic
-  lets you switch to typing at any time — even mid-listen/think/speak — and
-  submit through the exact same pipeline (tools, context, conversation memory)
-  as a spoken command. Suggestion chips now rotate through a wider variety of
-  capabilities (reminders, security, notifications, alarms) instead of only
-  "open app X".
-- **Fixed: voice input not working on some OEM ROMs** (observed on HonorOS/
-  MagicOS). Root causes and fixes:
-  - The system's DEFAULT speech-recognition component could fail to bind
-    ("error 10"); BlaqClaw now resolves and binds to a working recognizer
-    (Google) explicitly instead of relying on the OEM default.
-  - When Google's on-device recognizer lacks the Spanish language pack
-    (error 12/13), BlaqClaw now falls back to the bundled offline Vosk engine
-    automatically — voice input works with zero network and zero OEM
-    dependency.
-  - R8/minification was silently breaking Vosk in release builds
-    (`UnsatisfiedLinkError` in JNA) — added the missing ProGuard keep rules.
-    This also fixes the "garra" wake word in release builds.
-  - The assist panel no longer kills the mic on `onPause` (it shows over the
-    lock screen, which briefly pauses/resumes during transitions).
-- **Fixed: assistant panel opening the main app unexpectedly.** Any task
-  started from the voice panel or the wake word previously reopened
-  BlaqClaw's chat screen on completion, even for plain answers ("what's on my
-  agenda?"). The panel is now a self-contained surface that never redirects to
-  the main app.
-- **Fixed: no way to interrupt a stuck/looping task from voice.** Re-invoking
-  the assist panel (power button) while a task is running now cancels it
-  instead of being silently ignored, so a runaway multi-step task (e.g.
-  navigation) can always be broken out of.
-
-### v1.1.0
-
-- **Internal terminal (Termux-like):** BlaqClaw now ships its own persistent
-  shell session shared between the user (new Terminal screen) and the AI (the
-  `terminal` tool). Choose between LOCAL (app-level, no root) and PRIVILEGED
-  (Shizuku / self-paired ADB) backends. Built-in `adb` router for connecting to
-  other devices over Wireless Debugging without a PC: `adb pair`, `adb connect`,
-  `adb shell`, `adb disconnect` — all from inside BlaqClaw. Enable from
-  Settings → Advanced → Terminal.
-- **Antimalware / app security:** built-in on-device scanner that scores
-  installed apps by risky traits (overlay permission, accessibility, hidden icon,
-  device-admin, sideloaded origin, dangerous permission combos) and **real-time
-  ad attribution** — the accessibility service tracks which app's window just
-  interrupted you, so when you say "an app is spamming me with ads" the
-  assistant knows who did it. Actions: revoke overlay + force-stop ("neutralize"),
-  disable, uninstall. Uses ADB/Shizuku when available; falls back to opening the
-  right system screen. Enable from Settings → Advanced → Security.
-- **Proactive assistant improvements:**
-  - Learned preferences now actually influence decisions (correction feedback +
-    inline learning from each classification)
-  - Pre-filter skips the LLM for notifications with no time/money/commitment cue
-    (biggest efficiency win — most notifications never wake the model)
-  - Classification budget (max calls/hour) protects against notification storms
-  - Apps the assistant keeps ignoring get auto-muted (reversible from settings)
-  - SmartQuietDetector now sees real user interaction (accessibility events), not
-    just chat opens
-  - Habits are SUGGESTED first, not auto-created as recurring alarms (opt-in)
-- **Assistant hub performance:** in-memory cache eliminates constant JSON
-  re-parsing; automatic pruning of stale alerts and old completed items
-- **Rich notification extraction:** reads MessagingStyle / BigText / TextLines
-  from notifications so the proactive assistant rarely needs the intrusive
-  "open the chat to read" deep-read fallback
-- **In-app updates from GitHub:** BlaqClaw checks the repo's latest release on
-  launch (and on demand from Settings → About) and, if a newer version is
-  published, downloads the signed APK and launches the installer — no Play Store,
-  no manual sideload. Because releases are signed with the same key, updates
-  install in place.
-- **Android Auto:** a voice-first, driving-safe surface on the car head unit
-  built on the Car App Library — one-tap actions (Ask, Navigate, Music,
-  Call, Notifications) that use the car's own speech-to-text and read answers
-  aloud, reusing the full phone task pipeline
-- **Voice & system assistant:** hands-free wake word with offline STT, set as the
-  phone's default assistant, full-screen animated panel (audio-reactive claw orb)
-  over the lock screen, **streaming replies** (live text + speak-as-it-generates
-  on cloud models), continuous conversation, tap-to-interrupt, and rich answers
-  that render links/images inline
-- **App control via deep links:** ~65 popular apps opened straight to the right
-  screen; play music in any player (universal play-from-search); auto-discovery
-  of installed-app capabilities; **deterministic fast-path** for common commands
-  (zero LLM calls) with a Settings toggle
-- **Calendar & agenda view:** month + agenda, tap-to-reschedule, optional system
-  calendar overlay, and voice appointments that ring like alarms and land on the
-  calendar
-- Redesigned home-screen **agenda widget**, fixed memory-challenge alarm,
-  reinforced bilingual wake-word matching, cancel/undo, per-provider streaming,
-  self-healing free-model list, and more playbooks (email, WhatsApp media,
-  shopping, maps, banking, camera, device settings)
-- **Reliable list selection** (`list_options`): enumerates on-screen items in
-  order with tap coordinates so the agent picks the right result
-- **Local (Gemma) chat streaming**: on-device chat replies now type out
-  token-by-token via LiteRT-LM's async API
-
-### v1.0.0 (beta)
-
-First public beta. Highlights:
-
-- On-device or cloud LLM driving 100+ tools over the accessibility tree
-- **Native Assistant hub:** reminders, alarms (real full-screen ringing, with
-  optional wake-up challenges), notes, calendar, alerts and finances — managed
-  by the AI from chat, with a home-screen widget and Quick Settings tile
-- **Proactive assistant:** notifications wake the AI to act for you, with daily
-  briefings, a **weekly finance summary** (spending anomalies + savings-goal
-  progress), draft replies, recurring-bill reminders, medication reminders and
-  promise tracking
-- Shopping list, monthly budget, location reminders (geofence), CSV finance export
-- TTS briefings with a configurable voice
-- Self-ADB pairing (TLS 1.3 + SPAKE2) — privileged control with no PC, no root
-- On-device OCR, auto-replies with personality profiles, progressive tool
-  disclosure for cloud rate limits
-- **Per-ABI APKs** (arm64-v8a ~99 MB + universal fallback), signed release builds
-
----
-
-## 💛 Apoya el proyecto
-
-If this project is useful to you and you would like to help it keep improving, you can support it with a donation:
-
-**PayPal**  
-[`https://paypal.me/tuangel1346`](https://paypal.me/tuangel1346)  
-`tuangel1346@gmail.com`
-
-**Criptomonedas (Bitcoin)**  
-```
-bc1q5nrv64jchep3hpqptvwmume8rkw68937zftfpa
-```
-
-Your support helps maintain development, improve the documentation, and port the project to more platforms. Thank you! 🙏
-
----
+Open an issue through [GitHub Issues](https://github.com/geniuscr8/BlaqClaw/issues).
+Remove API keys, personal messages, screenshots, and other private data before
+attaching diagnostic files.
 
 ## License
 
-Released under the Apache License 2.0. See [`LICENSE`](LICENSE).
+BlaqClaw is released under the [Apache License 2.0](LICENSE).
