@@ -222,7 +222,7 @@ object AutomationProfileStore {
             .takeLast(20)
         if (profiles.isEmpty()) return ""
         return buildString {
-            append("\n\n## Automatizaciones BlackClaw\n")
+            append("\n\n## Automatizaciones BlaqClaw\n")
             profiles.forEach { profile ->
                 append("- [${profile.id}] ${if (profile.enabled) "ACTIVA" else "BORRADOR"} · ${profile.name}: ")
                 append(profile.triggers.joinToString { it.type.name.lowercase() })

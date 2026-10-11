@@ -6,7 +6,7 @@
     ================
     This file used to carry `cleartextTrafficPermitted="true"` on base-config, i.e.
     globally. That is a platform-level opt-out of TLS enforcement for every outbound
-    HTTP connection the app makes. The failure mode is not theoretical: BlackClaw
+    HTTP connection the app makes. The failure mode is not theoretical: BlaqClaw
     ships `Authorization: Bearer <api-key>` headers to the LLM endpoint alongside the
     entire prompt stream (screen OCR, notification text, clipboard contents, SMS),
     and it fires user-configured webhooks. On hostile Wi-Fi, anyone on-path could
@@ -31,7 +31,7 @@
     KNOWN REGRESSION — http:// MODEL SERVERS ON THE LAN
     ===================================================
     server/ConfigServerPolicy.isSafeLlmBaseUrl() deliberately accepts http:// to
-    RFC1918 / link-local addresses, because pointing BlackClaw at ollama running on
+    RFC1918 / link-local addresses, because pointing BlaqClaw at ollama running on
     a desktop (e.g. http://192.168.1.50:11434) is a documented, first-class use
     case. Android's network security config CANNOT express an address range: a
     <domain> entry is a literal hostname or a literal IP, so 192.168.0.0/16 would

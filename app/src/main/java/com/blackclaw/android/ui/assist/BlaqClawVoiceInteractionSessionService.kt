@@ -5,7 +5,7 @@ import android.service.voice.VoiceInteractionSession
 import android.service.voice.VoiceInteractionSessionService
 
 /** Creates a fresh native session for every system assistant invocation. */
-class BlackClawVoiceInteractionSessionService : VoiceInteractionSessionService() {
+class BlaqClawVoiceInteractionSessionService : VoiceInteractionSessionService() {
     override fun onNewSession(args: Bundle?): VoiceInteractionSession =
-        BlackClawVoiceInteractionSession(this)
+        BlaqClawVoiceInteractionSession(this)
 }

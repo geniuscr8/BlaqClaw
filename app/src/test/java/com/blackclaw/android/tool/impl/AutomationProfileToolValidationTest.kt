@@ -19,7 +19,7 @@ class AutomationProfileToolValidationTest {
                 "actions" to listOf(
                     mapOf(
                         "type" to "notify",
-                        "params" to mapOf("title" to "BlackClaw", "text" to "Listo"),
+                        "params" to mapOf("title" to "BlaqClaw", "text" to "Listo"),
                     ),
                 ),
             )

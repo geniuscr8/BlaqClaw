@@ -29,7 +29,7 @@ object DebugReportManager {
     fun buildReport(context: Context): File {
         val reportDir = File(context.cacheDir, REPORT_DIR).apply { mkdirs() }
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val output = File(reportDir, "blackclaw-debug-$timestamp.zip")
+        val output = File(reportDir, "blaqclaw-debug-$timestamp.zip")
 
         ZipOutputStream(FileOutputStream(output)).use { zip ->
             addText(zip, "summary.txt", buildSummary(context))
@@ -62,7 +62,7 @@ object DebugReportManager {
             nowMs = System.currentTimeMillis(),
         )
         return buildString {
-            appendLine("BlackClaw Debug Report")
+            appendLine("BlaqClaw Debug Report")
             appendLine("Generated: ${Date()}")
             appendLine()
             appendLine("App")
@@ -141,7 +141,7 @@ object DebugReportManager {
 
     private fun buildBugReportTemplate(context: Context): String {
         return buildString {
-            appendLine("BlackClaw Bug Report Template")
+            appendLine("BlaqClaw Bug Report Template")
             appendLine()
             appendLine("Attach this ZIP and fill in the blanks below:")
             appendLine()
@@ -154,12 +154,12 @@ object DebugReportManager {
             appendLine()
             appendLine("If this looks device-specific and you have ADB available, add:")
             appendLine("adb logcat -c")
-            appendLine("adb logcat -v time > blackclaw-logcat.txt")
+            appendLine("adb logcat -v time > blaqclaw-logcat.txt")
             appendLine("# reproduce once, then stop with Ctrl+C")
-            appendLine("adb shell dumpsys activity top > blackclaw-activity-top.txt")
-            appendLine("adb shell dumpsys activity services com.blackclaw.android > blackclaw-services.txt")
+            appendLine("adb shell dumpsys activity top > blaqclaw-activity-top.txt")
+            appendLine("adb shell dumpsys activity services com.blackclaw.android > blaqclaw-services.txt")
             appendLine()
-            appendLine("Open a new GitHub issue: https://github.com/tuangel134/BlackClaw")
+            appendLine("Open a new GitHub issue: https://github.com/tuangel134/BlaqClaw")
             appendLine("Built on: ${Date()}")
             appendLine("Package: ${context.packageName}")
         }

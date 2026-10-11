@@ -1,7 +1,7 @@
 package com.blackclaw.android.memory
 
 /**
- * What BlackClaw has learned about the user, in a form a privacy screen can show.
+ * What BlaqClaw has learned about the user, in a form a privacy screen can show.
  *
  * ## Why this exists
  *

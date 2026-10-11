@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BlackClaw</title>
+<title>BlaqClaw</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -262,7 +262,7 @@ input:focus {
 // ====== i18n ======
 const i18nMessages = {
   'zh': {
-    title: 'BlackClaw 配置',
+    title: 'BlaqClaw 配置',
     subtitle: '在此页面配置 LLM 与钉钉、飞书、QQ、Discord、Telegram 的应用凭证',
     loading: '加载中...',
     llm_title: 'LLM 配置',
@@ -293,14 +293,14 @@ const i18nMessages = {
     save_failed: '保存失败',
     unknown_error: '未知错误',
     auth_title: '需要访问码',
-    auth_hint: '在手机上打开 BlackClaw → 设置 → 局域网配置，输入屏幕上显示的访问码。',
+    auth_hint: '在手机上打开 BlaqClaw → 设置 → 局域网配置，输入屏幕上显示的访问码。',
     auth_label: '访问码',
     auth_unlock: '解锁',
     auth_bad_code: '访问码无效。请检查手机屏幕上显示的代码。',
     auth_locked: '失败次数过多。请在手机上重新启动配置服务器。',
   },
   'en': {
-    title: 'BlackClaw Config',
+    title: 'BlaqClaw Config',
     subtitle: 'Configure LLM and credentials for DingTalk, Feishu, QQ, Discord, Telegram',
     loading: 'Loading...',
     llm_title: 'LLM Config',
@@ -331,14 +331,14 @@ const i18nMessages = {
     save_failed: 'Save failed',
     unknown_error: 'Unknown error',
     auth_title: 'Access code required',
-    auth_hint: 'On your phone open BlackClaw → Settings → LAN config, and enter the access code shown on screen.',
+    auth_hint: 'On your phone open BlaqClaw → Settings → LAN config, and enter the access code shown on screen.',
     auth_label: 'Access code',
     auth_unlock: 'Unlock',
     auth_bad_code: 'Invalid access code. Check the code shown on your phone screen.',
     auth_locked: 'Too many failed attempts. Restart the config server from your phone.',
   },
   'ja': {
-    title: 'BlackClaw 設定',
+    title: 'BlaqClaw 設定',
     subtitle: 'LLM と DingTalk、Feishu、QQ、Discord、Telegram の資格情報を設定',
     loading: '読み込み中...',
     llm_title: 'LLM 設定',
@@ -369,7 +369,7 @@ const i18nMessages = {
     save_failed: '保存に失敗しました',
     unknown_error: '不明なエラー',
     auth_title: 'アクセスコードが必要',
-    auth_hint: 'スマートフォンで BlackClaw → 設定 → LAN 設定 を開き、画面に表示されたアクセスコードを入力してください。',
+    auth_hint: 'スマートフォンで BlaqClaw → 設定 → LAN 設定 を開き、画面に表示されたアクセスコードを入力してください。',
     auth_label: 'アクセスコード',
     auth_unlock: 'ロック解除',
     auth_bad_code: 'アクセスコードが無効です。スマートフォンの画面に表示されたコードを確認してください。',
@@ -428,10 +428,10 @@ const llmFields = ['llmApiKey', 'llmBaseUrl', 'llmModelName'];
 // Held in sessionStorage only: it dies with the tab and is never written to disk.
 // The server rotates the code on every start, so a stale one just yields a 401.
 function getCode() {
-  return (sessionStorage.getItem('blackclaw_code') || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  return (sessionStorage.getItem('blaqclaw_code') || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
 }
 function setCode(v) {
-  sessionStorage.setItem('blackclaw_code', (v || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase());
+  sessionStorage.setItem('blaqclaw_code', (v || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase());
 }
 function authHeaders(extra) {
   return Object.assign({ 'Authorization': 'Bearer ' + getCode() }, extra || {});

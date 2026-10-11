@@ -19,7 +19,7 @@ class ImportChatExportTool : BaseTool() {
     override fun getName() = "import_chat_export"
     override fun getDisplayName() = "Importar chat"
     override fun getDescriptionEN() =
-        "Parse a WhatsApp chat export (.txt or .zip) the user shared with BlackClaw. " +
+        "Parse a WhatsApp chat export (.txt or .zip) the user shared with BlaqClaw. " +
         "Either returns the rendered transcript or saves it as conversationContext for " +
         "an auto-reply profile (specify contact_name and optional user_name)."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -27,7 +27,7 @@ class ImportChatExportTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("path", "string",
             "Absolute path or content:// URI of the export file. Use the path of a file " +
-            "the user shared into BlackClaw or one in Documents/BlackClaw/.", true),
+            "the user shared into BlaqClaw or one in Documents/BlaqClaw/.", true),
         ToolParameter("contact_name", "string",
             "Contact name to associate. If a profile exists for this contact, its " +
             "conversation_context is updated. Otherwise a new profile is created.", false),

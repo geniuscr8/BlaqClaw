@@ -71,7 +71,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * BlackClaw Chat Screen — Jetpack Compose
+ * BlaqClaw Chat Screen — Jetpack Compose
  * Inspired by WhatsApp/Telegram/Slack dark theme
  */
 
@@ -122,7 +122,7 @@ fun ChatScreen(
     onStopAllTasks: () -> Unit = {},
     inputEnabled: Boolean = true,
     onModelSwitch: (modelId: String, displayName: String) -> Unit = { _, _ -> },
-    colors: BlackClawColors = AbyssDark,
+    colors: BlaqClawColors = AbyssDark,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -419,7 +419,7 @@ private fun ChatTopBar(
     onSettings: () -> Unit,
     onModelSwitch: (modelId: String, displayName: String) -> Unit = { _, _ -> },
     onChats: () -> Unit = {},
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     // Cost escalation: quiet → noted → warned → alarming.
     //
@@ -741,7 +741,7 @@ private fun ChatTopBar(
 private fun ModelScopeSwitch(
     selectedTab: String,
     onTabChange: (String) -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     val options = listOf("auto" to "Auto", "local" to "Local", "cloud" to "Cloud")
     val selectedIndex = options.indexOfFirst { it.first == selectedTab }.coerceAtLeast(0)
@@ -803,7 +803,7 @@ private fun ModelScopeSwitch(
 @Composable
 private fun MessageList(
     messages: List<ChatMessage>,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBackgroundTap: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -880,7 +880,7 @@ private fun MessageList(
  * an error.
  */
 @Composable
-private fun CardRow(payload: String, colors: BlackClawColors) {
+private fun CardRow(payload: String, colors: BlaqClawColors) {
     val cards = remember(payload) { AssistCardCodec.decode(payload) }
     if (cards.isEmpty()) return
     // Built from the active theme rather than the card layer's own palette, so a card in
@@ -939,15 +939,15 @@ private fun AnimatedMessageWrapper(animate: Boolean, content: @Composable () -> 
 // ======================== BC AVATAR ========================
 
 /**
- * Reusable BlackClaw avatar composable.
+ * Reusable BlaqClaw avatar composable.
  * Renders a rounded box with the "BC" initials in the accent color.
- * Replaces the old PNG blackclaw_avatar.png everywhere in the chat UI.
+ * Replaces the old PNG blaqclaw_avatar.png everywhere in the chat UI.
  */
 @Composable
 private fun BCAvatar(
     size: androidx.compose.ui.unit.Dp,
     cornerRadius: androidx.compose.ui.unit.Dp,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -970,7 +970,7 @@ private fun BCAvatar(
 // ======================== BUBBLES ========================
 
 @Composable
-private fun UserBubble(text: String, timestamp: Long, colors: BlackClawColors) {
+private fun UserBubble(text: String, timestamp: Long, colors: BlaqClawColors) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -1026,7 +1026,7 @@ private fun UserBubble(text: String, timestamp: Long, colors: BlackClawColors) {
  * emit; it is checked before parsing so the placeholder never reaches the renderer.
  */
 @Composable
-private fun AssistantBubble(text: String, timestamp: Long, colors: BlackClawColors, modelName: String? = null) {
+private fun AssistantBubble(text: String, timestamp: Long, colors: BlaqClawColors, modelName: String? = null) {
     val isThinking = text == ChatMessage.PENDING
     val clipboard = LocalClipboardManager.current
     var copied by remember(timestamp) { mutableStateOf(false) }
@@ -1150,7 +1150,7 @@ private fun TypingIndicator(color: Color, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SystemMessage(text: String, colors: BlackClawColors) {
+private fun SystemMessage(text: String, colors: BlaqClawColors) {
     Text(
         text = text,
         color = colors.textTertiary,
@@ -1174,7 +1174,7 @@ private fun SystemMessage(text: String, colors: BlackClawColors) {
  * screen actually knows about a step.
  */
 @Composable
-private fun ToolGroup(message: ChatMessage, colors: BlackClawColors) {
+private fun ToolGroup(message: ChatMessage, colors: BlaqClawColors) {
     val steps = message.toolSteps.orEmpty()
     if (steps.isEmpty()) return
 
@@ -1249,7 +1249,7 @@ private fun ChatInputBar(
     onAttach: () -> Unit,
     onOpenMonitor: () -> Unit = {},
     onOpenSendMessage: () -> Unit = {},
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     prefillText: String = "",
     prefillIsTask: Boolean = false,
     onPrefillConsumed: () -> Unit = {},
@@ -1501,7 +1501,7 @@ private fun ModeChip(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     selected: Boolean,
     fillWithAccent: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -1597,7 +1597,7 @@ private fun InputActionButton(
 @Composable
 private fun ComposerActionsButton(
     enabled: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onAttach: () -> Unit,
     onOpenMonitor: () -> Unit,
     onOpenSendMessage: () -> Unit,
@@ -1637,7 +1637,7 @@ private fun ComposerActionsButton(
 private fun ComposerMenuItem(
     label: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onClick: () -> Unit,
 ) {
     DropdownMenuItem(
@@ -1650,7 +1650,7 @@ private fun ComposerMenuItem(
 // ======================== DOWNLOAD OVERLAY ========================
 
 @Composable
-private fun DownloadOverlay(progress: Int, colors: BlackClawColors) {
+private fun DownloadOverlay(progress: Int, colors: BlaqClawColors) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -1714,7 +1714,7 @@ private fun DownloadOverlay(progress: Int, colors: BlackClawColors) {
 private fun EmptyStateWithPrompts(
     isLocalModel: Boolean,
     onSelectPrompt: (String, Boolean) -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
 ) {
     data class Prompt(val text: String, val isTask: Boolean)
@@ -1788,7 +1788,7 @@ private fun EmptyStateWithPrompts(
 
         Spacer(Modifier.height(12.dp))
         Text(
-            "BlackClaw",
+            "BlaqClaw",
             fontSize = 19.sp,
             fontWeight = FontWeight.Bold,
             color = colors.textPrimary,
@@ -1909,7 +1909,7 @@ private fun AssistantPanel(
     onSettings: () -> Unit,
     onModels: () -> Unit,
     onAutoReplies: () -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     data class Cat(val type: com.blackclaw.android.assistant.AssistantItemType,
                    val label: String, val emoji: String, val tint: Color)
@@ -1977,7 +1977,7 @@ private fun AssistantPanel(
 @Composable
 private fun DrawerNavItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
-    label: String, colors: BlackClawColors, onClick: () -> Unit,
+    label: String, colors: BlaqClawColors, onClick: () -> Unit,
 ) {
     Row(
         Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 12.dp, horizontal = 4.dp),
@@ -2003,7 +2003,7 @@ private fun SidebarContent(
     onModels: () -> Unit,
     onAutoReplies: () -> Unit,
     onAssistant: () -> Unit = {},
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     var actionTarget by remember { mutableStateOf<ChatHistoryManager.ConversationSummary?>(null) }
     var deleteTarget by remember { mutableStateOf<ChatHistoryManager.ConversationSummary?>(null) }
@@ -2292,7 +2292,7 @@ private fun ActiveTaskBar(
     tasks: List<String>,
     onStopTask: (String) -> Unit,
     onStopAll: () -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     var expanded by remember { mutableStateOf(false) }
 

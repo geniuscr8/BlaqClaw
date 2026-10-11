@@ -18,7 +18,7 @@ import com.blackclaw.android.assistant.Speaker
 import java.util.UUID
 
 /**
- * Runs a single BlackClaw task from the car and shows its result, reading the
+ * Runs a single BlaqClaw task from the car and shows its result, reading the
  * answer aloud (driving-safe). Reuses the exact same pipeline as the phone
  * (fast-path deep links, tools, agent loop) via [appViewModel].
  */
@@ -80,7 +80,7 @@ class CarTaskScreen(
     override fun onGetTemplate(): Template {
         if (state == State.RUNNING) {
             return MessageTemplate.Builder(message)
-                .setTitle("BlackClaw")
+                .setTitle("BlaqClaw")
                 .setHeaderAction(Action.BACK)
                 .setLoading(true)
                 .build()
@@ -101,7 +101,7 @@ class CarTaskScreen(
             .build()
 
         return MessageTemplate.Builder(message)
-            .setTitle("BlackClaw")
+            .setTitle("BlaqClaw")
             .setIcon(appIcon)
             .setHeaderAction(Action.BACK)
             .addAction(repeat)

@@ -11,7 +11,7 @@ import java.util.*
 
 /**
  * Habit tracking system — users can track daily habits, see streaks,
- * and BlackClaw reminds/motivates them based on context.
+ * and BlaqClaw reminds/motivates them based on context.
  */
 
 class HabitLogTool : BaseTool() {

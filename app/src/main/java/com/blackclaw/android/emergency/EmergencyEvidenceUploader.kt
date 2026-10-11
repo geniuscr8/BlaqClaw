@@ -20,7 +20,7 @@ object EmergencyEvidenceUploader {
 
     fun enqueue(context: Context, encryptedFile: File) {
         if (!EmergencyBackupConfig.isReady || encryptedFile.extension != "bcenc") return
-        Thread({ upload(context.applicationContext, encryptedFile) }, "BlackClawEvidenceUpload").start()
+        Thread({ upload(context.applicationContext, encryptedFile) }, "BlaqClawEvidenceUpload").start()
     }
 
     fun retryQueue(context: Context) {
@@ -34,7 +34,7 @@ object EmergencyEvidenceUploader {
         val remote = EmergencyBackupConfig.url.trimEnd('/') + "/" + Uri.encode(file.name)
         val builder = Request.Builder().url(remote)
             .put(file.asRequestBody("application/octet-stream".toMediaType()))
-            .header("X-BlackClaw-Evidence", "encrypted-aes256-gcm")
+            .header("X-BlaqClaw-Evidence", "encrypted-aes256-gcm")
         if (EmergencyBackupConfig.username.isNotBlank()) {
             builder.header("Authorization", Credentials.basic(
                 EmergencyBackupConfig.username, EmergencyBackupConfig.password))

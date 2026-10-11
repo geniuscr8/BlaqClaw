@@ -1,7 +1,7 @@
 package com.blackclaw.android.automation
 
 /**
- * Decides which *calling app* may drive BlackClaw through the external automation
+ * Decides which *calling app* may drive BlaqClaw through the external automation
  * entrypoints. Pure functions, so the whole rule set is unit-testable.
  *
  * ## Why this exists
@@ -13,7 +13,7 @@ package com.blackclaw.android.automation
  *
  * Two separate holes were in play:
  *
- *  1. [ExternalAutomationEntrypoint.isTargetedToBlackClaw] inspects the intent's
+ *  1. [ExternalAutomationEntrypoint.isTargetedToBlaqClaw] inspects the intent's
  *     DESTINATION. Any app satisfies it by writing
  *     `intent.setPackage("com.blackclaw.android")`. It never looked at the origin.
  *  2. The `isExternalAutomationEnabled()` switch is one global boolean. A user who
@@ -114,11 +114,11 @@ object AutomationCallerPolicy {
     fun denialMessage(decision: Decision, callingPackage: String?): String = when (decision) {
         Decision.ALLOW -> ""
         Decision.DENY_UNIDENTIFIED_CALLER ->
-            "BlackClaw could not identify the calling app. Supply the Automation Token " +
-                "shown in BlackClaw Settings, or launch with startActivityForResult from " +
+            "BlaqClaw could not identify the calling app. Supply the Automation Token " +
+                "shown in BlaqClaw Settings, or launch with startActivityForResult from " +
                 "an explicitly allowlisted package."
         Decision.DENY_NOT_ALLOWLISTED ->
-            "App '${callingPackage.orEmpty()}' is not in BlackClaw's external automation " +
-                "allowlist. Add it in BlackClaw Settings to permit it."
+            "App '${callingPackage.orEmpty()}' is not in BlaqClaw's external automation " +
+                "allowlist. Add it in BlaqClaw Settings to permit it."
     }
 }

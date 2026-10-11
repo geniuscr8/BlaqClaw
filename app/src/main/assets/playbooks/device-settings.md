@@ -30,7 +30,7 @@ Bluetooth device):
 1. Open the relevant panel: open_url(url="android.settings.WIFI_SETTINGS") or
    toggle_setting first to enable the radio.
 2. get_screen_info, then find_and_tap the network/device name the user said.
-3. If it asks for a password BlackClaw doesn't have, STOP and ask the user to type it
+3. If it asks for a password BlaqClaw doesn't have, STOP and ask the user to type it
    (never guess passwords).
 4. verify_screen(expect="Conectado"/"Connected") before reporting success.
 

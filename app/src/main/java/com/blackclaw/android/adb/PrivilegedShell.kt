@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 
 /**
  * Single entry point for "give me adb-shell-level power", regardless of HOW we
- * got it. BlackClaw has two independent backends:
+ * got it. BlaqClaw has two independent backends:
  *
  *   1. Shizuku  — if the user installed the Shizuku app and granted us access.
- *   2. Self-ADB — if the user paired BlackClaw with its own adbd over loopback
+ *   2. Self-ADB — if the user paired BlaqClaw with its own adbd over loopback
  *                 (Wireless Debugging). No extra app, no PC.
  *
  * Tools shouldn't care which one is live. They call [exec] / [execFast] and we

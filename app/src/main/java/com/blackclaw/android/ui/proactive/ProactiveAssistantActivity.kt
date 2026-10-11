@@ -27,7 +27,7 @@ import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.proactive.ProactiveAppCatalog
 import com.blackclaw.android.proactive.ProactiveAssistantManager
 import com.blackclaw.android.proactive.ProactiveConfig
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 
@@ -49,7 +49,7 @@ class ProactiveAssistantActivity : BaseActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProactiveScreen(colors: BlackClawColors, onBack: () -> Unit) {
+private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
     var enabled by remember { mutableStateOf(ProactiveConfig.enabled) }
     var instructions by remember { mutableStateOf(ProactiveConfig.instructions) }
     var allowAlarms by remember { mutableStateOf(ProactiveConfig.allowAlarms) }
@@ -421,7 +421,7 @@ private fun ProactiveScreen(colors: BlackClawColors, onBack: () -> Unit) {
 private fun AppWatchRow(
     entry: ProactiveAppCatalog.Entry,
     checked: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onChange: (Boolean) -> Unit,
 ) {
     Row(
@@ -466,7 +466,7 @@ private fun AppWatchRow(
 @Composable
 private fun ToggleRow(
     title: String, subtitle: String, checked: Boolean,
-    colors: BlackClawColors, onChange: (Boolean) -> Unit,
+    colors: BlaqClawColors, onChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp),
@@ -486,13 +486,13 @@ private fun ToggleRow(
 }
 
 @Composable
-private fun DividerLine(colors: BlackClawColors) {
+private fun DividerLine(colors: BlaqClawColors) {
     Box(Modifier.fillMaxWidth().height(0.5.dp).background(colors.aiBubbleBorder))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun VoiceSettings(colors: BlackClawColors, ctx: android.content.Context) {
+private fun VoiceSettings(colors: BlaqClawColors, ctx: android.content.Context) {
     val voices = remember { com.blackclaw.android.assistant.Speaker.availableEnglishVoices() }
     var voiceName by remember { mutableStateOf(com.blackclaw.android.assistant.Speaker.voiceName) }
     var rate by remember { mutableStateOf(com.blackclaw.android.assistant.Speaker.rate) }
@@ -560,7 +560,7 @@ private fun VoiceSettings(colors: BlackClawColors, ctx: android.content.Context)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
                     onClick = { com.blackclaw.android.assistant.Speaker.speak(
-                        "Hello, I am BlackClaw. This is how your assistant will sound.") },
+                        "Hello, I am BlaqClaw. This is how your assistant will sound.") },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colors.accent, contentColor = colors.background),
@@ -596,7 +596,7 @@ private fun prettyVoice(v: android.speech.tts.Voice): String {
 @Composable
 private fun SliderRow(
     label: String, value: Float, min: Float, max: Float,
-    colors: BlackClawColors, onChange: (Float) -> Unit,
+    colors: BlaqClawColors, onChange: (Float) -> Unit,
 ) {
     Column {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -616,7 +616,7 @@ private fun SliderRow(
 @Composable
 private fun BriefingRow(
     emoji: String, title: String, hour: Int, minute: Int,
-    enabled: Boolean, colors: BlackClawColors,
+    enabled: Boolean, colors: BlaqClawColors,
     onToggle: (Boolean) -> Unit, onTime: (Int, Int) -> Unit,
     weekly: Boolean = false, weekday: Int = java.util.Calendar.SUNDAY,
     onWeekday: (Int) -> Unit = {},
@@ -700,7 +700,7 @@ private fun BriefingRow(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun QuietHoursRow(colors: BlackClawColors, ctx: android.content.Context) {
+private fun QuietHoursRow(colors: BlaqClawColors, ctx: android.content.Context) {
     var start by remember { mutableStateOf(ProactiveConfig.quietStartHour) }
     var end by remember { mutableStateOf(ProactiveConfig.quietEndHour) }
     Row(
@@ -724,7 +724,7 @@ private fun QuietHoursRow(colors: BlackClawColors, ctx: android.content.Context)
 }
 
 @Composable
-private fun HourStepper(label: String, value: Int, colors: BlackClawColors, modifier: Modifier = Modifier, onChange: (Int) -> Unit) {
+private fun HourStepper(label: String, value: Int, colors: BlaqClawColors, modifier: Modifier = Modifier, onChange: (Int) -> Unit) {
     Surface(color = colors.aiBubble, shape = RoundedCornerShape(10.dp), modifier = modifier) {
         Row(
             Modifier.padding(horizontal = 10.dp, vertical = 8.dp),

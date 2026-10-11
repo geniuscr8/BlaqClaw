@@ -1,8 +1,8 @@
-# BlackClaw — mapa del proyecto y comandos
+# BlaqClaw — mapa del proyecto y comandos
 
 Documento operativo para recuperar el contexto del proyecto, encontrar cada
 subsistema y publicar cambios sin adivinar rutas. En este documento, `REPO`
-significa la carpeta raíz donde clonaste BlackClaw; evita guardar rutas personales
+significa la carpeta raíz donde clonaste BlaqClaw; evita guardar rutas personales
 o específicas de una máquina en documentación versionada.
 
 Estado documentado: `v1.3.2`, rama `main`, paquete Android
@@ -17,11 +17,11 @@ Estado documentado: `v1.3.2`, rama `main`, paquete Android
 Repositorio remoto:
 
 ```text
-https://github.com/tuangel134/BlackClaw
+https://github.com/tuangel134/BlaqClaw
 ```
 
 ```text
-BlackClaw/
+BlaqClaw/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   └── workflows/                 # CI, QA, Firebase y releases
@@ -177,7 +177,7 @@ find app/src/main/java -type f \( -name '*.kt' -o -name '*.java' \) -print0 | xa
 | Accesibilidad | `app/src/main/java/com/blackclaw/android/service/ClawAccessibilityService.java` | Lee/actúa sobre la UI de Android. |
 | Quick Assist | `app/src/main/java/com/blackclaw/android/ui/assist/QuickAssistActivity.kt` | Panel del asistente invocado por gesto/voz. |
 | Rol assistant | `app/src/main/java/com/blackclaw/android/ui/assist/AssistantRole.kt` | Comprueba rol y VoiceInteractionService. |
-| Sesión assistant | `app/src/main/java/com/blackclaw/android/ui/assist/BlackClawVoiceInteractionSession.kt` | Recibe AssistStructure/screenshot. |
+| Sesión assistant | `app/src/main/java/com/blackclaw/android/ui/assist/BlaqClawVoiceInteractionSession.kt` | Recibe AssistStructure/screenshot. |
 | Voz | `app/src/main/java/com/blackclaw/android/service/VoiceWakeService.kt` | Wake word, reconocimiento y ejecución de órdenes. |
 | OCR/captura | `app/src/main/java/com/blackclaw/android/perception/` | Imagen de pantalla, OCR y permisos de captura. |
 | Terminal | `app/src/main/java/com/blackclaw/android/terminal/` | Runtime de terminal embebido. |
@@ -257,9 +257,9 @@ Actividades relevantes:
 Servicios/receivers importantes:
 
 ```text
-.ui.assist.BlackClawVoiceInteractionService
-.ui.assist.BlackClawVoiceInteractionSessionService
-.ui.assist.BlackClawRecognitionService
+.ui.assist.BlaqClawVoiceInteractionService
+.ui.assist.BlaqClawVoiceInteractionSessionService
+.ui.assist.BlaqClawRecognitionService
 .service.ClawAccessibilityService
 .service.ClawNotificationListener
 .service.ForegroundService
@@ -269,7 +269,7 @@ Servicios/receivers importantes:
 .service.VoiceTileService
 .perception.ScreenCaptureService
 .knowledge.ZimIndexService
-.car.BlackClawCarAppService
+.car.BlaqClawCarAppService
 .emergency.EmergencyService
 .scheduler.ScheduledTaskReceiver
 .automation.AutomationProfileTimeReceiver
@@ -355,7 +355,7 @@ KVUtils.kt                    Estado persistido en MMKV.
 Clave persistida del benchmark:
 
 ```text
-blackclaw_auto_model_benchmarks_v1
+blaqclaw_auto_model_benchmarks_v1
 ```
 
 Flujo:
@@ -420,8 +420,8 @@ gh (opcional, recomendado para ver Actions/releases)
 Clonar:
 
 ```bash
-git clone https://github.com/tuangel134/BlackClaw.git
-cd BlackClaw
+git clone https://github.com/tuangel134/BlaqClaw.git
+cd BlaqClaw
 ```
 
 Verificar entorno:
@@ -543,16 +543,16 @@ Ver ejecuciones con GitHub CLI:
 
 ```bash
 gh auth status
-gh run list --repo tuangel134/BlackClaw --limit 10
-gh run view ID --repo tuangel134/BlackClaw
-gh run watch ID --repo tuangel134/BlackClaw --exit-status
+gh run list --repo tuangel134/BlaqClaw --limit 10
+gh run view ID --repo tuangel134/BlaqClaw
+gh run watch ID --repo tuangel134/BlaqClaw --exit-status
 ```
 
 Ver releases:
 
 ```bash
-gh release list --repo tuangel134/BlackClaw
-gh release view vX.Y.Z --repo tuangel134/BlackClaw
+gh release list --repo tuangel134/BlaqClaw
+gh release view vX.Y.Z --repo tuangel134/BlaqClaw
 ```
 
 ### Publicar una nueva actualización firmada
@@ -564,7 +564,7 @@ gh release view vX.Y.Z --repo tuangel134/BlackClaw
 5. Crea y sube la etiqueta:
 
 ```bash
-git tag -a vX.Y.Z -m "BlackClaw vX.Y.Z"
+git tag -a vX.Y.Z -m "BlaqClaw vX.Y.Z"
 git push origin main
 git push origin vX.Y.Z
 ```
@@ -573,7 +573,7 @@ git push origin vX.Y.Z
 7. Verifica los APK y checksums:
 
 ```bash
-gh release view vX.Y.Z --repo tuangel134/BlackClaw
+gh release view vX.Y.Z --repo tuangel134/BlaqClaw
 ```
 
 El workflow extrae las notas del bloque correspondiente del README, ejecuta
@@ -593,7 +593,7 @@ Se configuran en GitHub, no en el código. Para convertir un keystore a base64
 localmente sin imprimirlo:
 
 ```bash
-base64 -w 0 /ruta/segura/blackclaw-release.keystore > /tmp/blackclaw-keystore.b64
+base64 -w 0 /ruta/segura/blaqclaw-release.keystore > /tmp/blaqclaw-keystore.b64
 ```
 
 Borra el archivo temporal tras pegarlo en el secreto. Nunca pongas un token de
@@ -627,14 +627,14 @@ timeout 10 avahi-browse -rtp _adb-tls-pairing._tcp
 Instalar APK release ya compilado:
 
 ```bash
-adb install -r app/build/outputs/apk/release/BlackClaw_vVERSION_ABI_FECHA.apk
+adb install -r app/build/outputs/apk/release/BlaqClaw_vVERSION_ABI_FECHA.apk
 ```
 
 Instalar desde una release de GitHub:
 
 ```bash
-gh release download vX.Y.Z --repo tuangel134/BlackClaw --pattern '*arm64-v8a*.apk'
-adb install -r BlackClaw_vX.Y.Z_arm64-v8a_FECHA.apk
+gh release download vX.Y.Z --repo tuangel134/BlaqClaw --pattern '*arm64-v8a*.apk'
+adb install -r BlaqClaw_vX.Y.Z_arm64-v8a_FECHA.apk
 ```
 
 Comprobar versión y actualización en sitio:
@@ -647,23 +647,23 @@ Logs:
 
 ```bash
 adb logcat -c
-adb logcat -v threadtime | grep -iE 'blackclaw|AndroidRuntime|FATAL EXCEPTION'
-adb logcat -d -b crash | grep -iE 'blackclaw|FATAL EXCEPTION'
+adb logcat -v threadtime | grep -iE 'blaqclaw|AndroidRuntime|FATAL EXCEPTION'
+adb logcat -d -b crash | grep -iE 'blaqclaw|FATAL EXCEPTION'
 ```
 
 Estado de accesibilidad/assistant:
 
 ```bash
-adb shell dumpsys accessibility | grep -iE 'BlackClaw|Bound services'
+adb shell dumpsys accessibility | grep -iE 'BlaqClaw|Bound services'
 adb shell settings get secure assistant
 adb shell settings get secure voice_interaction_service
 adb shell dumpsys voiceinteraction
 ```
 
 El usuario normal no puede escribir de forma segura
-`Settings.Secure.voice_interaction_service`. Si `assistant` apunta a BlackClaw
+`Settings.Secure.voice_interaction_service`. Si `assistant` apunta a BlaqClaw
 pero `voice_interaction_service` apunta a Google, abre **Ajustes → Modo voz →
-Asistente del teléfono** y vuelve a seleccionar BlackClaw.
+Asistente del teléfono** y vuelve a seleccionar BlaqClaw.
 
 ## 13. DEBUG_TASK y smoke tests
 
@@ -752,7 +752,7 @@ adb shell dumpsys package com.blackclaw.android | grep -E 'versionCode=|firstIns
 Si la firma histórica es distinta, Android puede requerir una desinstalación e
 instalación limpia. No borres datos sin respaldo.
 
-### “El botón de power no llama a BlackClaw”
+### “El botón de power no llama a BlaqClaw”
 
 ```bash
 adb shell settings get secure assistant

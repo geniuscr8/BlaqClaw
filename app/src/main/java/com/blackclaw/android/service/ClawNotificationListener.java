@@ -27,7 +27,7 @@ import java.util.HashSet;
  * Also provides cancelNotification() to dismiss notifications after replying,
  * ensuring the next message triggers a fresh notification event.
  *
- * Requires: Settings → Notification Access → BlackClaw enabled.
+ * Requires: Settings → Notification Access → BlaqClaw enabled.
  */
 public class ClawNotificationListener extends NotificationListenerService {
 

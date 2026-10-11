@@ -51,7 +51,7 @@ import com.blackclaw.android.automation.AutomationGeofenceManager
 import com.blackclaw.android.automation.LocationSnapshotProvider
 import com.blackclaw.android.automation.SavedPlaceStore
 import com.blackclaw.android.automation.ExternalAutomationEntrypoint
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ComposeChatActivity
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
@@ -86,7 +86,7 @@ class ScheduledTasksActivity : BaseActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ScheduledTasksScreen(colors: BlackClawColors, onBack: () -> Unit) {
+private fun ScheduledTasksScreen(colors: BlaqClawColors, onBack: () -> Unit) {
     var tasks by remember { mutableStateOf(ScheduledTaskManager.listAll()) }
     var rules by remember { mutableStateOf(AutomationRuleStore.list()) }
     var profiles by remember { mutableStateOf(AutomationProfileStore.list()) }
@@ -147,7 +147,7 @@ private fun ScheduledTasksScreen(colors: BlackClawColors, onBack: () -> Unit) {
                         }
                     } else if (selected == 2) {
                         IconButton(onClick = { showAgentFlowBuilder = true }) {
-                            Icon(Icons.Default.AutoAwesome, contentDescription = "Create with BlackClaw", tint = colors.accent)
+                            Icon(Icons.Default.AutoAwesome, contentDescription = "Create with BlaqClaw", tint = colors.accent)
                         }
                     } else if (selected == 3) {
                         IconButton(onClick = { showSavePlace = true }) {
@@ -299,7 +299,7 @@ private fun ScheduledTasksScreen(colors: BlackClawColors, onBack: () -> Unit) {
         onCreate = { request ->
             showAgentFlowBuilder = false
             val task = buildString {
-                append("Create a BlackClaw automation based exactly on this user request: ")
+                append("Create a BlaqClaw automation based exactly on this user request: ")
                 append(request.trim())
                 append("\n\nIf the request uses a named place, resolve it first with saved_place and use its place_id; do not invent coordinates. Use the automation_profile tool. Check capabilities if you need to know available triggers or actions, validate the flow before saving it, and save it as a draft so the user can review it under Automations > Flows. Do not enable or run it without explicit local confirmation. Preserve the user's intent and prefer deterministic TOOL actions when a suitable tool exists.")
             }
@@ -312,7 +312,7 @@ private fun ScheduledTasksScreen(colors: BlackClawColors, onBack: () -> Unit) {
 
 @Composable
 private fun SavedPlacesPane(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     places: List<SavedPlaceStore.Place>,
     onAdd: () -> Unit,
     onDelete: (SavedPlaceStore.Place) -> Unit,
@@ -345,12 +345,12 @@ private fun SavedPlacesPane(
                     if (!fine || !background) {
                         Text(
                             if (!fine) "Precise location is required to capture and detect places."
-                            else "For reliable background entries/exits with BlackClaw, allow location access ‘All the time’.",
+                            else "For reliable background entries/exits with BlaqClaw, allow location access ‘All the time’.",
                             color = colors.textTertiary, fontSize = 11.sp,
                         )
                         TextButton(onClick = {
                             permissionTopic = if (!fine) PermissionTopic.LOCATION else PermissionTopic.BACKGROUND_LOCATION
-                        }) { Text("Open BlackClaw permissions", color = colors.accent) }
+                        }) { Text("Open BlaqClaw permissions", color = colors.accent) }
                     }
                     Button(onClick = {
                         if (!fine) permissionTopic = PermissionTopic.LOCATION else onAdd()
@@ -410,7 +410,7 @@ private fun SavedPlacesPane(
 
 @Composable
 private fun SavePlaceDialog(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onDismiss: () -> Unit,
     onSaved: () -> Unit,
 ) {
@@ -427,7 +427,7 @@ private fun SavePlaceDialog(
         title = { Text("Save this place", color = colors.textPrimary, fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
-                Text("Give it any name. BlackClaw will understand it later in your automations.", color = colors.textSecondary, fontSize = 12.sp)
+                Text("Give it any name. BlaqClaw will understand it later in your automations.", color = colors.textSecondary, fontSize = 12.sp)
                 OutlinedTextField(name, { name = it }, label = { Text("Name: home, bedroom, gym…") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(radius, { radius = it.filter(Char::isDigit) }, label = { Text("Radio en metros") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(aliases, { aliases = it }, label = { Text("Aliases opcionales, separados por coma") }, modifier = Modifier.fillMaxWidth())
@@ -466,12 +466,12 @@ private fun SavePlaceDialog(
 }
 
 @Composable
-private fun RuleEmptyState(colors: BlackClawColors, modifier: Modifier = Modifier) {
+private fun RuleEmptyState(colors: BlaqClawColors, modifier: Modifier = Modifier) {
     Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("⚡", fontSize = 42.sp); Spacer(Modifier.height(12.dp))
             Text("No rules yet", color = colors.textPrimary, fontWeight = FontWeight.SemiBold)
-            Text("Create notification or location rules with +\nor ask BlackClaw: “when X happens, do Y”",
+            Text("Create notification or location rules with +\nor ask BlaqClaw: “when X happens, do Y”",
                 color = colors.textSecondary, fontSize = 13.sp, textAlign = TextAlign.Center)
         }
     }
@@ -479,7 +479,7 @@ private fun RuleEmptyState(colors: BlackClawColors, modifier: Modifier = Modifie
 
 @Composable
 private fun AgentFlowBuilderDialog(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onDismiss: () -> Unit,
     onCreate: (String) -> Unit,
 ) {
@@ -504,7 +504,7 @@ private fun AgentFlowBuilderDialog(
                 ) { Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = colors.accent) }
                 Spacer(Modifier.width(12.dp))
                 Column {
-                    Text("Create with BlackClaw", color = colors.textPrimary, fontWeight = FontWeight.Bold)
+                    Text("Create with BlaqClaw", color = colors.textPrimary, fontWeight = FontWeight.Bold)
                     Text("Describe it in your own words", color = colors.textSecondary, fontSize = 11.sp)
                 }
             }
@@ -512,7 +512,7 @@ private fun AgentFlowBuilderDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
-                    "BlackClaw will review its capabilities, build the flow, and save it as a draft. Nothing will be enabled without your confirmation.",
+                    "BlaqClaw will review its capabilities, build the flow, and save it as a draft. Nothing will be enabled without your confirmation.",
                     color = colors.textSecondary,
                     fontSize = 12.sp,
                 )
@@ -561,7 +561,7 @@ private fun AgentFlowBuilderDialog(
 @Composable
 private fun FlowHeroCard(
     profiles: List<AutomationProfileStore.Profile>,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onCreateWithAgent: () -> Unit,
     onCreateManual: () -> Unit,
 ) {
@@ -578,7 +578,7 @@ private fun FlowHeroCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text("Flujos inteligentes", color = colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Bold)
-                    Text("Tell BlackClaw what should happen and what to do; it will build the flow for you to review.",
+                    Text("Tell BlaqClaw what should happen and what to do; it will build the flow for you to review.",
                         color = colors.textSecondary, fontSize = 12.sp)
                 }
             }
@@ -595,7 +595,7 @@ private fun FlowHeroCard(
             ) {
                 Icon(Icons.Default.AutoAwesome, contentDescription = null)
                 Spacer(Modifier.width(7.dp))
-                Text("Create with BlackClaw", fontWeight = FontWeight.Bold)
+                Text("Create with BlaqClaw", fontWeight = FontWeight.Bold)
             }
             TextButton(onClick = onCreateManual, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Icon(Icons.Default.Tune, contentDescription = null, tint = colors.textSecondary)
@@ -607,7 +607,7 @@ private fun FlowHeroCard(
 }
 
 @Composable
-private fun FlowMetric(value: String, label: String, colors: BlackClawColors, modifier: Modifier = Modifier) {
+private fun FlowMetric(value: String, label: String, colors: BlaqClawColors, modifier: Modifier = Modifier) {
     Box(
         modifier.clip(RoundedCornerShape(14.dp)).background(colors.accent.copy(alpha = .08f))
             .padding(horizontal = 10.dp, vertical = 9.dp),
@@ -621,7 +621,7 @@ private fun FlowMetric(value: String, label: String, colors: BlackClawColors, mo
 
 @Composable
 private fun ProfileEmptyState(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
     onCreateWithAgent: () -> Unit,
     onCreateManual: () -> Unit,
@@ -632,7 +632,7 @@ private fun ProfileEmptyState(
                 Text("✦", color = colors.accent, fontSize = 44.sp)
                 Spacer(Modifier.height(12.dp))
                 Text("Your first automation", color = colors.textPrimary, fontWeight = FontWeight.Bold, fontSize = 19.sp)
-                Text("Try: “when I get home, turn on Wi‑Fi and alert me”.\nBlackClaw can create it as a draft for you to review before enabling it.",
+                Text("Try: “when I get home, turn on Wi‑Fi and alert me”.\nBlaqClaw can create it as a draft for you to review before enabling it.",
                     color = colors.textSecondary, fontSize = 13.sp, textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 8.dp))
                 Spacer(Modifier.height(18.dp))
@@ -640,7 +640,7 @@ private fun ProfileEmptyState(
                     colors = ButtonDefaults.buttonColors(containerColor = colors.accent, contentColor = colors.background)) {
                     Icon(Icons.Default.AutoAwesome, contentDescription = null)
                     Spacer(Modifier.width(7.dp))
-                    Text("Create with BlackClaw", fontWeight = FontWeight.Bold)
+                    Text("Create with BlaqClaw", fontWeight = FontWeight.Bold)
                 }
                 TextButton(onClick = onCreateManual) {
                     Text("Open manual editor", color = colors.textSecondary)
@@ -651,7 +651,7 @@ private fun ProfileEmptyState(
 }
 
 @Composable
-private fun ProfileCard(profile: AutomationProfileStore.Profile, colors: BlackClawColors,
+private fun ProfileCard(profile: AutomationProfileStore.Profile, colors: BlaqClawColors,
                         onToggle: (Boolean) -> Unit, onRun: () -> Unit, onEdit: () -> Unit,
                         onDelete: () -> Unit) {
     val validationErrors = remember(profile) { AutomationProfileValidator.validate(profile) }
@@ -696,7 +696,7 @@ private fun ProfileCard(profile: AutomationProfileStore.Profile, colors: BlackCl
 }
 
 @Composable
-private fun RuleCard(rule: AutomationRuleStore.Rule, colors: BlackClawColors,
+private fun RuleCard(rule: AutomationRuleStore.Rule, colors: BlaqClawColors,
                      onToggle: (Boolean) -> Unit, onRun: () -> Unit, onDelete: () -> Unit) {
     ClawGlassCard(colors = colors, modifier = Modifier.fillMaxWidth(), radius = 20.dp, elevated = false) {
         Column(Modifier.padding(14.dp)) {
@@ -721,7 +721,7 @@ private fun RuleCard(rule: AutomationRuleStore.Rule, colors: BlackClawColors,
 }
 
 @Composable
-private fun AddRuleDialog(colors: BlackClawColors, onDismiss: () -> Unit, onSaved: () -> Unit) {
+private fun AddRuleDialog(colors: BlaqClawColors, onDismiss: () -> Unit, onSaved: () -> Unit) {
     var name by remember { mutableStateOf("") }; var match by remember { mutableStateOf("") }
     var action by remember { mutableStateOf("") }; var pkg by remember { mutableStateOf("") }
     var lat by remember { mutableStateOf("") }; var lon by remember { mutableStateOf("") }
@@ -760,7 +760,7 @@ private fun AddRuleDialog(colors: BlackClawColors, onDismiss: () -> Unit, onSave
 }
 
 @Composable
-private fun EmptyState(colors: BlackClawColors, modifier: Modifier = Modifier, onCreate: () -> Unit = {}) {
+private fun EmptyState(colors: BlaqClawColors, modifier: Modifier = Modifier, onCreate: () -> Unit = {}) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(
@@ -790,7 +790,7 @@ private enum class QuickTaskWhen { IN_30_MIN, TODAY_18, TOMORROW_09, CUSTOM }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CreateTaskSheet(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onDismiss: () -> Unit,
     onSaved: () -> Unit,
 ) {
@@ -874,7 +874,7 @@ private fun CreateTaskSheet(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text("New task", color = colors.textPrimary, fontSize = 23.sp, fontWeight = FontWeight.Bold)
-                    Text("It will run even if you close BlackClaw", color = colors.textSecondary, fontSize = 12.sp)
+                    Text("It will run even if you close BlaqClaw", color = colors.textSecondary, fontSize = 12.sp)
                 }
                 IconButton(onClick = onDismiss) {
                     Icon(Icons.Default.Close, contentDescription = "Close", tint = colors.textTertiary)
@@ -889,7 +889,7 @@ private fun CreateTaskSheet(
                 minLines = 3,
                 maxLines = 5,
                 placeholder = { Text("e.g. check the weather and alert me if it will rain") },
-                supportingText = { Text("Write it as you would say it to BlackClaw", color = colors.textTertiary) },
+                supportingText = { Text("Write it as you would say it to BlaqClaw", color = colors.textTertiary) },
                 shape = RoundedCornerShape(16.dp),
             )
 
@@ -900,7 +900,7 @@ private fun CreateTaskSheet(
                     selected = mode == ScheduledTaskManager.Mode.TASK,
                     icon = Icons.Default.PlayArrow,
                     title = "Ejecutar",
-                    subtitle = "BlackClaw will act",
+                    subtitle = "BlaqClaw will act",
                     modifier = Modifier.weight(1f),
                     onClick = { mode = ScheduledTaskManager.Mode.TASK },
                 )
@@ -965,7 +965,7 @@ private fun CreateTaskSheet(
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text("Vista previa", color = colors.accent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     Text(
-                        "${if (mode == ScheduledTaskManager.Mode.TASK) "🤖 BlackClaw will act" else "🔔 Notify me"} · $triggerLabel",
+                        "${if (mode == ScheduledTaskManager.Mode.TASK) "🤖 BlaqClaw will act" else "🔔 Notify me"} · $triggerLabel",
                         color = colors.textPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
                     )
                     Text(
@@ -986,7 +986,7 @@ private fun CreateTaskSheet(
             Button(
                 onClick = {
                     if (text.isBlank()) {
-                        error = "Write what you want BlackClaw to do."
+                        error = "Write what you want BlaqClaw to do."
                     } else if (triggerAtMs <= System.currentTimeMillis()) {
                         error = "Elige una hora futura."
                     } else {
@@ -1025,7 +1025,7 @@ private fun CreateTaskSheet(
 
 @Composable
 private fun QuickTaskChoice(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     selected: Boolean,
     icon: ImageVector,
     title: String,
@@ -1063,7 +1063,7 @@ private fun QuickTaskChoice(
 @Composable
 private fun TaskCard(
     task: ScheduledTaskManager.ScheduledTask,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onCancel: () -> Unit,
 ) {
     val df = SimpleDateFormat("dd MMM · HH:mm", Locale.getDefault())

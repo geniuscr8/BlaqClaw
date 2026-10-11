@@ -27,7 +27,7 @@ import java.util.Base64
 import java.util.Date
 
 /**
- * BlackClaw's concrete connection manager. Extends libadb-android's abstract
+ * BlaqClaw's concrete connection manager. Extends libadb-android's abstract
  * base class to provide our persistent identity (RSA-2048 key + self-signed
  * cert) and a friendly device name.
  *
@@ -73,7 +73,7 @@ class AdbConnectionManager private constructor(context: Context) : AbsAdbConnect
 
     override fun getCertificate(): Certificate = certificate!!
 
-    override fun getDeviceName(): String = "BlackClaw@${android.os.Build.MODEL}"
+    override fun getDeviceName(): String = "BlaqClaw@${android.os.Build.MODEL}"
 
     /** SHA-256 fingerprint of the cert's public key — useful for the UI. */
     fun fingerprint(): String {
@@ -107,7 +107,7 @@ class AdbConnectionManager private constructor(context: Context) : AbsAdbConnect
     }
 
     private fun generateAndPersist() {
-        XLog.i(TAG, "Generating BlackClaw ADB identity (RSA-$KEY_BITS, ${CERT_VALID_YEARS}y cert)")
+        XLog.i(TAG, "Generating BlaqClaw ADB identity (RSA-$KEY_BITS, ${CERT_VALID_YEARS}y cert)")
         val gen = KeyPairGenerator.getInstance("RSA")
         gen.initialize(KEY_BITS, SecureRandom())
         val pair = gen.generateKeyPair()
@@ -118,7 +118,7 @@ class AdbConnectionManager private constructor(context: Context) : AbsAdbConnect
         val now = System.currentTimeMillis()
         val notBefore = Date(now - 60_000)
         val notAfter = Date(now + CERT_VALID_YEARS * 365L * 24L * 3600L * 1000L)
-        val subject = X500Name("CN=BlackClaw, O=BlackClaw, C=ES")
+        val subject = X500Name("CN=BlaqClaw, O=BlaqClaw, C=ES")
         val builder: X509v3CertificateBuilder = JcaX509v3CertificateBuilder(
             subject, BigInteger(64, SecureRandom()), notBefore, notAfter, subject, pair.public,
         )

@@ -553,7 +553,7 @@ class QuickAssistActivity : ComponentActivity() {
                 phase.value = Phase.SPEAKING
                 status.value = ""
                 speakBySentences(answer.take(400))
-                updateLiveNotif("BLACKCLAW", answer.take(60))
+                updateLiveNotif("BLAQCLAW", answer.take(60))
                 relistenWhenDoneSpeaking()
             }
         }, "screen-query").start()
@@ -869,7 +869,7 @@ private fun AssistScreen(
                     when (p) {
                         QuickAssistActivity.Phase.LISTENING -> "ESCUCHANDO"
                         QuickAssistActivity.Phase.THINKING -> "PENSANDO"
-                        QuickAssistActivity.Phase.SPEAKING -> "BLACKCLAW"
+                        QuickAssistActivity.Phase.SPEAKING -> "BLAQCLAW"
                         QuickAssistActivity.Phase.NEED_MIC -> "PERMISO"
                         QuickAssistActivity.Phase.IDLE -> "EN PAUSA"
                     },
@@ -1054,7 +1054,7 @@ private fun PremiumAssistHeader(phase: QuickAssistActivity.Phase, onClose: () ->
             ) { Text("B", color = ObsidianGold.Void, fontWeight = FontWeight.Black, fontSize = 16.sp) }
             Spacer(Modifier.width(11.dp))
             Column {
-                Text("BLACKCLAW", color = ObsidianGold.Ink, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+                Text("BLAQCLAW", color = ObsidianGold.Ink, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
                 Text("ASISTENTE DEL SISTEMA", color = ObsidianGold.Quiet, fontSize = 9.sp, letterSpacing = 1.1.sp)
             }
             Spacer(Modifier.weight(1f))
@@ -1142,7 +1142,7 @@ private fun RecoveryCard(recovery: QuickAssistRecovery, onAction: () -> Unit) {
         QuickAssistRecovery.MICROPHONE -> Triple(
             "Enable the microphone", "You can keep typing while granting permission.", "Grant permission")
         QuickAssistRecovery.ACCESSIBILITY -> Triple(
-            "Permission required", "Enable Accessibility so BlackClaw can complete that action.", "Open Settings")
+            "Permission required", "Enable Accessibility so BlaqClaw can complete that action.", "Open Settings")
         QuickAssistRecovery.CONNECTION -> Triple(
             "Check your connection", "Connect to a network and try again.", "Open network settings")
         QuickAssistRecovery.RETRY -> Triple(
@@ -1376,7 +1376,7 @@ private fun ReactiveOrb(orbSize: androidx.compose.ui.unit.Dp, level: Float, phas
                 }
             }
 
-            // ── BlackClaw mark: three tapered claw slashes, centered in the core.
+            // ── BlaqClaw mark: three tapered claw slashes, centered in the core.
             // Pulses with mic level (listening) / breathes otherwise. On-brand,
             // no emoji — a stylized claw that feels like the app's identity.
             val clawTilt = if (thinking) sweep * 0.05f else -18f

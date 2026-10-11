@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.shizuku.ShizukuManager
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import kotlinx.coroutines.delay
@@ -80,7 +80,7 @@ class ShizukuSetupActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ShizukuSetupScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBack: () -> Unit,
     onOpenPlay: () -> Unit,
     onOpenShizuku: () -> Unit,
@@ -106,7 +106,7 @@ private fun ShizukuSetupScreen(
                     Column {
                         Text("Shizuku", fontSize = 18.sp,
                             fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                        Text("Quick actions for BlackClaw",
+                        Text("Quick actions for BlaqClaw",
                             fontSize = 11.sp, color = colors.textSecondary)
                     }
                 },
@@ -153,12 +153,12 @@ private fun ShizukuSetupScreen(
                     }
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        "With Shizuku active, BlackClaw can:\n" +
+                        "With Shizuku active, BlaqClaw can:\n" +
                         "• Tap and swipe ~10× faster\n" +
                         "• Work inside games and apps with Surface views\n" +
                         "• Truly force-stop apps\n" +
                         "• Run useful shell commands (am, dumpsys, settings…)\n\n" +
-                        "If you do not install it, nothing changes: BlackClaw continues to work with Accessibility.",
+                        "If you do not install it, nothing changes: BlaqClaw continues to work with Accessibility.",
                         fontSize = 12.sp, color = colors.textSecondary, lineHeight = 18.sp,
                     )
                 }
@@ -203,7 +203,7 @@ private fun ShizukuSetupScreen(
 @Composable
 private fun StatusCard(
     state: ShizukuManager.State,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onOpenPlay: () -> Unit,
     onOpenShizuku: () -> Unit,
     onRequestPermission: () -> Unit,
@@ -224,13 +224,13 @@ private fun StatusCard(
         ShizukuManager.State.RUNNING_NO_PERM -> Quintuple(
             Icons.Default.Warning,
             "Service running · permission needed",
-            "Grant BlackClaw access to Shizuku.",
+            "Grant BlaqClaw access to Shizuku.",
             "Grant permission", colors.accent,
         )
         ShizukuManager.State.READY -> Quintuple(
             Icons.Default.Check,
             "Todo listo",
-            "BlackClaw can use quick actions through Shizuku.",
+            "BlaqClaw can use quick actions through Shizuku.",
             null, Color(0xFF22C55E),
         )
     }
@@ -287,7 +287,7 @@ private fun StatusCard(
 }
 
 @Composable
-private fun WirelessAdbInstructions(colors: BlackClawColors) {
+private fun WirelessAdbInstructions(colors: BlaqClawColors) {
     Column(modifier = Modifier.padding(horizontal = 14.dp)) {
         StepCard(1, "Enable Developer options",
             "Settings → About phone → tap \"Build number\" 7 times.",
@@ -307,7 +307,7 @@ private fun WirelessAdbInstructions(colors: BlackClawColors) {
             "enter the code and port shown earlier. If it asks for auto-pairing, " +
             "use it. You will see \"Service running\" in green.",
             colors)
-        StepCard(5, "Concede el permiso a BlackClaw",
+        StepCard(5, "Concede el permiso a BlaqClaw",
             "Return here. The status above should say \"Service running · " +
             "permission needed\". Tap \"Grant permission\" and accept the popup.",
             colors)
@@ -317,8 +317,8 @@ private fun WirelessAdbInstructions(colors: BlackClawColors) {
         ) {
             Text(
                 "⚠️ You must repeat steps 3–4 after each phone reboot " +
-                "(an Android limitation, not a BlackClaw limitation). " +
-                "BlackClaw's permission is retained.",
+                "(an Android limitation, not a BlaqClaw limitation). " +
+                "BlaqClaw's permission is retained.",
                 fontSize = 11.sp, color = colors.textSecondary, lineHeight = 16.sp,
                 modifier = Modifier.padding(10.dp),
             )
@@ -327,7 +327,7 @@ private fun WirelessAdbInstructions(colors: BlackClawColors) {
 }
 
 @Composable
-private fun PcInstructions(colors: BlackClawColors) {
+private fun PcInstructions(colors: BlaqClawColors) {
     Column(modifier = Modifier.padding(horizontal = 14.dp)) {
         StepCard(1, "Connect the phone to the PC",
             "USB with USB debugging enabled (Settings → System → Developer " +
@@ -346,7 +346,7 @@ private fun PcInstructions(colors: BlackClawColors) {
             "(Algunas builds usan /storage/emulated/0/... — la ruta correcta sale en " +
                 "the Shizuku app itself, under \"Start via ADB\".)",
             colors)
-        StepCard(5, "Permiso a BlackClaw",
+        StepCard(5, "Permiso a BlaqClaw",
             "Return to this screen and tap \"Grant permission\".",
             colors)
         Surface(
@@ -364,7 +364,7 @@ private fun PcInstructions(colors: BlackClawColors) {
 }
 
 @Composable
-private fun StepCard(num: Int, title: String, body: String, colors: BlackClawColors) {
+private fun StepCard(num: Int, title: String, body: String, colors: BlaqClawColors) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
         verticalAlignment = Alignment.Top,

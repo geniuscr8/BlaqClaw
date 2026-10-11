@@ -24,7 +24,7 @@ class AutomationRuleTool : BaseTool() {
         ToolParameter("trigger", "string", "notification, location_enter o location_exit", false),
         ToolParameter("match", "string", "Text/contact to find in the title or content", false),
         ToolParameter("package_name", "string", "Paquete opcional, ej. com.whatsapp", false),
-        ToolParameter("action", "string", "Task or complete sequence that BlackClaw will run", false),
+        ToolParameter("action", "string", "Task or complete sequence that BlaqClaw will run", false),
         ToolParameter("latitude", "number", "Latitude for location", false),
         ToolParameter("longitude", "number", "Longitude for location", false),
         ToolParameter("radius_m", "integer", "Radio 50..5000 metros", false),

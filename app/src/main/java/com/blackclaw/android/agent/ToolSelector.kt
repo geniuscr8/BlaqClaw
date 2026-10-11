@@ -302,7 +302,7 @@ object ToolSelector {
         ),
         Category(
             triggers = listOf("voz", "voice", "manos libres", "hands free", "escucha", "micrófono",
-                "microfono", "hey blackclaw", "palabra de activación", "wake word", "dicta"),
+                "microfono", "hey blaqclaw", "palabra de activación", "wake word", "dicta"),
             tools = listOf("voice_mode", "speak_text"),
         ),
         Category(

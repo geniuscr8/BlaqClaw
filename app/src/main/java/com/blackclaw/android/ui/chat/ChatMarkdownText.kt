@@ -56,7 +56,7 @@ import kotlinx.coroutines.delay
  *
  * ## Why colours are derived, not chosen
  *
- * The chat honours ten user themes through [BlackClawColors], so nothing here may pick
+ * The chat honours ten user themes through [BlaqClawColors], so nothing here may pick
  * a literal colour — a hardcoded slate grey for code blocks would look correct on the
  * default theme and wrong on the other nine. Every surface below is either a slot from
  * the palette or a documented blend of one.
@@ -71,7 +71,7 @@ private const val COPY_FEEDBACK_MS = 1600L
 @Composable
 fun ChatMarkdownText(
     raw: String,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
     baseFontSize: TextUnit = 15.sp,
     textColor: Color = colors.aiText,
@@ -234,7 +234,7 @@ private fun BulletRow(
 @Composable
 private fun CodeBlock(
     block: ChatMarkdown.Block.Code,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     background: Color,
     fontSize: TextUnit,
 ) {
@@ -325,7 +325,7 @@ private fun CodeBlock(
 @Composable
 private fun MarkdownTable(
     table: ChatMarkdown.Block.Table,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     codeBg: Color,
     textColor: Color,
     fontSize: TextUnit,
@@ -375,7 +375,7 @@ private fun MarkdownTable(
 private fun TableRow(
     cells: List<ChatMarkdown.Cell>,
     alignments: List<ChatMarkdown.Align>,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     codeBg: Color,
     textColor: Color,
     fontSize: TextUnit,
@@ -425,7 +425,7 @@ private fun TableRow(
  */
 private fun annotate(
     spans: List<ChatMarkdown.Span>,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     codeBg: Color,
     textColor: Color,
 ): AnnotatedString = buildAnnotatedString {
@@ -453,7 +453,7 @@ private fun annotate(
  * that code blocks conventionally use. Deriving it means a new theme gets a matching
  * code surface for free.
  */
-private fun codeSurface(colors: BlackClawColors): Color {
+private fun codeSurface(colors: BlaqClawColors): Color {
     val dark = colors.background.luminance() < 0.5f
     return lerp(colors.aiBubble, Color.Black, if (dark) 0.45f else 0.06f)
 }

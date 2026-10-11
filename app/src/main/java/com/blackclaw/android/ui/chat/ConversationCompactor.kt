@@ -180,7 +180,7 @@ object ConversationCompactor {
         }
 
         return buildString {
-            appendLine("You are BlackClaw, a helpful AI assistant on an Android phone.")
+            appendLine("You are BlaqClaw, a helpful AI assistant on an Android phone.")
             appendLine(com.blackclaw.android.agent.PromptUtils.CREATOR_INSTRUCTION)
             if (digest != null) {
                 appendLine()

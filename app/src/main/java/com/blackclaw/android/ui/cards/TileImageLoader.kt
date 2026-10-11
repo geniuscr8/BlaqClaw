@@ -86,7 +86,7 @@ object TileImageLoader {
         val request = Request.Builder()
             .url(url)
             // Identifies the app, as the tile policy requires.
-            .header("User-Agent", "BlackClaw/1.0 (Android; offline assistant)")
+            .header("User-Agent", "BlaqClaw/1.0 (Android; offline assistant)")
             .get()
             .build()
         client.newCall(request).execute().use { response ->

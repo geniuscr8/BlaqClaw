@@ -15,7 +15,7 @@ object EmergencyBackupConfig {
     private const val KEY_URL = "emergency_backup_webdav_url"
     private const val KEY_USER = "emergency_backup_webdav_user"
     private const val KEY_SECRET = "emergency_backup_webdav_secret"
-    private const val KEY_ALIAS = "blackclaw_emergency_credentials_v1"
+    private const val KEY_ALIAS = "blaqclaw_emergency_credentials_v1"
 
     var url: String
         get() = KVUtils.getString(KEY_URL)

@@ -6,7 +6,7 @@ import com.blackclaw.android.assistant.RoutineEngine
 /**
  * Unified memory coordinator.
  *
- * BlackClaw has several memory subsystems that each want space in the system
+ * BlaqClaw has several memory subsystems that each want space in the system
  * prompt:
  *   - UserProfile      → who the user is (highest value, most stable)
  *   - UserMemoryStore  → explicit facts the user asked to remember

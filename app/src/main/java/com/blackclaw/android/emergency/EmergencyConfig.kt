@@ -21,7 +21,7 @@ object EmergencyConfig {
         set(value) { KVUtils.putString(KEY_PHONE, normalizePhone(value)) }
 
     var message: String
-        get() = KVUtils.getString(KEY_MESSAGE, "Necesito ayuda. Esta es una alerta de emergencia enviada por BlackClaw.")
+        get() = KVUtils.getString(KEY_MESSAGE, "Necesito ayuda. Esta es una alerta de emergencia enviada por BlaqClaw.")
         set(value) { KVUtils.putString(KEY_MESSAGE, value.trim()) }
 
     var recordAudio: Boolean
@@ -46,7 +46,7 @@ object EmergencyConfig {
     fun buildLocationUpdate(latitude: Double?, longitude: Double?, atMillis: Long = System.currentTimeMillis()): String {
         val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(atMillis))
         return buildString {
-            append("📍 Actualización de ubicación · BlackClaw\nHora: ").append(time)
+            append("📍 Actualización de ubicación · BlaqClaw\nHora: ").append(time)
             if (latitude != null && longitude != null) {
                 append("\nUbicación: https://maps.google.com/?q=").append(latitude).append(',').append(longitude)
             } else append("\nUbicación: no disponible en esta actualización")
@@ -62,7 +62,7 @@ object EmergencyConfig {
     ): String {
         val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(atMillis))
         return buildString {
-            append("🚨 EMERGENCIA · BlackClaw\n")
+            append("🚨 EMERGENCIA · BlaqClaw\n")
             append(configuredMessage.ifBlank { "Necesito ayuda." })
             append("\nHora: ").append(time)
             if (latitude != null && longitude != null) {

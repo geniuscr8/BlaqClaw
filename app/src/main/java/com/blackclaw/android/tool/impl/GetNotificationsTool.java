@@ -62,7 +62,7 @@ public class GetNotificationsTool extends BaseTool {
             StringBuilder sb = new StringBuilder();
             int count = 0;
             for (StatusBarNotification sbn : notifications) {
-                // Skip BlackClaw's own notifications
+                // Skip BlaqClaw's own notifications
                 if ("com.blackclaw.android".equals(sbn.getPackageName())) continue;
 
                 Notification notif = sbn.getNotification();
@@ -105,7 +105,7 @@ public class GetNotificationsTool extends BaseTool {
             }
 
             if (count == 0) {
-                return ToolResult.success("No active notifications (only BlackClaw system notifications present).");
+                return ToolResult.success("No active notifications (only BlaqClaw system notifications present).");
             }
 
             XLog.d(TAG, "Read " + count + " notifications");

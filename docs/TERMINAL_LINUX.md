@@ -1,12 +1,12 @@
 # Fixed Linux terminal
 
-BlackClaw includes a small local terminal without a package manager. It uses an
+BlaqClaw includes a small local terminal without a package manager. It uses an
 Alpine 3.21 root filesystem with `bash`, Python 3, Git, curl, jq, and development utilities.
 It works without root, Shizuku, or ADB; it is not a bridge to the Android shell.
 
 The root filesystem is installed once from the app assets into the app's private space. The
 agent always uses that unprivileged session, with the virtual user
-`blackclaw` (uid 1000), and cannot select privileged backends, ADB, or
+`blaqclaw` (uid 1000), and cannot select privileged backends, ADB, or
 remote devices. The manual console keeps its separate Pro option.
 
 ## Empaquetado y reproducibilidad

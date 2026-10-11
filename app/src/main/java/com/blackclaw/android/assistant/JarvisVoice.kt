@@ -5,7 +5,7 @@ import java.util.Calendar
 /**
  * JARVIS-style spoken personality for the voice assistant.
  *
- * Generates VARIED acknowledgements so BlackClaw never sounds canned. Lines are
+ * Generates VARIED acknowledgements so BlaqClaw never sounds canned. Lines are
  * pooled by intent (wake ack vs command ack) and flavoured by time of day, with
  * the occasional dry-wit line — channeling the JARVIS-from-Iron-Man tone:
  * composed, courteous, quietly witty, always loyal ("jefe").

@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import com.blackclaw.android.agent.skill.UserSkill
 import com.blackclaw.android.agent.skill.UserSkillStore
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.chat.ComposeChatActivity
@@ -65,7 +65,7 @@ class SkillsActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SkillsScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBack: () -> Unit,
     onRunSkill: (UserSkill) -> Unit,
 ) {
@@ -157,7 +157,7 @@ private fun SkillsScreen(
 }
 
 @Composable
-private fun EmptyState(colors: BlackClawColors, modifier: Modifier = Modifier) {
+private fun EmptyState(colors: BlaqClawColors, modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(
@@ -196,7 +196,7 @@ private fun EmptyState(colors: BlackClawColors, modifier: Modifier = Modifier) {
 @Composable
 private fun SkillCard(
     skill: UserSkill,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onRun: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
@@ -288,7 +288,7 @@ private fun SkillCard(
 @Composable
 private fun SkillEditorDialog(
     initial: UserSkill?,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onSave: (UserSkill) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -419,7 +419,7 @@ private fun SkillEditorDialog(
 }
 
 @Composable
-private fun FieldLabel(text: String, colors: BlackClawColors) {
+private fun FieldLabel(text: String, colors: BlaqClawColors) {
     Text(
         text,
         fontSize = 11.sp,
@@ -430,7 +430,7 @@ private fun FieldLabel(text: String, colors: BlackClawColors) {
 }
 
 @Composable
-private fun textFieldColors(c: BlackClawColors) = OutlinedTextFieldDefaults.colors(
+private fun textFieldColors(c: BlaqClawColors) = OutlinedTextFieldDefaults.colors(
     focusedTextColor = c.textPrimary,
     unfocusedTextColor = c.textPrimary,
     focusedBorderColor = c.accent,

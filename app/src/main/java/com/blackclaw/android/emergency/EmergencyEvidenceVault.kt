@@ -23,7 +23,7 @@ import javax.crypto.spec.GCMParameterSpec
  * replacement succeeds.
  */
 object EmergencyEvidenceVault {
-    private const val KEY_ALIAS = "blackclaw_emergency_evidence_v1"
+    private const val KEY_ALIAS = "blaqclaw_emergency_evidence_v1"
     private const val MAGIC = 0x42434531 // BCE1
     private const val BUFFER_SIZE = 64 * 1024
 

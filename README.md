@@ -1,23 +1,23 @@
 <div align="center">
 
-# BlackClaw
+# BlaqClaw
 
 **An on-device AI agent that operates your Android phone.**
 
-BlackClaw lets a language model see the screen, decide what to do, and drive any
+BlaqClaw lets a language model see the screen, decide what to do, and drive any
 app end to end — taps, swipes, typing, navigation — using your own LLM, locally
 or in the cloud.
 
 [![Platform](https://img.shields.io/badge/platform-Android%209%2B-3DDC84?logo=android&logoColor=white)](#requirements)
 [![Language](https://img.shields.io/badge/Kotlin%20%2F%20Java-7F52FF?logo=kotlin&logoColor=white)](#tech-stack)
-[![Release](https://img.shields.io/github/v/release/tuangel134/BlackClaw?include_prereleases&label=release)](https://github.com/tuangel134/BlackClaw/releases)
+[![Release](https://img.shields.io/github/v/release/tuangel134/BlaqClaw?include_prereleases&label=release)](https://github.com/tuangel134/BlaqClaw/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-### [⬇️ Download the latest APK](https://github.com/tuangel134/BlackClaw/releases/latest)
+### [⬇️ Download the latest APK](https://github.com/tuangel134/BlaqClaw/releases/latest)
 
 <sub>Sideload the signed APK from the Releases page. Android 9+ · ~160 MB</sub>
 
-> ⚠️ **Beta.** BlackClaw is under active development. Expect rough edges and
+> ⚠️ **Beta.** BlaqClaw is under active development. Expect rough edges and
 > behavior that varies across OEM skins. Bug reports are very welcome — see
 > [Reporting bugs](#reporting-bugs).
 
@@ -39,12 +39,12 @@ or in the cloud.
 
 ## Overview
 
-BlackClaw turns an Android device into an AI-operated phone. A model — running
+BlaqClaw turns an Android device into an AI-operated phone. A model — running
 **on-device** (Gemma via LiteRT-LM) or in the **cloud** (any OpenAI-compatible
 endpoint, Anthropic, Groq, etc.) — drives a generic tool layer that reads the
 live accessibility tree and acts on it.
 
-You describe a task in plain language. BlackClaw observes the screen, picks the
+You describe a task in plain language. BlaqClaw observes the screen, picks the
 right tools, performs the steps, verifies the result, and reports back. It works
 across any installed app because it operates the UI the same way a person does,
 rather than relying on per-app integrations.
@@ -53,13 +53,13 @@ rather than relying on per-app integrations.
   screen content and messages never leave the phone.
 - **Cloud-optional.** Bring your own key for a frontier model when you want more
   reasoning power. The key is stored only in local app storage.
-- **Automatic model routing.** In Settings → Models, BlackClaw can probe every
+- **Automatic model routing.** In Settings → Models, BlaqClaw can probe every
   configured cloud/local model with a minimal request, remember its latency, use
   the fastest successful model in AUTO mode, and silently fail over when a
   provider times out, rate-limits, or rejects a model. The probe never sends chat
   history or screen content (paid providers may charge the tiny probe request).
-- **Hands-free voice.** A wake word ("garra"/"BlackClaw") and an offline speech
-  engine let you talk to it; set BlackClaw as the phone's assistant and invoke it
+- **Hands-free voice.** A wake word ("garra"/"BlaqClaw") and an offline speech
+  engine let you talk to it; set BlaqClaw as the phone's assistant and invoke it
   with the power button — even over the lock screen — with a full-screen animated
   panel that streams the answer and speaks it back.
 - **Fast app control.** 70+ popular apps (Uber, Uber Eats, Spotify, Maps,
@@ -78,7 +78,7 @@ rather than relying on per-app integrations.
 
 ## What you can ask it
 
-Plain-language examples — BlackClaw figures out the steps:
+Plain-language examples — BlaqClaw figures out the steps:
 
 - *"Open WhatsApp and tell Mom I'll be 20 minutes late."*
 - *"Check my notifications and summarize anything important."*
@@ -91,7 +91,7 @@ Plain-language examples — BlackClaw figures out the steps:
 - *"Watch for messages from my boss and auto-reply that I'm in a meeting."*
 - *"What does my clipboard say, and translate it to English."*
 
-If a request is just a question or a chat, BlackClaw answers in text without
+If a request is just a question or a chat, BlaqClaw answers in text without
 touching the phone.
 
 ---
@@ -128,14 +128,14 @@ touching the phone.
 - Handles popups, permission dialogs, and paywalls intelligently
 
 ### Voice & system assistant
-- **Hands-free wake word** ("garra" or "BlackClaw") with an **offline** speech
+- **Hands-free wake word** ("garra" or "BlaqClaw") with an **offline** speech
   engine (Vosk) — no internet, no key. Fuzzy matching tuned for how the
   recognizer mishears the word.
-- **Set BlackClaw as the phone's assistant** and summon it with the power-button
+- **Set BlaqClaw as the phone's assistant** and summon it with the power-button
   gesture — it appears in a **full-screen animated panel** (an audio-reactive
   claw orb) **even over the lock screen**, like Gemini/Assistant.
 - The assistant settings verify both Android's assistant role and the active
-  `VoiceInteractionService`. If an OEM leaves them out of sync, BlackClaw shows
+  `VoiceInteractionService`. If an OEM leaves them out of sync, BlaqClaw shows
   a repair prompt instead of falsely claiming that the power button is ready.
 - **Streaming replies:** the answer types out live and is **spoken sentence by
   sentence as it generates** (cloud models); tap the orb to interrupt.
@@ -147,14 +147,14 @@ touching the phone.
 
 ### Android Auto
 - A **voice-first, driving-safe** surface built on the **Android for Cars App
-  Library**. When the phone is connected to Android Auto, BlackClaw shows a grid
+  Library**. When the phone is connected to Android Auto, BlaqClaw shows a grid
   of large one-tap actions on the car screen: **Preguntar** (ask anything),
   **Navigate**, **Music**, **Call**, and **Notifications**.
 - The action screens use a **search template**, so the **car's own
   speech-to-text** transcribes what you say — you never touch the phone. The
   transcribed request runs through the same task pipeline as the phone (deep-link
   fast-path, tools, agent loop) and the answer is **read aloud** with TTS.
-- Because it reuses the full pipeline, anything BlackClaw can do by voice on the
+- Because it reuses the full pipeline, anything BlaqClaw can do by voice on the
   phone also works from the car.
 - Distributed as a sideload app (not on Play), so to use it you enable **"Unknown
   sources"** for developer apps in the Android Auto settings on the phone.
@@ -166,7 +166,7 @@ touching the phone.
   streaming, social, travel and more — far faster than tapping through the UI.
 - **Play music in any player** via Android's universal play-from-search
   (Spotify, YouTube Music, Musicolet, Poweramp…), with a preferred-player setting.
-- **Auto-discovery:** BlackClaw asks the system which installed apps can handle
+- **Auto-discovery:** BlaqClaw asks the system which installed apps can handle
   each capability (music, navigation, email, calling…), so it adapts to *your*
   app set instead of a hardcoded list.
 - **Deterministic fast-path ("Quick shortcuts"):** common commands ("open X",
@@ -175,7 +175,7 @@ touching the phone.
   trivial commands — to go through the model instead.
 
 ### Privileged control (no PC, no root)
-- **Built-in self-ADB pairing.** BlackClaw can pair with its own `adbd` over the
+- **Built-in self-ADB pairing.** BlaqClaw can pair with its own `adbd` over the
   loopback interface using Android's Wireless Debugging (TLS 1.3 + SPAKE2), with
   the 6-digit code read automatically from the system dialog via accessibility.
   No computer and no second app required.
@@ -236,8 +236,8 @@ touching the phone.
 - **Export finances to CSV** for a backup or to open in a spreadsheet
 
 ### Automation engine
-- **Semantic places with any name:** say *“BlackClaw, this place is my girlfriend’s house”*, *“this is my room”* or *“save this as gym”*. BlackClaw stores a stable place ID plus the coordinates in Android Keystore-backed encrypted storage; automations reuse the ID instead of asking the model to remember coordinates.
-- **Hybrid geofencing:** Google Play Services geofences are the primary low-power enter/exit path, with BlackClaw’s last-known-location checker as a best-effort fallback when Play Services/background location is unavailable. Geofence request IDs are opaque hashes and location events do not expose saved coordinates to action templates.
+- **Semantic places with any name:** say *“BlaqClaw, this place is my girlfriend’s house”*, *“this is my room”* or *“save this as gym”*. BlaqClaw stores a stable place ID plus the coordinates in Android Keystore-backed encrypted storage; automations reuse the ID instead of asking the model to remember coordinates.
+- **Hybrid geofencing:** Google Play Services geofences are the primary low-power enter/exit path, with BlaqClaw’s last-known-location checker as a best-effort fallback when Play Services/background location is unavailable. Geofence request IDs are opaque hashes and location events do not expose saved coordinates to action templates.
 - **Tasker-class profile core:** multiple OR triggers, reusable conditions, `ALL` / `ANY` / `NONE` / `XOR` logic, negation, ordered actions, IF/ELSE, bounded loops, encrypted variables, templates, cooldowns, daily/runtime limits, and `skip` / `queue` / `replace` concurrency.
 - **More Android state triggers:** time/interval, notification, location, app foreground/closed, connectivity/Wi-Fi, battery/charging, screen, headset/Bluetooth, call/SMS, boot, airplane mode, power saver, device idle, USB, storage, timezone, locale and token-protected webhooks.
 - **Visual + conversational authoring:** use **Automatizaciones → Flujos / Lugares** or describe the automation in normal language. The AI can author/edit the structure, but event matching and deterministic actions run locally without needing an LLM round-trip.
@@ -248,7 +248,7 @@ touching the phone.
 - Guided permissions onboarding
 - Multi-step plans verified before execution
 - TTS voice for morning and evening summaries
-- Explicit task requests are routed to BlackClaw's native task and automation
+- Explicit task requests are routed to BlaqClaw's native task and automation
   tools instead of being answered with recommendations for another app
 - Direct Wi‑Fi status questions stay instant, while Wi‑Fi actions and automations
   reach the correct device or scheduling tools
@@ -285,12 +285,12 @@ touching the phone.
   **uncensored (abliterated)** Gemma 4 community ports — same architecture, so
   they load on the same runtime — downloadable from within the app. You can also
   paste a custom `.litertlm` URL.
-- **Cloud, free, no account (BlackClaw Free tier):** a set of hosted models
+- **Cloud, free, no account (BlaqClaw Free tier):** a set of hosted models
   usable out of the box with **no API key and no signup** — Settings → Modelo →
-  **BlackClaw Free**. Currently includes DeepSeek V4 Flash, Mimo V2.5,
+  **BlaqClaw Free**. Currently includes DeepSeek V4 Flash, Mimo V2.5,
   Nemotron 3 Ultra, and North Mini Code, each tagged with a speed/quality rating
   so you can pick fast vs. smart per task.
-- **Automatic mode:** choose **Automatic** in the model picker and BlackClaw
+- **Automatic mode:** choose **Automatic** in the model picker and BlaqClaw
   uses the configured cloud model while the connection is validated, then
   falls back to the downloaded local model when the phone is offline. The chat
   shows which backend is active.
@@ -320,7 +320,7 @@ touching the phone.
 - Backends: LOCAL (app-level, works always) or PRIVILEGED (Shizuku / self-paired
   ADB for `pm`, `am`, `settings`, `input`…)
 - **adb-over-WiFi without a PC:** `adb pair <host:port> <code>`, `adb connect`,
-  `adb shell <cmd>` — operate another device from inside BlackClaw
+  `adb shell <cmd>` — operate another device from inside BlaqClaw
 - Activatable toggle in Settings → Advanced
 
 ### Security (antimalware)
@@ -371,7 +371,7 @@ next move without a wasted round.
 ### Token-efficient tool disclosure
 
 Sending 181 full tool schemas on every request is expensive and trips cloud rate
-limits. BlackClaw uses **progressive disclosure**: a compact one-line catalog of
+limits. BlaqClaw uses **progressive disclosure**: a compact one-line catalog of
 every tool is shown in the system prompt, a task-relevant subset is preloaded
 with full schemas, and the model loads anything else on demand via a
 `request_tool` meta-tool. The model always sees the full catalog — it never loses
@@ -406,7 +406,7 @@ Release builds require a keystore. Provide the signing values via environment
 variables or `local.properties`:
 
 ```
-KEYSTORE_FILE=/absolute/path/to/blackclaw-release.keystore
+KEYSTORE_FILE=/absolute/path/to/blaqclaw-release.keystore
 KEYSTORE_PASSWORD=...
 KEY_ALIAS=...
 KEY_PASSWORD=...
@@ -461,7 +461,7 @@ scripts/              ADB-driven smoke and E2E harnesses
 | Language / build | Kotlin · Java 17 · Android Gradle Plugin 9.1 |
 | UI | Jetpack Compose (BOM 2025.05) · Material 3 · 10 built-in themes |
 | On-device LLM | LiteRT-LM 0.10 (Gemma 4 E2B / E4B, incl. abliterated ports) |
-| Cloud LLM clients | LangChain4j (OpenAI / Anthropic) · BlackClaw Free routing layer (no-key hosted models) |
+| Cloud LLM clients | LangChain4j (OpenAI / Anthropic) · BlaqClaw Free routing layer (no-key hosted models) |
 | Offline speech | Vosk (wake word + STT, zero network) |
 | Privileged control | libadb-android + Conscrypt (self-ADB pairing, TLS 1.3 + SPAKE2) · Shizuku |
 | Perception | ML Kit Text Recognition (OCR) · MediaProjection screen capture |
@@ -474,22 +474,22 @@ scripts/              ADB-driven smoke and E2E harnesses
 In local mode, inference runs entirely on the device and no screen content,
 message, or device data is sent anywhere. In cloud mode, requests go only to the
 provider whose key you configured. API keys are stored in local app storage and
-are never transmitted to any third party by BlackClaw.
+are never transmitted to any third party by BlaqClaw.
 
 ---
 
 ## Download
 
 Grab the latest signed APK from the
-[**Releases**](https://github.com/tuangel134/BlackClaw/releases) page and
-sideload it. BlackClaw is distributed as a sideload APK (not on Play Store) and
+[**Releases**](https://github.com/tuangel134/BlaqClaw/releases) page and
+sideload it. BlaqClaw is distributed as a sideload APK (not on Play Store) and
 is currently in **beta**.
 
 Two APKs are published per release:
 
-- **`BlackClaw-vX.Y.Z-arm64-v8a.apk`** — recommended for virtually every modern
+- **`BlaqClaw-vX.Y.Z-arm64-v8a.apk`** — recommended for virtually every modern
   phone (~half the size, includes the on-device LLM).
-- **`BlackClaw-vX.Y.Z-universal.apk`** — fallback that runs on any architecture
+- **`BlaqClaw-vX.Y.Z-universal.apk`** — fallback that runs on any architecture
   if the arm64 build won't install.
 
 Verify your download against `SHA256SUMS.txt` with `sha256sum -c SHA256SUMS.txt`.
@@ -503,12 +503,12 @@ Debugging.
 
 ## Reporting bugs
 
-BlackClaw is in beta and OEM behavior varies, so reports are valuable.
+BlaqClaw is in beta and OEM behavior varies, so reports are valuable.
 
 1. In the app, open **Settings → About → Share debug report** to generate a ZIP
    (device fingerprint, ABIs, RAM, permission state, recent logs).
 2. Open a new issue on
-   [**GitHub Issues**](https://github.com/tuangel134/BlackClaw/issues/new) — the
+   [**GitHub Issues**](https://github.com/tuangel134/BlaqClaw/issues/new) — the
    **Settings → About → Report a bug** button pre-fills one for you — and
    **attach the debug ZIP**.
 
@@ -529,15 +529,15 @@ PR guidelines, and conventions.
 
 ### v1.3.2
 
-- Fixed local **text-only LiteRT-LM models** failing at startup with `TF_LITE_VISION_ENCODER not found`: BlackClaw now detects/probes model modality, retries the same backend without `visionBackend` when the optional encoder is absent, and releases partially initialized native engines before retrying.
+- Fixed local **text-only LiteRT-LM models** failing at startup with `TF_LITE_VISION_ENCODER not found`: BlaqClaw now detects/probes model modality, retries the same backend without `visionBackend` when the optional encoder is absent, and releases partially initialized native engines before retrying.
 - Local image chat now respects the loaded model capability: multimodal bundles receive image bytes, while text-only bundles use the existing OCR fallback instead of sending an unsupported vision payload. Missing vision assets no longer quarantine a healthy GPU as a backend failure.
 - Updated the on-device runtime from **LiteRT-LM 0.10.0 to 0.16.1** and expanded the model UI with explicit **Vision + text**, **Text only · images via OCR**, or **modality detected on load** labels. Automatic bootstrap remains on vetted default Gemma models; community/uncensored models are always explicit opt-in choices.
 - Added three recently published, public LiteRT-LM community choices: **Gemma 4 E4B Abliterated MTP (3.7 GB)**, **Huihui Gemma 4 E2B Abliterated multimodal (5.2 GB)** and **Huihui Gemma 4 E4B Abliterated multimodal (8.4 GB)**, with verified public download artifacts and RAM guidance.
 
 ### v1.3.1
 
-- Added a reusable **permission education** experience: before a sensitive Android permission or special-access screen opens, BlackClaw explains why the capability is needed, what stops working if it is denied, and the relevant privacy behavior.
-- Added **Settings → Permissions → Why does BlackClaw need permissions?** with a catalog covering 23 permission/capability families, including Accessibility, notifications, microphone, camera, location/background location, files, contacts, calendar, SMS/call access, Bluetooth and Android-managed technical capabilities.
+- Added a reusable **permission education** experience: before a sensitive Android permission or special-access screen opens, BlaqClaw explains why the capability is needed, what stops working if it is denied, and the relevant privacy behavior.
+- Added **Settings → Permissions → Why does BlaqClaw need permissions?** with a catalog covering 23 permission/capability families, including Accessibility, notifications, microphone, camera, location/background location, files, contacts, calendar, SMS/call access, Bluetooth and Android-managed technical capabilities.
 - Extended contextual explanations to onboarding, Quick Assist, voice mode, calendar, ZIM storage access, geofence/location setup, scheduled tasks and emergency protection; emergency permissions are explained together before Android asks only for the missing ones.
 - Removed surprise permission prompts from ordinary chat/task startup: microphone and notification requests now happen only from an explicit feature flow, and voice mode no longer remains enabled when microphone permission is declined.
 
@@ -550,7 +550,7 @@ PR guidelines, and conventions.
 
 ### v1.2.20
 
-- Sensitive BlackClaw data now moves to Android Keystore-backed AES-GCM storage, including cloud/channel credentials, SSH connections, memories, routines, scheduled/offline tasks, automation profiles, auto-reply profiles and WeChat context tokens; legacy MMKV values are removed only after verified encrypted migration.
+- Sensitive BlaqClaw data now moves to Android Keystore-backed AES-GCM storage, including cloud/channel credentials, SSH connections, memories, routines, scheduled/offline tasks, automation profiles, auto-reply profiles and WeChat context tokens; legacy MMKV values are removed only after verified encrypted migration.
 - External automation is hardened with fail-closed caller/token checks, explicit callback destinations, constant-time webhook token comparison, safer boot/assistant component exposure and encrypted automation tokens.
 - Agent, channel, ADB, Shizuku, SSH, messaging and local-model diagnostics no longer copy prompts, message bodies, tool parameters, commands, credentials or API responses into logcat.
 - Secure-storage failures are surfaced to the UI/tools without crashing, and reboot schedule normalization avoids replaying expired one-shot tasks while advancing recurring schedules to their next valid slot.
@@ -563,7 +563,7 @@ PR guidelines, and conventions.
 
 ### v1.2.17
 
-- Added configurable **AUTO model routing**. BlackClaw can benchmark every
+- Added configurable **AUTO model routing**. BlaqClaw can benchmark every
   configured cloud/local model with a minimal request, remember latency, use the
   fastest valid route, and fail over automatically when a provider times out,
   rate-limits, rejects a model, or returns an empty response.
@@ -572,7 +572,7 @@ PR guidelines, and conventions.
   storage (including Edge Gallery exports) are included in the model test.
 - Fixed OEM assistant desynchronization: Settings now checks both Android's
   assistant role and the active `VoiceInteractionService`, and guides users to
-  repair devices where the role says BlackClaw but the power gesture still goes
+  repair devices where the role says BlaqClaw but the power gesture still goes
   to Google.
 
 ### v1.2.16
@@ -605,7 +605,7 @@ PR guidelines, and conventions.
   live preview before scheduling it. The same flow is available from the empty
   state and the top-bar `+` button.
 - Added a native task-creation guard. Explicit requests such as “create a task”
-  now prioritize BlackClaw's task, reminder, schedule and automation tools and
+  now prioritize BlaqClaw's task, reminder, schedule and automation tools and
   cannot finish as a generic recommendation for Todoist, Tasker or another app.
 - Fixed Wi‑Fi routing: read-only status questions still use the instant device
   shortcut, while Wi‑Fi actions, schedules and automations reach the agent and
@@ -614,7 +614,7 @@ PR guidelines, and conventions.
   the Wi‑Fi” behave consistently with their unaccented equivalents.
 - Added regression coverage for Wi‑Fi actions, native task creation and the
   guarded tool-selection path.
-- Updated the in-app **What can BlackClaw do?** guide with automatic
+- Updated the in-app **What can BlaqClaw do?** guide with automatic
   local/cloud switching, OCR and vision, the Termux-like terminal, offline ZIM
   libraries, scheduled automations and the refreshed free/local model workflow.
 
@@ -676,7 +676,7 @@ PR guidelines, and conventions.
 - Image attachments now preserve the original image for compatible vision models
   while including on-device OCR as supporting text. Text-only or incompatible
   endpoints automatically fall back to OCR instead of failing the request.
-- Added local-model discovery and import: BlackClaw searches shared Downloads,
+- Added local-model discovery and import: BlaqClaw searches shared Downloads,
   Documents and AI folders for visible model files, imports compatible
   `.litertlm` files, and clearly marks detected formats that the current local
   runtime cannot execute.
@@ -696,7 +696,7 @@ PR guidelines, and conventions.
 - Fixed an audio race in Quick Assist: opening it now pauses the background
   wake-word service, releases its microphone and cancels any queued response.
   Only the Quick Assist conversation can listen or speak until the panel closes.
-- Excluded BlackClaw's Android 11 voice-service compatibility bridge from the
+- Excluded BlaqClaw's Android 11 voice-service compatibility bridge from the
   speech recognizer picker, preventing it from being selected as a real
   recognizer and emitting a second false failure.
 
@@ -734,19 +734,19 @@ PR guidelines, and conventions.
   visible audio evidence when permitted, and exposes a persistent Stop action
   plus an append-only local event log. No real alert is sent during setup.
 - Added `zim_search` and `zim_read` for direct offline knowledge access. They
-  parse local `.zim` files inside BlackClaw, return bounded source-labelled
+  parse local `.zim` files inside BlaqClaw, return bounded source-labelled
   excerpts suitable for local 2B–4B models, and never place a whole archive in
   the prompt. No external reader app is required.
 - Added `zim_index` and persistent full-content search for local `.zim` files.
-  BlackClaw builds its own SQLite FTS index in resumable atomic batches, shows
+  BlaqClaw builds its own SQLite FTS index in resumable atomic batches, shows
   progress in a foreground notification, supports pause/resume/rebuild, and
   returns relevant article-body snippets even when the query is not in a title.
-- Added `zim_consult`, BlackClaw's index-free Book Retriever. It analyses the
+- Added `zim_consult`, BlaqClaw's index-free Book Retriever. It analyses the
   question, locates likely chapters through the ZIM's built-in title tree, reads
   only a bounded set of candidate articles, ranks their passages and returns
   source-labelled excerpts. The archive is never copied or loaded into context;
   the local FTS builder is now explicitly an optional fallback.
-- Added a native ZIM library inside BlackClaw: discover local archives, search
+- Added a native ZIM library inside BlaqClaw: discover local archives, search
   titles/content, read articles, manage background indexing and hand a selected
   topic to Quick Assist without installing or controlling Kiwix.
 - Expanded personal protection with separate Emergency and Discreet modes,
@@ -767,7 +767,7 @@ PR guidelines, and conventions.
 - Added an Automations screen with Horarios and Si→Entonces tabs, manual rule
   creation, enable/disable, test and delete controls. Required confirmations now
   expose actionable **Yes** and **No** notification buttons.
-- Added guarded game control with `game_observe` and `game_action`. BlackClaw
+- Added guarded game control with `game_observe` and `game_action`. BlaqClaw
   now observes SurfaceView/OpenGL games through screen capture and OCR, uses
   resolution-independent coordinates, verifies visual changes, and refuses
   blind or stale action sequences.
@@ -775,7 +775,7 @@ PR guidelines, and conventions.
   require explicit user confirmation.
 - Added a visible Accessibility-based autoclicker editor that needs no ADB or
   Shizuku. Users can place taps/swipes over a game, name and save macros, then
-  ask BlackClaw to open the matching game and run them. Playback supports loops
+  ask BlaqClaw to open the matching game and run them. Playback supports loops
   up to 30 minutes, speed control, pause/resume/restart/stop and foreground guards.
 - Fixed Android lint errors around Bluetooth permission, predictive Back,
   Android 12 splash resources, Quick Settings launch behavior and missing
@@ -797,7 +797,7 @@ PR guidelines, and conventions.
   (`IllegalStateException: You need to use a Theme.AppCompat theme`) because
   the permission dialog's activity used a non-AppCompat theme. Repeated crashes
   killed the whole process, which took the Accessibility service down with it —
-  looking like BlackClaw's accessibility permission "turned itself off".
+  looking like BlaqClaw's accessibility permission "turned itself off".
   Confirmed fixed on-device (Honor Magic 7 Pro / MagicOS) via crash-log
   analysis (`dumpsys dropbox`) before and after.
 
@@ -812,10 +812,10 @@ PR guidelines, and conventions.
 - **Fixed: voice input not working on some OEM ROMs** (observed on HonorOS/
   MagicOS). Root causes and fixes:
   - The system's DEFAULT speech-recognition component could fail to bind
-    ("error 10"); BlackClaw now resolves and binds to a working recognizer
+    ("error 10"); BlaqClaw now resolves and binds to a working recognizer
     (Google) explicitly instead of relying on the OEM default.
   - When Google's on-device recognizer lacks the Spanish language pack
-    (error 12/13), BlackClaw now falls back to the bundled offline Vosk engine
+    (error 12/13), BlaqClaw now falls back to the bundled offline Vosk engine
     automatically — voice input works with zero network and zero OEM
     dependency.
   - R8/minification was silently breaking Vosk in release builds
@@ -825,7 +825,7 @@ PR guidelines, and conventions.
     lock screen, which briefly pauses/resumes during transitions).
 - **Fixed: assistant panel opening the main app unexpectedly.** Any task
   started from the voice panel or the wake word previously reopened
-  BlackClaw's chat screen on completion, even for plain answers ("what's on my
+  BlaqClaw's chat screen on completion, even for plain answers ("what's on my
   agenda?"). The panel is now a self-contained surface that never redirects to
   the main app.
 - **Fixed: no way to interrupt a stuck/looping task from voice.** Re-invoking
@@ -835,12 +835,12 @@ PR guidelines, and conventions.
 
 ### v1.1.0
 
-- **Internal terminal (Termux-like):** BlackClaw now ships its own persistent
+- **Internal terminal (Termux-like):** BlaqClaw now ships its own persistent
   shell session shared between the user (new Terminal screen) and the AI (the
   `terminal` tool). Choose between LOCAL (app-level, no root) and PRIVILEGED
   (Shizuku / self-paired ADB) backends. Built-in `adb` router for connecting to
   other devices over Wireless Debugging without a PC: `adb pair`, `adb connect`,
-  `adb shell`, `adb disconnect` — all from inside BlackClaw. Enable from
+  `adb shell`, `adb disconnect` — all from inside BlaqClaw. Enable from
   Settings → Advanced → Terminal.
 - **Antimalware / app security:** built-in on-device scanner that scores
   installed apps by risky traits (overlay permission, accessibility, hidden icon,
@@ -865,7 +865,7 @@ PR guidelines, and conventions.
 - **Rich notification extraction:** reads MessagingStyle / BigText / TextLines
   from notifications so the proactive assistant rarely needs the intrusive
   "open the chat to read" deep-read fallback
-- **In-app updates from GitHub:** BlackClaw checks the repo's latest release on
+- **In-app updates from GitHub:** BlaqClaw checks the repo's latest release on
   launch (and on demand from Settings → About) and, if a newer version is
   published, downloads the signed APK and launches the installer — no Play Store,
   no manual sideload. Because releases are signed with the same key, updates

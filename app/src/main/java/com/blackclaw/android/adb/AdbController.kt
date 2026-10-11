@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * High-level orchestrator for BlackClaw's *self-ADB* — the app pairs and
+ * High-level orchestrator for BlaqClaw's *self-ADB* — the app pairs and
  * connects to its OWN device's `adbd` over the loopback interface (127.0.0.1)
  * using the Wireless Debugging stack that ships in Android 11+.
  *
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference
  *    mDNS as `_adb-tls-connect._tcp`, and a separate pairing port advertised
  *    as `_adb-tls-pairing._tcp`.
  *  - Those services are reachable from the *same device* over loopback, so
- *    BlackClaw can pair + connect to itself. No router, no second machine.
+ *    BlaqClaw can pair + connect to itself. No router, no second machine.
  *  - After a one-time pairing (user types the 6-digit code shown by the OS),
  *    our RSA identity is trusted by adbd forever. Reconnect is silent.
  *
@@ -161,7 +161,7 @@ object AdbController {
      * and pairs — the user never has to copy or type the code (which is
      * impossible anyway, since leaving the dialog regenerates it).
      *
-     * Requires BlackClaw's accessibility service to be running. The caller is
+     * Requires BlaqClaw's accessibility service to be running. The caller is
      * responsible for having opened the Wireless Debugging screen first; here we
      * tap into "Pair device with pairing code" and read the resulting dialog.
      *
@@ -174,7 +174,7 @@ object AdbController {
         val svc = com.blackclaw.android.service.ClawAccessibilityService.getConnectedInstance(2_000L)
         if (svc == null) {
             state = State.ERROR
-            lastError = "El servicio de accesibilidad de BlackClaw no está activo. Actívalo y reintenta."
+            lastError = "El servicio de accesibilidad de BlaqClaw no está activo. Actívalo y reintenta."
             return@withContext Result.failure(IllegalStateException(lastError))
         }
 

@@ -35,7 +35,7 @@ class GetCallLogTool : BaseTool() {
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_CALL_LOG)
             != PackageManager.PERMISSION_GRANTED) {
             return ToolResult.error(
-                "READ_CALL_LOG permission not granted. Grant it in Settings > Apps > BlackClaw > Permissions."
+                "READ_CALL_LOG permission not granted. Grant it in Settings > Apps > BlaqClaw > Permissions."
             )
         }
 

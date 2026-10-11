@@ -12,7 +12,7 @@ class ExternalModelDiscoveryTest {
         val format = ExternalModelDiscovery.classify("Gemma-4-E2B-it.litertlm")
 
         assertEquals(ExternalModelDiscovery.Format.LITERT_LM, format)
-        assertTrue(format.canRunInBlackClaw)
+        assertTrue(format.canRunInBlaqClaw)
     }
 
     @Test
@@ -20,7 +20,7 @@ class ExternalModelDiscoveryTest {
         assertEquals(ExternalModelDiscovery.Format.GGUF, ExternalModelDiscovery.classify("qwen2.5.gguf"))
         assertEquals(ExternalModelDiscovery.Format.MEDIAPIPE_TASK, ExternalModelDiscovery.classify("gemma.task"))
         assertEquals(ExternalModelDiscovery.Format.TFLITE, ExternalModelDiscovery.classify("gemma.tflite"))
-        assertFalse(ExternalModelDiscovery.classify("qwen2.5.gguf").canRunInBlackClaw)
+        assertFalse(ExternalModelDiscovery.classify("qwen2.5.gguf").canRunInBlaqClaw)
     }
 
     @Test

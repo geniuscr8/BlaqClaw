@@ -6,7 +6,7 @@ import androidx.car.app.validation.HostValidator
 import com.blackclaw.android.BuildConfig
 
 /**
- * Entry point for BlackClaw on Android Auto (Car App Library).
+ * Entry point for BlaqClaw on Android Auto (Car App Library).
  *
  * Exposes a voice-first, driving-safe surface on the car head unit (or phone
  * projection): a grid of one-tap actions (navigate, play music, call, read
@@ -32,7 +32,7 @@ import com.blackclaw.android.BuildConfig
  * `com.google.android.projection.gearhead` (Android Auto) and
  * `com.google.android.apps.automotive.templates.host` (Automotive OS).
  */
-class BlackClawCarAppService : CarAppService() {
+class BlaqClawCarAppService : CarAppService() {
 
     override fun createHostValidator(): HostValidator =
         if (BuildConfig.DEBUG) {
@@ -45,5 +45,5 @@ class BlackClawCarAppService : CarAppService() {
                 .build()
         }
 
-    override fun onCreateSession(): Session = BlackClawSession()
+    override fun onCreateSession(): Session = BlaqClawSession()
 }

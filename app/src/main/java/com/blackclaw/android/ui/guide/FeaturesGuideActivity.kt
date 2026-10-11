@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 
 /**
- * A scrollable "what BlackClaw can do" guide with concrete example phrases for
+ * A scrollable "what BlaqClaw can do" guide with concrete example phrases for
  * each capability — so users actually discover voice, smart home, remote PC,
  * routines, habits, free models, etc.
  */
@@ -42,7 +42,7 @@ private data class Feature(
 
 private val FEATURES = listOf(
     Feature("📲", "Control your apps",
-        "Ask for actions in popular apps and BlackClaw jumps straight to the useful screen with deep links, then completes the rest. Supports 60+ apps: Uber, DiDi, Cabify, Uber Eats, Rappi, DoorDash, Glovo, Spotify, YouTube, Maps, Waze, WhatsApp, Telegram, Instagram, X, Amazon, Mercado Libre, AliExpress, eBay, Netflix, Disney+, Booking, Airbnb, Gmail, and more. Accessibility can operate ANY app on screen.",
+        "Ask for actions in popular apps and BlaqClaw jumps straight to the useful screen with deep links, then completes the rest. Supports 60+ apps: Uber, DiDi, Cabify, Uber Eats, Rappi, DoorDash, Glovo, Spotify, YouTube, Maps, Waze, WhatsApp, Telegram, Instagram, X, Amazon, Mercado Libre, AliExpress, eBay, Netflix, Disney+, Booking, Airbnb, Gmail, and more. Accessibility can operate ANY app on screen.",
         listOf("\"get me an Uber to the airport\"", "\"order sushi on Uber Eats\"", "\"find a keyboard on Amazon\"", "\"navigate home\"")),
     Feature("🐾", "Phone assistant",
         "Set it as the default assistant (Settings → Voice mode → Phone assistant) and invoke it with the Home gesture or button, even over the lock screen. An animated floating panel appears, and you can have a conversation without repeating the wake word. Tap the orb to interrupt it.",
@@ -51,7 +51,7 @@ private val FEATURES = listOf(
         "Tell it about an appointment and it adds it to the calendar, rings an alarm at the right time, and shows it in the agenda — now or weeks from now. View everything in Calendar (Month/Agenda) and reschedule with a tap.",
         listOf("\"I have a meeting at 7\"", "\"I have a doctor appointment at 5 PM in three weeks\"", "\"what do I have today?\"")),
     Feature("🗓️", "Tareas programadas y automatizaciones",
-        "Create a task from Automations with a guided flow: describe what you want, choose whether BlackClaw acts or only alerts you, select a time or date, and choose whether it repeats. You can also create Tasker-style profiles triggered by Wi-Fi, notifications, location, or time.",
+        "Create a task from Automations with a guided flow: describe what you want, choose whether BlaqClaw acts or only alerts you, select a time or date, and choose whether it repeats. You can also create Tasker-style profiles triggered by Wi-Fi, notifications, location, or time.",
         listOf("\"remind me to check the weather in 30 minutes\"", "\"check my agenda every Monday at 9\"", "\"when I connect to home Wi-Fi, alert me\"")),
     Feature("🎵", "Music in your player",
         "Play music in the player you use (Musicolet, Spotify, YouTube Music, Poweramp…), not just one specific app. It works offline with your local music.",
@@ -72,7 +72,7 @@ private val FEATURES = listOf(
         "Control lights, plugs, and devices through webhooks (Home Assistant, IFTTT). Configure them first.",
         listOf("\"turn on the living room light\"", "\"turn off the coffee maker\"")),
     Feature("📶", "Automatic local / cloud mode",
-        "In Settings → Model → Automatic, BlackClaw uses your cloud model when internet is available and switches to the downloaded local model when offline. You can see the active model in the chat selector.",
+        "In Settings → Model → Automatic, BlaqClaw uses your cloud model when internet is available and switches to the downloaded local model when offline. You can see the active model in the chat selector.",
         listOf("Enable \"Automatic\" in the model selector", "Offline → respond with your local model", "Online → use your configured cloud model")),
     Feature("👁️", "See and understand the screen",
         "Read text with OCR, even in games and custom surfaces. Vision-capable models receive the original image; otherwise OCR text is used as a fallback. Accessibility can also be combined with the screen to tap the correct element.",
@@ -81,10 +81,10 @@ private val FEATURES = listOf(
         "Connect to your computer over SSH and diagnose or fix problems from your phone.",
         listOf("\"connect to my PC at 192.168.1.10 as angel\"", "\"my PC Wi-Fi is not working, fix it\"", "\"watch the log and alert me if there is an error\"")),
     Feature("⌨️", "Termux-style terminal",
-        "Includes a persistent local terminal for you and BlackClaw. It works without root or Shizuku for app-environment commands, with optional self-ADB, Shizuku, or Wi-Fi ADB for privileged actions.",
+        "Includes a persistent local terminal for you and BlaqClaw. It works without root or Shizuku for app-environment commands, with optional self-ADB, Shizuku, or Wi-Fi ADB for privileged actions.",
         listOf("\"open the terminal\"", "\"list the files in my workspace\"", "\"connect to the remote device over ADB\"")),
     Feature("📚", "Offline library",
-        "Query compatible ZIM files without internet. BlackClaw detects local libraries, searches the index, and returns only relevant passages instead of inventing an answer.",
+        "Query compatible ZIM files without internet. BlaqClaw detects local libraries, searches the index, and returns only relevant passages instead of inventing an answer.",
         listOf("\"query my offline Wikipedia: what is TCP?\"", "\"search this in the ZIM library\"")),
     Feature("⚡", "Routines",
         "Create multi-step sequences that run at a scheduled time or when requested. Save, test, edit, and limit how often they run.",
@@ -96,8 +96,8 @@ private val FEATURES = listOf(
         "Learns your preferences and routines over time, with a JARVIS-style personality.",
         listOf("\"remember that my boss is named Carlos\"", "\"what meetings do I have this week?\"")),
     Feature("💸", "Free models",
-        "In Settings → Model → BlackClaw Free, you have free cloud models without an account or API key. Update the catalog from the chat model selector, or import compatible local models from Downloads, Documents, or AI folders.",
-        listOf("Choose BlackClaw Free → Update models", "Download or import a compatible local model", "Combine it with Automatic mode")),
+        "In Settings → Model → BlaqClaw Free, you have free cloud models without an account or API key. Update the catalog from the chat model selector, or import compatible local models from Downloads, Documents, or AI folders.",
+        listOf("Choose BlaqClaw Free → Update models", "Download or import a compatible local model", "Combine it with Automatic mode")),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,7 +132,7 @@ private fun FeaturesGuideScreen(onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             Text(
-                "BlackClaw is your personal assistant. Type or speak — here is what it can do:",
+                "BlaqClaw is your personal assistant. Type or speak — here is what it can do:",
                 color = textSecondary, fontSize = 14.sp,
             )
             FEATURES.forEach { f ->

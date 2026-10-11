@@ -32,7 +32,7 @@ import com.blackclaw.android.assistant.AssistantScheduler
 import com.blackclaw.android.assistant.AssistantStore
 import com.blackclaw.android.assistant.AssistantTime
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.onboarding.PermissionExplanationDialog
@@ -91,7 +91,7 @@ private fun dayKey(ms: Long): Long {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CalendarScreen(colors: BlackClawColors, onBack: () -> Unit) {
+private fun CalendarScreen(colors: BlaqClawColors, onBack: () -> Unit) {
     var refresh by remember { mutableStateOf(0) }
     var mode by remember { mutableStateOf(0) } // 0 = Mes, 1 = Agenda
     var rescheduleItem by remember { mutableStateOf<AssistantItem?>(null) }
@@ -211,7 +211,7 @@ private fun collectItems(ctx: android.content.Context, showSystem: Boolean): Lis
 }
 
 @Composable
-private fun MonthMode(colors: BlackClawColors, refresh: Int, showSystem: Boolean,
+private fun MonthMode(colors: BlaqClawColors, refresh: Int, showSystem: Boolean,
                       onTapItem: (AssistantItem) -> Unit) {
     val ctx = androidx.compose.ui.platform.LocalContext.current
     var monthCal by remember {
@@ -292,7 +292,7 @@ private fun MonthMode(colors: BlackClawColors, refresh: Int, showSystem: Boolean
 
 /** Chronological "what's coming up" list grouped by day. */
 @Composable
-private fun AgendaMode(colors: BlackClawColors, refresh: Int, showSystem: Boolean,
+private fun AgendaMode(colors: BlaqClawColors, refresh: Int, showSystem: Boolean,
                        onTapItem: (AssistantItem) -> Unit) {
     val ctx = androidx.compose.ui.platform.LocalContext.current
     val now = System.currentTimeMillis()
@@ -309,7 +309,7 @@ private fun AgendaMode(colors: BlackClawColors, refresh: Int, showSystem: Boolea
                 Spacer(Modifier.height(10.dp))
                 Text("Agenda despejada", fontSize = 15.sp, color = colors.textPrimary,
                     fontWeight = FontWeight.Medium)
-                Text("Tell BlackClaw: \"I have a meeting at 7\"",
+                Text("Tell BlaqClaw: \"I have a meeting at 7\"",
                     fontSize = 12.sp, color = colors.textTertiary)
             }
         }
@@ -346,7 +346,7 @@ private fun MonthGrid(
     monthCal: Calendar,
     selectedDay: Long,
     itemsByDay: Map<Long, List<AssistantItem>>,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onSelectDay: (Long) -> Unit,
 ) {
     val daysInMonth = monthCal.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -415,7 +415,7 @@ private fun MonthGrid(
 }
 
 @Composable
-private fun AgendaRow(item: AssistantItem, colors: BlackClawColors, onTap: (AssistantItem) -> Unit) {
+private fun AgendaRow(item: AssistantItem, colors: BlaqClawColors, onTap: (AssistantItem) -> Unit) {
     val tint = typeTint(item.type)
     val timeStr = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(item.triggerAtMs))
     Surface(
@@ -466,7 +466,7 @@ private fun AgendaRow(item: AssistantItem, colors: BlackClawColors, onTap: (Assi
 @Composable
 private fun RescheduleDialog(
     item: AssistantItem,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onDismiss: () -> Unit,
     onSaved: (Long) -> Unit,
     onDelete: () -> Unit,

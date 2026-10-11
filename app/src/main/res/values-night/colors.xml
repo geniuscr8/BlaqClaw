@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- BlackClaw Dark Theme — Carbon Black + Electric Cyan -->
+<!-- BlaqClaw Dark Theme — Carbon Black + Electric Cyan -->
 <resources>
     <!-- ==================== Text ==================== -->
     <color name="colorTextPrimary">#F0FFFFFF</color>
@@ -27,12 +27,12 @@
     <color name="colorContainerInverse">#FFE8EBF5</color>
 
     <!-- ==================== Backgrounds ==================== -->
-    <!-- Deep carbon black — the signature BlackClaw dark bg -->
+    <!-- Deep carbon black — the signature BlaqClaw dark bg -->
     <color name="colorBgPrimary">#FF0A0A0F</color>
     <color name="colorBgSecondary">#FF0F0F1A</color>
     <color name="colorBgTertiary">#FF141420</color>
 
-    <!-- ==================== Chat (BlackClaw Dark — Cyan accent) ==================== -->
+    <!-- ==================== Chat (BlaqClaw Dark — Cyan accent) ==================== -->
     <color name="colorChatUserBubble">#FF0066CC</color>
     <color name="colorChatAiBubble">#FF141420</color>
     <color name="colorChatAiBubbleBorder">#FF1E1E30</color>

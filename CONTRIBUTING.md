@@ -1,6 +1,6 @@
-# Contributing to BlackClaw
+# Contributing to BlaqClaw
 
-Thanks for your interest in improving BlackClaw. This project is in **beta**, so
+Thanks for your interest in improving BlaqClaw. This project is in **beta**, so
 bug reports, reproductions, and focused pull requests are especially valuable.
 
 ## Ways to contribute

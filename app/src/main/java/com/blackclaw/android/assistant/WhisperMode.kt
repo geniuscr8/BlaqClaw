@@ -4,7 +4,7 @@ import com.blackclaw.android.utils.KVUtils
 import kotlin.math.sqrt
 
 /**
- * "Whisper mode" — like Alexa: if the user whispers a command, BlackClaw replies
+ * "Whisper mode" — like Alexa: if the user whispers a command, BlaqClaw replies
  * whispering (soft, low-volume TTS).
  *
  * Detection is acoustic: whispered speech is much quieter and lacks the energy

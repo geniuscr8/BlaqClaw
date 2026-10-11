@@ -1,7 +1,7 @@
 package com.blackclaw.android.tool.impl
 
 /**
- * Catalog of deep links for popular apps so BlackClaw can jump STRAIGHT into the
+ * Catalog of deep links for popular apps so BlaqClaw can jump STRAIGHT into the
  * right screen (ride request, food search, song, navigation…) instead of tapping
  * through the UI tap-by-tap. This is the same trick assistants like Gemini use to
  * "order an Uber fast": open the app via its URI scheme at the relevant flow.

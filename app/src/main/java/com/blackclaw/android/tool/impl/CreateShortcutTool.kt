@@ -13,7 +13,7 @@ import com.blackclaw.android.tool.ToolResult
 import com.blackclaw.android.ui.chat.ComposeChatActivity
 
 /**
- * Create a homescreen shortcut that fires a saved task or chat in BlackClaw.
+ * Create a homescreen shortcut that fires a saved task or chat in BlaqClaw.
  * Uses ShortcutManager.requestPinShortcut which prompts the user to pin it.
  */
 class CreateShortcutTool : BaseTool() {

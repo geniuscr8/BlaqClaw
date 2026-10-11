@@ -8,7 +8,7 @@ import com.blackclaw.android.utils.XLog
  *
  * Architecture reference:
  * - AgentBudget: soft 90% warning + hard 100% kill
- * - Adapted for BlackClaw: configurable via KVUtils settings
+ * - Adapted for BlaqClaw: configurable via KVUtils settings
  */
 class TaskBudget(
     val maxTokens: Int,

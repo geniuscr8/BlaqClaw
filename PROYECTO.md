@@ -1,4 +1,4 @@
-# BlackClaw — Documento vivo del proyecto
+# BlaqClaw — Documento vivo del proyecto
 
 > **Propósito**: mapa del proyecto + registro de cambios. Si se pierde el contexto de
 > una sesión, este archivo es el punto de partida: dice qué es cada cosa, dónde está,
@@ -93,8 +93,8 @@ bash -c 'adb connect <IP>:<PUERTO>; adb devices -l'
 Instalar un release firmado (la clave ya está en `signing/`, no hay que copiar nada):
 
 ```bash
-bash -c 'BLACKCLAW_VERSION_NAME=<ver> ./gradlew assembleRelease --console=plain 2>&1 | grep -iE "error|FAILED|BUILD|output file name"'
-bash -c 'adb install -r app/build/outputs/apk/release/BlackClaw_v<ver>_arm64-v8a_<fecha>.apk'
+bash -c 'BLAQCLAW_VERSION_NAME=<ver> ./gradlew assembleRelease --console=plain 2>&1 | grep -iE "error|FAILED|BUILD|output file name"'
+bash -c 'adb install -r app/build/outputs/apk/release/BlaqClaw_v<ver>_arm64-v8a_<fecha>.apk'
 ```
 
 Comprobar que fue actualización en sitio y no instalación limpia (`firstInstallTime` no debe
@@ -102,7 +102,7 @@ cambiar) y que no hay crashes:
 
 ```bash
 bash -c 'adb shell dumpsys package com.blackclaw.android | grep -E "versionName|versionCode=|firstInstallTime|lastUpdateTime"'
-bash -c 'adb logcat -d -b crash | grep -i blackclaw'
+bash -c 'adb logcat -d -b crash | grep -i blaqclaw'
 ```
 
 `apksigner`/`aapt2` no están en el PATH; viven en `/opt/android-sdk/build-tools/36.0.0/`.
@@ -246,7 +246,7 @@ decoración**: es lo que permite distinguir `0`/`O` al reescribir el código en 
 
 ## 7. Respaldos
 
-1. **Tarball**: `/home/angel/Descargas/blackclaw/BlackClaw_BACKUP_20260727_183037.tar.gz`
+1. **Tarball**: `/home/angel/Descargas/blaqclaw/BlaqClaw_BACKUP_20260727_183037.tar.gz`
    — 85 MB, 1568 archivos, integridad gzip verificada.
 2. **Rama git**: `backup/pre-modernization` @ `87ef860` (661 archivos trackeados).
    Creada con `commit-tree` sobre un índice temporal, así que el working tree, HEAD y el
@@ -480,7 +480,7 @@ Síntoma: vídeos oscuros y "no graba nada".
   de OkHttp (el mismo parser que construye la petición) + `inet_aton` a mano, así
   `2130706433`/`0x7f000001`/`127.1` también se detectan.
 - `res/xml/network_security_config.xml` — cleartext `false` + loopback.
-- `car/BlackClawCarAppService.kt` — `HostValidator` real en release.
+- `car/BlaqClawCarAppService.kt` — `HostValidator` real en release.
 - `AndroidManifest.xml` — permiso `signature` en el receiver de automatización.
 
 #### Fugas y concurrencia
@@ -641,16 +641,16 @@ funciona es `avahi-browse -rtp _adb-tls-connect._tcp`, que devuelve IP y puerto 
 No hizo falta emparejar (`_adb-tls-pairing._tcp` vacío = ya vinculado de antes).
 
 **Respaldo del APK instalado** (antes de tocar nada):
-`/home/angel/Descargas/blackclaw/apk-backups/BlackClaw_INSTALLED_v1.1.3_vc113_20260727.apk`
+`/home/angel/Descargas/blaqclaw/apk-backups/BlaqClaw_INSTALLED_v1.1.3_vc113_20260727.apk`
 — 151.284.197 bytes, sha256 `05f4ba3d…4b01`, zip verificado con `unzip -t`.
 Era v1.1.3 / versionCode 113, instalada el 30/06, actualizada el 22/07. Sin splits.
 
-**Claves de firma**: el zip `~/Descargas/blackclaw-keys-main.zip` resultó **byte por byte
+**Claves de firma**: el zip `~/Descargas/blaqclaw-keys-main.zip` resultó **byte por byte
 idéntico** a lo que ya había en `signing/` (mismos sha256 en `.jks` y `.properties`), así que
 no se copió nada. La huella de la clave coincide con la del APK instalado:
 `D4:C6:61:3C:…:04:6F`. Es decir, la actualización es en sitio y **no** pierde datos.
 
-**Build**: `BLACKCLAW_VERSION_NAME=1.1.4 ./gradlew assembleRelease` (release = minify +
+**Build**: `BLAQCLAW_VERSION_NAME=1.1.4 ./gradlew assembleRelease` (release = minify +
 shrink, o sea la primera vez que se ejercita el `proguard-rules.pro` recortado).
 Salida en `app/build/outputs/apk/release/`: arm64-v8a 131 MB, x86_64 136 MB, universal 221 MB.
 Instalado el arm64-v8a con `adb install -r`.
@@ -686,14 +686,14 @@ y el borrado real siguen sin ejercitar.
 **Vuelta atrás** si algo sale mal:
 ```bash
 adb connect 192.168.100.18:38469
-adb install -r /home/angel/Descargas/blackclaw/apk-backups/BlackClaw_INSTALLED_v1.1.3_vc113_20260727.apk
+adb install -r /home/angel/Descargas/blaqclaw/apk-backups/BlaqClaw_INSTALLED_v1.1.3_vc113_20260727.apk
 ```
 
 #### Pantalla de chat — modernización visual (v1.1.5)
 
 La pantalla donde el usuario vive y la única grande que seguía sin tocar. Restricción que
 manda sobre todo lo demás: el chat honra **10 temas** vía `ThemeManager`, así que ningún
-color se elige a mano — o es un slot de `BlackClawColors` o es una mezcla derivada de uno.
+color se elige a mano — o es un slot de `BlaqClawColors` o es una mezcla derivada de uno.
 De `ui/design/` se reusa **movimiento**, no colores.
 
 **Markdown, que no existía.** `AssistantBubble` pintaba `Text(text)` crudo, así que cada
@@ -784,7 +784,7 @@ compile, que pasen los tests y que arranque sin errores **no** dice nada sobre s
 layout cabe. Nada de lo que se ejecutó podía detectar esto.
 
 Qué se veía: el botón del cajón dibujado encima de la etiqueta "Chats" (`☰hats`), y el
-logotipo *BlackClaw* y el engranaje de **Ajustes** empujados fuera de la pantalla — o sea
+logotipo *BlaqClaw* y el engranaje de **Ajustes** empujados fuera de la pantalla — o sea
 que Ajustes dejó de ser alcanzable desde el chat.
 
 Causa: `ModelScopeSwitch` medía el espacio disponible con `BoxWithConstraints` y usaba
@@ -813,7 +813,7 @@ nombre cortado se recupera abriendo el selector, una factura cortada no.
 la comprobación se hizo mirando, no solo leyendo logs:
 
 - `adb exec-out screencap` + inspección de la captura: la barra superior muestra menú,
-  punto de acento, logotipo *BlackClaw*, "Chats" y engranaje, sin solapes.
+  punto de acento, logotipo *BlaqClaw*, "Chats" y engranaje, sin solapes.
 - El interruptor Local/Cloud aparece en la fila del modelo con la pastilla sobre "Cloud".
 - El composer mide una sola línea de alto con el placeholder corto.
 - Tap real sobre el engranaje + `uiautomator dump`: la pantalla de Ajustes abre. Esto es lo
@@ -1071,7 +1071,7 @@ teléfono rechazaba la conexión.
 ## Anexo A — Estructura de directorios
 
 ```
-BlackClaw/
+BlaqClaw/
 ├── PROYECTO.md                     ← este archivo
 ├── README.md
 ├── app/
@@ -1141,7 +1141,7 @@ BlackClaw/
 │       │       │   │   ├── ChatMarkdown.kt      ★ parser puro (72 tests, con tablas)
 │       │       │   │   ├── ChatMarkdownText.kt  ★ renderizador
 │       │       │   │   ├── ChatMessage.kt       modelo + Role.CARDS
-│       │       │   │   └── ThemeManager.kt      los 10 temas + BlackClawColors
+│       │       │   │   └── ThemeManager.kt      los 10 temas + BlaqClawColors
 │       │       │   ├── assist/              ★ panel del botón de power
 │       │       │   ├── design/              ★ sistema de diseño
 │       │       │   ├── assistant/           ★ pantalla del asistente (rehecha)
@@ -1172,7 +1172,7 @@ BlackClaw/
 | Añadir un store persistido nuevo | heredar de `memory/JsonListStore.kt`, **no** escribir JSON a mano |
 | Que un dato nuevo sea visible/borrable por el usuario | añadir categoría en `memory/MemoryInventory.kt` (la pantalla se actualiza sola) |
 | Cambiar cómo se formatea la respuesta del modelo | `ui/chat/ChatMarkdown.kt` para el significado, `ChatMarkdownText.kt` para el aspecto |
-| Añadir un color al chat | **no** hardcodear: añadir slot a `BlackClawColors` + `ThemeManager.toComposeColors()`, o derivarlo de uno existente (hay 10 temas) |
+| Añadir un color al chat | **no** hardcodear: añadir slot a `BlaqClawColors` + `ThemeManager.toComposeColors()`, o derivarlo de uno existente (hay 10 temas) |
 | Cambiar duraciones/easings de animación | `ui/design/ClawMotion.kt`; lo decorativo debe consultar `ClawAnimation.reduceMotion()` |
 | Añadir una ubicación donde buscar `.zim` | `knowledge/ZimDiscovery.kt` (`NAMED_FOLDERS` / `searchRoots`), **no** subir a ciegas el `maxDepth` |
 | Cambiar colores/animaciones | `ui/design/ClawPalette.kt`, `ClawMotion.kt` |

@@ -8,14 +8,14 @@ import com.blackclaw.android.tool.ToolParameter
 import com.blackclaw.android.tool.ToolResult
 
 /**
- * Undo the last thing BlackClaw created in the Assistant hub (alarm / reminder /
+ * Undo the last thing BlaqClaw created in the Assistant hub (alarm / reminder /
  * event / note / etc.). Confidence-building "oops, cancel that" for hands-free.
  */
 class UndoLastTool : BaseTool() {
     override fun getName() = "undo_last"
     override fun getDisplayName() = "Deshacer"
     override fun getDescriptionEN() =
-        "Undo the most recent item BlackClaw created (alarm, reminder, event, note, etc.): removes it " +
+        "Undo the most recent item BlaqClaw created (alarm, reminder, event, note, etc.): removes it " +
         "and cancels its notification. Use for 'deshaz eso', 'cancela lo que acabas de crear', " +
         "'quita esa alarma', 'undo that'."
     override fun getDescriptionCN() = getDescriptionEN()

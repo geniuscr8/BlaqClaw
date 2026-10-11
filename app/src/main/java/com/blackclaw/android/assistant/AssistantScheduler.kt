@@ -10,7 +10,7 @@ import com.blackclaw.android.utils.XLog
 /**
  * Arms native [AlarmManager] alarms for time-based assistant items (reminders,
  * alarms, events). When an alarm fires, [AssistantReceiver] posts a native
- * BlackClaw push notification — no external Clock/Calendar app involved.
+ * BlaqClaw push notification — no external Clock/Calendar app involved.
  */
 object AssistantScheduler {
 

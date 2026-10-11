@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Shows the user everything BlackClaw has learned about them, and lets them delete it.
+ * Shows the user everything BlaqClaw has learned about them, and lets them delete it.
  *
  * ## Why this screen exists
  *
@@ -113,7 +113,7 @@ class MemoryPrivacyActivity : BaseActivity() {
                     title = { Text("Delete all memory?", color = ClawTextColors.Primary) },
                     text = {
                         Text(
-                            "This deletes the learned profile, facts you asked BlackClaw to remember, " +
+                            "This deletes the learned profile, facts you asked BlaqClaw to remember, " +
                                 "conversation summaries, and task history. This cannot be undone.",
                             color = ClawTextColors.Secondary,
                         )

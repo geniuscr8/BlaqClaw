@@ -27,7 +27,7 @@
 
 
 # ============================================================
-# BlackClaw app classes
+# BlaqClaw app classes
 # ------------------------------------------------------------
 # These used to be three blanket `-keep class com.blackclaw.android.{agent,
 # tool,channel}.** { *; }` rules, i.e. the entire core of the app (tool/ alone
@@ -171,7 +171,7 @@
 
 # ============================================================
 # ZXing
-# Used through direct references; no reflective class-name contract in BlackClaw.
+# Used through direct references; no reflective class-name contract in BlaqClaw.
 # ============================================================
 -dontwarn com.google.zxing.**
 
@@ -191,7 +191,7 @@
 # ============================================================
 # Kotlin / Coroutines
 # kotlinx-coroutines ships R8 rules for service loading/debug internals. Keeping
-# the entire package prevents removal of dispatchers/features BlackClaw never uses.
+# the entire package prevents removal of dispatchers/features BlaqClaw never uses.
 # ============================================================
 -dontwarn kotlinx.coroutines.**
 -dontwarn kotlin.**

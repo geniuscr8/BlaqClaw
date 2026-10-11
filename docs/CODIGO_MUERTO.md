@@ -64,7 +64,7 @@ as `is not reachable` with `shrinkResources` enabled.
 drawable/bg_btn_send_circle.xml       drawable/bg_bubble_assistant.xml
 drawable/bg_bubble_user.xml           drawable/bg_chat_input.xml
 drawable/bg_system_chip.xml            drawable/bg_tag_recommend.xml
-drawable/blackclaw_icon_small.png      drawable/ic_checkbox_checked.xml
+drawable/blaqclaw_icon_small.png      drawable/ic_checkbox_checked.xml
 drawable/ic_lan_config.xml             drawable/ic_menu_hamburger.xml
 drawable/ic_rocket.xml                 drawable/ic_send_arrow.xml
 drawable/ic_visibility_on.xml          drawable/icon_book_open.xml

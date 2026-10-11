@@ -62,7 +62,7 @@ object AutomationLocationTarget {
 /**
  * Hybrid geofence runtime.
  *
- * Google Play Services geofences are the primary low-power path. BlackClaw keeps
+ * Google Play Services geofences are the primary low-power path. BlaqClaw keeps
  * GeofenceChecker as a platform-only fallback, so devices without Play Services or
  * without background-location permission still retain best-effort behavior.
  */

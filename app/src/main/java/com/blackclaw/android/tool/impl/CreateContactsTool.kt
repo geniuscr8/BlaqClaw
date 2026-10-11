@@ -49,7 +49,7 @@ class CreateContactsTool : BaseTool() {
             != PackageManager.PERMISSION_GRANTED
         ) {
             return ToolResult.error(
-                "WRITE_CONTACTS permission is not granted. Grant Contacts permission to BlackClaw in Android Settings, then retry."
+                "WRITE_CONTACTS permission is not granted. Grant Contacts permission to BlaqClaw in Android Settings, then retry."
             )
         }
 

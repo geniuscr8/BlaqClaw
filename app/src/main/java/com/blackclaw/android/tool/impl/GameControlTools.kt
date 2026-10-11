@@ -34,7 +34,7 @@ internal object GameScreenState {
     /**
      * The Power-button assistant and main chat are Activities, so they temporarily become
      * the accessibility foreground. If they were opened over a game, close that surface
-     * before capturing; otherwise OCR would analyze BlackClaw instead of the game.
+     * before capturing; otherwise OCR would analyze BlaqClaw instead of the game.
      */
     fun revealAndGetGamePackage(): String? {
         val current = foregroundPackage()

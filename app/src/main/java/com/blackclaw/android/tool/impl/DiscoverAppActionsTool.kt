@@ -6,7 +6,7 @@ import com.blackclaw.android.tool.ToolParameter
 import com.blackclaw.android.tool.ToolResult
 
 /**
- * Auto-discover what BlackClaw can do on THIS device: which installed apps can
+ * Auto-discover what BlaqClaw can do on THIS device: which installed apps can
  * play music, navigate, send email/SMS, call, share, create calendar events,
  * browse — plus which catalog deep-link apps are installed. Uses the system
  * PackageManager, so it reflects the user's REAL app set (no hardcoding).

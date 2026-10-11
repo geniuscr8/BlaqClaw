@@ -17,7 +17,7 @@ object CapabilityQuestionDetector {
 
         // "¿Sabes abrir WhatsApp?", "¿eres capaz de apagar la linterna?" and
         // "¿puedo programar tareas?" ask about ability; they never contain an
-        // instruction for BlackClaw to execute, even when a concrete object is
+        // instruction for BlaqClaw to execute, even when a concrete object is
         // mentioned.
         if (KNOWLEDGE_CAPABILITY_FRAME.containsMatchIn(t) ||
             USER_ABILITY_FRAME.containsMatchIn(t)
@@ -91,21 +91,21 @@ object CapabilityQuestionDetector {
             t.startsWith("what can you do ") ||
             t == "what do you do" ||
             t == "para que sirves" ||
-            Regex("""^(que|what)\s+(puede|can)\s+(hacer|do)(\s+(blackclaw|el asistente|you))?$""").matches(t)
+            Regex("""^(que|what)\s+(puede|can)\s+(hacer|do)(\s+(blaqclaw|el asistente|you))?$""").matches(t)
     }
 
     private val CAPABILITY_FRAME = Regex(
-        """^(?:(?:me|tu|blackclaw|el asistente)\s+)*(puedes|podrias|puede|podria|sabes|eres capaz de|can you|could you)\b"""
+        """^(?:(?:me|tu|blaqclaw|el asistente)\s+)*(puedes|podrias|puede|podria|sabes|eres capaz de|can you|could you)\b"""
     )
 
     private val KNOWLEDGE_CAPABILITY_FRAME = Regex(
-        """^(?:(?:me|tu|blackclaw|el asistente)\s+)*(sabes|sabe|eres capaz de|es capaz de|do you know|are you able to)\b"""
+        """^(?:(?:me|tu|blaqclaw|el asistente)\s+)*(sabes|sabe|eres capaz de|es capaz de|do you know|are you able to)\b"""
     )
 
     private val USER_ABILITY_FRAME = Regex(
         """^(?:(?:yo)\s+)?puedo\b|""" +
             """^(?:tu)\s+(?:puedes|podrias)\b|""" +
-            """^(?:(?:el asistente|blackclaw)\s+)(?:puede|podria|sabe)\b|""" +
+            """^(?:(?:el asistente|blaqclaw)\s+)(?:puede|podria|sabe)\b|""" +
             """^(se puede|es posible|tengo capacidad|tienes capacidad|tiene capacidad|can i|could i|is it possible)\b"""
     )
 
@@ -141,7 +141,7 @@ object CapabilityQuestionDetector {
     )
 
     private val EXPLANATORY_FRAME = Regex(
-        """^(?:(?:oye|hey|blackclaw|el asistente)\s+)*(?:(?:me\s+)?(?:puedes|podrias|puede|podria|can you|could you)\s+)?""" +
+        """^(?:(?:oye|hey|blaqclaw|el asistente)\s+)*(?:(?:me\s+)?(?:puedes|podrias|puede|podria|can you|could you)\s+)?""" +
             """(?:decirme|explicarme|mostrarme|ensenarme|ensename|contarme|decir|explicar|mostrar|""" +
             """ensenar|contar)\b.*\b(como|que|si|why|how|what|whether)\b"""
     )
@@ -154,7 +154,7 @@ object CapabilityQuestionDetector {
     )
 
     private val INTERROGATIVE_START = Regex(
-        """^(?:(?:oye|hey|blackclaw|el asistente|entonces|y|por favor)\s+)*""" +
+        """^(?:(?:oye|hey|blaqclaw|el asistente|entonces|y|por favor)\s+)*""" +
             """(que|cual|cuales|quien|quienes|como|por que|para que|donde|cuando|cuanto|cuanta|""" +
             """cuantos|cuantas|how|what|which|who|why|where|when)\b"""
     )
@@ -162,7 +162,7 @@ object CapabilityQuestionDetector {
     private val ENGLISH_META_QUESTION = Regex("""^(do|does|did)\s+you\b""")
 
     private val ACTIONABLE_QUESTION_LEAD = Regex(
-        """^(?:(?:oye|hey|por favor|please|blackclaw|el asistente)\s+)*(?:""" +
+        """^(?:(?:oye|hey|por favor|please|blaqclaw|el asistente)\s+)*(?:""" +
             """(?:me\s+)?(?:puedes|podrias|puede|podria|can you|could you|me ayudas?|""" +
             """abre\w*|abrir|open|lanza\w*|inicia\w*|arranca\w*|""" +
             """apaga\w*|apagar|enciende\w*|encender|activa\w*|activar|""" +

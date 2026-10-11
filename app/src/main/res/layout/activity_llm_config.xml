@@ -374,7 +374,7 @@
                         android:id="@+id/tvExternalModelHint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Searches Downloads, Documents and shared AI folders. Only .litertlm models can run in BlackClaw."
+                        android:text="Searches Downloads, Documents and shared AI folders. Only .litertlm models can run in BlaqClaw."
                         android:textColor="@color/colorTextTertiary"
                         android:textSize="12dp" />
 

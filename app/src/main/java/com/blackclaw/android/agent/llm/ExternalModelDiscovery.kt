@@ -20,7 +20,7 @@ object ExternalModelDiscovery {
 
     enum class Format(
         val label: String,
-        val canRunInBlackClaw: Boolean,
+        val canRunInBlaqClaw: Boolean,
     ) {
         LITERT_LM("LiteRT-LM (.litertlm)", true),
         MEDIAPIPE_TASK("MediaPipe (.task)", false),
@@ -36,7 +36,7 @@ object ExternalModelDiscovery {
         val format: Format,
         val source: String,
     ) {
-        val isCompatible: Boolean get() = format.canRunInBlackClaw
+        val isCompatible: Boolean get() = format.canRunInBlaqClaw
     }
 
     /** Classifies a filename without reading it, so it is safe to use in UI/tests. */

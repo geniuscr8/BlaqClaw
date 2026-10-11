@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 internal fun MonitorDialog(
     onDismiss: () -> Unit,
     onStart: (MonitorTargetSpec) -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     var contact by remember { mutableStateOf("") }
     var selectedApp by remember { mutableStateOf("WhatsApp") }
@@ -232,7 +232,7 @@ internal fun MonitorDialog(
 internal fun SendMessageDialog(
     onDismiss: () -> Unit,
     onSend: (contact: String, app: String, message: String) -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     var contact by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }

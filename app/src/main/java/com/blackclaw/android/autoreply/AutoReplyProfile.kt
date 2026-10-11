@@ -16,7 +16,7 @@ import java.util.UUID
  *  conversationContext → optional pasted history so the LLM can mimic the user's voice
  *  enabled      → false = profile saved but cron not active
  *  cronEnabled  → if true, a periodic ScheduledTask checks the inbox even when
- *                 BlackClaw isn't open (uses AlarmManager via ScheduledTaskManager)
+ *                 BlaqClaw isn't open (uses AlarmManager via ScheduledTaskManager)
  *  cronIntervalMinutes → minutes between cron runs when cronEnabled = true
  */
 data class AutoReplyProfile(
@@ -46,7 +46,7 @@ data class AutoReplyProfile(
 
     /** Compose the prompt the agent will receive when this profile fires. */
     fun composeAgentPrompt(): String = buildString {
-        appendLine("Eres BlackClaw actuando como $app auto-reply para el contacto \"$contactName\".")
+        appendLine("Eres BlaqClaw actuando como $app auto-reply para el contacto \"$contactName\".")
         appendLine()
         if (personality.isNotBlank()) {
             appendLine("## Personalidad / estilo de respuesta")

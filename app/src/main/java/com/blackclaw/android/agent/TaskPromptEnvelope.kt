@@ -20,12 +20,12 @@ data class ParsedTaskPrompt(
  */
 object TaskPromptEnvelope {
 
-    private const val HISTORY_START = "<<<BLACKCLAW_CHAT_HISTORY>>>"
-    private const val HISTORY_END = "<<<END_BLACKCLAW_CHAT_HISTORY>>>"
-    private const val BACKGROUND_START = "<<<BLACKCLAW_BACKGROUND_STATE>>>"
-    private const val BACKGROUND_END = "<<<END_BLACKCLAW_BACKGROUND_STATE>>>"
-    private const val REQUEST_START = "<<<BLACKCLAW_CURRENT_REQUEST>>>"
-    private const val REQUEST_END = "<<<END_BLACKCLAW_CURRENT_REQUEST>>>"
+    private const val HISTORY_START = "<<<BLAQCLAW_CHAT_HISTORY>>>"
+    private const val HISTORY_END = "<<<END_BLAQCLAW_CHAT_HISTORY>>>"
+    private const val BACKGROUND_START = "<<<BLAQCLAW_BACKGROUND_STATE>>>"
+    private const val BACKGROUND_END = "<<<END_BLAQCLAW_BACKGROUND_STATE>>>"
+    private const val REQUEST_START = "<<<BLAQCLAW_CURRENT_REQUEST>>>"
+    private const val REQUEST_END = "<<<END_BLAQCLAW_CURRENT_REQUEST>>>"
 
     fun build(
         chatHistoryLines: List<String>,

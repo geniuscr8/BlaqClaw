@@ -322,7 +322,7 @@ class DefaultAgentService : AgentService {
         val appName = try {
             val appInfo = app.packageManager.getApplicationInfo(app.packageName, 0)
             app.packageManager.getApplicationLabel(appInfo).toString()
-        } catch (_: Exception) { "BlackClaw" }
+        } catch (_: Exception) { "BlaqClaw" }
         sb.append("\n## This App Info\n")
         sb.append("- App Name: ").append(appName).append("\n")
         sb.append("- Package Name: ").append(app.packageName).append("\n")
@@ -619,7 +619,7 @@ class DefaultAgentService : AgentService {
                     }
                     if (taskCreationGuard.shouldBlockTextOnlyCompletion(responseText)) {
                         val correction = taskCreationGuard.maybeBlockFinish()
-                            ?: "[System Guard] Create the requested task with a native BlackClaw tool before answering."
+                            ?: "[System Guard] Create the requested task with a native BlaqClaw tool before answering."
                         XLog.i(TAG, "TaskCreationGuard blocked text-only completion (promptChars=${userPrompt.length})")
                         messages.add(UserMessage.from(correction))
                         continue

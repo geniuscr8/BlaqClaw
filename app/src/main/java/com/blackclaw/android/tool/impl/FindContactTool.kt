@@ -32,7 +32,7 @@ class FindContactTool : BaseTool() {
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_CONTACTS)
             != PackageManager.PERMISSION_GRANTED) {
             return ToolResult.error(
-                "READ_CONTACTS permission not granted. Grant it in Settings > Apps > BlackClaw > Permissions."
+                "READ_CONTACTS permission not granted. Grant it in Settings > Apps > BlaqClaw > Permissions."
             )
         }
 

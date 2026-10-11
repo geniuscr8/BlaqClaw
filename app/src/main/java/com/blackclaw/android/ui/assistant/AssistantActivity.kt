@@ -44,14 +44,14 @@ import com.blackclaw.android.assistant.AssistantScheduler
 import com.blackclaw.android.assistant.AssistantStore
 import com.blackclaw.android.assistant.AssistantTime
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.proactive.ProactiveAssistantActivity
 
 /**
  * The native Assistant hub: reminders, notes, alarms, calendar events, alerts
- * and finances all live inside BlackClaw. Tabs switch between them. The AI
+ * and finances all live inside BlaqClaw. Tabs switch between them. The AI
  * writes here via the assistant_* tools; the user can also add/complete/delete
  * items manually. A gear opens the Proactive Assistant settings.
  */
@@ -92,7 +92,7 @@ private val TABS = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AssistantScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBack: () -> Unit,
     onOpenProactive: () -> Unit,
     onOpenAutomations: () -> Unit,
@@ -305,7 +305,7 @@ private fun AssistantScreen(
 @Composable
 private fun AddItemDialog(
     type: AssistantItemType,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onDismiss: () -> Unit,
     onSave: () -> Unit,
 ) {
@@ -516,7 +516,7 @@ private fun composeTrigger(type: AssistantItemType, dateMs: Long, hour: Int, min
 private fun stripTime(ms: Long): Long = ms
 
 @Composable
-private fun AssistChipRow(label: String, fullLabel: String, colors: BlackClawColors, onClick: () -> Unit) {
+private fun AssistChipRow(label: String, fullLabel: String, colors: BlaqClawColors, onClick: () -> Unit) {
     Surface(
         color = colors.aiBubble, shape = RoundedCornerShape(12.dp),
         modifier = Modifier.clickable(onClick = onClick),
@@ -528,7 +528,7 @@ private fun AssistChipRow(label: String, fullLabel: String, colors: BlackClawCol
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun fieldColors(colors: BlackClawColors) = OutlinedTextFieldDefaults.colors(
+private fun fieldColors(colors: BlaqClawColors) = OutlinedTextFieldDefaults.colors(
     focusedBorderColor = colors.accent,
     unfocusedBorderColor = colors.aiBubbleBorder,
     focusedLabelColor = colors.accent,

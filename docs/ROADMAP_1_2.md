@@ -1,4 +1,4 @@
-# BlackClaw 1.2 roadmap
+# BlaqClaw 1.2 roadmap
 
 This document turns the Conversation Engine 2.0 proposal and the new capability
 ideas into independently testable deliveries. Features that touch the camera,
@@ -107,7 +107,7 @@ Implemented now: protection has two explicit modes. Emergency keeps its
 five-second cancel window, sends an initial alert and requests a fresh location
 update every five minutes. Discreet starts from the visible Quick Assist surface
 without TTS, sound or vibration, then closes the panel and uses a silent,
-low-information BlackClaw notification. Camera evidence supports front, back or
+low-information BlaqClaw notification. Camera evidence supports front, back or
 both; `CameraManager.concurrentCameraIds` is checked before dual capture and a
 single-camera fallback is recorded in the audit log instead of claiming false
 coverage. Front/back video and microphone audio rotate into encrypted segments.
@@ -124,7 +124,7 @@ plus bounded excerpts so local 2B–4B models can answer with citations. It does
 not control or require an external reader application.
 
 `zim_search` and `zim_read` operate on local `.zim` files directly inside
-BlackClaw. The implementation reads the ZIM title/path indexes and article
+BlaqClaw. The implementation reads the ZIM title/path indexes and article
 clusters, supports the common uncompressed, Zstandard and XZ/LZMA cluster
 formats, converts HTML articles to bounded text, and requires no external app.
 
@@ -134,7 +134,7 @@ indexing can be paused, resumed or rebuilt from the assistant, while a foregroun
 notification keeps the long-running work visible. `zim_search` uses the partial
 or complete content index first and falls back to the archive title index. Each
 hit contains only a bounded highlighted excerpt and its ZIM path. Index files
-live in BlackClaw's private storage and can be regenerated from the source ZIM.
+live in BlaqClaw's private storage and can be regenerated from the source ZIM.
 
 Implemented now: Book Retriever consults a ZIM immediately without building a
 second full-archive index. It removes question noise, searches the archive's
@@ -143,7 +143,7 @@ those articles and selects the most relevant paragraphs. Exact article lookup
 continues to use `zim_search` + `zim_read`; SQLite FTS is retained only for
 questions that cannot be resolved through selective consultation.
 
-Implemented now: BlackClaw includes its own native offline-library screen. It
+Implemented now: BlaqClaw includes its own native offline-library screen. It
 discovers readable `.zim` files, shows archive metadata, searches the title tree
 and any available partial/full content index, opens bounded articles internally,
 starts background indexing, and hands a selected topic to Quick Assist. It does
@@ -152,7 +152,7 @@ official OpenZIM testing suite for modern and legacy namespace layouts.
 
 ## 5. Security and adware removal
 
-BlackClaw already has `AppRiskScanner`, `AdEventMonitor`, `AdCulpritDetector`
+BlaqClaw already has `AppRiskScanner`, `AdEventMonitor`, `AdCulpritDetector`
 and tools to block/uninstall apps. Strengthening should focus on evidence:
 
 - correlate overlay windows, notification ads and recent installation time;
@@ -172,7 +172,7 @@ reversible permission snapshots.
 
 Flashlight, brightness, volume, Wi-Fi/Bluetooth navigation and other controls
 should use Android platform APIs/tools. Gemini does not provide a special API
-needed for these actions; BlackClaw already includes a native flashlight tool.
+needed for these actions; BlaqClaw already includes a native flashlight tool.
 
 Quick Assist should next add a shared transcript, voice barge-in, adaptive end
 of speech and richer action/progress cards. Visual polish should preserve fast

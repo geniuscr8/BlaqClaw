@@ -89,7 +89,7 @@ class SpeakTextTool : BaseTool() {
             }
         }
 
-        val utteranceId = "blackclaw-${UUID.randomUUID()}"
+        val utteranceId = "blaqclaw-${UUID.randomUUID()}"
         tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {}
             override fun onDone(utteranceId: String?) {}

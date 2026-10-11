@@ -26,7 +26,7 @@ class ConversationRepositoryTest {
         )
         assertEquals(3, lines.size)
         assertTrue(lines[0].startsWith("Usuario"))
-        assertTrue(lines[1].startsWith("BlackClaw"))
+        assertTrue(lines[1].startsWith("BlaqClaw"))
         assertTrue(lines[2].contains("pon música"))
     }
 

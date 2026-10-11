@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.design.ClawGlassBackdrop
@@ -50,7 +50,7 @@ class DashboardActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(colors: BlackClawColors, onBack: () -> Unit) {
+fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
     val today = ActivityTracker.today()
     val week = ActivityTracker.thisWeek()
     val topTools = ActivityTracker.todayTopTools()
@@ -86,7 +86,7 @@ fun DashboardScreen(colors: BlackClawColors, onBack: () -> Unit) {
                     Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text("Your activity", color = textPrimary, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         Text(ActivityTracker.todaySummary(), color = textSecondary, fontSize = 14.sp)
-                        Text("Everything BlackClaw executes is visible here.", color = accentColor, fontSize = 11.sp)
+                        Text("Everything BlaqClaw executes is visible here.", color = accentColor, fontSize = 11.sp)
                     }
                 }
             }
@@ -185,7 +185,7 @@ fun StatCard(
     label: String,
     value: String,
     detail: String,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     accentColor: Color,
 ) {
     ClawGlassCard(colors = colors, modifier = modifier, accent = accentColor, radius = 20.dp, elevated = false) {

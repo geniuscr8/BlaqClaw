@@ -11,7 +11,7 @@ import com.blackclaw.android.tool.ToolParameter
 import com.blackclaw.android.tool.ToolResult
 
 /**
- * Native Assistant tools. These write into BlackClaw's own Assistant hub
+ * Native Assistant tools. These write into BlaqClaw's own Assistant hub
  * (AssistantStore) and arm native push notifications via AssistantScheduler —
  * no external Clock / Calendar / Notes app required. The proactive assistant
  * and the chat agent both use these.
@@ -22,7 +22,7 @@ class AssistantReminderTool : BaseTool() {
     override fun getName() = "assistant_reminder"
     override fun getDisplayName() = "Reminder"
     override fun getDescriptionEN() =
-        "Create a native in-app reminder that fires a BlackClaw push notification at a time. " +
+        "Create a native in-app reminder that fires a BlaqClaw push notification at a time. " +
         "Use for 'remind me to…'. Time: 'YYYY-MM-DD HH:MM', 'tomorrow 09:00', 'in 30m', or 'HH:MM'. " +
         "Optional repeat: none|daily|weekly. Stored in the Assistant hub — no external app."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -53,7 +53,7 @@ class AssistantAlarmTool : BaseTool() {
     override fun getName() = "assistant_alarm"
     override fun getDisplayName() = "Alarm"
     override fun getDescriptionEN() =
-        "Set a native in-app alarm that fires a high-priority BlackClaw notification at a clock time. " +
+        "Set a native in-app alarm that fires a high-priority BlaqClaw notification at a clock time. " +
         "Time: 'HH:MM' (next occurrence), 'tomorrow 07:00', or 'YYYY-MM-DD HH:MM'. " +
         "Optional repeat: none|daily|weekly. Optional challenge to force the user awake: " +
         "none|math|memory|type (math problem / memory sequence / type a phrase). " +
@@ -502,7 +502,7 @@ class AssistantTrackPromiseTool : BaseTool() {
     override fun getName() = "assistant_track_promise"
     override fun getDisplayName() = "Seguir promesa"
     override fun getDescriptionEN() =
-        "Track a commitment the user made (e.g. 'I'll call Ana tomorrow') so BlackClaw reminds " +
+        "Track a commitment the user made (e.g. 'I'll call Ana tomorrow') so BlaqClaw reminds " +
         "them if they haven't done it. Provide what was promised and when to follow up."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "crea un seguimiento de una promesa/compromiso del usuario"
@@ -661,7 +661,7 @@ class AssistantExportFinanceTool : BaseTool() {
     override fun getDisplayName() = "Export finances (CSV)"
     override fun getDescriptionEN() =
         "Export all recorded finance entries (income & expenses) to a CSV file saved in the app's " +
-        "external files (Documents/BlackClaw). Use when the user wants a backup or to open their " +
+        "external files (Documents/BlaqClaw). Use when the user wants a backup or to open their " +
         "data in a spreadsheet. Returns the file path."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "export finances to a CSV file"
@@ -674,7 +674,7 @@ class AssistantExportFinanceTool : BaseTool() {
             val dir = java.io.File(ctx.getExternalFilesDir(null), "exports").apply { mkdirs() }
             val stamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.US)
                 .format(java.util.Date())
-            val file = java.io.File(dir, "blackclaw_finance_$stamp.csv")
+            val file = java.io.File(dir, "blaqclaw_finance_$stamp.csv")
             file.writeText(csv)
             val rows = csv.lines().size - 1
             ToolResult.success("Exported $rows entries to ${file.absolutePath}")

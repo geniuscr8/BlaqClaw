@@ -118,7 +118,7 @@ fun ClawSecretCard(
                             val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
                                 as android.content.ClipboardManager
                             cm.setPrimaryClip(
-                                android.content.ClipData.newPlainText("blackclaw_code", code)
+                                android.content.ClipData.newPlainText("blaqclaw_code", code)
                             )
                         }
                         justCopied = true

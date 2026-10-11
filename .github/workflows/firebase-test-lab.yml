@@ -128,7 +128,7 @@ jobs:
             --no-record-video \
             --no-performance-metrics \
             --results-bucket "${{ secrets.GCP_PROJECT_ID }}-ftl-results" \
-            --results-history-name "blackclaw-smoke-${{ github.ref_name }}" \
+            --results-history-name "blaqclaw-smoke-${{ github.ref_name }}" \
             || (echo "::error::FTL smoke FAILED"; exit 1)
           echo "::endgroup::"
 

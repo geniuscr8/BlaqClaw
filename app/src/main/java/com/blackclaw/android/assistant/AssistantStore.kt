@@ -7,10 +7,10 @@ import org.json.JSONObject
 import java.util.UUID
 
 /**
- * The native data layer for BlackClaw's built-in Assistant hub.
+ * The native data layer for BlaqClaw's built-in Assistant hub.
  *
  * Instead of bouncing the user out to the system Clock / Calendar / Notes apps,
- * BlackClaw keeps reminders, notes, alarms, calendar events, alerts and finance
+ * BlaqClaw keeps reminders, notes, alarms, calendar events, alerts and finance
  * entries *inside the app*. The AI writes here, the Assistant screen shows them,
  * and time-based items fire as native push notifications via [AssistantScheduler].
  *

@@ -20,8 +20,8 @@ class ClawApplication : BaseApp() {
 
     companion object {
         private const val TAG = "ClawApplication"
-        /** Kept as a separate logcat tag so `adb logcat -s BLACKCLAW_INIT` still works. */
-        private const val INIT_TAG = "BLACKCLAW_INIT"
+        /** Kept as a separate logcat tag so `adb logcat -s BLAQCLAW_INIT` still works. */
+        private const val INIT_TAG = "BLAQCLAW_INIT"
         lateinit var instance: ClawApplication
             private set
         lateinit var appViewModelInstance: AppViewModel

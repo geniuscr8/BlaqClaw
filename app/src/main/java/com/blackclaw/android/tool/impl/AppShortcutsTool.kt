@@ -51,7 +51,7 @@ class AppShortcutsTool : BaseTool() {
                 }
             )
         } catch (e: SecurityException) {
-            ToolResult.error("BlackClaw no es el launcher por defecto, no puedo leer atajos.")
+            ToolResult.error("BlaqClaw no es el launcher por defecto, no puedo leer atajos.")
         } catch (e: Exception) {
             ToolResult.error("Falló: ${e.message}")
         }

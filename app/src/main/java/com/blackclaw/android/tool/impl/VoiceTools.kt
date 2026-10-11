@@ -14,7 +14,7 @@ class VoiceModeTool : BaseTool() {
     override fun getDisplayName() = "Modo voz"
     override fun getDescriptionEN() =
         "Enable or disable hands-free voice mode. When on, say the wake word " +
-        "('garra' offline, or 'Hey BlackClaw' online) followed by a command and BlackClaw listens " +
+        "('garra' offline, or 'Hey BlaqClaw' online) followed by a command and BlaqClaw listens " +
         "and acts. action: on | off | download_offline (downloads the offline model ~40MB so it " +
         "works with no beep and no internet). Optionally set a custom wake_word."
     override fun getDescriptionCN() = getDescriptionEN()

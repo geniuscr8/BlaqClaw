@@ -11,7 +11,7 @@ import java.io.InputStreamReader
 /**
  * Single-source-of-truth for Shizuku state.
  *
- * BlackClaw never depends on Shizuku — when it's not present we use the regular
+ * BlaqClaw never depends on Shizuku — when it's not present we use the regular
  * accessibility/MediaProjection paths. When it IS present and the user has
  * granted us permission, we get adb-shell-level access:
  *
@@ -25,7 +25,7 @@ import java.io.InputStreamReader
  *  NOT_INSTALLED   → Shizuku app isn't on the device
  *  INSTALLED_OFF   → app is there but the user hasn't started the service
  *                    (either via wireless-debug self-pair or via PC)
- *  RUNNING_NO_PERM → service is up but BlackClaw hasn't been granted access yet
+ *  RUNNING_NO_PERM → service is up but BlaqClaw hasn't been granted access yet
  *  READY           → granted, we can call sh()
  */
 object ShizukuManager {
@@ -149,7 +149,7 @@ object ShizukuManager {
     fun describe(context: Context): String = when (state(context)) {
         State.NOT_INSTALLED -> "Shizuku not installed"
         State.INSTALLED_OFF -> "Shizuku installed · service off"
-        State.RUNNING_NO_PERM -> "Shizuku active · no permission for BlackClaw"
+        State.RUNNING_NO_PERM -> "Shizuku active · no permission for BlaqClaw"
         State.READY -> "Shizuku ready · quick actions enabled"
     }
 }

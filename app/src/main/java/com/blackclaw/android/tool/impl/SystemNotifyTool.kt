@@ -19,7 +19,7 @@ import kotlin.random.Random
 class SystemNotifyTool : BaseTool() {
 
     companion object {
-        private const val CHANNEL_ID = "blackclaw_agent_alerts"
+        private const val CHANNEL_ID = "blaqclaw_agent_alerts"
     }
 
     override fun getName() = "system_notify"
@@ -44,7 +44,7 @@ class SystemNotifyTool : BaseTool() {
                 CHANNEL_ID,
                 "Alertas del agente",
                 NotificationManager.IMPORTANCE_DEFAULT,
-            ).apply { description = "Mensajes y recordatorios del agente BlackClaw" }
+            ).apply { description = "Mensajes y recordatorios del agente BlaqClaw" }
             nm.createNotificationChannel(channel)
         }
         val n = NotificationCompat.Builder(ctx, CHANNEL_ID)

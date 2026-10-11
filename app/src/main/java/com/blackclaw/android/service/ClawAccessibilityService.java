@@ -39,7 +39,7 @@ public class ClawAccessibilityService extends AccessibilityService {
     private static final String TAG = "ClawA11yService";
     private static volatile ClawAccessibilityService instance;
     private static volatile String lastExternalPackage;
-    /** Last readable UI tree before BlackClaw's full-screen assist panel takes focus. */
+    /** Last readable UI tree before BlaqClaw's full-screen assist panel takes focus. */
     private static volatile String lastExternalScreenTree;
     private static volatile long lastExternalScreenTreeAtMs;
     private static final long EXTERNAL_SNAPSHOT_DEBOUNCE_MS = 350L;
@@ -71,7 +71,7 @@ public class ClawAccessibilityService extends AccessibilityService {
         return instance != null;
     }
 
-    /** Last foreground package outside BlackClaw, useful when an assistant overlay covers it. */
+    /** Last foreground package outside BlaqClaw, useful when an assistant overlay covers it. */
     public static String getLastExternalPackage() {
         return lastExternalPackage;
     }
@@ -91,7 +91,7 @@ public class ClawAccessibilityService extends AccessibilityService {
     }
 
     /**
-     * Checks whether BlackClaw is enabled in Android's Accessibility settings.
+     * Checks whether BlaqClaw is enabled in Android's Accessibility settings.
      * This does NOT mean the service is connected — use {@link #isRunning()} for that.
      * Use this to distinguish "not enabled" (user action needed) from "enabled but
      * still binding" (just wait).
@@ -303,7 +303,7 @@ public class ClawAccessibilityService extends AccessibilityService {
 
     /**
      * Android Settings keeps its own back stack during the Accessibility enable flow.
-     * When the user came here from BlackClaw Settings, unwind that stack once, then
+     * When the user came here from BlaqClaw Settings, unwind that stack once, then
      * explicitly surface the app Settings screen again.
      */
     private void maybeReturnToAppAfterPermissionFlow() {
@@ -959,7 +959,7 @@ public class ClawAccessibilityService extends AccessibilityService {
                 @SuppressWarnings("deprecation")
                 android.os.PowerManager.WakeLock wl = pm.newWakeLock(
                         android.os.PowerManager.SCREEN_DIM_WAKE_LOCK | android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP,
-                        "BlackClaw:unlock"
+                        "BlaqClaw:unlock"
                 );
                 wl.acquire(3000);
                 wl.release();
@@ -1078,7 +1078,7 @@ public class ClawAccessibilityService extends AccessibilityService {
      * Reads the 6-digit pairing code AND the port from the system's
      * "Pair device with pairing code" dialog (Settings → Wireless debugging).
      *
-     * This is what makes BlackClaw's self-ADB pairing seamless: the user can't
+     * This is what makes BlaqClaw's self-ADB pairing seamless: the user can't
      * copy that code (leaving the dialog regenerates it), so we read it directly
      * off the screen via accessibility while the dialog is in the foreground.
      *

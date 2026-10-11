@@ -32,7 +32,7 @@ class MemoryInfoTool : BaseTool() {
             "RAM dispositivo: ${used / 1024 / 1024} MB usados de ${total / 1024 / 1024} MB ($pct%)\n" +
             "Disponible: ${avail / 1024 / 1024} MB\n" +
             "Memoria baja: ${if (info.lowMemory) "SÍ ⚠️" else "no"} (umbral ${info.threshold / 1024 / 1024} MB)\n" +
-            "Heap BlackClaw: ${heapUsed} / ${heapMax} MB"
+            "Heap BlaqClaw: ${heapUsed} / ${heapMax} MB"
         )
     }
 }

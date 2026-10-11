@@ -94,7 +94,7 @@ class AdbKeyStore(context: Context) {
 
         val pub = keyPair().public.encoded
         val n = (pub.size).toString()
-        val payload = ("$n " + Base64.getEncoder().encodeToString(pub) + " blackclaw@android\u0000")
+        val payload = ("$n " + Base64.getEncoder().encodeToString(pub) + " blaqclaw@android\u0000")
             .toByteArray(Charsets.US_ASCII)
         adbPubFile.writeBytes(payload)
         return payload
@@ -131,7 +131,7 @@ class AdbKeyStore(context: Context) {
         val now = System.currentTimeMillis()
         val notBefore = Date(now - 60_000)  // tiny back-date for clock skew
         val notAfter = Date(now + CERT_VALID_YEARS * 365L * 24L * 3600L * 1000L)
-        val subject = X500Name("CN=BlackClaw, O=BlackClaw, C=ES")
+        val subject = X500Name("CN=BlaqClaw, O=BlaqClaw, C=ES")
         val builder: X509v3CertificateBuilder = JcaX509v3CertificateBuilder(
             /* issuer = */ subject,
             /* serial = */ BigInteger(64, SecureRandom()),

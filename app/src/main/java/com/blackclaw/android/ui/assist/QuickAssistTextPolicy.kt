@@ -16,8 +16,8 @@ internal object QuickAssistTextPolicy {
         val text = command.lowercase().trim().replace(Regex("[¿?!,.]"), "").trim()
         val greetings = listOf(
             "hola", "hey", "buenas", "buenos dias", "buenos días", "buenas tardes",
-            "buenas noches", "que tal", "qué tal", "hello", "hi", "hey blackclaw",
-            "hola blackclaw", "oye", "oye blackclaw", "garra",
+            "buenas noches", "que tal", "qué tal", "hello", "hi", "hey blaqclaw",
+            "hola blaqclaw", "oye", "oye blaqclaw", "garra",
         )
         return text.split(' ').size <= 3 && greetings.any { text == it || text.startsWith(it) }
     }

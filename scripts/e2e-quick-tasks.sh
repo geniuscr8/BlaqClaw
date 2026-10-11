@@ -8,7 +8,7 @@ BLOCKED=0
 TIMEOUT=0
 TOTAL=0
 
-RESULTS_FILE="${RESULTS_FILE:-/tmp/blackclaw-e2e-${MODE}-quick-tasks-$(date +%Y%m%d-%H%M%S).log}"
+RESULTS_FILE="${RESULTS_FILE:-/tmp/blaqclaw-e2e-${MODE}-quick-tasks-$(date +%Y%m%d-%H%M%S).log}"
 LOCAL_MODEL_PATH="${LOCAL_MODEL_PATH:-}"
 LOCAL_MODEL_NAME="${LOCAL_MODEL_NAME:-}"
 CLOUD_MODEL_NAME="${CLOUD_MODEL_NAME:-gpt-4.1}"
@@ -116,12 +116,12 @@ dismiss_blocking_system_dialogs() {
 wait_for_accessibility() {
     local attempt
     for attempt in $(seq 1 "${ACCESSIBILITY_WAIT_ATTEMPTS:-10}"); do
-        if adb shell dumpsys accessibility 2>/dev/null | grep -q "Bound services:{Service\\[label=BlackClaw"; then
+        if adb shell dumpsys accessibility 2>/dev/null | grep -q "Bound services:{Service\\[label=BlaqClaw"; then
             return 0
         fi
         sleep 1
     done
-    echo "    WARN — BlackClaw Accessibility service did not report bound before task start" | tee -a "$RESULTS_FILE"
+    echo "    WARN — BlaqClaw Accessibility service did not report bound before task start" | tee -a "$RESULTS_FILE"
     return 1
 }
 
@@ -239,7 +239,7 @@ run() {
 }
 
 echo "==========================================" | tee "$RESULTS_FILE"
-echo "  BLACKCLAW E2E — QUICK TASKS (${MODE^^})" | tee -a "$RESULTS_FILE"
+echo "  BLAQCLAW E2E — QUICK TASKS (${MODE^^})" | tee -a "$RESULTS_FILE"
 echo "  $(date)" | tee -a "$RESULTS_FILE"
 echo "  results: $RESULTS_FILE" | tee -a "$RESULTS_FILE"
 echo "==========================================" | tee -a "$RESULTS_FILE"
@@ -251,7 +251,7 @@ cancel_running_task
 reset_foreground
 
 if [ "$MODE" = "cloud" ]; then
-    run "Reddit blackclaw"       "Open Reddit and search for blackclaw" 60
+    run "Reddit blaqclaw"       "Open Reddit and search for blaqclaw" 60
     run "YouTube cat fails"     "Search YouTube for funny cat fails" 60
     run "Install Telegram"      "Install Telegram from Play Store" 90
     run "Twitter trending"      "Check whats trending on Twitter and tell me" 60

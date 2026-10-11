@@ -23,7 +23,7 @@ import java.io.File
  */
 object AutomaticModelManager {
 
-    private const val BENCHMARK_KEY = "blackclaw_auto_model_benchmarks_v1"
+    private const val BENCHMARK_KEY = "blaqclaw_auto_model_benchmarks_v1"
     private const val PROBE_PROMPT = "Responde únicamente OK."
     private const val PROBE_SYSTEM = "Responde con una sola palabra: OK."
 

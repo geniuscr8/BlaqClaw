@@ -19,7 +19,7 @@ import kotlin.concurrent.thread
  * and (2) feed their RMS to [WhisperMode]. When an utterance completes we know
  * both the text AND whether it was whispered, so the reply can whisper back.
  *
- * Single continuous recognizer; wake word "garra" (BlackClaw = "garra negra").
+ * Single continuous recognizer; wake word "garra" (BlaqClaw = "garra negra").
  * 100% offline, no key, no system beep. Falls back (start returns false) if the
  * model isn't ready or the mic can't be opened.
  */
@@ -30,7 +30,7 @@ class VoskWakeWordEngine {
         private const val SAMPLE_RATE = 16000
         // Wake tokens per language (Vosk emits clean dictionary words).
         private val WAKE_TOKENS_ES = setOf("garra", "guerra", "gara")
-        private val WAKE_TOKENS_EN = setOf("claw", "flaw", "clause", "black claw")
+        private val WAKE_TOKENS_EN = setOf("claw", "flaw", "clause", "blaq claw")
         private const val AWAIT_TIMEOUT_MS = 12_000L
     }
 
@@ -192,7 +192,7 @@ class VoskWakeWordEngine {
         onState?.invoke("heard")
 
         var rest = tokens.drop(wakeIdx + 1)
-        // Drop a trailing wake-word modifier ("garra negra" / "black claw").
+        // Drop a trailing wake-word modifier ("garra negra" / "blaq claw").
         if (rest.firstOrNull() == "negra") rest = rest.drop(1)
         val command = rest.joinToString(" ").trim()
 

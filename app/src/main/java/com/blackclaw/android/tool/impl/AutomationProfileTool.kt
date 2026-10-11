@@ -172,7 +172,7 @@ class AutomationProfileTool : BaseTool() {
 
     private fun requireLocalConfirmation(): ToolResult? =
         if (ToolExecutionContext.origin == ToolRiskPolicy.Origin.LOCAL) null
-        else ToolResult.error("Creating or modifying an active automation must be confirmed from BlackClaw on the phone.")
+        else ToolResult.error("Creating or modifying an active automation must be confirmed from BlaqClaw on the phone.")
 
     private fun profileErrors(profile: AutomationProfileStore.Profile): List<String> = buildList {
         addAll(AutomationProfileValidator.validate(profile))

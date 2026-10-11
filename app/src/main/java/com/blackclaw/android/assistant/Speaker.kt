@@ -139,10 +139,10 @@ object Speaker {
                 val params = android.os.Bundle().apply {
                     putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 0.30f)
                 }
-                tts.speak(clean.take(4000), mode, params, "blackclaw-w-${UUID.randomUUID()}")
+                tts.speak(clean.take(4000), mode, params, "blaqclaw-w-${UUID.randomUUID()}")
                 applyPreferences()
             } else {
-                tts.speak(clean.take(4000), mode, null, "blackclaw-${UUID.randomUUID()}")
+                tts.speak(clean.take(4000), mode, null, "blaqclaw-${UUID.randomUUID()}")
             }
         }.onFailure { XLog.w(TAG, "speak failed: ${it.message}"); onUtteranceDone = null; onDone?.invoke() }
     }

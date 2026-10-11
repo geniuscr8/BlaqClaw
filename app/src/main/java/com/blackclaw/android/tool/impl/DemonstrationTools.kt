@@ -6,7 +6,7 @@ import com.blackclaw.android.tool.ToolParameter
 import com.blackclaw.android.tool.ToolResult
 
 /**
- * Tools that let the user teach BlackClaw a flow by demonstration.
+ * Tools that let the user teach BlaqClaw a flow by demonstration.
  *
  * "Aprende lo que voy a hacer" → start_demo
  * ...the agent performs the steps...
@@ -100,7 +100,7 @@ class SaveLastAsRoutineTool : BaseTool() {
         val saved = DemonstrationRecorder.saveLastAsRoutine(name, icon, triggerTime)
             ?: return ToolResult.error(
                 "There are no repeatable steps from the latest flow. This works immediately after " +
-                "BlackClaw haga una tarea con acciones (abrir apps, tocar, escribir).")
+                "BlaqClaw haga una tarea con acciones (abrir apps, tocar, escribir).")
         val sched = if (triggerTime.isNotBlank()) " It will run at $triggerTime." else ""
         return ToolResult.success("Saved the latest flow as routine '$saved'.$sched Ask me to 'run $saved' whenever you want.")
     }

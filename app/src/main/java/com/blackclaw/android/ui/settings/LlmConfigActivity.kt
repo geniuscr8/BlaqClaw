@@ -472,7 +472,7 @@ class LlmConfigActivity : BaseActivity() {
                     externalModelHint.text = if (discovered.isEmpty()) {
                         "No shared models found. Use Import file if another app lets you export or share one."
                     } else {
-                        "${discovered.size} model file${if (discovered.size == 1) "" else "s"} found. Only .litertlm models can run in BlackClaw."
+                        "${discovered.size} model file${if (discovered.size == 1) "" else "s"} found. Only .litertlm models can run in BlaqClaw."
                     }
                     refreshLocalModelsButton.isEnabled = true
                     refreshLocalModelsButton.text = "↻ Refresh"
@@ -599,7 +599,7 @@ class LlmConfigActivity : BaseActivity() {
         }
         container.addView(autoCompact)
         container.addView(TextView(this).apply {
-            text = "BlackClaw reserva los tokens de respuesta + ${LocalContextBudget.SAFETY_TOKENS} tokens de seguridad. Subir el contexto aumenta el uso de RAM y el modelo debe soportarlo."
+            text = "BlaqClaw reserva los tokens de respuesta + ${LocalContextBudget.SAFETY_TOKENS} tokens de seguridad. Subir el contexto aumenta el uso de RAM y el modelo debe soportarlo."
             textSize = 11f
             setTextColor(Color.parseColor("#8b949e"))
             setPadding(0, dp(4), 0, dp(8))
@@ -767,7 +767,7 @@ class LlmConfigActivity : BaseActivity() {
                 cornerRadius = dp(10).toFloat()
                 setStroke(dp(1), getColor(R.color.colorBrandPrimary))
             }
-            contentDescription = "Actualizar modelos gratis de BlackClaw Free"
+            contentDescription = "Actualizar modelos gratis de BlaqClaw Free"
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,

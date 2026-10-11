@@ -95,7 +95,7 @@ data class LocalModelTuning(
 
 /** Per-model generation/runtime settings. These are non-secret preferences. */
 object LocalModelTuningStore {
-    private const val PREFIX = "blackclaw_local_model_tuning_v1_"
+    private const val PREFIX = "blaqclaw_local_model_tuning_v1_"
     private val gson = Gson()
 
     fun get(modelPath: String): LocalModelTuning {

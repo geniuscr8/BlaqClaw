@@ -11,7 +11,7 @@ import com.blackclaw.android.tool.impl.AppDeepLinks
 import com.blackclaw.android.utils.XLog
 
 /**
- * Auto-discovers what BlackClaw can actually DO on THIS device, by asking the
+ * Auto-discovers what BlaqClaw can actually DO on THIS device, by asking the
  * system PackageManager which installed apps handle each capability intent —
  * no root, no adb, no hardcoding. Also verifies which catalog deep links really
  * resolve here (custom schemes vary by app version/region).

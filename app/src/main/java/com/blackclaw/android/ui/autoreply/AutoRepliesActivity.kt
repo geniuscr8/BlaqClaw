@@ -38,7 +38,7 @@ import com.blackclaw.android.autoreply.AutoReplyProfile
 import com.blackclaw.android.autoreply.AutoReplyProfileStore
 import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.scheduler.ScheduledTaskManager
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 
@@ -96,7 +96,7 @@ class AutoRepliesActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AutoRepliesScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBack: () -> Unit,
     onScheduleCron: (AutoReplyProfile) -> Unit,
     onCancelCron: (AutoReplyProfile) -> Unit,
@@ -215,7 +215,7 @@ private fun AutoRepliesScreen(
 }
 
 @Composable
-private fun EmptyState(colors: BlackClawColors, modifier: Modifier = Modifier) {
+private fun EmptyState(colors: BlaqClawColors, modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(32.dp)) {
@@ -245,7 +245,7 @@ private fun EmptyState(colors: BlackClawColors, modifier: Modifier = Modifier) {
 @Composable
 private fun ProfileCard(
     profile: AutoReplyProfile,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onEdit: () -> Unit,
     onToggle: () -> Unit,
     onDelete: () -> Unit,
@@ -354,7 +354,7 @@ private fun ProfileCard(
 @Composable
 private fun ProfileEditorDialog(
     initial: AutoReplyProfile,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onSave: (AutoReplyProfile) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -508,7 +508,7 @@ private fun ProfileEditorDialog(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                     ) {
                         Text(
-                            "📲 How to export: WhatsApp → open the chat → menu (⋮) → More → Export chat → Without media → share the .txt/.zip with BlackClaw or save it to Documents.",
+                            "📲 How to export: WhatsApp → open the chat → menu (⋮) → More → Export chat → Without media → share the .txt/.zip with BlaqClaw or save it to Documents.",
                             fontSize = 10.sp, color = colors.textSecondary, lineHeight = 14.sp,
                             modifier = Modifier.padding(10.dp),
                         )
@@ -627,7 +627,7 @@ private fun AppSelector(
     selected: String,
     options: List<String>,
     onSelected: (String) -> Unit,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { opt ->
@@ -659,7 +659,7 @@ private fun AppSelector(
 }
 
 @Composable
-private fun FieldLabel(text: String, colors: BlackClawColors) {
+private fun FieldLabel(text: String, colors: BlaqClawColors) {
     Text(
         text,
         fontSize = 11.sp, fontWeight = FontWeight.Medium,
@@ -669,7 +669,7 @@ private fun FieldLabel(text: String, colors: BlackClawColors) {
 }
 
 @Composable
-private fun textFieldColors(c: BlackClawColors) = OutlinedTextFieldDefaults.colors(
+private fun textFieldColors(c: BlaqClawColors) = OutlinedTextFieldDefaults.colors(
     focusedTextColor = c.textPrimary,
     unfocusedTextColor = c.textPrimary,
     focusedBorderColor = c.accent,

@@ -172,7 +172,7 @@ object GameAutomationRuntime {
 
     private inline fun runAutomation(label: String, packageName: String, block: () -> Unit) {
         val ctx = ClawApplication.instance
-        notify("$label · toca Detener desde BlackClaw")
+        notify("$label · toca Detener desde BlaqClaw")
         XLog.i(TAG, "Started $label on $packageName")
         try {
             Thread.sleep(650L) // let the assistant surface finish closing

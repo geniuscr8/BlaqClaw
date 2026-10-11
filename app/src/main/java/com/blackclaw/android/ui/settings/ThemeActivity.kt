@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.utils.KVUtils
@@ -65,11 +65,11 @@ class ThemeActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ThemeScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onBack: () -> Unit,
     onPicked: (id: String, isDark: Boolean) -> Unit,
 ) {
-    val current = remember { KVUtils.getString("THEME_ID", "blackclaw_dark") }
+    val current = remember { KVUtils.getString("THEME_ID", "blaqclaw_dark") }
     val all = remember { ThemeManager.allThemes }
 
     Scaffold(
@@ -123,7 +123,7 @@ private fun ThemeCard(
     desc: String,
     isCurrent: Boolean,
     isDark: Boolean,
-    appColors: BlackClawColors,
+    appColors: BlaqClawColors,
     onClick: () -> Unit,
 ) {
     // Get the actual ChatColors to render the live preview
@@ -136,7 +136,7 @@ private fun ThemeCard(
     val previewGradEnd: Color
 
     // Pull preview colors from the saved theme catalog
-    val savedId = KVUtils.getString("THEME_ID", "blackclaw_dark")
+    val savedId = KVUtils.getString("THEME_ID", "blaqclaw_dark")
     KVUtils.putString("THEME_ID", id)
     val cc = ThemeManager.getColors()
     KVUtils.putString("THEME_ID", savedId) // restore

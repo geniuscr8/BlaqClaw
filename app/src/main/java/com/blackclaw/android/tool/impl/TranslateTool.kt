@@ -48,7 +48,7 @@ class TranslateTool : BaseTool() {
         val url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=$source&tl=$target&dt=t&q=$q"
         val req = Request.Builder()
             .url(url)
-            .header("User-Agent", "Mozilla/5.0 BlackClaw")
+            .header("User-Agent", "Mozilla/5.0 BlaqClaw")
             .get()
             .build()
         return try {

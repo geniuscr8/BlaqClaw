@@ -10,7 +10,7 @@ import androidx.car.app.model.Template
  * Voice/text search screen. On Android Auto the car provides its own
  * speech-to-text for this template, so the user speaks the destination / song /
  * contact / question hands-free. The transcribed text is combined with
- * [commandPrefix] and executed as a normal BlackClaw task.
+ * [commandPrefix] and executed as a normal BlaqClaw task.
  */
 class CarAskScreen(
     carContext: CarContext,

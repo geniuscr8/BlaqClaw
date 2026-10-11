@@ -7,13 +7,13 @@ import com.blackclaw.android.tool.ToolResult
 
 /**
  * Run a shell command with adb-shell-equivalent privileges via whichever
- * backend is live: Shizuku, or BlackClaw's own self-paired ADB over loopback.
+ * backend is live: Shizuku, or BlaqClaw's own self-paired ADB over loopback.
  *
  * Refuses to run when no privileged backend is ready; the agent should fall
  * back to accessibility-based tools in that case.
  *
  * We don't sandbox the command string. The user opted into Shizuku/ADB, which
- * means they explicitly granted shell-level access to BlackClaw.
+ * means they explicitly granted shell-level access to BlaqClaw.
  */
 class ShellExecTool : BaseTool() {
     override fun getName() = "shell_exec"

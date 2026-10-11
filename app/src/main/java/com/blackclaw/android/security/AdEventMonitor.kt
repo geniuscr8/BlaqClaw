@@ -1,7 +1,7 @@
 package com.blackclaw.android.security
 
 /**
- * Real-time ad/interruption attribution — BlackClaw's edge over static scanners.
+ * Real-time ad/interruption attribution — BlaqClaw's edge over static scanners.
  *
  * Modern ad-fraud families (IconAds / Kaleidoscope / HiddenAds-Vapor) throw
  * full-screen "out-of-context" ads: an activity/window from an app that is NOT

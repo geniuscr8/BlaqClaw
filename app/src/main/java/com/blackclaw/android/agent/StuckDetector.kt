@@ -9,7 +9,7 @@ import java.util.ArrayDeque
  * Architecture reference:
  * - Sliding window (8 steps), same-action, screen-unchanged, high-repetition
  * - ralph-claude-code: repeated-error detection
- * - BlackClaw original: screen diff (previousScreenTexts)
+ * - BlaqClaw original: screen diff (previousScreenTexts)
  *
  * Recovery is 3-level:
  *   Level 1: Inject recovery hint into prompt

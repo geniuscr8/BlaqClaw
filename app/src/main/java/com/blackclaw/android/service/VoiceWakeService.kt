@@ -190,7 +190,7 @@ class VoiceWakeService : Service() {
             say("Are you sure you want me to do that? Say yes to continue.", whisper)
             pendingDecisionId = com.blackclaw.android.assistant.AssistantReceiver.postDecisionNotification(
                 this,
-                "BlackClaw needs confirmation",
+                "BlaqClaw needs confirmation",
                 command.take(180),
                 command,
             )
@@ -401,7 +401,7 @@ class VoiceWakeService : Service() {
         )
         val notif: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
-            .setContentTitle("BlackClaw listening")
+            .setContentTitle("BlaqClaw listening")
             .setContentText("Say \"claw\" followed by your command")
             .setOngoing(true)
             .setContentIntent(pi)

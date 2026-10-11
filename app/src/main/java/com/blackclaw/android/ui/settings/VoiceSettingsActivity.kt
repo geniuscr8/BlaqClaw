@@ -159,7 +159,7 @@ private fun VoiceSettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            // Set BlackClaw as the phone's default assistant (assist gesture).
+            // Set BlaqClaw as the phone's default assistant (assist gesture).
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -175,8 +175,8 @@ private fun VoiceSettingsScreen(
                             fontWeight = FontWeight.SemiBold)
                         Text(
                             when {
-                                assistantStatus?.isReady == true -> "BlackClaw is your active assistant ✓"
-                                assistantStatus?.needsRepair == true -> "BlackClaw is selected, but Android is still using another service"
+                                assistantStatus?.isReady == true -> "BlaqClaw is your active assistant ✓"
+                                assistantStatus?.needsRepair == true -> "BlaqClaw is selected, but Android is still using another service"
                                 else -> "Set it as default to invoke it with the gesture or button"
                             },
                             color = if (assistantStatus?.isReady == true) accent else textSecondary, fontSize = 12.sp,
@@ -187,10 +187,10 @@ private fun VoiceSettingsScreen(
                 Spacer(Modifier.height(8.dp))
                 Text(
                     if (assistantStatus?.needsRepair == true) {
-                        "Android role and voice service are out of sync. Tap here and select BlackClaw again in Settings."
+                        "Android role and voice service are out of sync. Tap here and select BlaqClaw again in Settings."
                     } else {
                         "When invoked (hold the Home button or swipe from the corner), " +
-                            "BlackClaw appears even over the lock screen and listens for your command."
+                            "BlaqClaw appears even over the lock screen and listens for your command."
                     },
                     color = textSecondary, fontSize = 11.sp, lineHeight = 15.sp)
             }
@@ -207,7 +207,7 @@ private fun VoiceSettingsScreen(
                     Text("Enable voice mode", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Text(
                         if (modelReady) "Say \"claw\" + your command (offline, no beep)"
-                        else "Say \"BlackClaw\" + your command (online)",
+                        else "Say \"BlaqClaw\" + your command (online)",
                         color = textSecondary, fontSize = 13.sp,
                     )
                 }
@@ -403,7 +403,7 @@ private fun VoiceSettingsScreen(
 
             // Help
             Text(
-                "Voice mode listens in the background while BlackClaw is open. " +
+                "Voice mode listens in the background while BlaqClaw is open. " +
                 "With the offline model, no internet or beep is needed. " +
                 "Examples: \"claw, set an alarm for 7\", \"claw, send Mom a message\".",
                 color = textSecondary, fontSize = 12.sp,

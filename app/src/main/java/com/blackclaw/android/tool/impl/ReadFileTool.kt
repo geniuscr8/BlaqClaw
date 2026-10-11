@@ -8,14 +8,14 @@ import com.blackclaw.android.tool.ToolResult
 import java.io.File
 
 /**
- * Read a text file from Documents/BlackClaw/ (or list the folder if no filename).
+ * Read a text file from Documents/BlaqClaw/ (or list the folder if no filename).
  * Strips path separators from the filename for safety; cannot read arbitrary paths.
  */
 class ReadFileTool : BaseTool() {
     override fun getName() = "read_file"
     override fun getDisplayName() = "Leer archivo"
     override fun getDescriptionEN() =
-        "Read a text file under Documents/BlackClaw/. Without filename, returns the file list. " +
+        "Read a text file under Documents/BlaqClaw/. Without filename, returns the file list. " +
         "Max 32 KB returned to keep tokens sane."
     override fun getDescriptionCN() = getDescriptionEN()
 
@@ -26,7 +26,7 @@ class ReadFileTool : BaseTool() {
     override fun execute(params: Map<String, Any>): ToolResult {
         val ctx = ClawApplication.instance
         val baseDir = ctx.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) ?: ctx.filesDir
-        val dir = File(baseDir, "BlackClaw").apply { mkdirs() }
+        val dir = File(baseDir, "BlaqClaw").apply { mkdirs() }
         val name = optionalString(params, "filename", "").trim()
             .replace(Regex("[/\\\\\\u0000]"), "_")
         if (name.isEmpty()) {

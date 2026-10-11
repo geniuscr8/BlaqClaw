@@ -11,7 +11,7 @@ import com.blackclaw.android.utils.XLog
  *
  * This is the one automation entrypoint where the framework may tell us who the
  * caller is, so it is where third-party authorization is enforced. Unlike the
- * broadcast receiver, this Activity intentionally cannot require BlackClaw's
+ * broadcast receiver, this Activity intentionally cannot require BlaqClaw's
  * signature permission because Tasker/MacroDroid are signed by somebody else.
  * Therefore this in-process check is the security boundary: self-package, an
  * identified allowlisted caller, or possession of the Automation Token.

@@ -6,7 +6,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /**
- * Evolving user profile — BlackClaw's understanding of who the user is.
+ * Evolving user profile — BlaqClaw's understanding of who the user is.
  *
  * Unlike UserMemoryStore (explicit facts the user asked to save), UserProfile
  * is AUTOMATICALLY built over time by observing patterns:

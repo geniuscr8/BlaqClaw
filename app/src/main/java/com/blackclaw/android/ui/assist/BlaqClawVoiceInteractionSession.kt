@@ -15,7 +15,7 @@ import com.blackclaw.android.utils.XLog
  * existing QuickAssist conversation surface.  The native session keeps no UI of
  * its own, so it never replaces the app snapshot with a blank assistant window.
  */
-class BlackClawVoiceInteractionSession(context: Context) : VoiceInteractionSession(context) {
+class BlaqClawVoiceInteractionSession(context: Context) : VoiceInteractionSession(context) {
     // A session can receive assist data very early, so initialize immediately.
     // onPrepareShow refreshes it for subsequent shows of the same session.
     private var invocationId = AssistInvocationContext.beginInvocation()

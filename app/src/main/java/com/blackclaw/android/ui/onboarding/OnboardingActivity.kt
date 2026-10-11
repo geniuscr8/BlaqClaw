@@ -44,13 +44,13 @@ import com.blackclaw.android.AppCapabilityCoordinator
 import com.blackclaw.android.AppRequirement
 import com.blackclaw.android.ServiceBindingState
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.utils.KVUtils
 
 /**
- * Guided permission onboarding. BlackClaw needs several non-obvious permissions
+ * Guided permission onboarding. BlaqClaw needs several non-obvious permissions
  * (Accessibility, Notification access, Overlay, exact alarms, battery whitelist)
  * spread across different system screens. New users get lost finding them, so
  * this screen walks through each one with live status and a one-tap "Activar"
@@ -125,7 +125,7 @@ private fun liteSnapshot(ctx: Context): AppCapabilitySnapshotLite {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
+private fun OnboardingScreen(colors: BlaqClawColors, onDone: () -> Unit) {
     val ctx = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var snap by remember { mutableStateOf(liteSnapshot(ctx)) }
@@ -145,7 +145,7 @@ private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
         listOf(
             PermStep(
                 "accessibility", PermissionTopic.ACCESSIBILITY, Icons.Default.Accessibility, "Accessibility",
-                "The core of BlackClaw: it lets the agent see the screen and tap for you. Without it, the agent cannot act.",
+                "The core of BlaqClaw: it lets the agent see the screen and tap for you. Without it, the agent cannot act.",
                 essential = true, isGranted = { it.accessibility },
                 onActivate = { AppCapabilityCoordinator.openSystemSettings(it, AppRequirement.ACCESSIBILITY) },
             ),
@@ -232,7 +232,7 @@ private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
                             modifier = Modifier.size(30.dp))
                     }
                     Spacer(Modifier.height(16.dp))
-                    Text("Pon a punto BlackClaw", fontSize = 26.sp, fontWeight = FontWeight.Bold,
+                    Text("Pon a punto BlaqClaw", fontSize = 26.sp, fontWeight = FontWeight.Bold,
                         color = colors.textPrimary)
                     Text("A few quick permissions and your assistant will be ready to work for you.",
                         fontSize = 14.sp, color = colors.textSecondary, lineHeight = 19.sp,
@@ -274,7 +274,7 @@ private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
                         Icon(Icons.Default.Info, null, tint = colors.accent, modifier = Modifier.size(20.dp))
                         Spacer(Modifier.width(10.dp))
                         Column(Modifier.weight(1f)) {
-                            Text("Why does BlackClaw request permissions?", color = colors.textPrimary,
+                            Text("Why does BlaqClaw request permissions?", color = colors.textPrimary,
                                 fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
                             Text("Review all of them, including those that appear only when you use a feature.",
                                 color = colors.textSecondary, fontSize = 11.sp)
@@ -302,7 +302,7 @@ private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
                         Icon(Icons.Default.CheckCircle, null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(8.dp))
                     }
-                    Text(if (essentialsReady) "Start using BlackClaw" else "Enable essential permissions",
+                    Text(if (essentialsReady) "Start using BlaqClaw" else "Enable essential permissions",
                         fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
                 if (!essentialsReady) {
@@ -338,7 +338,7 @@ private fun OnboardingScreen(colors: BlackClawColors, onDone: () -> Unit) {
 private fun PermissionRow(
     step: PermStep,
     granted: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onExplain: () -> Unit,
 ) {
     val green = Color(0xFF22C55E)

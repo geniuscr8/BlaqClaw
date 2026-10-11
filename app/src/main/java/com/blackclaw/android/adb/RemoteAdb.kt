@@ -5,7 +5,7 @@ import com.blackclaw.android.utils.XLog
 import io.github.muntashirakon.adb.AdbStream
 
 /**
- * Connect BlackClaw to OTHER devices/servers over Wireless Debugging
+ * Connect BlaqClaw to OTHER devices/servers over Wireless Debugging
  * (adb-over-wifi), driving the terminal's `adb` commands: pair, connect, shell,
  * disconnect. Uses [RemoteAdbConnectionManager] so it stays isolated from the
  * self/loopback ADB connection.

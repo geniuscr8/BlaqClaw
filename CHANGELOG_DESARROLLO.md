@@ -1,4 +1,4 @@
-# BlackClaw — Registro de Desarrollo
+# BlaqClaw — Registro de Desarrollo
 
 Fecha: 22 de julio de 2026
 Rama base: main (v1.1.3)
@@ -34,7 +34,7 @@ Se realizaron mejoras en 6 áreas principales del sistema:
   - No permite llamar tools hasta que el usuario confirme
   - Si no confirma, debe llamar `finish(summary="Cancelled by user")`
 
-**Impacto:** BlackClaw ya no ejecuta acciones destructivas sin confirmación explícita del usuario, incluso si el LLM elige un camino indirecto con tools no-destructivos.
+**Impacto:** BlaqClaw ya no ejecuta acciones destructivas sin confirmación explícita del usuario, incluso si el LLM elige un camino indirecto con tools no-destructivos.
 
 ---
 
@@ -79,7 +79,7 @@ Se realizaron mejoras en 6 áreas principales del sistema:
 
 ---
 
-## 3. Modelos Gratis (OpenCode Zen / BlackClaw Free)
+## 3. Modelos Gratis (OpenCode Zen / BlaqClaw Free)
 
 ### 3.1 Fix de streaming SSE
 **Archivo:** `agent/langchain/http/OkHttpClientBuilderAdapter.java`
@@ -199,7 +199,7 @@ Se realizaron mejoras en 6 áreas principales del sistema:
 **Archivo NUEVO:** `ui/assist/AssistLiveNotification.kt`
 
 - Notificación ongoing con `MediaStyle` (formato que OEMs renderizan como cápsula/píldora)
-- Muestra: "BlackClaw · ESCUCHANDO/PENSANDO · [comando]"
+- Muestra: "BlaqClaw · ESCUCHANDO/PENSANDO · [comando]"
 - Tap abre el asistente
 - Se actualiza en cada cambio de fase
 - Se dismissa al cerrar el asistente
@@ -221,7 +221,7 @@ Se realizaron mejoras en 6 áreas principales del sistema:
 **Archivo:** `ui/assist/QuickAssistActivity.kt`
 
 - **Crossfade en label de fase**: `AnimatedContent` con fadeIn(400ms) + fadeOut(300ms)
-  - ESCUCHANDO → PENSANDO → BLACKCLAW se desvanecen entre sí
+  - ESCUCHANDO → PENSANDO → BLAQCLAW se desvanecen entre sí
 - **Aurora backdrop con color animado**: `animateColorAsState` con tween(800ms)
   - Transición suave de color de fondo entre fases (antes era instantáneo)
 

@@ -8,7 +8,7 @@ import com.blackclaw.android.adb.PrivilegedShell
 import com.blackclaw.android.utils.XLog
 
 /**
- * The actions BlackClaw can take against a misbehaving app. Where a privileged
+ * The actions BlaqClaw can take against a misbehaving app. Where a privileged
  * backend (Shizuku / self-paired ADB) is available we act silently and for real
  * (`appops`, `am force-stop`, `pm disable-user`); otherwise we open the right
  * system screen so the user can do it in one tap. Uninstall always goes through

@@ -48,7 +48,7 @@ class SetVolumeTool : BaseTool() {
             // STREAM_RING / STREAM_ALARM can be blocked by Do Not Disturb policy
             ToolResult.error(
                 "Cannot set $streamName volume: Do Not Disturb policy blocks it. " +
-                "Grant DND access in Settings > Apps > BlackClaw > Notification access."
+                "Grant DND access in Settings > Apps > BlaqClaw > Notification access."
             )
         }
     }

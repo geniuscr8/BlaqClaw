@@ -7,7 +7,7 @@ import android.provider.Settings
 import com.blackclaw.android.utils.XLog
 
 /**
- * Helpers to check/become the device's default digital assistant. When BlackClaw
+ * Helpers to check/become the device's default digital assistant. When BlaqClaw
  * holds the assistant role, the OS routes the assist gesture (power-button hold,
  * swipe-from-corner, etc.) to [QuickAssistActivity] — even over the lock screen.
  *
@@ -22,7 +22,7 @@ object AssistantRole {
     /** Snapshot of the two Android settings that control assistant routing.
      *
      * OEMs can leave the role holder and the active VoiceInteractionService out
-     * of sync (Honor did exactly that after the BlackClaw update).  Keeping the
+     * of sync (Honor did exactly that after the BlaqClaw update).  Keeping the
      * values separate lets the UI explain the real problem instead of claiming
      * that the assistant is ready when the power-button event still goes to
      * Google.
@@ -62,7 +62,7 @@ object AssistantRole {
         )
     }
 
-    /** True if BlackClaw is the current default assist app. */
+    /** True if BlaqClaw is the current default assist app. */
     fun isDefault(context: Context): Boolean {
         val state = status(context)
         // voice_interaction_service is the setting Android actually binds for
@@ -73,7 +73,7 @@ object AssistantRole {
         )
     }
 
-    /** True when Android displays BlackClaw as selected but routes events elsewhere. */
+    /** True when Android displays BlaqClaw as selected but routes events elsewhere. */
     fun needsRepair(context: Context): Boolean = status(context).needsRepair
 
     private fun readSecure(context: Context, key: String): String? =

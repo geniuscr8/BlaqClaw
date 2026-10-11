@@ -7,36 +7,36 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Tests for fuzzy wake-word detection — the key to "Hey BlackClaw" working
+ * Tests for fuzzy wake-word detection — the key to "Hey BlaqClaw" working
  * despite the speech recognizer mishearing a non-dictionary word.
  */
 class WakeWordMatcherTest {
 
     @Test
     fun exactMatchExtractsCommand() {
-        val m = WakeWordMatcher.match("blackclaw manda un mensaje a mama", "blackclaw")
+        val m = WakeWordMatcher.match("blaqclaw manda un mensaje a mama", "blaqclaw")
         assertNotNull(m)
         assertEquals("manda un mensaje a mama", m!!.command)
     }
 
     @Test
     fun spacedMishearingMatches() {
-        // STT often hears "black claw" as two words
-        val m = WakeWordMatcher.match("black claw pon una alarma", "blackclaw")
+        // STT often hears "blaq claw" as two words
+        val m = WakeWordMatcher.match("blaq claw pon una alarma", "blaqclaw")
         assertNotNull(m)
         assertEquals("pon una alarma", m!!.command)
     }
 
     @Test
     fun commonMishearingBlackLaw() {
-        val m = WakeWordMatcher.match("black law abre whatsapp", "blackclaw")
+        val m = WakeWordMatcher.match("black law abre whatsapp", "blaqclaw")
         assertNotNull(m)
         assertEquals("abre whatsapp", m!!.command)
     }
 
     @Test
     fun fuzzyMishearingBlaclo() {
-        val m = WakeWordMatcher.match("blaclo enciende la luz", "blackclaw")
+        val m = WakeWordMatcher.match("blaclo enciende la luz", "blaqclaw")
         assertNotNull(m)
         assertEquals("enciende la luz", m!!.command)
     }
@@ -44,26 +44,26 @@ class WakeWordMatcherTest {
     @Test
     fun spanishGarraTriggers() {
         // "garra" = Spanish for "claw" — a recognizer-friendly trigger
-        val m = WakeWordMatcher.match("garra qué hora es", "blackclaw")
+        val m = WakeWordMatcher.match("garra qué hora es", "blaqclaw")
         assertNotNull(m)
         assertEquals("que hora es", m!!.command)
     }
 
     @Test
     fun wakeWordOnlyGivesEmptyCommand() {
-        val m = WakeWordMatcher.match("blackclaw", "blackclaw")
+        val m = WakeWordMatcher.match("blaqclaw", "blaqclaw")
         assertNotNull(m)
         assertEquals("", m!!.command)
     }
 
     @Test
     fun absentWakeWordReturnsNull() {
-        assertNull(WakeWordMatcher.match("hola qué tal el día", "blackclaw"))
+        assertNull(WakeWordMatcher.match("hola qué tal el día", "blaqclaw"))
     }
 
     @Test
     fun commaAfterWakeWordIsStripped() {
-        val m = WakeWordMatcher.match("blackclaw, llama a Juan", "blackclaw")
+        val m = WakeWordMatcher.match("blaqclaw, llama a Juan", "blaqclaw")
         assertNotNull(m)
         assertEquals("llama a juan", m!!.command)
     }
@@ -92,8 +92,8 @@ class WakeWordMatcherTest {
 
     @Test
     fun unrelatedWordNotFalseTriggered() {
-        // "blanco" should NOT trigger "blackclaw" (too different / different meaning)
-        val m = WakeWordMatcher.match("el coche blanco es bonito", "blackclaw")
+        // "blanco" should NOT trigger "blaqclaw" (too different / different meaning)
+        val m = WakeWordMatcher.match("el coche blanco es bonito", "blaqclaw")
         assertNull(m)
     }
 

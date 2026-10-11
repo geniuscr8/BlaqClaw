@@ -8,7 +8,7 @@ import org.junit.Test
 class QuickAssistTextPolicyTest {
     @Test fun `farewells and greetings stay conversational`() {
         assertTrue(QuickAssistTextPolicy.isFarewell("muchas gracias"))
-        assertTrue(QuickAssistTextPolicy.isGreeting("Hola BlackClaw!"))
+        assertTrue(QuickAssistTextPolicy.isGreeting("Hola BlaqClaw!"))
         assertFalse(QuickAssistTextPolicy.isFarewell("gracias por buscar el clima de mañana"))
     }
 

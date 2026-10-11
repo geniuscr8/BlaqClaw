@@ -17,9 +17,9 @@ import com.blackclaw.android.R
  * the speech); "Notificaciones" runs immediately and reads the result aloud.
  *
  * Every action funnels into the same task pipeline the phone uses, so anything
- * BlackClaw can do by voice on the phone also works here.
+ * BlaqClaw can do by voice on the phone also works here.
  */
-class BlackClawHomeScreen(carContext: CarContext) : Screen(carContext) {
+class BlaqClawHomeScreen(carContext: CarContext) : Screen(carContext) {
 
     private fun icon(resId: Int): CarIcon =
         CarIcon.Builder(IconCompat.createWithResource(carContext, resId)).build()
@@ -51,7 +51,7 @@ class BlackClawHomeScreen(carContext: CarContext) : Screen(carContext) {
             .build()
 
         return GridTemplate.Builder()
-            .setTitle("BlackClaw")
+            .setTitle("BlaqClaw")
             .setHeaderAction(Action.APP_ICON)
             .setSingleList(list)
             .build()

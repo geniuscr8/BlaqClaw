@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.terminal.TerminalEngine
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import java.util.concurrent.Executors
 
 /**
- * BlackClaw's internal terminal UI.  It exposes the fixed local Linux session;
+ * BlaqClaw's internal terminal UI.  It exposes the fixed local Linux session;
  * its working directory is intentionally separate from the agent's session.
  */
 class TerminalActivity : BaseActivity() {
@@ -64,11 +64,11 @@ class TerminalActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TerminalScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onRun: (String, (String) -> Unit) -> Unit,
     onBack: () -> Unit,
 ) {
-    val lines = remember { mutableStateListOf("BlackClaw terminal — type 'help' to begin.") }
+    val lines = remember { mutableStateListOf("BlaqClaw terminal — type 'help' to begin.") }
     var input by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(false) }
     var backendLabel by remember { mutableStateOf(TerminalEngine.effectiveBackend().name.lowercase()) }

@@ -19,7 +19,7 @@ object SecurityPolicy {
 
     fun protectionReason(context: Context, pkg: String): String? {
         if (!isValidPackageName(pkg)) return "Invalid package name"
-        if (pkg in ALWAYS_PROTECTED) return "Componente esencial de Android o BlackClaw"
+        if (pkg in ALWAYS_PROTECTED) return "Componente esencial de Android o BlaqClaw"
         val pm = context.packageManager
         val info = runCatching { pm.getApplicationInfo(pkg, 0) }.getOrNull()
             ?: return "The app is not installed"

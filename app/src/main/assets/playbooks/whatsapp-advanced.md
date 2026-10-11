@@ -29,7 +29,7 @@ SEND A PHOTO:
    authorized, tap Send and verify_screen(expect="✓" / message in chat).
 
 VOICE NOTE:
-- BlackClaw can't record your voice for you. Open the chat (steps 2-3) and tell the
+- BlaqClaw can't record your voice for you. Open the chat (steps 2-3) and tell the
   user to hold the mic button, OR offer to send a TEXT message instead.
 
 REPLY TO A SPECIFIC CHAT:

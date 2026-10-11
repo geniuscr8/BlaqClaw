@@ -4,10 +4,10 @@ import android.graphics.Color
 import com.blackclaw.android.utils.KVUtils
 
 /**
- * BlackClaw runtime theme color provider.
+ * BlaqClaw runtime theme color provider.
  *
  * Themes:
- *  - blackclaw_dark : Carbon black + electric cyan (default)
+ *  - blaqclaw_dark : Carbon black + electric cyan (default)
  *  - midnight_dark  : Deep navy + violet
  *  - aurora_dark    : Boreal green + violet gradient feel
  *  - cyberpunk_dark : Neon pink + electric cyan
@@ -42,7 +42,7 @@ object ThemeManager {
 
     private val themes = mapOf(
 
-        "blackclaw_dark" to ChatColors(
+        "blaqclaw_dark" to ChatColors(
             bg = c("#0A0A0F"), toolbarBg = c("#0F0F1A"),
             userBubble = c("#0066CC"), userText = c("#F0F8FF"),
             aiBubble = c("#141420"), aiBubbleBorder = c("#1E1E30"),
@@ -164,7 +164,7 @@ object ThemeManager {
     )
 
     val allThemes: List<Triple<String, String, String>> = listOf(
-        Triple("blackclaw_dark", "BlackClaw",  "Electric cyan on charcoal"),
+        Triple("blaqclaw_dark", "BlaqClaw",  "Electric cyan on charcoal"),
         Triple("midnight_dark",  "Midnight",   "Violet on deep blue"),
         Triple("aurora_dark",    "Aurora",     "Boreal green and violet"),
         Triple("cyberpunk_dark", "Cyberpunk",  "Neon pink and cyan"),
@@ -177,18 +177,18 @@ object ThemeManager {
     )
 
     fun getColors(): ChatColors {
-        val id = KVUtils.getString("THEME_ID", "blackclaw_dark")
-        return themes[id] ?: themes["blackclaw_dark"]!!
+        val id = KVUtils.getString("THEME_ID", "blaqclaw_dark")
+        return themes[id] ?: themes["blaqclaw_dark"]!!
     }
 
     fun isDark(): Boolean {
-        val id = KVUtils.getString("THEME_ID", "blackclaw_dark")
+        val id = KVUtils.getString("THEME_ID", "blaqclaw_dark")
         return id.endsWith("_dark") || id == "mono_dark"
     }
 
-    fun ChatColors.toComposeColors(): BlackClawColors {
+    fun ChatColors.toComposeColors(): BlaqClawColors {
         val dark = isDark()
-        return BlackClawColors(
+        return BlaqClawColors(
             background    = androidx.compose.ui.graphics.Color(bg),
             surface       = androidx.compose.ui.graphics.Color(toolbarBg),
             userBubble    = androidx.compose.ui.graphics.Color(userBubble),

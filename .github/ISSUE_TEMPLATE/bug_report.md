@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a problem with BlackClaw (beta)
+about: Report a problem with BlaqClaw (beta)
 title: "[Bug] <device> - <short description>"
 labels: bug
 ---
@@ -23,8 +23,8 @@ labels: bug
 ## Device
 - Model:
 - Android version / OEM skin (e.g. MagicOS 10, One UI 6):
-- BlackClaw version (Settings → About):
+- BlaqClaw version (Settings → About):
 - LLM mode: local / cloud (which provider?)
 
 ## Debug report
-- [ ] I attached the `blackclaw-debug-*.zip` from Settings → About → Share debug report
+- [ ] I attached the `blaqclaw-debug-*.zip` from Settings → About → Share debug report

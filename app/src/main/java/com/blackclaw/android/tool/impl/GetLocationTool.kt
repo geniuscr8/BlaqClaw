@@ -40,7 +40,7 @@ class GetLocationTool : BaseTool() {
         val fineGranted = ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         val coarseGranted = ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
         if (!fineGranted && !coarseGranted) {
-            return ToolResult.error("Location permission is missing. Grant it in Settings > Apps > BlackClaw > Permissions.")
+            return ToolResult.error("Location permission is missing. Grant it in Settings > Apps > BlaqClaw > Permissions.")
         }
         val lm = ctx.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
             ?: return ToolResult.error("Location service is unavailable.")

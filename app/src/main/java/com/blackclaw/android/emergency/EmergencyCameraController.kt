@@ -135,7 +135,7 @@ class EmergencyCameraController(
     )
 
     private val manager = context.getSystemService(CameraManager::class.java)
-    private val thread = HandlerThread("BlackClawEmergencyCamera").apply { start() }
+    private val thread = HandlerThread("BlaqClawEmergencyCamera").apply { start() }
     private val handler = Handler(thread.looper)
     private val slotLock = Any()
     private val slots = ArrayList<Slot>()

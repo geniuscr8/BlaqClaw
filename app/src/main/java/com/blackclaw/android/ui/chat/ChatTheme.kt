@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 // ======================== THEME COLORS ========================
 
-data class BlackClawColors(
+data class BlaqClawColors(
     val background: Color,
     val surface: Color,
     val userBubble: Color,
@@ -21,7 +21,7 @@ data class BlackClawColors(
     val inputBorder: Color,
 )
 
-val AbyssDark = BlackClawColors(
+val AbyssDark = BlaqClawColors(
     background = Color(0xFF0A0A0F),
     surface = Color(0xFF0F0F1A),
     userBubble = Color(0xFF0066CC),

@@ -46,7 +46,7 @@ android {
             // When using the signing/ folder without an explicit path, default to
             // the bundled keystore next to keystore.properties.
             if (keystorePath.isEmpty() && signingProps.exists()) {
-                val bundled = rootProject.file("signing/blackclaw-release.jks")
+                val bundled = rootProject.file("signing/blaqclaw-release.jks")
                 if (bundled.exists()) keystorePath = bundled.absolutePath
             }
             if (keystorePath.isNotEmpty()) {
@@ -62,10 +62,17 @@ android {
         applicationId = "com.blackclaw.android"
         minSdk = 28
         targetSdk = 36
-        versionCode = readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 138)
-        versionName = readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.3")
+        // Accept the rebranded keys first while retaining the old names for existing CI jobs.
+        versionCode = readLocalOrEnvInt(
+            "BLAQCLAW_VERSION_CODE",
+            readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 138),
+        )
+        versionName = readLocalOrEnvString(
+            "BLAQCLAW_VERSION_NAME",
+            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.3"),
+        )
         buildConfigField("String", "VERSION_INFO", getVersionGit())
-        buildConfigField("String", "APP_ORIGIN", "\"BlackClaw by BlackClaw | github.com/tuangel134/BlackClaw\"")
+        buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw by BlaqClaw | github.com/tuangel134/BlaqClaw\"")
         buildConfigField("String", "BUILD_FINGERPRINT", "\"${getBuildFingerprint()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -334,7 +341,7 @@ androidComponents {
                 val abi = output.filters
                     .firstOrNull { it.filterType == com.android.build.api.variant.FilterConfiguration.FilterType.ABI }
                     ?.identifier ?: "universal"
-                val fileName = "BlackClaw_v${versionName}_${abi}_${getDateTime()}.apk"
+                val fileName = "BlaqClaw_v${versionName}_${abi}_${getDateTime()}.apk"
                 println("output file name: $fileName")
                 output.outputFileName.set(fileName)
             }

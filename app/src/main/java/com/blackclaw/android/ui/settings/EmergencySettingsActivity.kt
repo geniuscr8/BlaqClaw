@@ -209,7 +209,7 @@ class EmergencySettingsActivity : BaseActivity() {
                             when {
                                 cameraCapability == null -> "Could not check camera capabilities."
                                 cameraCapability.concurrentFrontBack -> "This phone officially reports support for simultaneous front and rear cameras."
-                                else -> "Android does not report simultaneous cameras; if you request both, BlackClaw will use the rear camera and record that choice."
+                                else -> "Android does not report simultaneous cameras; if you request both, BlaqClaw will use the rear camera and record that choice."
                             },
                             color = Color(0xFFA89DB9), style = MaterialTheme.typography.bodySmall,
                         )
@@ -263,7 +263,7 @@ class EmergencySettingsActivity : BaseActivity() {
                         }
 
                         Text(
-                            "Android and BlackClaw show indicators while the camera or microphone is active. SMS costs may apply depending on your carrier.",
+                            "Android and BlaqClaw show indicators while the camera or microphone is active. SMS costs may apply depending on your carrier.",
                             color = Color(0xFF8F849F),
                             style = MaterialTheme.typography.bodySmall,
                         )

@@ -16,7 +16,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Generates morning and night briefings — the feature that makes BlackClaw feel
+ * Generates morning and night briefings — the feature that makes BlaqClaw feel
  * like a real assistant that "manages your day" rather than just reacting.
  *
  *  - Morning: what's ahead today (events, reminders, alarms), weather if

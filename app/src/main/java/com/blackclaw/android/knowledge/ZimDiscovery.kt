@@ -64,7 +64,7 @@ object ZimDiscovery {
      */
     private val NAMED_FOLDERS = listOf(
         "Download", "Downloads", "Documents",
-        "Kiwix", "kiwix", "ZIM", "zim", "BlackClaw",
+        "Kiwix", "kiwix", "ZIM", "zim", "BlaqClaw",
     )
 
     /**

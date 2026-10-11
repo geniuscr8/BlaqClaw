@@ -9,7 +9,7 @@ import com.blackclaw.android.utils.XLog
 
 /**
  * Read-only bridge to the device's system calendar (Google Calendar, etc.).
- * Lets BlackClaw's own calendar view overlay the user's real events alongside
+ * Lets BlaqClaw's own calendar view overlay the user's real events alongside
  * its native items — a one-way sync that needs only READ_CALENDAR.
  *
  * Events are returned as transient [AssistantItem]s (source = "system"); they

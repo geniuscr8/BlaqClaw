@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <!-- Required by app discovery and generic cross-app automation. BlackClaw is
+    <!-- Required by app discovery and generic cross-app automation. BlaqClaw is
          sideloaded rather than distributed under Play's restricted policy. -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -39,7 +39,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Needed only for user-created geofence automations that must work while BlackClaw is in background. -->
+    <!-- Needed only for user-created geofence automations that must work while BlaqClaw is in background. -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
@@ -53,7 +53,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
     <!-- Signature permission for the BROADCAST automation entrypoint. A receiver
-         has no trustworthy caller identity, so Android must reject non-BlackClaw-
+         has no trustworthy caller identity, so Android must reject non-BlaqClaw-
          signed senders before our process is entered. The Activity path is different:
          Tasker/MacroDroid must be able to reach it, so it intentionally does not use
          this permission and instead requires a valid AutomationToken or an identified
@@ -100,7 +100,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BlackClaw">
+        android:theme="@style/Theme.BlaqClaw">
 
         <!-- ── Android Auto (Car App Library) ──────────────────────────────
              Voice-first assistant surface for the car head unit / phone
@@ -113,7 +113,7 @@
             android:resource="@xml/automotive_app_desc" />
 
         <service
-            android:name=".car.BlackClawCarAppService"
+            android:name=".car.BlaqClawCarAppService"
             android:exported="true"
             android:foregroundServiceType="specialUse">
             <intent-filter>
@@ -127,7 +127,7 @@
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BlackClaw.Splash">
+            android:theme="@style/Theme.BlaqClaw.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -244,7 +244,7 @@
             android:name=".ui.assist.QuickAssistActivity"
             android:exported="true"
             android:permission="android.permission.BIND_VOICE_INTERACTION"
-            android:theme="@style/Theme.BlackClaw.Assist"
+            android:theme="@style/Theme.BlaqClaw.Assist"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
             android:showWhenLocked="true"
@@ -263,7 +263,7 @@
              pre-overlay AssistStructure/screenshot; QuickAssist then renders the
              conversation panel without losing the app the user was looking at. -->
         <service
-            android:name=".ui.assist.BlackClawVoiceInteractionService"
+            android:name=".ui.assist.BlaqClawVoiceInteractionService"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_VOICE_INTERACTION">
@@ -275,13 +275,13 @@
                 android:resource="@xml/voice_interaction_service" />
         </service>
         <service
-            android:name=".ui.assist.BlackClawVoiceInteractionSessionService"
+            android:name=".ui.assist.BlaqClawVoiceInteractionSessionService"
             android:exported="true"
             android:permission="android.permission.BIND_VOICE_INTERACTION" />
         <!-- Required by the voice-interaction XML on Android 11 and earlier.
              Interactive dictation remains in the visible QuickAssist panel. -->
         <service
-            android:name=".ui.assist.BlackClawRecognitionService"
+            android:name=".ui.assist.BlaqClawRecognitionService"
             android:exported="true"
             android:permission="android.permission.BIND_SPEECH_RECOGNITION_SERVICE">
             <intent-filter>
@@ -299,7 +299,7 @@
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BlackClaw" />
+            android:theme="@style/Theme.BlaqClaw" />
         <activity
             android:name=".perception.ScreenCapturePermissionActivity"
             android:exported="false"
@@ -321,7 +321,7 @@
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_launcher_monochrome"
-            android:label="Voz BlackClaw"
+            android:label="BlaqClaw Voice"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -329,7 +329,7 @@
         </service>
 
         <!-- Shizuku provider — required by Shizuku-API to hand the user's binder
-             to BlackClaw. We do NOT enable Shizuku itself here, that's the user's
+             to BlaqClaw. We do NOT enable Shizuku itself here, that's the user's
              separate app. This entry is just the IPC bridge. -->
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
@@ -358,7 +358,7 @@
              hold it. Authorization is therefore fail-closed in AutomationCallerPolicy:
              own package, an identified allowlisted caller, or a valid AutomationToken.
              Plain startActivity usually yields no callingPackage, so that path requires
-             the token shown in BlackClaw Settings. -->
+             the token shown in BlaqClaw Settings. -->
         <activity
             android:name=".automation.ExternalAutomationActivity"
             android:exported="true"
@@ -566,7 +566,7 @@
             android:name=".assistant.AssistantTile"
             android:exported="true"
             android:icon="@drawable/ic_launcher_monochrome"
-            android:label="Asistente"
+            android:label="Assistant"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

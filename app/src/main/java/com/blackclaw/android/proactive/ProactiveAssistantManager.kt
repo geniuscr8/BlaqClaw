@@ -706,7 +706,7 @@ object ProactiveAssistantManager {
         val registry = ToolRegistry.getInstance()
         val label = decision.optString("label")
             .ifBlank { commitment?.label.orEmpty() }
-            .ifBlank { title.ifBlank { "BlackClaw" } }
+            .ifBlank { title.ifBlank { "BlaqClaw" } }
         val message = decision.optString("message").ifBlank { text }
 
         return when (action) {

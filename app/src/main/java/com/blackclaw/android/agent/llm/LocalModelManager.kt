@@ -413,7 +413,7 @@ object LocalModelManager {
     }
 
     private fun canWriteToDirectory(dir: File): Boolean {
-        val probe = File(dir, ".blackclaw-write-probe")
+        val probe = File(dir, ".blaqclaw-write-probe")
         return runCatching {
             FileOutputStream(probe, false).use { output ->
                 output.write(1)
@@ -628,7 +628,7 @@ object LocalModelManager {
             // Rename temp to final
             if (targetFile.exists()) targetFile.delete()
             if (!tempFile.renameTo(targetFile)) {
-                callback.onError("Download finished but BlackClaw could not move the model into place")
+                callback.onError("Download finished but BlaqClaw could not move the model into place")
                 return
             }
 
@@ -652,14 +652,14 @@ object LocalModelManager {
     }
 
     /**
-     * Copies a compatible model selected by the user into BlackClaw's own model
+     * Copies a compatible model selected by the user into BlaqClaw's own model
      * directory. Native LiteRT-LM receives a filesystem path, so retaining a
      * temporary content URI from another app is not reliable enough.
      */
     fun importLiteRtModel(context: Context, uri: Uri): String {
         val fileName = displayNameForUri(context, uri)
         require(ExternalModelDiscovery.classify(fileName) == ExternalModelDiscovery.Format.LITERT_LM) {
-            "BlackClaw can only run LiteRT-LM (.litertlm) files"
+            "BlaqClaw can only run LiteRT-LM (.litertlm) files"
         }
         val expectedSize = context.contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
             ?.use { cursor ->
@@ -668,13 +668,13 @@ object LocalModelManager {
             }
         return context.contentResolver.openInputStream(uri)?.use { input ->
             importLiteRtModel(context, fileName, input, expectedSize)
-        } ?: throw IllegalStateException("BlackClaw could not open the selected model")
+        } ?: throw IllegalStateException("BlaqClaw could not open the selected model")
     }
 
     fun importLiteRtModel(context: Context, source: File): String {
         require(source.isFile && source.canRead()) { "The selected model file is not readable" }
         require(ExternalModelDiscovery.classify(source.name) == ExternalModelDiscovery.Format.LITERT_LM) {
-            "BlackClaw can only run LiteRT-LM (.litertlm) files"
+            "BlaqClaw can only run LiteRT-LM (.litertlm) files"
         }
         return source.inputStream().use { input -> importLiteRtModel(context, source.name, input, source.length()) }
     }
@@ -700,7 +700,7 @@ object LocalModelManager {
                 throw IllegalStateException("The selected file is too small to be a complete model")
             }
             if (!temp.renameTo(target)) {
-                throw IllegalStateException("BlackClaw could not move the imported model into place")
+                throw IllegalStateException("BlaqClaw could not move the imported model into place")
             }
             XLog.i(TAG, "Model imported: ${target.absolutePath} (${target.length()} bytes)")
             return target.absolutePath

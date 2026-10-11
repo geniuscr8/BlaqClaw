@@ -105,7 +105,7 @@ object AutomationEngine {
             return
         }
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "BlackClaw::Automation").apply {
+        val wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "BlaqClaw::Automation").apply {
             acquire(10 * 60_000L)
         }
         runCatching {

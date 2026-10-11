@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Real web search that RETURNS readable results to the agent (unlike web_search,
- * which only opens a browser). Lets BlackClaw answer "¿qué película se estrena
+ * which only opens a browser). Lets BlaqClaw answer "¿qué película se estrena
  * hoy?", "¿quién ganó anoche?", "precio del bitcoin", etc.
  *
  * No API key: uses DuckDuckGo's free endpoints —
@@ -121,7 +121,7 @@ class WebAnswerTool : BaseTool() {
     private fun instantAnswer(query: String): String {
         val url = "https://api.duckduckgo.com/?q=${enc(query)}&format=json&no_html=1&skip_disambig=1"
         val req = Request.Builder().url(url).header("Accept", "application/json")
-            .header("User-Agent", "Mozilla/5.0 (Android) BlackClaw").get().build()
+            .header("User-Agent", "Mozilla/5.0 (Android) BlaqClaw").get().build()
         client.newCall(req).execute().use { resp ->
             if (!resp.isSuccessful) return ""
             val body = resp.body?.string() ?: return ""

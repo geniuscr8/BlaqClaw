@@ -36,14 +36,14 @@ import androidx.core.view.WindowCompat
 import com.blackclaw.android.adb.AdbController
 import com.blackclaw.android.adb.AdbKeyStore
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 /**
- * "Modo Pro" — guided self-ADB pairing. Lets BlackClaw pair with its own adbd
+ * "Modo Pro" — guided self-ADB pairing. Lets BlaqClaw pair with its own adbd
  * over loopback using Wireless Debugging, granting shell-level power (fast taps,
  * force-stop, dumpsys…) with NO PC and NO Shizuku.
  */
@@ -85,7 +85,7 @@ class AdbProActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AdbProScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     fingerprint: String,
     onBack: () -> Unit,
     onOpenDevOptions: () -> Unit,
@@ -169,8 +169,8 @@ private fun AdbProScreen(
                 StepCard(3, "Open \"Pair with pairing code\"",
                     "In Wireless debugging, tap \"Pair device with pairing code\" and leave the screen open. You will see a six-digit code.",
                     colors)
-                StepCard(4, "Let BlackClaw read it",
-                    "With that dialog OPEN, tap \"Auto-pair\": BlackClaw reads the code and port from the screen using accessibility. You do not have to copy anything.",
+                StepCard(4, "Let BlaqClaw read it",
+                    "With that dialog OPEN, tap \"Auto-pair\": BlaqClaw reads the code and port from the screen using accessibility. You do not have to copy anything.",
                     colors)
 
                 Spacer(Modifier.height(8.dp))
@@ -209,7 +209,7 @@ private fun AdbProScreen(
                             refresh()
                             statusOk = res.isSuccess
                             statusMsg = if (res.isSuccess)
-                                "Paired automatically. BlackClaw now has ADB access."
+                                "Paired automatically. BlaqClaw now has ADB access."
                             else AdbController.lastError ?: "Automatic pairing failed."
                         }
                     },
@@ -269,7 +269,7 @@ private fun AdbProScreen(
                             refresh()
                             statusOk = res.isSuccess
                             statusMsg = if (res.isSuccess)
-                                "Paired successfully. BlackClaw now has ADB access."
+                                "Paired successfully. BlaqClaw now has ADB access."
                             else AdbController.lastError ?: "Pairing failed."
                         }
                     },
@@ -377,7 +377,7 @@ private fun AdbProScreen(
                 border = BorderStroke(0.5.dp, colors.aiBubbleBorder),
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
-                    Text("Identidad ADB de BlackClaw",
+                    Text("Identidad ADB de BlaqClaw",
                         fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
                         color = colors.textPrimary)
                     Spacer(Modifier.height(6.dp))
@@ -399,7 +399,7 @@ private fun AdbProScreen(
 }
 
 @Composable
-private fun ConnectionStatusCard(state: AdbController.State, colors: BlackClawColors) {
+private fun ConnectionStatusCard(state: AdbController.State, colors: BlaqClawColors) {
     val (icon, title, subtitle, tint) = when (state) {
         AdbController.State.NOT_PAIRED -> Quad(
             Icons.Default.Warning, "Not paired",
@@ -442,7 +442,7 @@ private fun ConnectionStatusCard(state: AdbController.State, colors: BlackClawCo
 }
 
 @Composable
-private fun StepCard(num: Int, title: String, body: String, colors: BlackClawColors) {
+private fun StepCard(num: Int, title: String, body: String, colors: BlaqClawColors) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
         verticalAlignment = Alignment.Top,

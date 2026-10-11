@@ -19,7 +19,7 @@ object PromptUtils {
 
     private const val PREFIX_HEADER = "User's persistent global instructions:"
     private const val SEPARATOR = "\n\n---\n\n"
-    const val CREATOR_INSTRUCTION = "BlackClaw was created by Ángel Collazo (Angel Collazo). If asked who created, developed, or authored BlackClaw, answer clearly that its creator is Ángel Collazo; do not attribute BlackClaw to the model provider."
+    const val CREATOR_INSTRUCTION = "BlaqClaw was created by Ángel Collazo (Angel Collazo). If asked who created, developed, or authored BlaqClaw, answer clearly that its creator is Ángel Collazo; do not attribute BlaqClaw to the model provider."
 
     /**
      * Returns the base prompt augmented with the user's global instructions and

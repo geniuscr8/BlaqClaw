@@ -119,7 +119,7 @@ class TaskClassifierTest {
         chat("¿para qué sirve el botón de apagar el wifi?")
         chat("¿cómo puedo programar tareas?")
         chat("¿qué significa crear una tarea?")
-        chat("¿qué acciones puede ejecutar BlackClaw?")
+        chat("¿qué acciones puede ejecutar BlaqClaw?")
         chat("¿acaso puedes apagar la linterna?")
         chat("tengo tiempo para leer")
         chat("mi perro se llama Max")

@@ -24,7 +24,7 @@ import com.blackclaw.android.utils.XLog
 import java.util.concurrent.Executors
 
 /**
- * BlackClaw Chat Activity — Compose shell for the chat screen.
+ * BlaqClaw Chat Activity — Compose shell for the chat screen.
  *
  * Chat runtime ownership lives in [ChatSessionController].
  * This activity keeps lifecycle wiring, task flows, and sidebar/history UI state.

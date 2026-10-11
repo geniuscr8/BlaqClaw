@@ -51,7 +51,7 @@ class ChatSessionController(
 
     companion object {
         private const val TAG = "ChatSessionController"
-        private const val BASE_SYSTEM_PROMPT = "You are BlackClaw, a helpful AI assistant on an Android phone. ${com.blackclaw.android.agent.PromptUtils.CREATOR_INSTRUCTION}"
+        private const val BASE_SYSTEM_PROMPT = "You are BlaqClaw, a helpful AI assistant on an Android phone. ${com.blackclaw.android.agent.PromptUtils.CREATOR_INSTRUCTION}"
     }
 
     private var engine: Engine? = null
@@ -875,7 +875,7 @@ class ChatSessionController(
                 append("\n\n").append(memory.trim())
             }
             if (recent.isNotEmpty()) {
-                append("\n\nRecent conversation across BlackClaw surfaces:\n")
+                append("\n\nRecent conversation across BlaqClaw surfaces:\n")
                 append(recent.joinToString("\n"))
             }
         }

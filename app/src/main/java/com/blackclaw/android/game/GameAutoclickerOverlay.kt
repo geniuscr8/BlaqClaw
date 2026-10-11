@@ -51,7 +51,7 @@ object GameAutoclickerOverlay {
 
     fun open(packageName: String): Result<Unit> {
         val service = ClawAccessibilityService.getConnectedInstance(1_500L)
-            ?: return Result.failure(IllegalStateException("Activa el servicio de Accesibilidad de BlackClaw."))
+            ?: return Result.failure(IllegalStateException("Activa el servicio de Accesibilidad de BlaqClaw."))
         main.post {
             if (gamePackage != packageName) draft.clear()
             gamePackage = packageName
@@ -87,7 +87,7 @@ object GameAutoclickerOverlay {
             elevation = dp(10, density).toFloat()
         }
         val title = TextView(service).apply {
-            text = "BLACKCLAW · AUTOCLICKER"
+            text = "BLAQCLAW · AUTOCLICKER"
             setTextColor(Color.WHITE); textSize = 12f
             setPadding(0, dp(4, density), 0, dp(8, density))
         }

@@ -15,7 +15,7 @@ import kotlin.random.Random
 
 /**
  * Fires when an assistant reminder/alarm/event is due. Posts a native push
- * notification from BlackClaw itself, then either removes the one-shot item or
+ * notification from BlaqClaw itself, then either removes the one-shot item or
  * re-arms it for the next occurrence if it repeats.
  */
 class AssistantReceiver : BroadcastReceiver() {

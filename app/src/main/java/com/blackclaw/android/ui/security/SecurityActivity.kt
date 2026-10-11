@@ -26,7 +26,7 @@ import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.security.AppRiskScanner
 import com.blackclaw.android.security.AdCulpritDetector
 import com.blackclaw.android.security.SecurityActions
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import java.util.concurrent.Executors
@@ -62,7 +62,7 @@ class SecurityActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SecurityScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     exec: java.util.concurrent.ExecutorService,
     toast: (String) -> Unit,
     onBack: () -> Unit,
@@ -140,7 +140,7 @@ private fun SecurityScreen(
                     Column(Modifier.padding(14.dp)) {
                         Text("Is an app bothering you with ads?", fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-                        Text("Ask BlackClaw in chat: \"an app is filling my screen with ads, find it and " +
+                        Text("Ask BlaqClaw in chat: \"an app is filling my screen with ads, find it and " +
                             "block it\". Or review the apps below that can draw over other apps.",
                             fontSize = 12.sp, color = colors.textSecondary, lineHeight = 16.sp)
                     }
@@ -192,7 +192,7 @@ private fun SecurityScreen(
 @Composable
 private fun RiskCard(
     app: AppRiskScanner.AppRisk,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onNeutralize: () -> Unit,
     onUninstall: () -> Unit,
     onSettings: () -> Unit,

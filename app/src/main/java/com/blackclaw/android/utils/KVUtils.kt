@@ -495,7 +495,7 @@ object KVUtils {
     fun hasLlmConfig(): Boolean {
         val provider = getLlmProvider().uppercase()
         if (provider == "AUTO" || provider == "AUTOMATIC") {
-            // BlackClaw Free (OpenCode Zen) is anonymous and ships with a seed
+            // BlaqClaw Free (OpenCode Zen) is anonymous and ships with a seed
             // catalog, so AUTO remains usable even before a paid key/default is
             // saved. A downloaded local model or paid cloud default still wins
             // whenever one is present.
@@ -516,7 +516,7 @@ object KVUtils {
     fun hasGlobalPrompt(): Boolean = getGlobalPrompt().isNotBlank()
 
     // ==================== Custom Local Model URL (#36) ====================
-    // Advanced: lets user point BlackClaw at a custom .litertlm download URL
+    // Advanced: lets user point BlaqClaw at a custom .litertlm download URL
     // (e.g. self-hosted, HuggingFace mirrors) instead of only the built-in catalog.
     // Empty string = no custom model. fileName is derived from URL last segment.
 

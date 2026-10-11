@@ -41,7 +41,7 @@ class GetCalendarEventsTool : BaseTool() {
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_CALENDAR)
             != PackageManager.PERMISSION_GRANTED) {
             return ToolResult.error(
-                "READ_CALENDAR permission not granted. Grant it in Settings > Apps > BlackClaw > Permissions."
+                "READ_CALENDAR permission not granted. Grant it in Settings > Apps > BlaqClaw > Permissions."
             )
         }
 

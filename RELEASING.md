@@ -1,4 +1,4 @@
-# Releasing BlackClaw
+# Releasing BlaqClaw
 
 This repo now assumes a single stable release signing key.
 
@@ -11,9 +11,9 @@ Generate one long-lived release keystore and keep it outside the repo.
 Recommended local inputs:
 
 ```bash
-export KEYSTORE_FILE=/absolute/path/to/blackclaw-release.keystore
+export KEYSTORE_FILE=/absolute/path/to/blaqclaw-release.keystore
 export KEYSTORE_PASSWORD=...
-export KEY_ALIAS=blackclaw-release
+export KEY_ALIAS=blaqclaw-release
 export KEY_PASSWORD=...
 ```
 
@@ -58,7 +58,7 @@ sha256sum app/build/outputs/apk/release/*.apk
 
 ```bash
 git tag -a vX.Y.Z -m "vX.Y.Z"
-git push blackclaw vX.Y.Z
+git push blaqclaw vX.Y.Z
 ```
 
 The GitHub Actions workflow will then create the GitHub Release, upload the signed APK, and attach `SHA256SUMS.txt`.
@@ -68,8 +68,8 @@ The GitHub Actions workflow will then create the GitHub Release, upload the sign
 To verify that the next public build can upgrade in place over the current signed build, create a temporary local build with the same key and a higher version:
 
 ```bash
-export BLACKCLAW_VERSION_CODE=15
-export BLACKCLAW_VERSION_NAME=0.5.1-upgrade-test
+export BLAQCLAW_VERSION_CODE=15
+export BLAQCLAW_VERSION_NAME=0.5.1-upgrade-test
 ./gradlew --no-daemon :app:assembleRelease -x lintVitalRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
 ```
 

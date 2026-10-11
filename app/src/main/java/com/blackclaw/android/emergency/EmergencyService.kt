@@ -36,8 +36,8 @@ class EmergencyService : Service() {
         const val ACTION_START = "com.blackclaw.android.EMERGENCY_START"
         const val ACTION_CANCEL = "com.blackclaw.android.EMERGENCY_CANCEL"
         const val ACTION_STOP = "com.blackclaw.android.EMERGENCY_STOP"
-        const val CHANNEL_ID = "blackclaw_emergency"
-        const val DISCREET_CHANNEL_ID = "blackclaw_protection"
+        const val CHANNEL_ID = "blaqclaw_emergency"
+        const val DISCREET_CHANNEL_ID = "blaqclaw_protection"
         const val NOTIFICATION_ID = 9110
         private const val TAG = "EmergencyService"
         private const val COUNTDOWN_MS = 5_000L
@@ -234,7 +234,7 @@ class EmergencyService : Service() {
                     XLog.e(TAG, "Unable to encrypt emergency video", error)
                     EmergencyEventLog.append(this, "video_encryption_failed lens=$lens error=${error.javaClass.simpleName}")
                 }
-        }, "BlackClawEvidenceSeal").start()
+        }, "BlaqClawEvidenceSeal").start()
     }
 
     private fun sendAlert(location: Location?, initial: Boolean): Boolean {
@@ -423,7 +423,7 @@ class EmergencyService : Service() {
         val discreet = options.silent
         return NotificationCompat.Builder(this, if (discreet) DISCREET_CHANNEL_ID else CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(if (discreet) "BlackClaw · Protección activa" else "BlackClaw · Modo emergencia")
+            .setContentTitle(if (discreet) "BlaqClaw · Protección activa" else "BlaqClaw · Modo emergencia")
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(open)
@@ -443,7 +443,7 @@ class EmergencyService : Service() {
             setSound(null, null)
         })
         manager.createNotificationChannel(NotificationChannel(DISCREET_CHANNEL_ID, "Protección activa", NotificationManager.IMPORTANCE_LOW).apply {
-            description = "Estado silencioso de protección de BlackClaw"
+            description = "Estado silencioso de protección de BlaqClaw"
             setSound(null, null)
             enableVibration(false)
             setShowBadge(false)

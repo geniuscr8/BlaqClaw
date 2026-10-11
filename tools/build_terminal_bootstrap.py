@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build BlackClaw's fixed, offline Linux terminal bootstrap.
+"""Build BlaqClaw's fixed, offline Linux terminal bootstrap.
 
 The generated archives are deliberately not a package repository: they contain a
 closed list of Alpine packages and their runtime dependencies. They run below the
@@ -38,7 +38,7 @@ MIRROR = "https://dl-cdn.alpinelinux.org/alpine"
 
 
 def fetch(url: str) -> bytes:
-    request = urllib.request.Request(url, headers={"User-Agent": "BlackClaw-bootstrap-builder/1"})
+    request = urllib.request.Request(url, headers={"User-Agent": "BlaqClaw-bootstrap-builder/1"})
     with urllib.request.urlopen(request, timeout=120) as response:
         return response.read()
 
@@ -102,7 +102,7 @@ def resolve(index: dict[str, dict[str, str]], requested: tuple[str, ...]) -> lis
 
 def extract_tar_gz(raw: bytes, dest: Path) -> None:
     """Extract trusted Alpine archives without inheriting archive ownership."""
-    with tempfile.NamedTemporaryFile(prefix="blackclaw-archive-", suffix=".tar.gz") as source:
+    with tempfile.NamedTemporaryFile(prefix="blaqclaw-archive-", suffix=".tar.gz") as source:
         source.write(raw)
         source.flush()
         subprocess.run(
@@ -114,7 +114,7 @@ def extract_tar_gz(raw: bytes, dest: Path) -> None:
 def build_arch(arch: str, output: Path) -> Path:
     release = f"{MIRROR}/{ALPINE}/releases/{arch}/alpine-minirootfs-{ROOTFS_VERSION}-{arch}.tar.gz"
     index_url = f"{MIRROR}/{ALPINE}/main/{arch}/APKINDEX.tar.gz"
-    with tempfile.TemporaryDirectory(prefix=f"blackclaw-rootfs-{arch}-") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix=f"blaqclaw-rootfs-{arch}-") as temp_dir:
         temp = Path(temp_dir)
         root = temp / "rootfs"
         root.mkdir()
@@ -132,17 +132,17 @@ def build_arch(arch: str, output: Path) -> Path:
         (root / "etc/apk/repositories").unlink(missing_ok=True)
         (root / "sbin/apk").unlink(missing_ok=True)
 
-        home = root / "home/blackclaw"
+        home = root / "home/blaqclaw"
         home.mkdir(parents=True, exist_ok=True)
         (root / "etc/profile.d").mkdir(parents=True, exist_ok=True)
-        (root / "etc/profile.d/blackclaw.sh").write_text(
+        (root / "etc/profile.d/blaqclaw.sh").write_text(
             "export HOME=/home/blackclaw\nexport PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n",
             encoding="utf-8",
         )
         # PRoot maps the terminal to this unprivileged identity.  It is a virtual
         # uid only; Android's sandbox remains the real security boundary.
         (root / "etc/passwd").write_text(
-            "root:x:0:0:root:/root:/bin/sh\nblackclaw:x:1000:1000:BlackClaw:/home/blackclaw:/bin/bash\n",
+            "root:x:0:0:root:/root:/bin/sh\nblackclaw:x:1000:1000:BlaqClaw:/home/blackclaw:/bin/bash\n",
             encoding="utf-8",
         )
         (root / "etc/group").write_text("root:x:0:\nblackclaw:x:1000:\n", encoding="utf-8")

@@ -29,7 +29,7 @@ class AutomaticModelManagerTest {
         val candidate = AutomaticModelManager.candidateForConfig(
             AgentConfig(
                 apiKey = "",
-                baseUrl = "/tmp/../tmp/blackclaw-model.litertlm",
+                baseUrl = "/tmp/../tmp/blaqclaw-model.litertlm",
                 modelName = "gemma4-e2b",
                 provider = LlmProvider.LOCAL,
             )
@@ -37,6 +37,6 @@ class AutomaticModelManagerTest {
 
         assertNotNull(candidate)
         assertEquals(AutomaticModelManager.Kind.LOCAL, candidate!!.kind)
-        assertEquals("LOCAL:/tmp/blackclaw-model.litertlm", candidate.key)
+        assertEquals("LOCAL:/tmp/blaqclaw-model.litertlm", candidate.key)
     }
 }

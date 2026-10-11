@@ -32,12 +32,12 @@ object AppUpdater {
 
     private const val TAG = "AppUpdater"
     private const val RELEASES_API =
-        "https://api.github.com/repos/tuangel134/BlackClaw/releases/latest"
+        "https://api.github.com/repos/tuangel134/BlaqClaw/releases/latest"
     private const val RELEASES_PAGE =
-        "https://github.com/tuangel134/BlackClaw/releases/latest"
+        "https://github.com/tuangel134/BlaqClaw/releases/latest"
     private const val CHECK_INTERVAL_MS = 12L * 60 * 60 * 1000 // twice a day
     private const val KEY_LAST_CHECK = "last_update_check"
-    private const val APK_NAME = "BlackClaw-update.apk"
+    private const val APK_NAME = "BlaqClaw-update.apk"
 
     /**
      * One shared daemon worker for update checks.
@@ -147,7 +147,7 @@ object AppUpdater {
         val conn = URL(urlStr).openConnection() as HttpURLConnection
         return try {
             conn.setRequestProperty("Accept", "application/vnd.github+json")
-            conn.setRequestProperty("User-Agent", "BlackClaw-App")
+            conn.setRequestProperty("User-Agent", "BlaqClaw-App")
             conn.connectTimeout = 8000
             conn.readTimeout = 8000
             if (conn.responseCode != 200) {
@@ -189,7 +189,7 @@ object AppUpdater {
     ) {
         try {
             val msg = buildString {
-                append("BlackClaw v").append(tag).append(" is available.\n\n")
+                append("BlaqClaw v").append(tag).append(" is available.\n\n")
                 if (body.isNotBlank()) {
                     append(body.trim().take(600))
                     if (body.length > 600) append("…")
@@ -209,7 +209,7 @@ object AppUpdater {
                         // is allowed to install unknown apps. Check first so the
                         // update doesn't silently do nothing after downloading.
                         if (!canInstall(activity)) {
-                            toast(activity, "Activa \"Installr apps desconocidas\" para BlackClaw y vuelve a pulsar Actualizar.")
+                            toast(activity, "Activa \"Installr apps desconocidas\" para BlaqClaw y vuelve a pulsar Actualizar.")
                             requestInstallPermission(activity)
                         } else {
                             startDownload(activity, apkUrl, tag)
@@ -234,7 +234,7 @@ object AppUpdater {
 
             val dm = app.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val req = DownloadManager.Request(Uri.parse(apkUrl))
-                .setTitle("BlackClaw v$tag")
+                .setTitle("BlaqClaw v$tag")
                 .setDescription("Downloading the update…")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setMimeType("application/vnd.android.package-archive")
@@ -267,7 +267,7 @@ object AppUpdater {
     private fun canInstall(ctx: Context): Boolean =
         runCatching { ctx.packageManager.canRequestPackageInstalls() }.getOrDefault(false)
 
-    /** Send the user to the "install unknown apps" screen for BlackClaw. */
+    /** Send the user to the "install unknown apps" screen for BlaqClaw. */
     private fun requestInstallPermission(activity: Activity) {
         runCatching {
             activity.startActivity(

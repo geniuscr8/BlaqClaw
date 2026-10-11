@@ -9,7 +9,7 @@ import java.util.Locale
 /**
  * Saves and loads chat conversations as markdown files.
  *
- * Storage: /storage/emulated/0/BlackClaw/chats/
+ * Storage: /storage/emulated/0/BlaqClaw/chats/
  * Format: 2026-04-04-send-hi-to-mom.md
  *
  * Each file:
@@ -30,7 +30,7 @@ import java.util.Locale
  */
 object ChatHistoryManager {
 
-    private const val MESSAGE_TIMESTAMP_PREFIX = "<!-- blackclaw:timestamp="
+    private const val MESSAGE_TIMESTAMP_PREFIX = "<!-- blaqclaw:timestamp="
     private const val MESSAGE_TIMESTAMP_SUFFIX = " -->"
     private val frontmatterDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
 

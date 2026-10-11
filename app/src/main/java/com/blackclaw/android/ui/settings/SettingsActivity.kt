@@ -42,7 +42,7 @@ import com.blackclaw.android.scheduler.ScheduledTaskManager
 import com.blackclaw.android.automation.AutomationProfileStore
 import com.blackclaw.android.automation.AutomationRuleStore
 import com.blackclaw.android.tool.ToolRegistry
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.design.ClawGlassBackdrop
@@ -154,7 +154,7 @@ class SettingsActivity : BaseActivity() {
                     onReportBug = { SettingsActions.reportBug(activity) },
                     onShareDebugReport = { SettingsActions.shareDebugReport(activity) },
                     onOpenGitHub = {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/tuangel134/BlackClaw")))
+                        activity.startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/tuangel134/BlaqClaw")))
                     },
                     onEditGlobalPrompt = { activity.showGlobalPromptDialog() },
                 )
@@ -208,7 +208,7 @@ class SettingsActivity : BaseActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ModernSettingsScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     caps: com.blackclaw.android.AppCapabilitySnapshot,
     onBack: () -> Unit,
     onOpenOnboarding: () -> Unit,
@@ -243,7 +243,7 @@ private fun ModernSettingsScreen(
     onOpenGitHub: () -> Unit,
     onEditGlobalPrompt: () -> Unit,
 ) {
-    val themeId = remember { KVUtils.getString("THEME_ID", "blackclaw_dark") }
+    val themeId = remember { KVUtils.getString("THEME_ID", "blaqclaw_dark") }
     val themeName = remember(themeId) {
         ThemeManager.allThemes.firstOrNull { it.first == themeId }?.second ?: themeId
     }
@@ -305,7 +305,7 @@ private fun ModernSettingsScreen(
             SettingsSection(title = "Get started", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Lightbulb,
-                    title = "What can BlackClaw do?",
+                    title = "What can BlaqClaw do?",
                     subtitle = "Feature guide with examples",
                     trailing = "View",
                     trailingHighlight = true,
@@ -459,7 +459,7 @@ private fun ModernSettingsScreen(
                 NavRow(
                     icon = Icons.Outlined.Schedule,
                     title = "Automatizaciones",
-                    subtitle = "Agenda, reglas y flujos creados contigo o con BlackClaw",
+                    subtitle = "Agenda, reglas y flujos creados contigo o con BlaqClaw",
                     trailing = if (scheduledCount == 0) "Ninguna" else "$scheduledCount",
                     trailingHighlight = scheduledCount > 0,
                     colors = colors,
@@ -672,7 +672,7 @@ private fun ModernSettingsScreen(
             SettingsSection(title = "Acerca de", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Info,
-                    title = "BlackClaw",
+                    title = "BlaqClaw",
                     subtitle = "v${BuildConfig.VERSION_NAME} · Beta · tap to check for updates",
                     trailing = "v${BuildConfig.VERSION_NAME}",
                     colors = colors,
@@ -703,7 +703,7 @@ private fun ModernSettingsScreen(
                 NavRow(
                     icon = Icons.Outlined.Public,
                     title = "GitHub",
-                    trailing = "tuangel134/BlackClaw",
+                    trailing = "tuangel134/BlaqClaw",
                     colors = colors,
                     onClick = onOpenGitHub,
                 )
@@ -716,7 +716,7 @@ private fun ModernSettingsScreen(
 
 @Composable
 private fun HeroCard(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     caps: com.blackclaw.android.AppCapabilitySnapshot,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "hero")
@@ -773,7 +773,7 @@ private fun HeroCard(
                 Spacer(Modifier.width(14.dp))
                 Column {
                     Text(
-                        "BlackClaw",
+                        "BlaqClaw",
                         fontSize = 18.sp, fontWeight = FontWeight.Bold,
                         color = colors.textPrimary,
                     )
@@ -807,7 +807,7 @@ private fun HeroCard(
 }
 
 @Composable
-private fun StatusPill(label: String, ok: Boolean, colors: BlackClawColors) {
+private fun StatusPill(label: String, ok: Boolean, colors: BlaqClawColors) {
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = if (ok) colors.accent.copy(alpha = 0.15f) else Color(0xFFEF4444).copy(alpha = 0.15f),
@@ -828,7 +828,7 @@ private fun StatusPill(label: String, ok: Boolean, colors: BlackClawColors) {
 @Composable
 private fun SettingsSection(
     title: String,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
@@ -857,7 +857,7 @@ private fun NavRow(
     subtitle: String? = null,
     trailing: String? = null,
     trailingHighlight: Boolean = false,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onClick: () -> Unit,
 ) {
     Row(
@@ -911,7 +911,7 @@ private fun SwitchRow(
     title: String,
     subtitle: String? = null,
     checked: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     Row(
@@ -952,7 +952,7 @@ private fun StatusRow(
     subtitle: String,
     status: String,
     statusOk: Boolean,
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     onClick: () -> Unit,
 ) {
     Row(
@@ -1000,7 +1000,7 @@ private fun StatusRow(
 }
 
 @Composable
-private fun Divider(colors: BlackClawColors) {
+private fun Divider(colors: BlaqClawColors) {
     HorizontalDivider(
         color = colors.divider,
         thickness = 0.5.dp,

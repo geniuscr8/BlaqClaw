@@ -3,7 +3,7 @@ package com.blackclaw.android.terminal
 import com.blackclaw.android.utils.KVUtils
 
 /**
- * Settings for BlackClaw's internal terminal.
+ * Settings for BlaqClaw's internal terminal.
  *
  * The terminal is an opt-in power feature.  The user and AI get separate working
  * directories; the AI is limited to the fixed local Linux environment and cannot

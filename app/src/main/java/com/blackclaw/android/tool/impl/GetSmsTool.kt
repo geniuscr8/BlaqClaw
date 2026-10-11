@@ -36,7 +36,7 @@ class GetSmsTool : BaseTool() {
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_SMS)
             != PackageManager.PERMISSION_GRANTED) {
             return ToolResult.error(
-                "READ_SMS permission not granted. Grant it in Settings > Apps > BlackClaw > Permissions."
+                "READ_SMS permission not granted. Grant it in Settings > Apps > BlaqClaw > Permissions."
             )
         }
 

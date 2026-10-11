@@ -30,7 +30,7 @@
     <color name="colorBgSecondary">#FFEEF0F6</color>
     <color name="colorBgTertiary">#FFFFFFFF</color>
 
-    <!-- ==================== Chat (BlackClaw Light) ==================== -->
+    <!-- ==================== Chat (BlaqClaw Light) ==================== -->
     <color name="colorChatUserBubble">#FF0066CC</color>
     <color name="colorChatAiBubble">#FFE8EBF5</color>
     <color name="colorChatAiBubbleBorder">#FFCDD3E8</color>
@@ -51,7 +51,7 @@
     <color name="colorOverlayScrim">#30000000</color>
     <color name="colorOverlayLabel">#99000000</color>
 
-    <!-- ==================== Brand — BlackClaw Cyan ==================== -->
+    <!-- ==================== Brand — BlaqClaw Cyan ==================== -->
     <color name="colorBrandPrimary">#FF0099CC</color>
     <color name="colorBrandOnPrimary">#FFFFFFFF</color>
     <color name="colorBrandContainer">#FFE0F7FF</color>

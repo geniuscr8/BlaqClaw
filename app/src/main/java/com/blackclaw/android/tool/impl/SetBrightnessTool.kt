@@ -39,7 +39,7 @@ class SetBrightnessTool : BaseTool() {
             } catch (_: Exception) {}
             return ToolResult.error(
                 "Brightness control needs the WRITE_SETTINGS permission. " +
-                "Grant 'Modify system settings' to BlackClaw and call again."
+                "Grant 'Modify system settings' to BlaqClaw and call again."
             )
         }
         val target = (level * 255 / 100).coerceIn(0, 255)

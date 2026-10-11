@@ -5,7 +5,7 @@ import com.blackclaw.android.adb.PrivilegedShell
 import com.blackclaw.android.adb.RemoteAdb
 
 /**
- * The brain of BlackClaw's internal terminal.  Its LOCAL backend is a fixed,
+ * The brain of BlaqClaw's internal terminal.  Its LOCAL backend is a fixed,
  * offline Linux userland, so it behaves like a small Termux-style environment
  * without needing Shizuku, ADB, root, or a second app.
  *
@@ -180,7 +180,7 @@ object TerminalEngine {
         FixedTerminalEnvironment.execute(context, cwd, command)
 
     private fun helpText(): String = """
-        Terminal Linux local de BlackClaw. Comandos:
+        Terminal Linux local de BlaqClaw. Comandos:
           <cmd>             ejecuta en Linux aislado (bash, python3, git, curl, jq…)
           cd <dir> / pwd    navigation (the session remembers the directory)
           backend [auto|local|privileged]   cambia el backend manual opcional

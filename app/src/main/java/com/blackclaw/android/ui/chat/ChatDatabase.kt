@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper
  * - conversations: id, title, created, model, file_path, message_count
  * - messages: id, conversation_id, role, content, timestamp
  */
-class ChatDatabase(context: Context) : SQLiteOpenHelper(context, "blackclaw.db", null, 1) {
+class ChatDatabase(context: Context) : SQLiteOpenHelper(context, "blaqclaw.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""

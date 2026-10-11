@@ -5,10 +5,10 @@ import android.service.voice.VoiceInteractionService
 import com.blackclaw.android.utils.XLog
 
 /** Android's default-assistant entry point. The actual UI belongs to its session. */
-class BlackClawVoiceInteractionService : VoiceInteractionService() {
+class BlaqClawVoiceInteractionService : VoiceInteractionService() {
     override fun onReady() {
         super.onReady()
-        XLog.i(TAG, "BlackClaw is ready as the system assistant")
+        XLog.i(TAG, "BlaqClaw is ready as the system assistant")
     }
 
     override fun onShowSessionFailed(args: android.os.Bundle) {

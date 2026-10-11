@@ -1,15 +1,15 @@
-# BlackClaw Automation — design, parity, and limits
+# BlaqClaw Automation — design, parity, and limits
 
 Estado: 2026-09-03 · motor de perfiles schema v2.
 
-This document describes BlackClaw's automation engine and the comparison that guided its design against Tasker, MacroDroid, and Automate. The goal is a powerful, predictable Android automation core without turning the LLM into the event loop: the model can create or edit a flow, but triggers, conditions, limits, and deterministic actions run locally.
+This document describes BlaqClaw's automation engine and the comparison that guided its design against Tasker, MacroDroid, and Automate. The goal is a powerful, predictable Android automation core without turning the LLM into the event loop: the model can create or edit a flow, but triggers, conditions, limits, and deterministic actions run locally.
 
 ## Principios
 
 1. **The agent designs; Android executes.** A persisted profile does not need an LLM connection to evaluate events or run deterministic tools.
 2. **Places are semantic and reusable.** They are not limited to `home` and `work`: users can define `partner's home`, `my room`, `gym`, `school`, `warehouse`, and more.
 3. **Stable identity, private coordinates.** Profiles reference `place_id`; latitude/longitude remain in encrypted storage and the local runtime. IDs sent to Play Services are opaque hashes, not serialized coordinates.
-4. **Fail closed.** Invalid profiles do not run. Sensitive actions retain explicit confirmation. Webhooks and external automation use BlackClaw's hardened policies/tokens.
+4. **Fail closed.** Invalid profiles do not run. Sensitive actions retain explicit confirmation. Webhooks and external automation use BlaqClaw's hardened policies/tokens.
 5. **Hybrid reliability.** Google Play Services geofencing is the low-power primary path; the existing location checker is a best-effort fallback when Play Services or background permission is unavailable.
 
 ## Semantic places
@@ -29,15 +29,15 @@ Name resolution ignores case, accents, and punctuation for comparison while pres
 Conversation examples:
 
 ```text
-User: BlackClaw, this place is my partner's home.
-BlackClaw: saved_place(operation=save_here, name="partner's home")
+User: BlaqClaw, this place is my partner's home.
+BlaqClaw: saved_place(operation=save_here, name="partner's home")
 
 User: When I arrive at my partner's home, set the volume to 30%.
-BlackClaw: saved_place(operation=resolve, name="casa de mi novia")
+BlaqClaw: saved_place(operation=resolve, name="casa de mi novia")
            automation_profile(... trigger location_enter {place_id: ...} ...)
 
 User: This is my room; also save it as bedroom.
-BlackClaw: saved_place(operation=save_here, name="my room", aliases="bedroom")
+BlaqClaw: saved_place(operation=save_here, name="my room", aliases="bedroom")
 ```
 
 El modelo recibe nombre, ID, aliases y radio, pero no necesita recibir las coordenadas guardadas para volver a usar un lugar.
@@ -50,11 +50,11 @@ The runtime registers up to 100 active targets, Android's documented per-app/use
 - Fallback: last known location on the `GeofenceChecker` tick.
 - Re-armed on app start, device restart, and profile/rule/place changes.
 - No synthetic `initial enter/exit` occurs when registering a geofence; a confirmed transition is expected.
-- `ACCESS_BACKGROUND_LOCATION` is requested only so location automation can reliably trigger BlackClaw in the background.
+- `ACCESS_BACKGROUND_LOCATION` is requested only so location automation can reliably trigger BlaqClaw in the background.
 - The UI explains the permission and offers access to Settings; it does not claim the geofence is active when permission is missing.
 - Los request IDs de Play Services son hashes opacos (`bcg:...`).
 
-Android recomienda normalmente radios de aproximadamente 100–150 m para geofencing general; BlackClaw permite radios menores cuando el usuario sabe que dispone de buena precisión interior, pero la UI usa 150 m como valor inicial.
+Android recomienda normalmente radios de aproximadamente 100–150 m para geofencing general; BlaqClaw permite radios menores cuando el usuario sabe que dispone de buena precisión interior, pero la UI usa 150 m como valor inicial.
 
 Referencias Android:
 
@@ -174,7 +174,7 @@ Additionally:
 
 The comparison used public documentation current as of 2026-09-03.
 
-| Área | Tasker | MacroDroid | Automate | BlackClaw |
+| Área | Tasker | MacroDroid | Automate | BlaqClaw |
 |---|---|---|---|---|
 | Evento → acciones | Profiles/Contexts → Tasks | Trigger → Actions | Bloques conectados | Trigger(s) → acciones ordenadas |
 | Multiple events | Yes | Yes | Yes, by blocks/fibers | Yes, OR triggers |
@@ -199,16 +199,16 @@ Referencias de comparación:
 - Automate Flow/Fiber: https://www.llamalab.com/automate/doc/flow.html
 - Automate Variables: https://www.llamalab.com/automate/doc/variable.html
 
-## What BlackClaw does not try to copy yet
+## What BlaqClaw does not try to copy yet
 
 “Parity” here means a comparable automation core, not duplicating decades of ecosystem one-to-one.
 
 - Tasker still has a large plugin/Scenes ecosystem.
 - MacroDroid has more specialized types and complex variables such as arrays/dictionaries.
 - Automate has an arbitrary graph with fibers/forks and more general expressions.
-- BlackClaw deliberately keeps IF/LOOP and privileged execution bounded so an AI-generated automation cannot become an unlimited background shell.
+- BlaqClaw deliberately keeps IF/LOOP and privileged execution bounded so an AI-generated automation cannot become an unlimited background shell.
 
-BlackClaw's advantage is that users do not need to translate their intent into an editor first: they can say “this place is X” or “when I arrive at X, if it is night and I am not charging, do Y”; the agent transforms it into a deterministic structure that then runs locally.
+BlaqClaw's advantage is that users do not need to translate their intent into an editor first: they can say “this place is X” or “when I arrive at X, if it is night and I am not charging, do Y”; the agent transforms it into a deterministic structure that then runs locally.
 
 ## Archivos principales
 
@@ -252,4 +252,4 @@ app/src/main/java/com/blackclaw/android/ui/scheduled/
 }
 ```
 
-JSON is a transport/editing format; ordinary users can create the same flow by speaking to BlackClaw or using **Automations → Flows/Places**.
+JSON is a transport/editing format; ordinary users can create the same flow by speaking to BlaqClaw or using **Automations → Flows/Places**.

@@ -11,7 +11,7 @@ import com.blackclaw.android.utils.XLog
 
 /**
  * Lightweight, on-device app risk scanner — the "intermediate" tier of
- * BlackClaw's built-in security. No cloud, no signatures DB: it scores each
+ * BlaqClaw's built-in security. No cloud, no signatures DB: it scores each
  * installed app on observable, high-signal traits an ad/spyware/dropper app
  * tends to have (overlay permission, accessibility service, device-admin,
  * ability to install other apps, sideloaded origin, dangerous permission mix,

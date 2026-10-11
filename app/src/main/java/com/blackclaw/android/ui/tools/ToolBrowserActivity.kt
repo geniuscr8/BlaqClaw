@@ -22,7 +22,7 @@ import androidx.core.view.WindowCompat
 import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.tool.BaseTool
 import com.blackclaw.android.tool.ToolRegistry
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 
@@ -41,7 +41,7 @@ class ToolBrowserActivity : BaseActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ToolBrowserScreen(colors: BlackClawColors, onBack: () -> Unit) {
+private fun ToolBrowserScreen(colors: BlaqClawColors, onBack: () -> Unit) {
     val all = remember { ToolRegistry.getInstance().getAllTools().sortedBy { it.getName() } }
     var query by remember { mutableStateOf("") }
 
@@ -107,7 +107,7 @@ private fun ToolBrowserScreen(colors: BlackClawColors, onBack: () -> Unit) {
 }
 
 @Composable
-private fun ToolCard(tool: BaseTool, colors: BlackClawColors) {
+private fun ToolCard(tool: BaseTool, colors: BlaqClawColors) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(

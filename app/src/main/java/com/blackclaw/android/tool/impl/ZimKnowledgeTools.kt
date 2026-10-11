@@ -122,7 +122,7 @@ class ZimIndexTool : BaseTool() {
                     ToolResult.success("${ZimIndexService.activePath ?: "A ZIM library"} is already being indexed.")
                 } else if (ZimIndexService.start(ClawApplication.instance, file, action in setOf("rebuild", "reconstruir"))) {
                     ToolResult.success("Indexing of ${file.name} started in the background. You can view progress and pause it from the notification.")
-                } else ToolResult.error("Android did not allow the indexer to start. Open BlackClaw and try again.")
+                } else ToolResult.error("Android did not allow the indexer to start. Open BlaqClaw and try again.")
             }
             "status", "estado" -> {
                 if (!ZimContentIndex.exists(ClawApplication.instance, file)) {

@@ -4,14 +4,14 @@ package com.blackclaw.android.assistant
  * Fuzzy wake-word matching.
  *
  * The Android SpeechRecognizer transcribes a non-dictionary word like
- * "BlackClaw" very inconsistently — especially in Spanish (es-ES), where it
+ * "BlaqClaw" very inconsistently — especially in Spanish (es-ES), where it
  * tends to hear "black law", "blaclo", "black o", "blac claw", "garra negra"…
- * A naive `contains("blackclaw")` almost never fires.
+ * A naive `contains("blaqclaw")` almost never fires.
  *
  * This matcher:
  *  - Normalizes the transcript (lowercase, strip accents/punctuation).
  *  - Builds a set of accepted variants for the configured wake word (built-in
- *    list for the default "blackclaw", plus the literal word and its spaced
+ *    list for the default "blaqclaw", plus the literal word and its spaced
  *    form).
  *  - Slides over the transcript token by token, accepting a hit when a token
  *    (or a 2-token window) is within a small edit distance of any variant.
@@ -21,9 +21,9 @@ package com.blackclaw.android.assistant
  */
 object WakeWordMatcher {
 
-    /** Known good mishearings / variants for the default "blackclaw". */
+    /** Known good mishearings / variants for the default "blaqclaw". */
     private val DEFAULT_VARIANTS = listOf(
-        "blackclaw", "black claw", "blac claw", "black law", "black lo",
+        "blaqclaw", "blaq claw", "blac claw", "black law", "black lo",
         "blaclo", "blaclaw", "blakclo", "black o", "blackclo", "blak claw",
         "blackcla", "blakla", "garra", "garra negra",
     )
@@ -58,13 +58,13 @@ object WakeWordMatcher {
     private fun variantsFor(wakeWord: String): List<String> {
         val w = normalize(wakeWord)
         val base = mutableListOf(w)
-        // Spaced form: "blackclaw" → "black claw"
+        // Spaced form: "blaqclaw" → "blaq claw"
         if (!w.contains(' ') && w.length > 5) {
             // naive split near the middle to add a spaced variant
             base.add(w)
         }
         return when (w) {
-            "blackclaw" -> (DEFAULT_VARIANTS + base).distinct()
+            "blaqclaw" -> (DEFAULT_VARIANTS + base).distinct()
             "garra" -> (GARRA_VARIANTS + base).distinct()
             else -> base.distinct()
         }
@@ -81,7 +81,7 @@ object WakeWordMatcher {
         val tokens = norm.split(" ")
         val variants = variantsFor(wakeWord)
 
-        // Multi-word variants (e.g. "black claw") → check sliding 2-grams first.
+        // Multi-word variants (e.g. "blaq claw") → check sliding 2-grams first.
         val multiVariants = variants.filter { it.contains(' ') }
         val singleVariants = variants.filter { !it.contains(' ') }
 

@@ -11,7 +11,7 @@ import android.speech.SpeechRecognizer
  * VoiceInputManager, so framework requests are explicitly ended instead of
  * competing for the microphone with the visible assistant.
  */
-class BlackClawRecognitionService : RecognitionService() {
+class BlaqClawRecognitionService : RecognitionService() {
     override fun onStartListening(recognizerIntent: Intent?, callback: Callback?) {
         reportUnavailable(callback)
     }

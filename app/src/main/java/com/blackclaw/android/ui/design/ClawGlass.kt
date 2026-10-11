@@ -17,19 +17,19 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 
 /**
- * Lightweight "liquid glass" primitives for BlackClaw.
+ * Lightweight "liquid glass" primitives for BlaqClaw.
  *
  * Compose does not expose a cheap, universal backdrop blur on every Android version
- * BlackClaw supports, so these surfaces intentionally build the glass impression from
+ * BlaqClaw supports, so these surfaces intentionally build the glass impression from
  * translucent layered gradients, a luminous hairline and restrained elevation. This
  * keeps text sharp and scrolling inexpensive on API 28+ instead of blurring the card's
  * own content or relying on vendor-specific render effects.
  */
 object ClawGlass {
-    fun backdrop(colors: BlackClawColors): Brush = Brush.verticalGradient(
+    fun backdrop(colors: BlaqClawColors): Brush = Brush.verticalGradient(
         listOf(
             colors.background,
             colors.background,
@@ -37,7 +37,7 @@ object ClawGlass {
         ),
     )
 
-    fun surface(colors: BlackClawColors, accent: Color = colors.accent): Brush =
+    fun surface(colors: BlaqClawColors, accent: Color = colors.accent): Brush =
         Brush.linearGradient(
             listOf(
                 mix(colors.surface, Color.White, 0.035f).copy(alpha = 0.94f),
@@ -46,7 +46,7 @@ object ClawGlass {
             ),
         )
 
-    fun border(colors: BlackClawColors, accent: Color = colors.accent): Color =
+    fun border(colors: BlaqClawColors, accent: Color = colors.accent): Color =
         mix(colors.aiBubbleBorder, accent, 0.30f).copy(alpha = 0.78f)
 
     private fun mix(a: Color, b: Color, amount: Float): Color =
@@ -60,7 +60,7 @@ object ClawGlass {
 
 @Composable
 fun ClawGlassBackdrop(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -74,7 +74,7 @@ fun ClawGlassBackdrop(
 
 @Composable
 fun ClawGlassCard(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     modifier: Modifier = Modifier,
     accent: Color = colors.accent,
     radius: Dp = 22.dp,
@@ -105,7 +105,7 @@ fun ClawGlassCard(
 
 @Composable
 fun ClawGlassPill(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     selected: Boolean,
     modifier: Modifier = Modifier,
     accent: Color = colors.accent,

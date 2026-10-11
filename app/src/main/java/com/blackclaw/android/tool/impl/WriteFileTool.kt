@@ -10,7 +10,7 @@ import java.io.File
 /**
  * Write text to a file in the app's external Documents folder.
  *
- * Path is resolved as: <ext>/Documents/BlackClaw/<filename>. The agent cannot
+ * Path is resolved as: <ext>/Documents/BlaqClaw/<filename>. The agent cannot
  * escape that directory: '/', '..' and absolute paths are stripped from the
  * filename, and we never accept arbitrary paths even if we could resolve them.
  */
@@ -18,7 +18,7 @@ class WriteFileTool : BaseTool() {
     override fun getName() = "write_file"
     override fun getDisplayName() = "Escribir archivo"
     override fun getDescriptionEN() =
-        "Save text to a file under Documents/BlackClaw/. The user can find it in the file manager. " +
+        "Save text to a file under Documents/BlaqClaw/. The user can find it in the file manager. " +
         "Use for exports, notes, drafts. mode='append' adds to the end, 'overwrite' replaces."
     override fun getDescriptionCN() = getDescriptionEN()
 
@@ -40,7 +40,7 @@ class WriteFileTool : BaseTool() {
         val ctx = ClawApplication.instance
         val baseDir = ctx.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             ?: ctx.filesDir
-        val dir = File(baseDir, "BlackClaw").apply { mkdirs() }
+        val dir = File(baseDir, "BlaqClaw").apply { mkdirs() }
         val file = File(dir, safeName)
         return try {
             when (mode) {

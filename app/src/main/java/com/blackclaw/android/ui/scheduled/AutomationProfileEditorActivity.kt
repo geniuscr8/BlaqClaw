@@ -55,7 +55,7 @@ import com.blackclaw.android.automation.AutomationGeofenceManager
 import com.blackclaw.android.automation.AutomationProfileStore
 import com.blackclaw.android.automation.AutomationProfileValidator
 import com.blackclaw.android.base.BaseActivity
-import com.blackclaw.android.ui.chat.BlackClawColors
+import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
 import com.blackclaw.android.ui.design.ClawGlassBackdrop
@@ -117,7 +117,7 @@ private data class ActionDraft(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AutomationProfileEditorScreen(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     initial: AutomationProfileStore.Profile?,
     onBack: () -> Unit,
     onSaved: () -> Unit,
@@ -265,7 +265,7 @@ private fun AutomationProfileEditorScreen(
             item { AddBlockButton(colors, "Add condition") { showConditionPicker = true } }
 
             item {
-                SectionTitle(colors, "DO", "BlackClaw executes these actions in order")
+                SectionTitle(colors, "DO", "BlaqClaw executes these actions in order")
                 if (actions.isEmpty()) EmptyEditorHint(colors, "Add at least one action")
             }
             itemsIndexed(actions, key = { index, item -> "action-$index-${item.type}" }) { index, draft ->
@@ -314,7 +314,7 @@ private fun AutomationProfileEditorScreen(
 
 @Composable
 private fun FlowBuilderOverview(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     triggerCount: Int,
     conditionCount: Int,
     actionCount: Int,
@@ -356,7 +356,7 @@ private fun FlowBuilderOverview(
 }
 
 @Composable
-private fun SectionCard(colors: BlackClawColors, title: String, content: @Composable () -> Unit) {
+private fun SectionCard(colors: BlaqClawColors, title: String, content: @Composable () -> Unit) {
     ClawGlassCard(colors = colors, modifier = Modifier.fillMaxWidth(), radius = 20.dp, elevated = false) {
         Column(Modifier.fillMaxWidth().padding(14.dp)) {
             Text(title, color = colors.textPrimary, fontWeight = FontWeight.SemiBold)
@@ -367,7 +367,7 @@ private fun SectionCard(colors: BlackClawColors, title: String, content: @Compos
 }
 
 @Composable
-private fun SectionTitle(colors: BlackClawColors, title: String, subtitle: String) {
+private fun SectionTitle(colors: BlaqClawColors, title: String, subtitle: String) {
     Column {
         Text(title, color = colors.textPrimary, fontSize = 17.sp, fontWeight = FontWeight.Bold)
         Text(subtitle, color = colors.textSecondary, fontSize = 12.sp)
@@ -375,12 +375,12 @@ private fun SectionTitle(colors: BlackClawColors, title: String, subtitle: Strin
 }
 
 @Composable
-private fun EmptyEditorHint(colors: BlackClawColors, text: String) {
+private fun EmptyEditorHint(colors: BlaqClawColors, text: String) {
     Text(text, color = colors.textTertiary, fontSize = 12.sp, modifier = Modifier.padding(vertical = 4.dp))
 }
 
 @Composable
-private fun AddBlockButton(colors: BlackClawColors, label: String, onClick: () -> Unit) {
+private fun AddBlockButton(colors: BlaqClawColors, label: String, onClick: () -> Unit) {
     TextButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Icon(Icons.Default.Add, null, tint = colors.accent)
         Spacer(Modifier.width(3.dp))
@@ -389,7 +389,7 @@ private fun AddBlockButton(colors: BlackClawColors, label: String, onClick: () -
 }
 
 @Composable
-private fun TriggerEditorCard(colors: BlackClawColors, draft: TriggerDraft,
+private fun TriggerEditorCard(colors: BlaqClawColors, draft: TriggerDraft,
                               onChange: (TriggerDraft) -> Unit, onDelete: () -> Unit,
                               onMoveUp: () -> Unit, onMoveDown: () -> Unit) {
     SectionCard(colors, "When · ${draft.type.label()}") {
@@ -406,7 +406,7 @@ private fun TriggerEditorCard(colors: BlackClawColors, draft: TriggerDraft,
 }
 
 @Composable
-private fun TriggerParams(colors: BlackClawColors, draft: TriggerDraft, onChange: (TriggerDraft) -> Unit) {
+private fun TriggerParams(colors: BlaqClawColors, draft: TriggerDraft, onChange: (TriggerDraft) -> Unit) {
     @Composable
     fun field(key: String, label: String) {
         val value = draft.params[key].orEmpty()
@@ -452,7 +452,7 @@ private fun TriggerParams(colors: BlackClawColors, draft: TriggerDraft, onChange
 }
 
 @Composable
-private fun ConditionEditorCard(colors: BlackClawColors, draft: ConditionDraft,
+private fun ConditionEditorCard(colors: BlaqClawColors, draft: ConditionDraft,
                                 onChange: (ConditionDraft) -> Unit, onDelete: () -> Unit,
                                 onMoveUp: () -> Unit, onMoveDown: () -> Unit) {
     SectionCard(colors, "Si · ${draft.type.label()}") {
@@ -473,7 +473,7 @@ private fun ConditionEditorCard(colors: BlackClawColors, draft: ConditionDraft,
 }
 
 @Composable
-private fun ActionEditorCard(colors: BlackClawColors, draft: ActionDraft,
+private fun ActionEditorCard(colors: BlaqClawColors, draft: ActionDraft,
                              onChange: (ActionDraft) -> Unit, onDelete: () -> Unit,
                              onMoveUp: () -> Unit, onMoveDown: () -> Unit) {
     SectionCard(colors, "Entonces · ${draft.type.label()}") {
@@ -488,7 +488,7 @@ private fun ActionEditorCard(colors: BlackClawColors, draft: ActionDraft,
                 OutlinedTextField(draft.primary, { onChange(draft.copy(primary = it)) }, label = { Text("Tool name") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(draft.paramsText, { onChange(draft.copy(paramsText = it)) }, label = { Text("Parameters (key=value)") }, modifier = Modifier.fillMaxWidth())
             }
-            AutomationProfileStore.ActionType.AGENT_TASK -> OutlinedTextField(draft.primary, { onChange(draft.copy(primary = it)) }, label = { Text("Task for BlackClaw") }, modifier = Modifier.fillMaxWidth(), minLines = 2)
+            AutomationProfileStore.ActionType.AGENT_TASK -> OutlinedTextField(draft.primary, { onChange(draft.copy(primary = it)) }, label = { Text("Task for BlaqClaw") }, modifier = Modifier.fillMaxWidth(), minLines = 2)
             AutomationProfileStore.ActionType.RUN_ROUTINE -> OutlinedTextField(draft.primary, { onChange(draft.copy(primary = it)) }, label = { Text("Routine name") }, modifier = Modifier.fillMaxWidth())
             AutomationProfileStore.ActionType.NOTIFY -> {
                 OutlinedTextField(draft.primary, { onChange(draft.copy(primary = it)) }, label = { Text("Title") }, modifier = Modifier.fillMaxWidth())
@@ -519,7 +519,7 @@ private fun ActionEditorCard(colors: BlackClawColors, draft: ActionDraft,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun <T : Enum<T>> Picker(
-    colors: BlackClawColors,
+    colors: BlaqClawColors,
     label: String,
     selected: T,
     values: List<T>,

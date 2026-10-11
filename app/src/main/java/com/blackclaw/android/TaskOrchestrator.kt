@@ -445,9 +445,9 @@ class TaskOrchestrator(
                 val completedSession = releaseTask()
                 ChannelManager.flushMessages(completedSession.channel ?: channel)
                 FloatingCircleManager.setSuccessState()
-                // Auto-return to BlackClaw after in-app task completes
+                // Auto-return to BlaqClaw after in-app task completes
                 if (completedSession.autoReturnToChat) {
-                    XLog.i(TAG, "onComplete: auto-returning to BlackClaw chatroom")
+                    XLog.i(TAG, "onComplete: auto-returning to BlaqClaw chatroom")
                     try {
                         val context = ClawApplication.instance
                         val intent = android.content.Intent(context, com.blackclaw.android.ui.chat.ComposeChatActivity::class.java).apply {

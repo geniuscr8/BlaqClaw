@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Remote shell execution — connects to a PC/server via SSH or raw TCP
- * and executes commands. Allows BlackClaw to diagnose and fix problems
+ * and executes commands. Allows BlaqClaw to diagnose and fix problems
  * on the user's computer directly from the phone.
  *
  * Usage scenarios:
@@ -94,9 +94,9 @@ class RemoteConnectTool : BaseTool() {
 
         // Test connection
         return try {
-            val result = SshExecutor.executeDetailed(conn, "echo BlackClaw_connected && uname -a", 10)
+            val result = SshExecutor.executeDetailed(conn, "echo BlaqClaw_connected && uname -a", 10)
             val testOutput = result.output
-            if (testOutput.contains("BlackClaw_connected")) {
+            if (testOutput.contains("BlaqClaw_connected")) {
                 // Store the fingerprint alongside the credentials, so every later
                 // connect is checked against it and a substituted host is refused
                 // before the password is sent.
@@ -109,7 +109,7 @@ class RemoteConnectTool : BaseTool() {
                             "Unlock the device and try again."
                     )
                 }
-                val systemInfo = testOutput.substringAfter("BlackClaw_connected").trim()
+                val systemInfo = testOutput.substringAfter("BlaqClaw_connected").trim()
                 // Surfaced, not hidden: first contact is inherently unverified, and
                 // the user is the only one who can close that gap by comparing the
                 // fingerprint against the machine itself.
@@ -271,7 +271,7 @@ class LocalTerminalTool : BaseTool() {
     override fun getName() = "terminal"
     override fun getDisplayName() = "Terminal local"
     override fun getDescriptionEN() =
-        "Run a command in BlackClaw's fixed, offline Linux terminal. It has a persistent " +
+        "Run a command in BlaqClaw's fixed, offline Linux terminal. It has a persistent " +
         "working directory and Bash, Python 3, Git, curl, jq and core Unix utilities. " +
         "It is always unprivileged: it cannot use Android shell commands, Shizuku, ADB, " +
         "or remote devices. Built-ins: cd, pwd, whoami, clear and help."
@@ -361,7 +361,7 @@ private class PinnedHostKeyRepository(
     override fun remove(host: String?, type: String?) = Unit
     override fun remove(host: String?, type: String?, key: ByteArray?) = Unit
 
-    override fun getKnownHostsRepositoryID(): String = "blackclaw-pinned-host-key"
+    override fun getKnownHostsRepositoryID(): String = "blaqclaw-pinned-host-key"
     override fun getHostKey(): Array<com.jcraft.jsch.HostKey> = emptyArray()
     override fun getHostKey(host: String?, type: String?): Array<com.jcraft.jsch.HostKey> =
         emptyArray()

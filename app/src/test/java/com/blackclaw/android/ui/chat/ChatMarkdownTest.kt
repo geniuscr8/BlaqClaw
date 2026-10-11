@@ -21,9 +21,9 @@ class ChatMarkdownTest {
     // ── Plain text ────────────────────────────────────────────────────────────
 
     @Test fun `plain text becomes a single paragraph`() {
-        val blocks = ChatMarkdown.parse("Hola, soy BlackClaw.")
+        val blocks = ChatMarkdown.parse("Hola, soy BlaqClaw.")
         assertEquals(1, blocks.size)
-        assertEquals("Hola, soy BlackClaw.", text((blocks[0] as Block.Paragraph).spans))
+        assertEquals("Hola, soy BlaqClaw.", text((blocks[0] as Block.Paragraph).spans))
     }
 
     @Test fun `blank input yields no blocks`() {

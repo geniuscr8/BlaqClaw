@@ -19,7 +19,7 @@ import java.util.Base64
  * coffee-shop Wi-Fi, a rogue DHCP or DNS reply, ARP spoofing on a home LAN, a
  * compromised router — presents their own host key, the client accepts it, and the
  * password is handed straight to the attacker during authentication. They then have
- * the user's shell credentials for a machine BlackClaw is explicitly wired to run
+ * the user's shell credentials for a machine BlaqClaw is explicitly wired to run
  * commands on. Host key verification is the only thing that distinguishes "the
  * server I trusted" from "whoever answered", because the password is sent *after*
  * the key exchange completes.

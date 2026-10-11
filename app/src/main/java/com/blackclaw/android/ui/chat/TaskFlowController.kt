@@ -303,7 +303,7 @@ class TaskFlowController(
             uiState.isAwaitingReply.value = false
             uiState.isTaskRunning.value = false
             addSystem("✓ Auto-reply is now active for ${target.displayLabel}.\nMonitoring in background — you can stop anytime from the bar above.")
-            XLog.i(TAG, "startMonitor: monitor active, staying in BlackClaw")
+            XLog.i(TAG, "startMonitor: monitor active, staying in BlaqClaw")
         }, 1500)
     }
 
@@ -445,7 +445,7 @@ class TaskFlowController(
         if (note == lastMonitorStatusNote) return
         addSystem(note)
         lastMonitorStatusNote = note
-        XLog.i(TAG, "checkAutoReplyConfirmation: monitor active, staying in BlackClaw")
+        XLog.i(TAG, "checkAutoReplyConfirmation: monitor active, staying in BlaqClaw")
     }
 
     private fun addUser(text: String) {

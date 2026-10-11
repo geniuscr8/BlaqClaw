@@ -21,6 +21,6 @@ class ConversationQuickRepliesTest {
 
     @Test fun `answers general capability question`() {
         assertTrue(ConversationQuickReplies.replyFor("¿qué puedes hacer?")?.isNotBlank() == true)
-        assertTrue(ConversationQuickReplies.replyFor("¿qué puede hacer BlackClaw?")?.isNotBlank() == true)
+        assertTrue(ConversationQuickReplies.replyFor("¿qué puede hacer BlaqClaw?")?.isNotBlank() == true)
     }
 }

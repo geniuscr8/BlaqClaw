@@ -33,7 +33,7 @@ object AdCulpritDetector {
 
         val suspects = risks.mapNotNull { r ->
             // Real-time evidence: how many out-of-context window interruptions
-            // this app produced recently (BlackClaw's accessibility edge).
+            // this app produced recently (BlaqClaw's accessibility edge).
             val liveEvents = AdEventMonitor.activityScore(r.pkg)
 
             // Plausible ad source if it can overlay, hides its icon, OR is

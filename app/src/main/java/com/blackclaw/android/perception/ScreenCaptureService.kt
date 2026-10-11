@@ -40,7 +40,7 @@ class ScreenCaptureService : Service() {
 
     companion object {
         private const val TAG = "ScreenCaptureService"
-        private const val CHANNEL_ID = "blackclaw_screen_capture"
+        private const val CHANNEL_ID = "blaqclaw_screen_capture"
         private const val NOTIF_ID = 9134
         const val EXTRA_RESULT_CODE = "result_code"
         const val EXTRA_DATA = "data"
@@ -106,12 +106,12 @@ class ScreenCaptureService : Service() {
                     CHANNEL_ID,
                     "Captura de pantalla",
                     NotificationManager.IMPORTANCE_LOW,
-                ).apply { description = "BlackClaw is capturing the screen for AI" }
+                ).apply { description = "BlaqClaw is capturing the screen for AI" }
             )
         }
         val notif: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
-            .setContentTitle("BlackClaw")
+            .setContentTitle("BlaqClaw")
             .setContentText("Captura de pantalla activa")
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -141,7 +141,7 @@ class ScreenCaptureService : Service() {
 
         imageReader = ImageReader.newInstance(targetW, targetH, PixelFormat.RGBA_8888, 2)
         virtualDisplay = projection!!.createVirtualDisplay(
-            "blackclaw-capture",
+            "blaqclaw-capture",
             targetW, targetH, dpi,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
             imageReader!!.surface,

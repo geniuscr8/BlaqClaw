@@ -12,7 +12,7 @@ object ExternalAutomationEntrypoint {
 
     fun handle(context: Context, intent: Intent?, launchFlags: Int): Boolean {
         if (intent == null) return false
-        if (!isTargetedToBlackClaw(context, intent)) {
+        if (!isTargetedToBlaqClaw(context, intent)) {
             XLog.w(TAG, "Rejected non-targeted external automation request: ${intent.action}")
             return false
         }
@@ -32,7 +32,7 @@ object ExternalAutomationEntrypoint {
                 returnAction = request.returnAction,
                 requestId = request.requestId,
                 status = ExternalAutomationContract.STATUS_REJECTED,
-                error = "External Automation is disabled in BlackClaw Settings.",
+                error = "External Automation is disabled in BlaqClaw Settings.",
                 returnPackage = request.returnPackage,
                 mode = request.mode,
             )
@@ -45,7 +45,7 @@ object ExternalAutomationEntrypoint {
                 returnAction = request.returnAction,
                 requestId = request.requestId,
                 status = ExternalAutomationContract.STATUS_REJECTED,
-                error = "Another BlackClaw task is already running.",
+                error = "Another BlaqClaw task is already running.",
                 returnPackage = request.returnPackage,
                 mode = request.mode,
             )
@@ -77,7 +77,7 @@ object ExternalAutomationEntrypoint {
     }
 
     /**
-     * Whether the intent was addressed to us explicitly, i.e. it names BlackClaw as
+     * Whether the intent was addressed to us explicitly, i.e. it names BlaqClaw as
      * its DESTINATION rather than relying on implicit action matching.
      *
      * ## This is NOT an access control
@@ -95,7 +95,7 @@ object ExternalAutomationEntrypoint {
      * this function; there is nothing trustworthy in an intent's own description of
      * where it is headed.
      */
-    private fun isTargetedToBlackClaw(context: Context, intent: Intent): Boolean {
+    private fun isTargetedToBlaqClaw(context: Context, intent: Intent): Boolean {
         val packageName = context.packageName
         val component = intent.component
         return component?.packageName == packageName || intent.`package` == packageName

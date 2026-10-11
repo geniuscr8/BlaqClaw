@@ -5,7 +5,7 @@ import java.util.Locale
 
 /**
  * Enforces a simple rule for device-data requests:
- * if BlackClaw already has a direct tool for the requested data, the model must use it
+ * if BlaqClaw already has a direct tool for the requested data, the model must use it
  * before answering instead of falling back to a generic chatbot denial.
  */
 internal class DirectDeviceDataGuard private constructor(
@@ -31,7 +31,7 @@ internal class DirectDeviceDataGuard private constructor(
         return "\n\n" + """
             ## Task Guard: Direct Device Data
             This request is about the user's real phone data, not a generic chatbot-only question.
-            You ARE allowed to access this data with BlackClaw tools.
+            You ARE allowed to access this data with BlaqClaw tools.
             Never claim that you cannot access the user's clipboard, notifications, phone state, installed apps, or current screen when a matching tool exists.
             Empty or missing data is still a valid result. For example, an empty clipboard or no notifications should be reported plainly, not treated as a failure.
 

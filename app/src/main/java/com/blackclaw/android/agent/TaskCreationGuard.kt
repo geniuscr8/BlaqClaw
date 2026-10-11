@@ -3,7 +3,7 @@ package com.blackclaw.android.agent
 import java.util.Locale
 
 /**
- * Keeps explicit task/todo requests inside BlackClaw's native task surfaces.
+ * Keeps explicit task/todo requests inside BlaqClaw's native task surfaces.
  *
  * Small models often answer "use Todoist" when the user asks to create a task,
  * even though the app already has a native todo, scheduler, and automation
@@ -35,9 +35,9 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
         return """
 
         ## Task Creation Guard
-        The user explicitly asked BlackClaw to create something. Do NOT recommend
+        The user explicitly asked BlaqClaw to create something. Do NOT recommend
         external apps such as Todoist, Google Tasks, Tasker, or Notion, and do not
-        answer with a tutorial. Create it in BlackClaw using $destination.
+        answer with a tutorial. Create it in BlaqClaw using $destination.
         Request: "${task.taskText}"
         Required action: ${task.requiredAction}
         Available native tools: ${task.allowedTools.joinToString(", ")}.
@@ -58,7 +58,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
     fun maybeBlockFinish(): String? {
         val task = match ?: return null
         if (successful) return null
-        return "[System Guard] The user asked to create a ${task.kind.name.lowercase(Locale.ROOT)} in BlackClaw. " +
+        return "[System Guard] The user asked to create a ${task.kind.name.lowercase(Locale.ROOT)} in BlaqClaw. " +
             "Do not finish with an app recommendation. Use one of: ${task.allowedTools.joinToString(", ")}. " +
             task.requiredAction
     }
@@ -123,7 +123,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
                 task.trim(),
                 Kind.TODO,
                 setOf("assistant_note", "kb_add_todo"),
-                "Guarda el título y el detalle como una tarea pendiente nativa de BlackClaw.",
+                "Guarda el título y el detalle como una tarea pendiente nativa de BlaqClaw.",
             )
         }
 

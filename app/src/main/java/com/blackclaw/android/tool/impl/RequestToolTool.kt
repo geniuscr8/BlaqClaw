@@ -8,7 +8,7 @@ import com.blackclaw.android.tool.ToolResult
 /**
  * Meta-tool for progressive tool disclosure.
  *
- * To stay within cloud rate limits, BlackClaw only ships the full schema for a
+ * To stay within cloud rate limits, BlaqClaw only ships the full schema for a
  * relevant subset of tools per task. The full tool list is shown to the model
  * as a compact catalog in the system prompt. When the model needs a tool that
  * isn't loaded yet, it calls request_tool(names="weather,translate") and the

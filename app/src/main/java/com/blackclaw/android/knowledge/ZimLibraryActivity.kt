@@ -73,7 +73,7 @@ class ZimLibraryActivity : BaseActivity() {
                     onQueryChange = { query = it },
                     onSearch = ::search,
                     onOpenArticle = ::readArticle,
-                    onAsk = ::askBlackClaw,
+                    onAsk = ::askBlaqClaw,
                     onIndex = ::startIndex,
                 )
                 if (showStorageEducation) {
@@ -194,7 +194,7 @@ class ZimLibraryActivity : BaseActivity() {
         }
     }
 
-    private fun askBlackClaw() {
+    private fun askBlaqClaw() {
         val library = selected ?: return
         val topic = article?.title ?: query.trim()
         if (topic.isBlank()) return
@@ -263,7 +263,7 @@ private fun ZimLibraryScreen(
                         GlassCard {
                             Text("Tu conocimiento, sin internet", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                             Spacer(Modifier.height(6.dp))
-                            Text("BlackClaw queries only the articles it needs. It never loads all of Wikipedia into memory.",
+                            Text("BlaqClaw queries only the articles it needs. It never loads all of Wikipedia into memory.",
                                 color = Color(0xFFB8AEC8), fontSize = 14.sp, lineHeight = 20.sp)
                         }
                     }
@@ -322,7 +322,7 @@ private fun LibraryView(
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Search))
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                AssistChip(onClick = onAsk, label = { Text("Preguntar a BlackClaw") }, leadingIcon = { Icon(Icons.Default.AutoAwesome, null) })
+                AssistChip(onClick = onAsk, label = { Text("Preguntar a BlaqClaw") }, leadingIcon = { Icon(Icons.Default.AutoAwesome, null) })
                 if (!library.indexed) AssistChip(onClick = onIndex, label = { Text("Indexar contenido") })
             }
             if (loading) LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 10.dp))

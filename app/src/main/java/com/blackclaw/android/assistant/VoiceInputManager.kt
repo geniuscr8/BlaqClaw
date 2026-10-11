@@ -21,9 +21,9 @@ import java.util.Locale
  * Two modes:
  *  - Single-shot: listen once, return the transcript (push-to-talk style).
  *  - Wake-word loop: continuously listen; when the transcript starts with the
- *    wake word ("blackclaw" / "hey blackclaw"), fire the callback with the rest
+ *    wake word ("blaqclaw" / "hey blaqclaw"), fire the callback with the rest
  *    of the phrase, then resume listening. This gives hands-free operation —
- *    "Hey BlackClaw, manda un mensaje a mamá" — useful when the phone is docked
+ *    "Hey BlaqClaw, manda un mensaje a mamá" — useful when the phone is docked
  *    or you're driving / working on the PC.
  *
  * Battery note: continuous recognition is opt-in. We use the system recognizer
@@ -45,7 +45,7 @@ object VoiceInputManager {
     private val voskEngine = VoskWakeWordEngine()
 
     var wakeWord: String
-        get() = KVUtils.getString(KEY_WAKE_WORD, "blackclaw")
+        get() = KVUtils.getString(KEY_WAKE_WORD, "blaqclaw")
         set(v) { KVUtils.putString(KEY_WAKE_WORD, v.lowercase().trim()); KVUtils.sync() }
 
     var wakeEnabled: Boolean
@@ -82,7 +82,7 @@ object VoiceInputManager {
         cachedComp = runCatching {
             val pm = ClawApplication.instance.packageManager
             val services = pm.queryIntentServices(Intent(RecognitionService.SERVICE_INTERFACE), 0)
-                // BlackClaw declares a RecognitionService only because the old
+                // BlaqClaw declares a RecognitionService only because the old
                 // VoiceInteractionService contract requires one. Binding a
                 // SpeechRecognizer to ourselves feeds its compatibility error back
                 // into QuickAssist and can make the system speak a second failure.

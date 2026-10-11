@@ -88,7 +88,7 @@ object ConversationRepository {
         }.takeLast(maxTurns)
         val result = ArrayDeque<String>(); var used = 0
         for (turn in allowed.asReversed()) {
-            val prefix = when (turn.role) { Role.USER -> "User"; Role.ASSISTANT -> "BlackClaw"; Role.SYSTEM -> "Sistema" }
+            val prefix = when (turn.role) { Role.USER -> "User"; Role.ASSISTANT -> "BlaqClaw"; Role.SYSTEM -> "Sistema" }
             val line = "$prefix [${turn.surface.name.lowercase()}]: ${turn.text.take(500)}"
             if (used + line.length > maxChars) break
             result.addFirst(line); used += line.length

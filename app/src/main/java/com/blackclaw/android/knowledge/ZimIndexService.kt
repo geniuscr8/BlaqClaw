@@ -24,7 +24,7 @@ class ZimIndexService : Service() {
         const val ACTION_STOP = "com.blackclaw.android.ZIM_INDEX_STOP"
         private const val EXTRA_PATH = "zim_path"
         private const val EXTRA_REBUILD = "rebuild"
-        const val CHANNEL_ID = "blackclaw_zim_index"
+        const val CHANNEL_ID = "blaqclaw_zim_index"
         const val NOTIFICATION_ID = 9120
         private const val BATCH_SIZE = 20
         private const val INDEXED_CHARS_PER_ARTICLE = 100_000
@@ -154,7 +154,7 @@ class ZimIndexService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("BlackClaw · Índice ZIM offline")
+            .setContentTitle("BlaqClaw · Índice ZIM offline")
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(open)

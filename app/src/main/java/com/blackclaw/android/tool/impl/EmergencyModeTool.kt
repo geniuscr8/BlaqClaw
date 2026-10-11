@@ -14,7 +14,7 @@ class EmergencyModeTool : BaseTool() {
     override fun getName() = "emergency_mode"
     override fun getDisplayName() = "Modo emergencia"
     override fun getDescriptionEN() =
-        "Start, stop, or inspect emergency/discreet protection. Emergency sends location every five minutes and records evidence. Discreet starts silently with front, back, or both concurrent cameras when supported; Android privacy indicators and a neutral BlackClaw foreground notification remain visible."
+        "Start, stop, or inspect emergency/discreet protection. Emergency sends location every five minutes and records evidence. Discreet starts silently with front, back, or both concurrent cameras when supported; Android privacy indicators and a neutral BlaqClaw foreground notification remain visible."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(
         ToolParameter("action", "string", "start | stop | status", true),

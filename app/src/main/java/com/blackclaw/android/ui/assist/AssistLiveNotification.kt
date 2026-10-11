@@ -26,7 +26,7 @@ object AssistLiveNotification {
 
         val notif = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_btn_speak_now)
-            .setContentTitle("BlackClaw")
+            .setContentTitle("BlaqClaw")
             .setContentText("$phase · ${detail.take(60)}")
             .setOngoing(true)
             .setOnlyAlertOnce(true)

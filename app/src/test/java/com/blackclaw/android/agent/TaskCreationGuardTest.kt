@@ -12,7 +12,7 @@ class TaskCreationGuardTest {
 
         assertTrue(guard.shouldBlockTextOnlyCompletion("Puedes usar Todoist para eso."))
         assertTrue(guard.buildPromptSection().contains("assistant_note"))
-        assertTrue(guard.maybeBlockFinish().orEmpty().contains("BlackClaw"))
+        assertTrue(guard.maybeBlockFinish().orEmpty().contains("BlaqClaw"))
 
         guard.recordToolAttempt("assistant_note")
         guard.recordToolResult("assistant_note", success = true)

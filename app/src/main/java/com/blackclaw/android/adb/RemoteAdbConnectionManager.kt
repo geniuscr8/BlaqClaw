@@ -14,7 +14,7 @@ import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 
 /**
- * A SECOND libadb connection manager, dedicated to connecting BlackClaw to
+ * A SECOND libadb connection manager, dedicated to connecting BlaqClaw to
  * *other* devices over Wireless Debugging (adb-over-wifi) — kept separate from
  * [AdbConnectionManager] (which owns the self/loopback connection used by
  * fast_tap etc.) so a remote session never disturbs the local one.
@@ -46,7 +46,7 @@ class RemoteAdbConnectionManager private constructor(context: Context) : AbsAdbC
 
     override fun getPrivateKey(): PrivateKey = keyPair.private
     override fun getCertificate(): Certificate = cert
-    override fun getDeviceName(): String = "BlackClaw@${Build.MODEL}"
+    override fun getDeviceName(): String = "BlaqClaw@${Build.MODEL}"
 
     companion object {
         fun create(context: Context): RemoteAdbConnectionManager =

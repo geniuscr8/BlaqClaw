@@ -75,7 +75,7 @@ object ChannelAuthorization {
                 Result(
                     allowed = true,
                     justPaired = true,
-                    reply = "✅ Vinculado. Esta cuenta ahora controla BlackClaw por ${channel.displayName}. " +
+                    reply = "✅ Vinculado. Esta cuenta ahora controla BlaqClaw por ${channel.displayName}. " +
                         "Puedes desvincularla desde Ajustes → Canales en el teléfono.",
                 )
             }
@@ -88,7 +88,7 @@ object ChannelAuthorization {
                     allowed = false,
                     justPaired = false,
                     reply = if (hasCode) {
-                        "🔒 Este canal no está vinculado. Abre BlackClaw en el teléfono " +
+                        "🔒 Este canal no está vinculado. Abre BlaqClaw en el teléfono " +
                             "(Ajustes → Canales), copia el código de vinculación y envíamelo."
                     } else {
                         "🔒 Este canal no está vinculado y no hay código activo. " +

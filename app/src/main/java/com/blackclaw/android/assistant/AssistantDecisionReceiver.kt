@@ -8,7 +8,7 @@ import com.blackclaw.android.utils.KVUtils
 import org.json.JSONObject
 import java.util.UUID
 
-/** Handles actionable Sí/No buttons without requiring the user to open BlackClaw. */
+/** Handles actionable Sí/No buttons without requiring the user to open BlaqClaw. */
 class AssistantDecisionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val id = intent.getStringExtra(EXTRA_ID) ?: return

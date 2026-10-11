@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 
 /**
- * The immutable, offline Linux userland used by BlackClaw's unprivileged terminal.
+ * The immutable, offline Linux userland used by BlaqClaw's unprivileged terminal.
  *
  * PRoot itself is shipped as a JNI library so Android extracts it to the executable
  * native-library directory.  The Alpine rootfs is data only: it is unpacked once to
