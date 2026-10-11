@@ -47,8 +47,8 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: universal-debug-apk
+          path: app/build/outputs/apk/debug/*universal*.apk
           if-no-files-found: error
 
       - name: Run unit tests
