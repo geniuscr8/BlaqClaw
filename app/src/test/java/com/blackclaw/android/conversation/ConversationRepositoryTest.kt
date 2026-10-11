@@ -25,7 +25,7 @@ class ConversationRepositoryTest {
             bridgeRemoteToLocal = false, maxTurns = 10, maxChars = 2000,
         )
         assertEquals(3, lines.size)
-        assertTrue(lines[0].startsWith("Usuario"))
+        assertTrue(lines[0].startsWith("User"))
         assertTrue(lines[1].startsWith("BlaqClaw"))
         assertTrue(lines[2].contains("pon música"))
     }
