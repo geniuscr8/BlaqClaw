@@ -31,6 +31,6 @@ class UndoLastTool : BaseTool() {
         runCatching { AssistantScheduler.cancel(ClawApplication.instance, target.id) }
         AssistantStore.delete(target.id)
         val kind = target.type.name.lowercase()
-        return ToolResult.success("Deshecho: eliminé $kind '${target.title}'.")
+        return ToolResult.success("Undone: deleted $kind '${target.title}'.")
     }
 }

@@ -81,12 +81,12 @@ private data class TabDef(val type: AssistantItemType, val label: String, val em
 
 private val TABS = listOf(
     TabDef(AssistantItemType.REMINDER, "Reminders", "🔔", Color(0xFF8B5CF6)),
-    TabDef(AssistantItemType.ALARM, "Alarmas", "⏰", Color(0xFFF59E0B)),
-    TabDef(AssistantItemType.NOTE, "Notas", "📝", Color(0xFF38BDF8)),
-    TabDef(AssistantItemType.EVENT, "Calendario", "📅", Color(0xFFEC4899)),
-    TabDef(AssistantItemType.ALERT, "Avisos", "📢", Color(0xFFEF4444)),
-    TabDef(AssistantItemType.FINANCE, "Finanzas", "💰", Color(0xFF22C55E)),
-    TabDef(AssistantItemType.SHOPPING, "Compras", "🛒", Color(0xFF14B8A6)),
+    TabDef(AssistantItemType.ALARM, "Alarms", "⏰", Color(0xFFF59E0B)),
+    TabDef(AssistantItemType.NOTE, "Notes", "📝", Color(0xFF38BDF8)),
+    TabDef(AssistantItemType.EVENT, "Calendar", "📅", Color(0xFFEC4899)),
+    TabDef(AssistantItemType.ALERT, "Alerts", "📢", Color(0xFFEF4444)),
+    TabDef(AssistantItemType.FINANCE, "Finance", "💰", Color(0xFF22C55E)),
+    TabDef(AssistantItemType.SHOPPING, "Shopping", "🛒", Color(0xFF14B8A6)),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,21 +132,21 @@ private fun AssistantScreen(
                 },
                 actions = {
                     IconButton(onClick = onOpenAutomations) {
-                        Icon(Icons.Default.AutoAwesome, "Automatizaciones", tint = colors.accent)
+                        Icon(Icons.Default.AutoAwesome, "Automations", tint = colors.accent)
                     }
                     if (tab.type == AssistantItemType.FINANCE) {
                         // An icon, not a text button. The word "Presupuesto" is about
                         // 110 dp wide and it only appears on this tab, which is why the
                         // title was readable everywhere else and unreadable here.
                         IconButton(onClick = { showBudget = true }) {
-                            Icon(Icons.Default.Savings, "Presupuesto", tint = colors.accent)
+                            Icon(Icons.Default.Savings, "Budget", tint = colors.accent)
                         }
                     }
                     IconButton(onClick = {
                         ctx.startActivity(android.content.Intent(
                             ctx, com.blackclaw.android.ui.assistant.CalendarActivity::class.java))
                     }) {
-                        Icon(Icons.Default.CalendarMonth, "Calendario", tint = colors.textPrimary)
+                        Icon(Icons.Default.CalendarMonth, "Calendar", tint = colors.textPrimary)
                     }
                     Surface(
                         color = colors.accent.copy(alpha = 0.14f),
@@ -160,7 +160,7 @@ private fun AssistantScreen(
                             Icon(Icons.Default.AutoAwesome, null, tint = colors.accent,
                                 modifier = Modifier.size(15.dp))
                             Spacer(Modifier.width(5.dp))
-                            Text("Proactivo", color = colors.accent, fontSize = 12.sp,
+                            Text("Proactive", color = colors.accent, fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold)
                         }
                     }
@@ -391,7 +391,7 @@ private fun AddItemDialog(
                         color = colors.textTertiary, letterSpacing = 0.8.sp)
                     Spacer(Modifier.height(8.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        listOf("none" to "Una vez", "daily" to "Diario", "weekly" to "Semanal")
+                        listOf("none" to "Once", "daily" to "Daily", "weekly" to "Weekly")
                             .forEach { (value, lbl) ->
                                 val sel = repeat == value
                                 Surface(
@@ -409,15 +409,15 @@ private fun AddItemDialog(
 
                 if (isAlarm) {
                     Spacer(Modifier.height(12.dp))
-                    Text("RETO PARA APAGAR (ALARMA IMPORTANTE)", fontSize = 11.sp,
+                    Text("DISMISSAL CHALLENGE (IMPORTANT ALARM)", fontSize = 11.sp,
                         fontWeight = FontWeight.Bold, color = colors.textTertiary, letterSpacing = 0.8.sp)
                     Spacer(Modifier.height(8.dp))
                     androidx.compose.foundation.layout.FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        listOf("none" to "Sin reto", "math" to "🔢 Mate",
-                               "memory" to "🧠 Memoria", "type" to "⌨️ Frase")
+                        listOf("none" to "No challenge", "math" to "🔢 Math",
+                               "memory" to "🧠 Memory", "type" to "⌨️ Phrase")
                             .forEach { (value, lbl) ->
                                 val sel = challenge == value
                                 Surface(
@@ -437,7 +437,7 @@ private fun AddItemDialog(
                     Spacer(Modifier.height(12.dp))
                     OutlinedTextField(
                         value = amount, onValueChange = { amount = it },
-                        label = { Text("Monto (negativo = gasto)") },
+                        label = { Text("Amount (negative = expense)") },
                         singleLine = true, modifier = Modifier.fillMaxWidth(),
                         colors = fieldColors(colors),
                     )
@@ -446,7 +446,7 @@ private fun AddItemDialog(
                     Spacer(Modifier.height(12.dp))
                     OutlinedTextField(
                         value = body, onValueChange = { body = it },
-                        label = { Text("Detalle (opcional)") },
+                        label = { Text("Details (optional)") },
                         modifier = Modifier.fillMaxWidth(), colors = fieldColors(colors),
                     )
                 }

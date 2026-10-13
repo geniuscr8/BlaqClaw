@@ -174,7 +174,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
             Spacer(Modifier.height(18.dp))
 
             // Allowed actions
-            Text("ACCIONES PERMITIDAS", fontSize = 11.sp,
+            Text("ALLOWED ACTIONS", fontSize = 11.sp,
                 fontWeight = FontWeight.Bold, color = colors.textTertiary, letterSpacing = 0.8.sp)
             Spacer(Modifier.height(8.dp))
             Surface(color = colors.surface, shape = RoundedCornerShape(14.dp),
@@ -186,7 +186,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                     ToggleRow("🔔 Create reminders", "Schedule an alert for a future date/time",
                         allowReminders, colors) { allowReminders = it; ProactiveConfig.allowReminders = it }
                     DividerLine(colors)
-                    ToggleRow("📝 Save notes", "Apunta cosas importantes en tu lista",
+                    ToggleRow("📝 Save notes", "Save important things to your notes",
                         allowNotes, colors) { allowNotes = it; ProactiveConfig.allowNotes = it }
                     DividerLine(colors)
                     ToggleRow("📅 Calendar events", "Create events in the assistant's native calendar",
@@ -300,7 +300,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()) {
                 Column {
                     BriefingRow(
-                        emoji = "☀️", title = "Resumen matutino",
+                        emoji = "☀️", title = "Morning briefing",
                         hour = ProactiveConfig.morningHour, minute = ProactiveConfig.morningMinute,
                         enabled = morningOn, colors = colors,
                         onToggle = { morningOn = it; ProactiveConfig.morningBriefingEnabled = it
@@ -312,7 +312,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                     )
                     DividerLine(colors)
                     BriefingRow(
-                        emoji = "🌙", title = "Resumen nocturno",
+                        emoji = "🌙", title = "Night briefing",
                         hour = ProactiveConfig.nightHour, minute = ProactiveConfig.nightMinute,
                         enabled = nightOn, colors = colors,
                         onToggle = { nightOn = it; ProactiveConfig.nightBriefingEnabled = it
@@ -333,7 +333,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                     ) { autoMorningAlarms = it; ProactiveConfig.autoMorningAlarms = it }
                     DividerLine(colors)
                     BriefingRow(
-                        emoji = "📊", title = "Resumen financiero semanal",
+                        emoji = "📊", title = "Weekly financial summary",
                         hour = ProactiveConfig.weeklyFinanceHour, minute = ProactiveConfig.weeklyFinanceMinute,
                         enabled = weeklyFinOn, colors = colors, weekly = true,
                         weekday = ProactiveConfig.weeklyFinanceDay,
@@ -353,7 +353,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
             Spacer(Modifier.height(18.dp))
 
             // ── Voice (TTS) ──
-            Text("VOZ (TTS)", fontSize = 11.sp,
+            Text("VOICE (TTS)", fontSize = 11.sp,
                 fontWeight = FontWeight.Bold, color = colors.textTertiary, letterSpacing = 0.8.sp)
             Spacer(Modifier.height(8.dp))
             VoiceSettings(colors, ctx)
@@ -547,12 +547,12 @@ private fun VoiceSettings(colors: BlaqClawColors, ctx: android.content.Context) 
 
             Spacer(Modifier.height(14.dp))
             // Rate
-            SliderRow("Velocidad", rate, 0.5f, 1.8f, colors) {
+            SliderRow("Speed", rate, 0.5f, 1.8f, colors) {
                 rate = it; com.blackclaw.android.assistant.Speaker.rate = it
             }
             Spacer(Modifier.height(8.dp))
             // Pitch
-            SliderRow("Tono", pitch, 0.5f, 1.8f, colors) {
+            SliderRow("Pitch", pitch, 0.5f, 1.8f, colors) {
                 pitch = it; com.blackclaw.android.assistant.Speaker.pitch = it
             }
 
@@ -565,7 +565,7 @@ private fun VoiceSettings(colors: BlaqClawColors, ctx: android.content.Context) 
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colors.accent, contentColor = colors.background),
                     shape = RoundedCornerShape(10.dp),
-                ) { Text("Probar voz", fontSize = 13.sp, fontWeight = FontWeight.SemiBold) }
+                ) { Text("Test voice", fontSize = 13.sp, fontWeight = FontWeight.SemiBold) }
                 OutlinedButton(
                     onClick = {
                         runCatching {
@@ -718,7 +718,7 @@ private fun QuietHoursRow(colors: BlaqClawColors, ctx: android.content.Context) 
         modifier = Modifier.fillMaxWidth().padding(start = 14.dp, end = 14.dp, bottom = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        HourStepper("Desde", start, colors, Modifier.weight(1f)) { start = it; ProactiveConfig.quietStartHour = it }
+        HourStepper("From", start, colors, Modifier.weight(1f)) { start = it; ProactiveConfig.quietStartHour = it }
         HourStepper("Hasta", end, colors, Modifier.weight(1f)) { end = it; ProactiveConfig.quietEndHour = it }
     }
 }

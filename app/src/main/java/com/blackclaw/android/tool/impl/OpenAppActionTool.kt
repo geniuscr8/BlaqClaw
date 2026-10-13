@@ -19,7 +19,7 @@ import java.net.URLEncoder
  */
 class OpenAppActionTool : BaseTool() {
     override fun getName() = "open_app_action"
-    override fun getDisplayName() = "Abrir app (deep link)"
+    override fun getDisplayName() = "Open app (deep link)"
     override fun getDescriptionEN() =
         "Open a popular app directly at the right screen via deep link — much faster than tapping " +
         "through the UI. Supported keys include: uber, uber_eats, didi, rappi, lyft, cabify, bolt, " +
@@ -36,7 +36,7 @@ class OpenAppActionTool : BaseTool() {
         "open_app_action(app='maps', query='casa'). " +
         "Then verify with get_screen_info and finish the flow with accessibility taps."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "abre apps populares (Uber, Uber Eats, Spotify, Maps…) directo a la pantalla útil vía deep link"
+    override fun getBrief() = "opens popular apps (Uber, Uber Eats, Spotify, Maps…) directly using deep links"
     override fun getParameters() = listOf(
         ToolParameter("app", "string", "App key or spoken name (e.g. 'uber', 'uber_eats', 'spotify', 'maps').", true),
         ToolParameter("query", "string", "Optional: destination / food / song / search term.", false),
@@ -88,7 +88,7 @@ class OpenAppActionTool : BaseTool() {
             }
             if (tryOpen(ctx, uri, entry.pkg)) {
                 val what = if (query.isNotEmpty()) " con '$query'" else ""
-                return ToolResult.success("Abrí ${entry.key}$what. Revisa la pantalla y completa el flujo.")
+                return ToolResult.success("Opened ${entry.key}$what. Review the screen and complete the flow.")
             }
         }
 
@@ -98,12 +98,12 @@ class OpenAppActionTool : BaseTool() {
             launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             return try {
                 ctx.startActivity(launch)
-                ToolResult.success("Abrí ${entry.key} (sin deep link). Completa el flujo en pantalla.")
+                ToolResult.success("Opened ${entry.key} (without a deep link). Complete the flow on screen.")
             } catch (e: Exception) {
-                ToolResult.error("No pude abrir ${entry.key}: ${e.message}")
+                ToolResult.error("Could not open ${entry.key}: ${e.message}")
             }
         }
-        return ToolResult.error("${entry.key} no está instalada. Puedes instalarla desde Play Store.")
+        return ToolResult.error("${entry.key} is not installed. You can install it from the Play Store.")
     }
 
     /** Try ACTION_VIEW for [uri], first pinned to [pkg], then free, to avoid a chooser. */

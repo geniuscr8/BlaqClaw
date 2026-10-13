@@ -238,10 +238,10 @@ internal fun EvidenceTheme(content: @Composable () -> Unit) {
 }
 
 private fun EvidenceItem.title(): String = when {
-    mediaType == EmergencyEvidenceVault.MediaType.AUDIO -> "Audio de emergencia"
+    mediaType == EmergencyEvidenceVault.MediaType.AUDIO -> "Emergency audio"
     lens == "front" -> "Video · front camera"
     lens == "back" -> "Video · rear camera"
-    else -> "Video de emergencia"
+    else -> "Emergency video"
 }
 
 private fun EvidenceItem.formattedDate(): String =

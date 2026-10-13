@@ -599,7 +599,7 @@ class LlmConfigActivity : BaseActivity() {
         }
         container.addView(autoCompact)
         container.addView(TextView(this).apply {
-            text = "BlaqClaw reserva los tokens de respuesta + ${LocalContextBudget.SAFETY_TOKENS} tokens de seguridad. Subir el contexto aumenta el uso de RAM y el modelo debe soportarlo."
+            text = "BlaqClaw reserves the response tokens plus ${LocalContextBudget.SAFETY_TOKENS} safety tokens. Increasing the context uses more RAM and must be supported by the model."
             textSize = 11f
             setTextColor(Color.parseColor("#8b949e"))
             setPadding(0, dp(4), 0, dp(8))
@@ -1058,12 +1058,12 @@ class LlmConfigActivity : BaseActivity() {
             if (!benchmarkButton.isEnabled) return@setOnClickListener
             val candidates = AutomaticModelManager.discover(this)
             if (candidates.isEmpty()) {
-                Toast.makeText(this, "Configura al menos un modelo cloud o local", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Configure at least one cloud or local model", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             benchmarkButton.isEnabled = false
             activateButton.isEnabled = false
-            benchmarkButton.text = "Midiendo 0/${candidates.size}…"
+            benchmarkButton.text = "Benchmarking 0/${candidates.size}…"
             resultsView.text = "Testing each model with a minimal request…"
             val template = ModelConfigRepository.snapshot().toAgentConfig(
                 temperature = 0.0,
@@ -1095,7 +1095,7 @@ class LlmConfigActivity : BaseActivity() {
                         benchmarkButton.isEnabled = true
                         activateButton.isEnabled = true
                         benchmarkButton.text = "↻ Volver a probar modelos"
-                        resultsView.text = "Could not complete measurement: ${error.message ?: "error desconocido"}"
+                        resultsView.text = "Could not complete measurement: ${error.message ?: "unknown error"}"
                         Toast.makeText(this, "Could not measure models", Toast.LENGTH_LONG).show()
                     }
                 }

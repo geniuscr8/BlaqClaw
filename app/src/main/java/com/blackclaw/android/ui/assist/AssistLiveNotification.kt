@@ -61,7 +61,7 @@ object AssistLiveNotification {
                 nm.createNotificationChannel(
                     NotificationChannel(CHANNEL_ID, "Asistente en vivo",
                         NotificationManager.IMPORTANCE_LOW).apply {
-                        description = "Estado del asistente de voz"
+                        description = "Voice assistant status"
                         setShowBadge(false)
                     }
                 )

@@ -338,7 +338,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 StatusRow(
                     icon = Icons.Outlined.Accessibility,
-                    title = "Servicio de accesibilidad",
+                    title = "Accessibility service",
                     subtitle = "To automate phone control",
                     status = caps.accessibilityStatusLabel,
                     statusOk = caps.canRunInteractiveTask,
@@ -348,7 +348,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 StatusRow(
                     icon = Icons.Outlined.Notifications,
-                    title = "Notificaciones",
+                    title = "Notifications",
                     subtitle = "Show task progress",
                     status = caps.notificationPermissionStatusLabel,
                     statusOk = caps.notificationPermissionGranted,
@@ -368,8 +368,8 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 StatusRow(
                     icon = Icons.Outlined.Layers,
-                    title = "Ventana flotante",
-                    subtitle = "Panel de estado superpuesto",
+                    title = "Floating window",
+                    subtitle = "Overlay status panel",
                     status = if (caps.overlayGranted) "Enabled" else "Disabled",
                     statusOk = caps.overlayGranted,
                     colors = colors,
@@ -379,7 +379,7 @@ private fun ModernSettingsScreen(
                 StatusRow(
                     icon = Icons.Outlined.BatteryChargingFull,
                     title = "Battery whitelist",
-                    subtitle = "Evita que se cierre en segundo plano",
+                    subtitle = "Prevent shutdown in the background",
                     status = if (caps.batteryOptimizationIgnored) "Unrestricted" else "Restricted",
                     statusOk = caps.batteryOptimizationIgnored,
                     colors = colors,
@@ -388,7 +388,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 StatusRow(
                     icon = Icons.Outlined.Folder,
-                    title = "Acceso a archivos",
+                    title = "File access",
                     subtitle = "Read and write device files",
                     status = if (caps.storageAccessGranted) "Enabled" else "Disabled",
                     statusOk = caps.storageAccessGranted,
@@ -398,18 +398,18 @@ private fun ModernSettingsScreen(
             }
 
             // ── Modelo ─────────────────────────────────────────────────────────
-            SettingsSection(title = "Modelo IA", colors = colors) {
+            SettingsSection(title = "AI model", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.SmartToy,
                     title = "Configure LLM",
-                    trailing = "API + modelos",
+                    trailing = "API + models",
                     colors = colors,
                     onClick = onOpenLlmConfig,
                 )
                 Divider(colors)
                 NavRow(
                     icon = Icons.Outlined.Edit,
-                    title = "Instrucciones globales",
+                    title = "Global instructions",
                     trailing = if (globalPromptLen == 0) "Empty" else "$globalPromptLen chars",
                     colors = colors,
                     onClick = onEditGlobalPrompt,
@@ -420,7 +420,7 @@ private fun ModernSettingsScreen(
             // Sits next to the model settings, not under "Avanzado": what the app has
             // learned is sent with every prompt, so it belongs beside the thing that
             // sends it — and a privacy control the user cannot find is not a control.
-            SettingsSection(title = "Privacidad", colors = colors) {
+            SettingsSection(title = "Privacy", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Shield,
                     title = "What I know about you",
@@ -433,10 +433,10 @@ private fun ModernSettingsScreen(
             }
 
             // ── Apariencia ─────────────────────────────────────────────────────
-            SettingsSection(title = "Apariencia", colors = colors) {
+            SettingsSection(title = "Appearance", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Palette,
-                    title = "Tema",
+                    title = "Theme",
                     trailing = themeName,
                     trailingHighlight = true,
                     colors = colors,
@@ -445,11 +445,11 @@ private fun ModernSettingsScreen(
             }
 
             // ── Herramientas ───────────────────────────────────────────────────
-            SettingsSection(title = "Herramientas", colors = colors) {
+            SettingsSection(title = "Tools", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.AutoAwesome,
-                    title = "Mis skills",
-                    subtitle = "Automatizaciones reutilizables",
+                    title = "My skills",
+                    subtitle = "Reusable automations",
                     trailing = if (skillCount == 0) "Create" else "$skillCount",
                     trailingHighlight = skillCount > 0,
                     colors = colors,
@@ -458,9 +458,9 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 NavRow(
                     icon = Icons.Outlined.Schedule,
-                    title = "Automatizaciones",
-                    subtitle = "Agenda, reglas y flujos creados contigo o con BlaqClaw",
-                    trailing = if (scheduledCount == 0) "Ninguna" else "$scheduledCount",
+                    title = "Automations",
+                    subtitle = "Schedules, rules, and flows created with BlaqClaw",
+                    trailing = if (scheduledCount == 0) "None" else "$scheduledCount",
                     trailingHighlight = scheduledCount > 0,
                     colors = colors,
                     onClick = onOpenScheduled,
@@ -468,7 +468,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 NavRow(
                     icon = Icons.Outlined.Insights,
-                    title = "Actividad del agente",
+                    title = "Agent activity",
                     subtitle = "Tasks, tools, and recent activity",
                     trailing = "View",
                     colors = colors,
@@ -478,7 +478,7 @@ private fun ModernSettingsScreen(
                 NavRow(
                     icon = Icons.Outlined.Build,
                     title = "Tool catalog",
-                    subtitle = "Explorar todas las tools del agente",
+                    subtitle = "Explore all agent tools",
                     trailing = "$toolCount",
                     colors = colors,
                     onClick = onOpenToolBrowser,
@@ -486,7 +486,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 NavRow(
                     icon = Icons.AutoMirrored.Outlined.MenuBook,
-                    title = "Biblioteca offline ZIM",
+                    title = "Offline ZIM library",
                     subtitle = "Browse Wikipedia and other libraries offline",
                     trailing = "Open",
                     trailingHighlight = true,
@@ -496,7 +496,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 NavRow(
                     icon = Icons.Outlined.SmartToy,
-                    title = "Auto-respuestas",
+                    title = "Auto-replies",
                     subtitle = "The AI replies to your messages for you",
                     trailing = if (autoReplyCount == 0) "Create"
                                else "$activeAutoReplies/$autoReplyCount active",
@@ -548,10 +548,10 @@ private fun ModernSettingsScreen(
                     title = "Shizuku",
                     subtitle = "Actions 10× faster + game control",
                     trailing = when (shizukuState) {
-                        com.blackclaw.android.shizuku.ShizukuManager.State.READY -> "Activo"
+                        com.blackclaw.android.shizuku.ShizukuManager.State.READY -> "Active"
                         com.blackclaw.android.shizuku.ShizukuManager.State.NOT_INSTALLED -> "Not installed"
-                        com.blackclaw.android.shizuku.ShizukuManager.State.INSTALLED_OFF -> "Apagado"
-                        com.blackclaw.android.shizuku.ShizukuManager.State.RUNNING_NO_PERM -> "Sin permiso"
+                        com.blackclaw.android.shizuku.ShizukuManager.State.INSTALLED_OFF -> "Off"
+                        com.blackclaw.android.shizuku.ShizukuManager.State.RUNNING_NO_PERM -> "Permission missing"
                     },
                     trailingHighlight = shizukuState == com.blackclaw.android.shizuku.ShizukuManager.State.READY,
                     colors = colors,
@@ -560,7 +560,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 NavRow(
                     icon = Icons.Outlined.Speed,
-                    title = "Modo Pro (ADB integrado)",
+                    title = "Pro mode (built-in ADB)",
                     subtitle = "Quick actions without Shizuku or a PC",
                     trailing = "Beta",
                     trailingHighlight = false,
@@ -573,9 +573,9 @@ private fun ModernSettingsScreen(
                 }
                 SwitchRow(
                     icon = Icons.Outlined.Code,
-                    title = "Terminal interno",
+                    title = "Internal terminal",
                     subtitle = "Linux fijo con bash, Python, Git y curl sin Shizuku ni ADB. " +
-                        "La consola manual conserva el Modo Pro opcional.",
+                        "The manual console keeps optional Pro mode access.",
                     checked = terminalOn,
                     colors = colors,
                 ) { on ->
@@ -598,8 +598,8 @@ private fun ModernSettingsScreen(
                 }
                 SwitchRow(
                     icon = Icons.Outlined.Bolt,
-                    title = "Seguridad (antimalware)",
-                    subtitle = "Detecta apps riesgosas y bloquea las que te llenan de anuncios " +
+                    title = "Security (anti-malware)",
+                    subtitle = "Detect risky apps and block those that fill your screen with ads " +
                         "(revokes overlays, force-stops, or uninstalls).",
                     checked = securityOn,
                     colors = colors,
@@ -612,7 +612,7 @@ private fun ModernSettingsScreen(
                     NavRow(
                         icon = Icons.Outlined.Bolt,
                         title = "Open security",
-                        subtitle = "Escanea apps y bloquea anuncios",
+                        subtitle = "Scan apps and block ads",
                         colors = colors,
                         onClick = onOpenSecurity,
                     )
@@ -638,7 +638,7 @@ private fun ModernSettingsScreen(
             SettingsSection(title = "Remote control", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Send,
-                    title = "Bot de Telegram",
+                    title = "Telegram bot",
                     trailing = if (KVUtils.getTelegramBotToken().isNotEmpty()) "Connected" else "Not connected",
                     trailingHighlight = KVUtils.getTelegramBotToken().isNotEmpty(),
                     colors = colors,
@@ -657,7 +657,7 @@ private fun ModernSettingsScreen(
                 Divider(colors)
                 SwitchRow(
                     icon = Icons.Outlined.Security,
-                    title = "Compartir memoria local con canales remotos",
+                    title = "Share local memory with remote channels",
                     subtitle = "Safely disabled · $sharedTurnCount local turns. When enabled, " +
                         "each remote contact remains isolated but may use recent local context.",
                     checked = remoteMemoryBridge,
@@ -669,7 +669,7 @@ private fun ModernSettingsScreen(
             }
 
             // ── Acerca de ──────────────────────────────────────────────────────
-            SettingsSection(title = "Acerca de", colors = colors) {
+            SettingsSection(title = "About", colors = colors) {
                 NavRow(
                     icon = Icons.Outlined.Info,
                     title = "BlaqClaw",
@@ -703,7 +703,7 @@ private fun ModernSettingsScreen(
                 NavRow(
                     icon = Icons.Outlined.Public,
                     title = "GitHub",
-                    trailing = "tuangel134/BlaqClaw",
+                    trailing = "geniuscr8/BlaqClaw",
                     colors = colors,
                     onClick = onOpenGitHub,
                 )

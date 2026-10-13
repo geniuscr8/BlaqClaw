@@ -338,7 +338,7 @@ private fun VoiceSettingsScreen(
                             }
                             .padding(horizontal = 16.dp, vertical = 10.dp),
                     ) {
-                        Text("Preparar modelo offline", color = accent, fontWeight = FontWeight.Bold)
+                        Text("Prepare offline model", color = accent, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -352,7 +352,7 @@ private fun VoiceSettingsScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text("Modo susurro", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("Whisper mode", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Text(
                         "If you whisper, it replies in a whisper (like Alexa). Requires the offline model.",
                         color = textSecondary, fontSize = 13.sp,
@@ -377,7 +377,7 @@ private fun VoiceSettingsScreen(
             ) {
                 Text("Calibrate normal voice", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 Text(
-                    calibMsg.ifBlank { "Improve whisper detection: press and speak normally 2 segundos." },
+                    calibMsg.ifBlank { "Improve whisper detection: press and speak normally for 2 seconds." },
                     color = textSecondary, fontSize = 13.sp,
                 )
                 Box(
@@ -385,7 +385,7 @@ private fun VoiceSettingsScreen(
                         .background(accent.copy(alpha = if (calibrating) 0.08f else 0.15f), RoundedCornerShape(10.dp))
                         .clickable(enabled = !calibrating) {
                             calibrating = true
-                            calibMsg = "🎙 Escuchando… habla normal"
+                            calibMsg = "🎙 Listening… speak normally"
                             VoiceInputManager.calibrateWhisper { rms ->
                                 calibrating = false
                                 calibMsg = if (rms > 0) "✓ Calibrado (nivel ${rms.toInt()})" else "I did not hear you; try again"

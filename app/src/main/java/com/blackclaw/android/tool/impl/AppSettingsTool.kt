@@ -34,9 +34,9 @@ class AppSettingsTool : BaseTool() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             ClawApplication.instance.startActivity(intent)
-            ToolResult.success("Pantalla de ajustes abierta para $pkg.")
+            ToolResult.success("Settings screen opened for $pkg.")
         } catch (e: Exception) {
-            ToolResult.error("No se pudo abrir ajustes: ${e.message}")
+            ToolResult.error("Could not open settings: ${e.message}")
         }
     }
 }

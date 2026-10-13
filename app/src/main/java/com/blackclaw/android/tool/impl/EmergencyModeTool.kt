@@ -12,7 +12,7 @@ import com.blackclaw.android.tool.ToolResult
 
 class EmergencyModeTool : BaseTool() {
     override fun getName() = "emergency_mode"
-    override fun getDisplayName() = "Modo emergencia"
+    override fun getDisplayName() = "Emergency mode"
     override fun getDescriptionEN() =
         "Start, stop, or inspect emergency/discreet protection. Emergency sends location every five minutes and records evidence. Discreet starts silently with front, back, or both concurrent cameras when supported; Android privacy indicators and a neutral BlaqClaw foreground notification remain visible."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -30,7 +30,7 @@ class EmergencyModeTool : BaseTool() {
         return when (action) {
             "start", "activar", "iniciar" -> {
                 if (!EmergencyConfig.isReady) {
-                    ToolResult.error("Configura primero un contacto de confianza en Ajustes → Modo emergencia.")
+                    ToolResult.error("First configure a trusted contact in Settings → Emergency mode.")
                 } else {
                     val mode = when (optionalString(params, "mode", "emergency").lowercase()) {
                         "discreet", "discreto", "discreta" -> EmergencyMode.DISCREET
@@ -47,12 +47,12 @@ class EmergencyModeTool : BaseTool() {
                     if (EmergencyService.start(context, options)) {
                         ToolResult.success(if (mode == EmergencyMode.DISCREET) "Modo discreto activo."
                             else "Modo emergencia iniciándose. Tienes 5 segundos para cancelarlo desde la notificación.")
-                    } else ToolResult.error("No se pudo iniciar el modo de protección.")
+                    } else ToolResult.error("Could not start protection mode.")
                 }
             }
             "stop", "detener", "cancelar" -> {
                 EmergencyService.stop(context)
-                ToolResult.success("Modo emergencia detenido.")
+                ToolResult.success("Emergency mode stopped.")
             }
             "status", "estado" -> ToolResult.success(
                 "Protección: ${if (EmergencyService.isActive) "activa" else "inactiva"}. " +

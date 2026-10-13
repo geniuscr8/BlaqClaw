@@ -110,7 +110,7 @@ private fun CalendarScreen(colors: BlaqClawColors, onBack: () -> Unit) {
         containerColor = colors.background,
         topBar = {
             TopAppBar(
-                title = { Text("Calendario", fontSize = 19.sp, fontWeight = FontWeight.Bold,
+                title = { Text("Calendar", fontSize = 19.sp, fontWeight = FontWeight.Bold,
                     color = colors.textPrimary) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -144,7 +144,7 @@ private fun CalendarScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                listOf("📆 Mes", "📋 Agenda").forEachIndexed { i, label ->
+                listOf("📆 Month", "📋 Agenda").forEachIndexed { i, label ->
                     val sel = i == mode
                     Surface(
                         color = if (sel) colors.accent else colors.surface,
@@ -240,13 +240,13 @@ private fun MonthMode(colors: BlaqClawColors, refresh: Int, showSystem: Boolean,
         ) {
             IconButton(onClick = {
                 monthCal = (monthCal.clone() as Calendar).apply { add(Calendar.MONTH, -1) }
-            }) { Icon(Icons.Default.ChevronLeft, "Mes anterior", tint = colors.textPrimary) }
+            }) { Icon(Icons.Default.ChevronLeft, "Previous month", tint = colors.textPrimary) }
             Text(
                 monthFmt.format(monthCal.time).replaceFirstChar { it.uppercase() },
                 fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
             IconButton(onClick = {
                 monthCal = (monthCal.clone() as Calendar).apply { add(Calendar.MONTH, 1) }
-            }) { Icon(Icons.Default.ChevronRight, "Mes siguiente", tint = colors.textPrimary) }
+            }) { Icon(Icons.Default.ChevronRight, "Next month", tint = colors.textPrimary) }
         }
 
         // Weekday header (Mon..Sun)
@@ -328,7 +328,7 @@ private fun AgendaMode(colors: BlaqClawColors, refresh: Int, showSystem: Boolean
         grouped.forEach { (day, dayItems) ->
             item(key = "h$day") {
                 val label = when (day) {
-                    today -> "HOY"
+                    today -> "TODAY"
                     tomorrow -> "TOMORROW"
                     else -> headerFmt.format(Date(day)).uppercase()
                 }

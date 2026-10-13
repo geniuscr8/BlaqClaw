@@ -437,7 +437,7 @@ private fun SavePlaceDialog(
         confirmButton = {
             Button(enabled = name.isNotBlank() && !saving, onClick = {
                 val r = radius.toFloatOrNull()
-                if (r == null || r !in 25f..100_000f) { error = "El radio debe estar entre 25 y 100000 m."; return@Button }
+                if (r == null || r !in 25f..100_000f) { error = "The radius must be between 25 and 100,000 m."; return@Button }
                 saving = true; error = null
                 scope.launch(Dispatchers.IO) {
                     val location = LocationSnapshotProvider.current(ctx).getOrElse {
@@ -577,15 +577,15 @@ private fun FlowHeroCard(
                 ) { Text("✦", color = colors.accent, fontSize = 26.sp) }
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("Flujos inteligentes", color = colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Bold)
+                    Text("Smart workflows", color = colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Bold)
                     Text("Tell BlaqClaw what should happen and what to do; it will build the flow for you to review.",
                         color = colors.textSecondary, fontSize = 12.sp)
                 }
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FlowMetric("$active", "activos", colors, Modifier.weight(1f))
-                FlowMetric("${profiles.size - active}", "borradores", colors, Modifier.weight(1f))
-                FlowMetric("$runs", "ejecuciones", colors, Modifier.weight(1f))
+                FlowMetric("$active", "active", colors, Modifier.weight(1f))
+                FlowMetric("${profiles.size - active}", "drafts", colors, Modifier.weight(1f))
+                FlowMetric("$runs", "runs", colors, Modifier.weight(1f))
             }
             Button(
                 onClick = onCreateWithAgent,
@@ -687,7 +687,7 @@ private fun ProfileCard(profile: AutomationProfileStore.Profile, colors: BlaqCla
                     Text("Probar", color = if (validationErrors.isEmpty()) colors.accent else colors.textTertiary)
                 }
                 IconButton(onClick = onEdit) {
-                    Icon(Icons.Default.Edit, "Editar", tint = colors.accent)
+                    Icon(Icons.Default.Edit, "Edit", tint = colors.accent)
                 }
                 IconButton(onClick = onDelete) { Icon(Icons.Default.Delete, "Delete", tint = colors.textTertiary) }
             }
@@ -709,8 +709,8 @@ private fun RuleCard(rule: AutomationRuleStore.Rule, colors: BlaqClawColors,
                 }
                 Switch(checked = rule.enabled, onCheckedChange = onToggle)
             }
-            if (rule.match.isNotBlank()) Text("SI contiene: ${rule.match}", color = colors.textSecondary, fontSize = 12.sp)
-            Text("ENTONCES: ${rule.actionText}", color = colors.textPrimary, fontSize = 12.sp,
+            if (rule.match.isNotBlank()) Text("IF it contains: ${rule.match}", color = colors.textSecondary, fontSize = 12.sp)
+            Text("THEN: ${rule.actionText}", color = colors.textPrimary, fontSize = 12.sp,
                 modifier = Modifier.padding(top = 6.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 TextButton(onClick = onRun) { Text("Probar", color = colors.accent) }
@@ -735,18 +735,18 @@ private fun AddRuleDialog(colors: BlaqClawColors, onDismiss: () -> Unit, onSaved
                 AutomationRuleStore.Trigger.entries.forEach { t -> FilterChip(selected = trigger == t,
                     onClick = { trigger = t }, label = { Text(when(t) {
                         AutomationRuleStore.Trigger.NOTIFICATION -> "Notification"
-                        AutomationRuleStore.Trigger.LOCATION_ENTER -> "Llegar"
-                        AutomationRuleStore.Trigger.LOCATION_EXIT -> "Salir"
+                        AutomationRuleStore.Trigger.LOCATION_ENTER -> "Arrive"
+                        AutomationRuleStore.Trigger.LOCATION_EXIT -> "Leave"
                     }, fontSize = 11.sp) }) }
             }
             if (trigger == AutomationRuleStore.Trigger.NOTIFICATION) {
-                OutlinedTextField(match, { match = it }, label = { Text("Contact o texto") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(match, { match = it }, label = { Text("Contact or text") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(pkg, { pkg = it }, label = { Text("Paquete opcional (com.whatsapp)") }, modifier = Modifier.fillMaxWidth())
             } else {
                 OutlinedTextField(lat, { lat = it }, label = { Text("Latitud") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(lon, { lon = it }, label = { Text("Longitud") }, modifier = Modifier.fillMaxWidth())
             }
-            OutlinedTextField(action, { action = it }, label = { Text("Acciones en orden") }, minLines = 3,
+            OutlinedTextField(action, { action = it }, label = { Text("Actions in order") }, minLines = 3,
                 placeholder = { Text("Turn off mobile data, turn on Wi-Fi, and verify") }, modifier = Modifier.fillMaxWidth())
         } },
         confirmButton = { TextButton(enabled = name.isNotBlank() && action.isNotBlank() &&
@@ -899,7 +899,7 @@ private fun CreateTaskSheet(
                     colors = colors,
                     selected = mode == ScheduledTaskManager.Mode.TASK,
                     icon = Icons.Default.PlayArrow,
-                    title = "Ejecutar",
+                    title = "Run",
                     subtitle = "BlaqClaw will act",
                     modifier = Modifier.weight(1f),
                     onClick = { mode = ScheduledTaskManager.Mode.TASK },
@@ -908,7 +908,7 @@ private fun CreateTaskSheet(
                     colors = colors,
                     selected = mode == ScheduledTaskManager.Mode.CHAT,
                     icon = Icons.Default.NotificationsActive,
-                    title = "Avisarme",
+                    title = "Notify me",
                     subtitle = "Notification only",
                     modifier = Modifier.weight(1f),
                     onClick = { mode = ScheduledTaskManager.Mode.CHAT },
@@ -919,12 +919,12 @@ private fun CreateTaskSheet(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 QuickTaskChoice(
                     colors = colors, selected = selectedWhen == QuickTaskWhen.IN_30_MIN,
-                    icon = Icons.Default.Timer, title = "30 min", subtitle = "Desde ahora",
+                    icon = Icons.Default.Timer, title = "30 min", subtitle = "From now",
                     modifier = Modifier.weight(1f), onClick = { selectedWhen = QuickTaskWhen.IN_30_MIN },
                 )
                 QuickTaskChoice(
                     colors = colors, selected = selectedWhen == QuickTaskWhen.TODAY_18,
-                    icon = Icons.Default.WbSunny, title = eveningLabel, subtitle = "Siguiente turno",
+                    icon = Icons.Default.WbSunny, title = eveningLabel, subtitle = "Next time slot",
                     modifier = Modifier.weight(1f), onClick = { selectedWhen = QuickTaskWhen.TODAY_18 },
                 )
             }
@@ -936,7 +936,7 @@ private fun CreateTaskSheet(
                 )
                 QuickTaskChoice(
                     colors = colors, selected = selectedWhen == QuickTaskWhen.CUSTOM,
-                    icon = Icons.Default.Schedule, title = "Elegir fecha", subtitle = "Personalizado",
+                    icon = Icons.Default.Schedule, title = "Choose date", subtitle = "Custom",
                     modifier = Modifier.weight(1f), onClick = ::openCustomPicker,
                 )
             }
@@ -944,9 +944,9 @@ private fun CreateTaskSheet(
             Text("Repeat", color = colors.textPrimary, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(
-                    ScheduledTaskManager.Recurrence.ONCE to "Una vez",
+                    ScheduledTaskManager.Recurrence.ONCE to "Once",
                     ScheduledTaskManager.Recurrence.DAILY to "Every day",
-                    ScheduledTaskManager.Recurrence.WEEKLY to "Cada semana",
+                    ScheduledTaskManager.Recurrence.WEEKLY to "Every week",
                 ).forEach { (value, label) ->
                     FilterChip(
                         selected = recurrence == value,
@@ -963,7 +963,7 @@ private fun CreateTaskSheet(
                 border = androidx.compose.foundation.BorderStroke(1.dp, colors.accent.copy(alpha = .35f)),
             ) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text("Vista previa", color = colors.accent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("Preview", color = colors.accent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     Text(
                         "${if (mode == ScheduledTaskManager.Mode.TASK) "🤖 BlaqClaw will act" else "🔔 Notify me"} · $triggerLabel",
                         color = colors.textPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
@@ -988,7 +988,7 @@ private fun CreateTaskSheet(
                     if (text.isBlank()) {
                         error = "Write what you want BlaqClaw to do."
                     } else if (triggerAtMs <= System.currentTimeMillis()) {
-                        error = "Elige una hora futura."
+                        error = "Choose a future time."
                     } else {
                         val saved = ScheduledTaskManager.schedule(
                             context = context,
@@ -1068,11 +1068,11 @@ private fun TaskCard(
 ) {
     val df = SimpleDateFormat("dd MMM · HH:mm", Locale.getDefault())
     val recurStr = when (task.recurrence) {
-        ScheduledTaskManager.Recurrence.ONCE -> "una vez"
-        ScheduledTaskManager.Recurrence.HOURLY -> "cada hora"
+        ScheduledTaskManager.Recurrence.ONCE -> "once"
+        ScheduledTaskManager.Recurrence.HOURLY -> "every hour"
         ScheduledTaskManager.Recurrence.DAILY -> "every day"
-        ScheduledTaskManager.Recurrence.WEEKLY -> "cada semana"
-        ScheduledTaskManager.Recurrence.INTERVAL -> "cada ${task.intervalMs / 60_000}m"
+        ScheduledTaskManager.Recurrence.WEEKLY -> "every week"
+        ScheduledTaskManager.Recurrence.INTERVAL -> "every ${task.intervalMs / 60_000}m"
     }
     val modeIcon = if (task.mode == ScheduledTaskManager.Mode.TASK) "🤖" else "💬"
 

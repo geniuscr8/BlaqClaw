@@ -545,7 +545,7 @@ private fun ChatTopBar(
                 Spacer(Modifier.width(4.dp))
                 Icon(
                     Icons.Default.UnfoldMore,
-                    contentDescription = "Cambiar modelo",
+                    contentDescription = "Change model",
                     tint = colors.textTertiary,
                     modifier = Modifier.size(12.dp),
                 )
@@ -603,11 +603,11 @@ private fun ChatTopBar(
                     )
                     HorizontalDivider()
                     DropdownMenuItem(
-                        text = { Text("Con internet: ${automaticConfig.activeCloud.modelName.ifBlank { "sin modelo cloud" }}", fontSize = 13.sp) },
+                        text = { Text("Online: ${automaticConfig.activeCloud.modelName.ifBlank { "no cloud model" }}", fontSize = 13.sp) },
                         enabled = false,
                         onClick = {},
                     )
-                    val localName = automaticConfig.local.displayName.ifBlank { "sin modelo local" }
+                    val localName = automaticConfig.local.displayName.ifBlank { "no local model" }
                     DropdownMenuItem(
                         text = { Text("Sin internet: $localName", fontSize = 13.sp) },
                         enabled = false,
@@ -1378,8 +1378,8 @@ private fun ChatInputBar(
                     Text(
                         when {
                             taskMode -> "Describe a task…"
-                            !isLocalModel -> "Habla con la IA en la nube…"
-                            else -> "Habla con la IA local…"
+                            !isLocalModel -> "Talk to cloud AI…"
+                            else -> "Talk to local AI…"
                         },
                         color = if (taskMode) colors.accent.copy(alpha = 0.55f) else colors.textTertiary,
                         fontSize = 14.sp,
@@ -1458,7 +1458,7 @@ private fun ChatInputBar(
                     else -> Icons.Default.ArrowUpward
                 },
                 contentDescription = when {
-                    isTaskRunning -> "Detener"
+                    isTaskRunning -> "Stop"
                     isAwaitingReply -> "Esperando respuesta"
                     else -> "Send"
                 },
@@ -1830,7 +1830,7 @@ private fun EmptyStateWithPrompts(
 
         Spacer(Modifier.height(20.dp))
         Text(
-            "PRUEBA CON",
+            "TRY",
             fontSize = 9.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = 1.2.sp,
@@ -1917,7 +1917,7 @@ private fun AssistantPanel(
         Cat(com.blackclaw.android.assistant.AssistantItemType.REMINDER, "Reminders", "🔔", Color(0xFF8B5CF6)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.ALARM, "Alarmas", "⏰", Color(0xFFF59E0B)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.NOTE, "Notas", "📝", Color(0xFF38BDF8)),
-        Cat(com.blackclaw.android.assistant.AssistantItemType.EVENT, "Calendario", "📅", Color(0xFFEC4899)),
+        Cat(com.blackclaw.android.assistant.AssistantItemType.EVENT, "Calendar", "📅", Color(0xFFEC4899)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.FINANCE, "Finanzas", "💰", Color(0xFF22C55E)),
     )
     Column(
@@ -2361,7 +2361,7 @@ private fun ActiveTaskBar(
                         modifier = Modifier.weight(1f),
                     )
                     Text(
-                        text = "Detener",
+                        text = "Stop",
                         color = androidx.compose.ui.graphics.Color(0xFFF44336),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
@@ -2379,7 +2379,7 @@ private fun ActiveTaskBar(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
-                        text = "Detener todo",
+                        text = "Stop all",
                         color = androidx.compose.ui.graphics.Color(0xFFF44336),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,

@@ -30,7 +30,7 @@ class MathEvalTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("expression", "string", "Expresión matemática a evaluar.", true),
+        ToolParameter("expression", "string", "Mathematical expression to evaluate.", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

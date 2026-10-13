@@ -33,7 +33,7 @@ class OcrImageTool : BaseTool() {
             path.isNotBlank() -> ImageOcr.recognizeFile(path)
             else -> return ToolResult.error("Indica 'uri' o 'path' de la imagen.")
         }
-        return if (text.isBlank()) ToolResult.success("No detecté texto en la imagen.")
+        return if (text.isBlank()) ToolResult.success("No text was detected in the image.")
         else ToolResult.success("Texto detectado:\n${text.take(6000)}")
     }
 }
@@ -49,7 +49,7 @@ class ScanReceiptTool : BaseTool() {
         "Scan a receipt photo: OCR it, extract the total and merchant, and log it as an expense. " +
         "Provide 'uri' or 'path' of the photo. Optional 'category'. Returns what was logged."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "escanea un recibo (foto) y registra el gasto automáticamente"
+    override fun getBrief() = "scans a receipt photo and records the expense automatically"
     override fun getParameters() = listOf(
         ToolParameter("uri", "string", "Receipt image Uri.", false),
         ToolParameter("path", "string", "Receipt image path.", false),
@@ -68,7 +68,7 @@ class ScanReceiptTool : BaseTool() {
 
         val receipt = ReceiptParser.parse(text)
         val amount = receipt.amount
-            ?: return ToolResult.success("Leí el recibo pero no encontré un total claro. Texto:\n${text.take(800)}")
+            ?: return ToolResult.success("I read the receipt but could not find a clear total. Text:\n${text.take(800)}")
         val merchant = receipt.merchant?.takeIf { it.isNotBlank() } ?: "Recibo"
         val log = optionalBoolean(params, "log", true)
         if (!log) {
@@ -82,6 +82,6 @@ class ScanReceiptTool : BaseTool() {
         ))
         return if (r.isSuccess)
             ToolResult.success("🧾 Recibo registrado: $merchant, ${"%.2f".format(amount)} (gasto en $category).")
-        else ToolResult.success("Leí el recibo ($merchant, ${"%.2f".format(amount)}) pero no pude registrarlo: ${r.error}")
+        else ToolResult.success("I read the receipt ($merchant, ${"%.2f".format(amount)}) but could not record it: ${r.error}")
     }
 }

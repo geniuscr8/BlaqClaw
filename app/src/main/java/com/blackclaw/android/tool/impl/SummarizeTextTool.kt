@@ -21,7 +21,7 @@ class SummarizeTextTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("text", "string", "Texto a resumir.", true),
-        ToolParameter("sentences", "integer", "Cuántas frases conservar (default 3).", false),
+        ToolParameter("sentences", "integer", "Number of sentences to keep (default 3).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

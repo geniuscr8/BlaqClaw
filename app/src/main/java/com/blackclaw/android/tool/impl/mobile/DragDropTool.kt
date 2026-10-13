@@ -31,7 +31,7 @@ class DragDropTool : BaseTool() {
         ToolParameter("end_y", "integer", "Y destino.", true),
         ToolParameter("press_ms", "integer",
             "Cuánto mantener pulsado antes de mover (default 500ms para activar long-press).", false),
-        ToolParameter("move_ms", "integer", "Duración del arrastre (default 500ms).", false),
+        ToolParameter("move_ms", "integer", "Drag duration (default 500ms).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

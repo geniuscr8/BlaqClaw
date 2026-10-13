@@ -47,7 +47,7 @@ class NetworkSpeedTool : BaseTool() {
                 )
             }
         } catch (e: Exception) {
-            ToolResult.error("Test falló: ${e.message}")
+            ToolResult.error("Test failed: ${e.message}")
         }
     }
 }

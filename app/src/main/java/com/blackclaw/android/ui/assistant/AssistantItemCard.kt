@@ -232,7 +232,7 @@ private fun AssistantLeading(
             .clip(CircleShape)
             .background(accent.base.copy(alpha = fill))
             .border(2.dp, accent.base.copy(alpha = if (checked) 1f else 0.55f), CircleShape)
-            .clickable(onClickLabel = if (checked) "Marcar pendiente" else "Marcar hecho") {
+            .clickable(onClickLabel = if (checked) "Mark pending" else "Mark done") {
                 onToggle()
             },
         contentAlignment = Alignment.Center,

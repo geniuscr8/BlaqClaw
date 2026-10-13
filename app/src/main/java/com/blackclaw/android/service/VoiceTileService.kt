@@ -64,7 +64,7 @@ class VoiceTileService : TileService() {
         val tile = qsTile ?: return
         val on = VoiceInputManager.wakeEnabled
         tile.state = if (on) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-        tile.label = "Voz BlaqClaw"
+        tile.label = "BlaqClaw Voice"
         tile.contentDescription = if (on) "Listening" else "Disabled"
         tile.updateTile()
     }

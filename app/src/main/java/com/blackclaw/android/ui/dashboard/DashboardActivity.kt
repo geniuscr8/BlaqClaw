@@ -92,7 +92,7 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
             }
 
             // Today's stats grid
-            Text("Hoy", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("Today", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -109,9 +109,9 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 StatCard(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Filled.Notifications,
-                    label = "Proactivo",
+                    label = "Proactive",
                     value = "${today.proactiveActions}",
-                    detail = "${today.proactiveIgnored} ignoradas",
+                    detail = "${today.proactiveIgnored} ignored",
                     colors = colors,
                     accentColor = Color(0xFF4CAF50),
                 )
@@ -162,7 +162,7 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
             // Weekly overview
             if (week.size > 1) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Esta semana", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("This week", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 val weekTasks = week.sumOf { it.tasksRun }
                 val weekProactive = week.sumOf { it.proactiveActions }
                 val weekTokens = week.sumOf { it.tokensUsed }
@@ -170,7 +170,7 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                     Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text("$weekTasks tasks executed", color = textPrimary, fontSize = 14.sp)
                         Text("$weekProactive proactive actions", color = textPrimary, fontSize = 14.sp)
-                        Text("${weekTokens / 1000}k tokens consumidos", color = textSecondary, fontSize = 13.sp)
+                        Text("${weekTokens / 1000}k tokens consumed", color = textSecondary, fontSize = 13.sp)
                     }
                 }
             }

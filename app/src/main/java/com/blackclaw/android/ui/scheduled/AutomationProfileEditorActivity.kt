@@ -327,7 +327,7 @@ private fun FlowBuilderOverview(
                 color = colors.textSecondary, fontSize = 12.sp)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp)) {
                 listOf(
-                    Triple("CUANDO", triggerCount, triggerCount > 0),
+                    Triple("WHEN", triggerCount, triggerCount > 0),
                     Triple("SI", conditionCount, true),
                     Triple("HAZ", actionCount, actionCount > 0),
                 ).forEach { (label, count, ready) ->

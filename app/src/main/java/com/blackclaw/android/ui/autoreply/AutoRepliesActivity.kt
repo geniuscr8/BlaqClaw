@@ -168,7 +168,7 @@ private fun AutoRepliesScreen(
                                 onCancelCron(profile)
                                 profiles = AutoReplyProfileStore.all()
                             } else {
-                                android.widget.Toast.makeText(context, "Could not delete el perfil de forma segura.", android.widget.Toast.LENGTH_LONG).show()
+                                android.widget.Toast.makeText(context, "Could not safely delete the profile.", android.widget.Toast.LENGTH_LONG).show()
                             }
                         },
                     )
@@ -340,7 +340,7 @@ private fun ProfileCard(
                 ) {
                     Icon(Icons.Default.Edit, null, tint = colors.textSecondary, modifier = Modifier.size(14.dp))
                     Spacer(Modifier.width(4.dp))
-                    Text("Editar", fontSize = 12.sp, color = colors.textPrimary)
+                                Text("Edit", fontSize = 12.sp, color = colors.textPrimary)
                 }
                 Spacer(Modifier.width(8.dp))
                 IconButton(onClick = onDelete) {
@@ -381,7 +381,7 @@ private fun ProfileEditorDialog(
                     modifier = Modifier.padding(16.dp).fillMaxWidth(),
                 ) {
                     Text(
-                        if (initial.contactName.isBlank()) "Nueva auto-respuesta" else "Editar perfil",
+                        if (initial.contactName.isBlank()) "New auto-reply" else "Edit profile",
                         fontSize = 18.sp, fontWeight = FontWeight.Bold,
                         color = colors.textPrimary, modifier = Modifier.weight(1f),
                     )

@@ -16,7 +16,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class FastTapTool : BaseTool() {
     override fun getName() = "fast_tap"
-    override fun getDisplayName() = "Tap rápido"
+    override fun getDisplayName() = "Fast tap"
     override fun getDescriptionEN() =
         "Tap at (x, y) using shell input via Shizuku or paired ADB — ~10x faster than tap, " +
         "and works in games / SurfaceView. Requires Shizuku active OR ADB self-paired. " +
@@ -36,8 +36,8 @@ class FastTapTool : BaseTool() {
         val y = requireInt(params, "y")
         validateCoordinates(x, y)?.let { return ToolResult.error(it) }
         if (!PrivilegedShell.execFast("input tap $x $y")) {
-            return ToolResult.error("input tap falló")
+            return ToolResult.error("input tap failed")
         }
-        return ToolResult.success("Tap rápido en ($x, $y)")
+        return ToolResult.success("Fast tap at ($x, $y)")
     }
 }

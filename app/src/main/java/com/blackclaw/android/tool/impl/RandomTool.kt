@@ -44,7 +44,7 @@ class RandomTool : BaseTool() {
                 "pick" -> {
                     val list = optionalString(params, "choices", "").split(",")
                         .map { it.trim() }.filter { it.isNotEmpty() }
-                    if (list.isEmpty()) return ToolResult.error("choices vacío")
+                    if (list.isEmpty()) return ToolResult.error("choices is empty")
                     ToolResult.success("🎯 ${list.random()}")
                 }
                 "uuid" -> ToolResult.success(UUID.randomUUID().toString())

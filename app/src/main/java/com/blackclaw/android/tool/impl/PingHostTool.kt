@@ -20,12 +20,12 @@ class PingHostTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("host", "string", "Hostname o IP.", true),
         ToolParameter("port", "integer", "Puerto TCP (default 80).", false),
-        ToolParameter("count", "integer", "Cuántos pings (1..10, default 3).", false),
+        ToolParameter("count", "integer", "Number of pings (1..10, default 3).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val host = requireString(params, "host").trim()
-        if (host.isEmpty()) return ToolResult.error("host vacío")
+        if (host.isEmpty()) return ToolResult.error("empty host")
         val port = optionalInt(params, "port", 80).coerceIn(1, 65535)
         val count = optionalInt(params, "count", 3).coerceIn(1, 10)
 
@@ -46,7 +46,7 @@ class PingHostTool : BaseTool() {
                 Thread.sleep(50)
             }
             if (timings.isEmpty()) {
-                return ToolResult.error("No respondió tras $count intentos.")
+                return ToolResult.error("No response after $count attempts.")
             }
             val avg = timings.average()
             val min = timings.min()
@@ -56,7 +56,7 @@ class PingHostTool : BaseTool() {
                 "min=%dms avg=%.0fms max=%dms".format(min, avg, max)
             )
         } catch (e: Exception) {
-            ToolResult.error("Ping falló: ${e.message}")
+            ToolResult.error("Ping failed: ${e.message}")
         }
     }
 }

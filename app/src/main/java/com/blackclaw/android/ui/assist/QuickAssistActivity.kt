@@ -1023,7 +1023,7 @@ private fun WelcomePanel(status: String, phase: QuickAssistActivity.Phase) {
             Text(status, color = ObsidianGold.Muted, fontSize = 15.sp, textAlign = TextAlign.Center, lineHeight = 21.sp)
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                AssistCapabilityChip("Voz o texto")
+                AssistCapabilityChip("Voice or text")
                 AssistCapabilityChip("Resultados claros")
             }
         }

@@ -624,7 +624,7 @@ class ChatSessionController(
             } catch (error: Exception) {
                 XLog.e(TAG, "Image chat failed", error)
                 postToMain {
-                    replaceTypingIndicator("Error al analizar la imagen: ${error.message}")
+                    replaceTypingIndicator("Error analyzing the image: ${error.message}")
                     uiState.isAwaitingReply.value = false
                 }
             }

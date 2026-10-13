@@ -8,7 +8,7 @@ import com.blackclaw.android.tool.ToolResult
 /** `input swipe x1 y1 x2 y2 [duration_ms]` via Shizuku or paired ADB. */
 class FastSwipeTool : BaseTool() {
     override fun getName() = "fast_swipe"
-    override fun getDisplayName() = "Deslizar rápido"
+    override fun getDisplayName() = "Fast swipe"
     override fun getDescriptionEN() =
         "Swipe from (x1,y1) to (x2,y2) via shell input. ~10x faster than swipe " +
         "and works in games. Requires Shizuku active OR ADB self-paired."
@@ -33,8 +33,8 @@ class FastSwipeTool : BaseTool() {
         val y2 = requireInt(params, "y2")
         val dur = optionalInt(params, "duration_ms", 250).coerceIn(50, 5000)
         if (!PrivilegedShell.execFast("input swipe $x1 $y1 $x2 $y2 $dur")) {
-            return ToolResult.error("input swipe falló")
+            return ToolResult.error("input swipe failed")
         }
-        return ToolResult.success("Swipe rápido ($x1,$y1)→($x2,$y2) en ${dur}ms")
+        return ToolResult.success("Fast swipe ($x1,$y1)→($x2,$y2) in ${dur}ms")
     }
 }

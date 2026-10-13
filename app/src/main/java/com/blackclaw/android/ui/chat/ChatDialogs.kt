@@ -248,7 +248,7 @@ internal fun SendMessageDialog(
         },
         text = {
             Column {
-                Text("Con una IA potente puedes escribir directamente:", fontSize = 11.sp, color = colors.textTertiary)
+                Text("With a powerful AI model, you can write directly:", fontSize = 11.sp, color = colors.textTertiary)
                 Spacer(Modifier.height(2.dp))
                 Text("\"send hi to Mom on WhatsApp\"", fontSize = 11.sp, color = colors.accent.copy(alpha = 0.7f))
                 Spacer(Modifier.height(16.dp))

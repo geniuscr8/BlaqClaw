@@ -11,7 +11,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class VoiceModeTool : BaseTool() {
     override fun getName() = "voice_mode"
-    override fun getDisplayName() = "Modo voz"
+    override fun getDisplayName() = "Voice mode"
     override fun getDescriptionEN() =
         "Enable or disable hands-free voice mode. When on, say the wake word " +
         "('garra' offline, or 'Hey BlaqClaw' online) followed by a command and BlaqClaw listens " +

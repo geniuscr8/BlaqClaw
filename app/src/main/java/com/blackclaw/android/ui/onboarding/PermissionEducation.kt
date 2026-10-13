@@ -403,7 +403,7 @@ fun PermissionOverviewDialog(
                                 Spacer(Modifier.width(4.dp))
                                 Icon(
                                     if (open) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                                    contentDescription = if (open) "Contraer" else "Ver detalle",
+                                    contentDescription = if (open) "Collapse" else "View details",
                                     tint = colors.textTertiary,
                                 )
                             }

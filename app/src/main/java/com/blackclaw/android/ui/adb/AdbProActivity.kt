@@ -107,7 +107,7 @@ private fun AdbProScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Modo Pro", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                        Text("Pro mode", fontSize = 18.sp, fontWeight = FontWeight.Bold,
                             color = colors.textPrimary)
                         Text("ADB integrado · sin Shizuku · sin PC",
                             fontSize = 11.sp, color = colors.textSecondary)
@@ -141,7 +141,7 @@ private fun AdbProScreen(
             // Consent for arbitrary-command tools. Lives here because ToolRiskPolicy's
             // refusal message points the user at "Ajustes → Modo Pro" by name, and
             // without this card those tools are unreachable.
-            Text("PERMISOS DE LA IA",
+                            Text("AI PERMISSIONS",
                 fontSize = 11.sp, fontWeight = FontWeight.Bold,
                 color = colors.textTertiary, letterSpacing = 0.8.sp,
                 modifier = Modifier.padding(bottom = 8.dp))

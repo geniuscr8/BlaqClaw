@@ -43,7 +43,7 @@ class WebAnswerTool : BaseTool() {
         "answer the user directly. This actually retrieves content (unlike web_search which only " +
         "opens a browser)."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "busca en internet y DEVUELVE los resultados como texto para responder"
+    override fun getBrief() = "searches the web and returns results as text for answering"
 
     override fun getParameters() = listOf(
         ToolParameter("query", "string", "What to search for.", true),

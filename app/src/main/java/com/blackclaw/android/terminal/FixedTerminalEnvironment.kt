@@ -78,7 +78,7 @@ object FixedTerminalEnvironment {
             val completed = process.waitFor(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             if (!completed) {
                 process.destroyForcibly()
-                return "timeout después de ${TIMEOUT_SECONDS}s"
+                return "timeout after ${TIMEOUT_SECONDS}s"
             }
             val result = output.join(1_000).orEmpty()
             if (process.exitValue() == 0) result else "[exit ${process.exitValue()}] $result"

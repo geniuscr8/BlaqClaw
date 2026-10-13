@@ -26,7 +26,7 @@ class ListOptionsTool : BaseTool() {
         "Optional 'filter' keeps only items whose text contains it. After choosing, tap(x, y) on " +
         "the entry's coordinates."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "lista los elementos tocables en orden con índice y coordenadas para elegir el correcto"
+    override fun getBrief() = "lists tappable elements in order with indexes and coordinates"
     override fun getParameters() = listOf(
         ToolParameter("filter", "string", "Optional: only include items whose text contains this.", false),
         ToolParameter("limit", "string", "Max items to return (default 20).", false),
@@ -36,11 +36,11 @@ class ListOptionsTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val service = requireAccessibilityService()
-            ?: return ToolResult.error("El servicio de accesibilidad no está activo.")
+            ?: return ToolResult.error("The accessibility service is not active.")
         val filter = optionalString(params, "filter", "").trim().lowercase()
         val limit = optionalString(params, "limit", "20").toIntOrNull()?.coerceIn(1, 40) ?: 20
         val root = service.rootInActiveWindow
-            ?: return ToolResult.error("No pude leer la pantalla.")
+            ?: return ToolResult.error("Could not read the screen.")
 
         val out = ArrayList<Option>()
         val seen = HashSet<String>()
@@ -51,7 +51,7 @@ class ListOptionsTool : BaseTool() {
             .sortedWith(compareBy({ it.top }, { it.left }))
         if (filter.isNotBlank()) items = items.filter { it.label.lowercase().contains(filter) }
         if (items.isEmpty()) {
-            return ToolResult.success("No detecté opciones tocables con etiqueta en pantalla. " +
+            return ToolResult.success("No labeled tappable options were detected on screen. " +
                 "Prueba read_screen_ocr si es una app tipo canvas.")
         }
 

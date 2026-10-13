@@ -93,7 +93,7 @@ fun PrivilegedToolsCard(modifier: Modifier = Modifier) {
             }
             Spacer(Modifier.height(10.dp))
             Text(
-                "Habilita shell_exec, terminal y shell remoto durante " +
+                "Enable shell_exec, terminal, and remote shell for " +
                     "${PrivilegedToolConsent.WINDOW_MS / 60_000} minutos y luego se apaga solo. " +
                     "This is requested separately from Shizuku/ADB because the AI reads screens, notifications, and " +
                     "web pages: if any of them manipulates the AI, it should not be able to open a shell.",
@@ -105,8 +105,8 @@ fun PrivilegedToolsCard(modifier: Modifier = Modifier) {
                 Column {
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        "Estas herramientas siguen bloqueadas para peticiones que llegan por " +
-                            "Telegram, Discord o WeChat, incluso con esto activo.",
+                        "These tools remain blocked for requests received through " +
+                            "Telegram, Discord, or WeChat, even when this is enabled.",
                         fontSize = 11.5.sp,
                         lineHeight = 16.sp,
                         color = ClawPalette.Guard.base,

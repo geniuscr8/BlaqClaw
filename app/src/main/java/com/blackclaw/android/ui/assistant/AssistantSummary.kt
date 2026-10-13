@@ -103,7 +103,7 @@ object AssistantSummary {
             val used = (spent / budget).toFloat().coerceIn(0f, 1f)
             Summary(
                 headline = headline,
-                subtitle = "Mes: ${formatMoney(spent)} de ${formatMoney(budget)}" +
+                subtitle = "Month: ${formatMoney(spent)} of ${formatMoney(budget)}" +
                     if (spent > budget) " · budget exceeded" else "",
                 // Here the bar means "budget consumed", so a full bar is bad news, not
                 // an achievement. The subtitle says so explicitly for that reason.

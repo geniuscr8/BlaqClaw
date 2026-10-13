@@ -16,7 +16,7 @@ import com.blackclaw.android.tool.ToolResult
 /** Scan installed apps and report the riskiest ones with reasons. */
 class SecurityScanTool : BaseTool() {
     override fun getName() = "security_scan"
-    override fun getDisplayName() = "Escaneo de seguridad"
+    override fun getDisplayName() = "Security scan"
     override fun getDescriptionEN() =
         "Scan installed apps for risky traits (overlay/ads permission, accessibility, device-admin, " +
         "ability to install apps, dangerous permissions, sideloaded origin, hidden apps) and return " +

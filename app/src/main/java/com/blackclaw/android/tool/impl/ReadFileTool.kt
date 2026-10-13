@@ -31,7 +31,7 @@ class ReadFileTool : BaseTool() {
             .replace(Regex("[/\\\\\\u0000]"), "_")
         if (name.isEmpty()) {
             val files = dir.listFiles()?.sortedByDescending { it.lastModified() } ?: emptyList()
-            if (files.isEmpty()) return ToolResult.success("(carpeta vacía)")
+            if (files.isEmpty()) return ToolResult.success("(empty folder)")
             return ToolResult.success("Archivos:\n" + files.joinToString("\n") {
                 "- ${it.name} (${it.length() / 1024}KB)"
             })

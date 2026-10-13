@@ -19,7 +19,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class ReadScreenOcrTool : BaseTool() {
     override fun getName() = "read_screen_ocr"
-    override fun getDisplayName() = "Leer pantalla (OCR)"
+    override fun getDisplayName() = "Read screen (OCR)"
     override fun getDescriptionEN() =
         "Read all visible text on screen using OCR (works with games, videos, " +
         "WebView surfaces — anything accessibility can't see). " +

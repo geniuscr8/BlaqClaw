@@ -302,12 +302,12 @@ private fun WirelessAdbInstructions(colors: BlaqClawColors) {
             "\"Pair device with pairing code\". " +
             "Note the port and code shown.",
             colors)
-        StepCard(4, "Inicia Shizuku",
+        StepCard(4, "Start Shizuku",
             "Open the Shizuku app → \"Use wireless debugging\" tab → " +
             "enter the code and port shown earlier. If it asks for auto-pairing, " +
             "use it. You will see \"Service running\" in green.",
             colors)
-        StepCard(5, "Concede el permiso a BlaqClaw",
+        StepCard(5, "Grant permission to BlaqClaw",
             "Return here. The status above should say \"Service running · " +
             "permission needed\". Tap \"Grant permission\" and accept the popup.",
             colors)
@@ -340,7 +340,7 @@ private fun PcInstructions(colors: BlaqClawColors) {
         StepCard(3, "Check that adb sees the phone",
             "Terminal/CMD: `adb devices`. Your device should be listed as \"device\".",
             colors)
-        StepCard(4, "Inicia Shizuku desde el PC",
+        StepCard(4, "Start Shizuku from your PC",
             "Ejecuta:\n" +
             "    adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh\n\n" +
             "(Algunas builds usan /storage/emulated/0/... — la ruta correcta sale en " +

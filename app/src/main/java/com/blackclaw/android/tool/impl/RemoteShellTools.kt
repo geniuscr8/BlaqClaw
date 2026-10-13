@@ -66,7 +66,7 @@ class RemoteShellTool : BaseTool() {
 
 class RemoteConnectTool : BaseTool() {
     override fun getName() = "remote_connect"
-    override fun getDisplayName() = "Conectar PC"
+    override fun getDisplayName() = "Connect PC"
     override fun getDescriptionEN() =
         "Configure a remote SSH connection to a PC/server. Stores credentials locally. " +
         "After this, use remote_shell to execute commands. " +
@@ -118,12 +118,12 @@ class RemoteConnectTool : BaseTool() {
                 } else {
                     ""
                 }
-                ToolResult.success("✓ Conectado a $host como $user. Sistema: $systemInfo$pinNote")
+                ToolResult.success("✓ Connected to $host as $user. System: $systemInfo$pinNote")
             } else {
                 ToolResult.error("Connection established but the test failed. Output: ${testOutput.take(200)}")
             }
         } catch (e: Exception) {
-            ToolResult.error("No pude conectar a $host:$port como $user. Error: ${e.message}. " +
+            ToolResult.error("Could not connect to $host:$port as $user. Error: ${e.message}. " +
                 "Verify that SSH is active on the PC and that the phone is on the same network.")
         }
     }
@@ -131,7 +131,7 @@ class RemoteConnectTool : BaseTool() {
 
 class RemoteDisconnectTool : BaseTool() {
     override fun getName() = "remote_disconnect"
-    override fun getDisplayName() = "Desconectar PC"
+    override fun getDisplayName() = "Disconnect PC"
     override fun getDescriptionEN() = "Remove a saved remote connection."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "delete a saved remote connection"
@@ -202,7 +202,7 @@ class RemoteDiagnoseTool : BaseTool() {
         val osCheck = try {
             SshExecutor.execute(conn, "uname -s 2>/dev/null || echo WINDOWS", 10)
         } catch (e: Exception) {
-            return ToolResult.error("No pude conectar: ${e.message}")
+            return ToolResult.error("Could not connect: ${e.message}")
         }
 
         val isWindows = osCheck.trim().contains("WINDOWS") || osCheck.contains("MINGW") || osCheck.contains("MSYS")

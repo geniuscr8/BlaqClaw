@@ -19,9 +19,9 @@ class PublicIpTool : BaseTool() {
     }
 
     override fun getName() = "public_ip"
-    override fun getDisplayName() = "IP pública"
+    override fun getDisplayName() = "Public IP"
     override fun getDescriptionEN() =
-        "Devuelve la IP pública del dispositivo + país, ciudad y operador (vía ipapi.co, sin API key)."
+        "Returns the device public IP plus country, city, and provider (via ipapi.co, no API key)."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = emptyList<ToolParameter>()
 
@@ -30,7 +30,7 @@ class PublicIpTool : BaseTool() {
         return try {
             client.newCall(req).execute().use { r ->
                 if (!r.isSuccessful) return ToolResult.error("HTTP ${r.code}")
-                val body = r.body?.string() ?: return ToolResult.error("respuesta vacía")
+                val body = r.body?.string() ?: return ToolResult.error("empty response")
                 val json = JSONObject(body)
                 val ip = json.optString("ip", "?")
                 val city = json.optString("city")
@@ -40,13 +40,13 @@ class PublicIpTool : BaseTool() {
                 ToolResult.success(buildString {
                     append("IP: ").append(ip).append("\n")
                     if (city.isNotBlank()) append("Ciudad: ").append(city).append("\n")
-                    if (country.isNotBlank()) append("País: ").append(country).append("\n")
+                    if (country.isNotBlank()) append("Country: ").append(country).append("\n")
                     if (org.isNotBlank()) append("Operador: ").append(org).append("\n")
                     if (tz.isNotBlank()) append("Zona horaria: ").append(tz)
                 })
             }
         } catch (e: Exception) {
-            ToolResult.error("Falló: ${e.message}")
+            ToolResult.error("Failed: ${e.message}")
         }
     }
 }

@@ -29,7 +29,7 @@ class RegexExtractTool : BaseTool() {
             if (matches.isEmpty()) ToolResult.success("Sin coincidencias.")
             else ToolResult.success("${matches.size} coincidencia(s):\n" + matches.joinToString("\n") { "- $it" })
         } catch (e: Exception) {
-            ToolResult.error("Regex inválida: ${e.message}")
+            ToolResult.error("Invalid regex: ${e.message}")
         }
     }
 

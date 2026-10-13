@@ -20,7 +20,7 @@ import com.blackclaw.android.utils.XLog
  */
 class VerifyScreenTool : BaseTool() {
     override fun getName() = "verify_screen"
-    override fun getDisplayName() = "Verificar pantalla"
+    override fun getDisplayName() = "Verify screen"
     override fun getDescriptionEN() =
         "Verify that expected text is (or is NOT) currently on screen. Checks the accessibility " +
         "tree, then OCR as fallback. Use after a critical action to confirm it worked — e.g. " +

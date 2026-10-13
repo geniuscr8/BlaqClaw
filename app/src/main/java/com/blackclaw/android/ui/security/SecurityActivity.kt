@@ -100,7 +100,7 @@ private fun SecurityScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Seguridad", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+                        Text("Security", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                         Text("Apps riesgosas y bloqueo de anuncios", fontSize = 11.sp, color = colors.textSecondary)
                     }
                 },

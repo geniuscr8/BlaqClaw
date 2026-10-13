@@ -35,7 +35,7 @@ class HashTextTool : BaseTool() {
                 .joinToString("") { "%02x".format(it) }
             ToolResult.success("$name: $digest")
         } catch (e: Exception) {
-            ToolResult.error("Hash falló: ${e.message}")
+            ToolResult.error("Hash failed: ${e.message}")
         }
     }
 }

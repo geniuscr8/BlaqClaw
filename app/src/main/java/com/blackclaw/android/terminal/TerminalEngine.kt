@@ -180,22 +180,22 @@ object TerminalEngine {
         FixedTerminalEnvironment.execute(context, cwd, command)
 
     private fun helpText(): String = """
-        Terminal Linux local de BlaqClaw. Comandos:
-          <cmd>             ejecuta en Linux aislado (bash, python3, git, curl, jq…)
+        BlaqClaw local Linux terminal. Commands:
+          <cmd>             run in isolated Linux (bash, python3, git, curl, jq…)
           cd <dir> / pwd    navigation (the session remembers the directory)
           backend [auto|local|privileged]   cambia el backend manual opcional
           whoami            usuario efectivo
           clear             limpia la pantalla
-          adb ...           control por Wireless Debugging (ver 'adb')
-        Local no requiere Shizuku ni ADB. Backend privileged requiere Modo Pro.
+          adb ...           control through Wireless Debugging (see 'adb')
+        Local mode does not require Shizuku or ADB. Privileged backend requires Pro Mode.
     """.trimIndent()
 
     private fun adbHelp(): String = """
-        adb (por Wireless Debugging, sin PC):
-          adb devices                       estado local y remoto
+        adb (through Wireless Debugging, without a PC):
+          adb devices                       local and remote status
           adb pair <host:port> <code>       pair with another device
-          adb connect <host:puerto>         conectar a un dispositivo remoto
-          adb shell <comando>               shell en el remoto (o local si hay Shizuku/ADB)
+          adb connect <host:port>           connect to a remote device
+          adb shell <command>               shell on remote (or local with Shizuku/ADB)
           adb disconnect                    close the remote connection
     """.trimIndent()
 }

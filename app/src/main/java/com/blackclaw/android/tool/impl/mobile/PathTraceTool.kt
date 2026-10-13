@@ -27,7 +27,7 @@ class PathTraceTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("points", "string",
             "JSON array de pares [x,y] en orden. Ej: '[[100,200],[300,400],[500,600]]'.", true),
-        ToolParameter("duration_ms", "integer", "Duración total (default 800ms).", false),
+        ToolParameter("duration_ms", "integer", "Total duration (default 800ms).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -40,10 +40,10 @@ class PathTraceTool : BaseTool() {
                 ?: return ToolResult.error("points debe ser JSON array")
             parsed.map { it.map { n -> n.toInt() } }
         } catch (e: Exception) {
-            return ToolResult.error("JSON inválido: ${e.message}")
+            return ToolResult.error("Invalid JSON: ${e.message}")
         }
         if (arr.size < 2) return ToolResult.error("Necesito al menos 2 puntos")
-        if (arr.size > 32) return ToolResult.error("Máximo 32 puntos")
+        if (arr.size > 32) return ToolResult.error("Maximum 32 points")
         if (arr.any { it.size < 2 }) return ToolResult.error("Cada punto debe ser [x, y]")
         // Validate each point
         for (p in arr) {

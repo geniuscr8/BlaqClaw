@@ -185,7 +185,7 @@ private fun PairedCard(maskedOwner: String, onUnpair: () -> Unit) {
                         .background(ClawPalette.Finance.base),
                 )
                 Spacer(Modifier.width(9.dp))
-                Text("VINCULADO", fontSize = 11.sp, letterSpacing = 1.3.sp,
+                Text("LINKED", fontSize = 11.sp, letterSpacing = 1.3.sp,
                     fontWeight = FontWeight.Bold, color = ClawPalette.Finance.base)
             }
             Spacer(Modifier.height(9.dp))
@@ -196,7 +196,7 @@ private fun PairedCard(maskedOwner: String, onUnpair: () -> Unit) {
             )
             Spacer(Modifier.height(14.dp))
             ClawSecondaryButton(
-                text = "Desvincular",
+                text = "Unlink",
                 icon = Icons.Default.LinkOff,
                 accent = ClawPalette.Danger,
                 onClick = onUnpair,
@@ -210,13 +210,13 @@ private fun LanConfigCard(address: String?, accessCode: String) {
     val running = address != null && accessCode.isNotBlank()
     ClawCard(accent = ClawPalette.Note) {
         Column(Modifier.padding(16.dp)) {
-            Text("CONFIGURAR DESDE EL NAVEGADOR", fontSize = 11.sp, letterSpacing = 1.2.sp,
+            Text("CONFIGURE IN BROWSER", fontSize = 11.sp, letterSpacing = 1.2.sp,
                 fontWeight = FontWeight.Bold, color = ClawPalette.Note.base)
             Spacer(Modifier.height(9.dp))
             if (!running) {
                 Text(
-                    "Enable the configuration server in Settings to edit these " +
-                        "valores desde un navegador.",
+                        "Enable the configuration server in Settings to edit these " +
+                        "values from a browser.",
                     fontSize = 12.5.sp, lineHeight = 18.sp, color = ClawTextColors.Secondary,
                 )
             } else {

@@ -24,7 +24,7 @@ class PinchTool : BaseTool() {
         ToolParameter("amount", "integer",
             "Distancia en pixels entre los dedos al inicio (default 400). " +
             "Cuanto mayor, más zoom.", false),
-        ToolParameter("duration_ms", "integer", "Duración (default 400ms).", false),
+        ToolParameter("duration_ms", "integer", "Duration (default 400ms).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

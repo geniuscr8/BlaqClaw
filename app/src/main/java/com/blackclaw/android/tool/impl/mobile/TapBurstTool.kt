@@ -17,7 +17,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class TapBurstTool : BaseTool() {
     override fun getName() = "tap_burst"
-    override fun getDisplayName() = "Tap rápido x N"
+    override fun getDisplayName() = "Fast tap x N"
     override fun getDescriptionEN() =
         "Hammer the same coordinate N times in a row, frame-aligned. " +
         "count clamped 2..30. interval_ms can be 0 for max speed (~16 ms per tap). " +
@@ -28,7 +28,7 @@ class TapBurstTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("x", "integer", "X coordinate", true),
         ToolParameter("y", "integer", "Y coordinate", true),
-        ToolParameter("count", "integer", "Cuántos taps (2..30).", true),
+        ToolParameter("count", "integer", "Number of taps (2..30).", true),
         ToolParameter("interval_ms", "integer",
             "Pausa entre taps (default 30ms). 0 = lo más rápido posible.", false),
     )

@@ -21,7 +21,7 @@ class JsonQueryTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("json", "string", "JSON crudo a inspeccionar.", true),
-        ToolParameter("path", "string", "Ruta dot/bracket. Vacío = raíz.", false),
+        ToolParameter("path", "string", "Dot/bracket path. Empty means root.", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -41,7 +41,7 @@ class JsonQueryTool : BaseTool() {
             }
             ToolResult.success(text.take(8000))
         } catch (e: Exception) {
-            ToolResult.error("Query falló: ${e.message}")
+            ToolResult.error("Query failed: ${e.message}")
         }
     }
 

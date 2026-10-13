@@ -17,7 +17,7 @@ class UnitConvertTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("value", "number", "Cantidad numérica.", true),
+        ToolParameter("value", "number", "Numeric value.", true),
         ToolParameter("from", "string", "Unidad de origen (km, mi, kg, lb, c, f, …).", true),
         ToolParameter("to", "string", "Unidad de destino.", true),
     )
