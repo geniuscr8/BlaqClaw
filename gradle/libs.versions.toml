@@ -1,5 +1,5 @@
 [versions]
-agp = "9.1.0"
+agp = "9.4.1"
 # Kotlin language/compiler version. The Compose compiler plugin version MUST
 # track this: keeping both behind one ref means an AGP bump that changes the
 # bundled Kotlin can't silently desync the Compose plugin.
