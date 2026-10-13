@@ -52,14 +52,14 @@
     <color name="colorOverlayLabel">#99000000</color>
 
     <!-- ==================== Brand — BlaqClaw Cyan ==================== -->
-    <color name="colorBrandPrimary">#FF0099CC</color>
+    <color name="colorBrandPrimary">#FF5B4BC4</color>
     <color name="colorBrandOnPrimary">#FFFFFFFF</color>
-    <color name="colorBrandContainer">#FFE0F7FF</color>
-    <color name="colorBrandOnContainer">#FF003D52</color>
-    <color name="colorBrandFixedOnContainer">#FF003D52</color>
-    <color name="colorBrandVariant">#FF4DB8D4</color>
-    <color name="colorBrandOnVariant">#FFD0F0FA</color>
-    <color name="colorBrandLowButtonBg">#FFD0F0FA</color>
+    <color name="colorBrandContainer">#FFEAE8FF</color>
+    <color name="colorBrandOnContainer">#FF29205F</color>
+    <color name="colorBrandFixedOnContainer">#FF29205F</color>
+    <color name="colorBrandVariant">#FF7567D9</color>
+    <color name="colorBrandOnVariant">#FFF2F0FF</color>
+    <color name="colorBrandLowButtonBg">#FFEAE8FF</color>
 
     <!-- ==================== Error ==================== -->
     <color name="colorErrorPrimary">#FFEF4444</color>

@@ -115,11 +115,12 @@ private fun VoiceSettingsScreen(
     assistantStatus: com.blackclaw.android.ui.assist.AssistantRole.Status?,
     onOpenAssistantSettings: () -> Unit,
 ) {
-    val bg = Color(0xFF0A0A0F)
-    val surface = Color(0xFF141420)
-    val accent = Color(0xFF00D4FF)
-    val textPrimary = Color(0xFFC8D0E8)
-    val textSecondary = Color(0xFF7A80A0)
+    val theme = ThemeManager.getColors()
+    val bg = Color(theme.bg)
+    val surface = Color(theme.aiBubble)
+    val accent = Color(theme.sendColor)
+    val textPrimary = Color(theme.aiText)
+    val textSecondary = Color(theme.toolDefault)
 
     var whisper by remember { mutableStateOf(WhisperMode.enabled) }
     var modelReady by remember { mutableStateOf(VoskModelManager.isReady()) }

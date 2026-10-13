@@ -54,14 +54,14 @@
     <color name="colorOverlayLabel">#99FFFFFF</color>
 
     <!-- ==================== Brand — Electric Cyan ==================== -->
-    <color name="colorBrandPrimary">#FF00D4FF</color>
-    <color name="colorBrandOnPrimary">#FF0A0A0F</color>
-    <color name="colorBrandContainer">#FF001A22</color>
-    <color name="colorBrandOnContainer">#FF80EEFF</color>
-    <color name="colorBrandFixedOnContainer">#FF003D52</color>
-    <color name="colorBrandVariant">#FF0099BB</color>
-    <color name="colorBrandOnVariant">#FF001A22</color>
-    <color name="colorBrandLowButtonBg">#FF001A22</color>
+    <color name="colorBrandPrimary">#FF8B7CFF</color>
+    <color name="colorBrandOnPrimary">#FF0B0F1A</color>
+    <color name="colorBrandContainer">#FF211E46</color>
+    <color name="colorBrandOnContainer">#FFD8D2FF</color>
+    <color name="colorBrandFixedOnContainer">#FF29205F</color>
+    <color name="colorBrandVariant">#FFA79DFF</color>
+    <color name="colorBrandOnVariant">#FF0B0F1A</color>
+    <color name="colorBrandLowButtonBg">#FF211E46</color>
 
     <!-- ==================== Error ==================== -->
     <color name="colorErrorPrimary">#FFFF6B6B</color>

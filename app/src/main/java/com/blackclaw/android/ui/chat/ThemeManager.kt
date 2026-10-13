@@ -43,15 +43,15 @@ object ThemeManager {
     private val themes = mapOf(
 
         "blaqclaw_dark" to ChatColors(
-            bg = c("#0A0A0F"), toolbarBg = c("#0F0F1A"),
-            userBubble = c("#0066CC"), userText = c("#F0F8FF"),
-            aiBubble = c("#141420"), aiBubbleBorder = c("#1E1E30"),
-            aiText = c("#C8D0E8"), avatarBg = c("#0055AA"),
-            inputBorder = c("#1E1E30"), sendColor = c("#00D4FF"),
-            toolOk = c("#00D4FF"), toolDefault = c("#3A3A55"),
-            divider = c("#0F0F1A"),
-            accentSecondary = c("#5DE9FF"),
-            gradientStart = c("#00D4FF"), gradientEnd = c("#0066CC"),
+            bg = c("#0B0F1A"), toolbarBg = c("#101729"),
+            userBubble = c("#4F46C7"), userText = c("#F8F7FF"),
+            aiBubble = c("#151B2D"), aiBubbleBorder = c("#252D48"),
+            aiText = c("#D8DBF0"), avatarBg = c("#3730A3"),
+            inputBorder = c("#252D48"), sendColor = c("#8B7CFF"),
+            toolOk = c("#67E8F9"), toolDefault = c("#3B4568"),
+            divider = c("#101729"),
+            accentSecondary = c("#67E8F9"),
+            gradientStart = c("#B8B0FF"), gradientEnd = c("#4F46C7"),
         ),
 
         "midnight_dark" to ChatColors(
@@ -164,7 +164,7 @@ object ThemeManager {
     )
 
     val allThemes: List<Triple<String, String, String>> = listOf(
-        Triple("blaqclaw_dark", "BlaqClaw",  "Electric cyan on charcoal"),
+            Triple("blaqclaw_dark", "BlaqClaw",  "Indigo violet with cyan highlights"),
         Triple("midnight_dark",  "Midnight",   "Violet on deep blue"),
         Triple("aurora_dark",    "Aurora",     "Boreal green and violet"),
         Triple("cyberpunk_dark", "Cyberpunk",  "Neon pink and cyan"),

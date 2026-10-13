@@ -114,8 +114,8 @@ object ClawPalette {
     /** The product's own identity colour. Primary actions, the claw orb, branding. */
     val Signature = ClawAccent(
         name = "signature",
-        base = Color(0xFF00D4FF), light = Color(0xFF7DE9FF), deep = Color(0xFF0077A3),
-        onAccent = Color(0xFF001A22),
+        base = Color(0xFF8B7CFF), light = Color(0xFFB8B0FF), deep = Color(0xFF5946C7),
+        onAccent = Color(0xFF0B0F1A),
     )
 
     /** Security/consent surfaces: pairing codes, privileged toggles. */
