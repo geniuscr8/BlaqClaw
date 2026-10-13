@@ -63,10 +63,32 @@ jobs:
           EOF
 
       - name: Build signed release APK
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease bundleRelease testReleaseUnitTest lintRelease
+
+      - name: Validate release version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          expected="${RELEASE_TAG#v}"
+          actual="$(./gradlew -q :app:printAppVersion | tail -n 1 | cut -d+ -f1)"
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::Release tag $RELEASE_TAG does not match app version $actual"
+            exit 1
+          fi
+
+      - name: Verify APK signatures
+        run: |
+          for apk in app/build/outputs/apk/release/*.apk; do
+            apksigner verify --verbose "$apk"
+          done
 
       - name: Generate release checksums
-        run: sha256sum app/build/outputs/apk/release/*.apk > app/build/outputs/apk/release/SHA256SUMS.txt
+        run: |
+          find app/build/outputs/apk/release app/build/outputs/bundle/release \
+            -maxdepth 1 -type f \( -name '*.apk' -o -name '*.aab' \) -print0 \
+            | sort -z | xargs -0 sha256sum > SHA256SUMS.txt
 
       - name: Extract release notes from README
         env:
@@ -100,7 +122,9 @@ jobs:
           name: ${{ github.ref_name }}
           files: |
             app/build/outputs/apk/release/*.apk
-            app/build/outputs/apk/release/SHA256SUMS.txt
+            app/build/outputs/bundle/release/*.aab
+            SHA256SUMS.txt
+            app/build/outputs/mapping/release/mapping.txt
           body_path: release-notes.md
           draft: false
           prerelease: false

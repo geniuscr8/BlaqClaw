@@ -40,8 +40,30 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: gradle-
 
-      - name: Build universal debug APK
-        run: ./gradlew assembleDebug
+      - name: Prepare release signing
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          missing=0
+          for var in ANDROID_KEYSTORE_B64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!var}" ]; then echo "::error::Missing required Actions secret: $var"; missing=1; fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
+          key_path="$RUNNER_TEMP/blaqclaw-release.keystore"
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > "$key_path"
+          cat > local.properties <<EOF
+          KEYSTORE_FILE=$key_path
+          KEYSTORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
+          KEY_ALIAS=$ANDROID_KEY_ALIAS
+          KEY_PASSWORD=$ANDROID_KEY_PASSWORD
+          EOF
+
+      - name: Build signed universal APK
+        run: ./gradlew assembleRelease
 
       - name: Publish permanent GitHub Release asset
         env:
@@ -55,9 +77,8 @@ jobs:
           while IFS= read -r old_tag; do
             [ -z "$old_tag" ] || gh release delete "$old_tag" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
           done <<< "$old_tags"
-          gh release create "$tag" app/build/outputs/apk/debug/*universal*.apk \
+          gh release create "$tag" app/build/outputs/apk/release/*universal*.apk \
             --repo "$GITHUB_REPOSITORY" \
             --title "BlaqClaw Universal APK ($tag)" \
-            --notes "Universal debug APK built from commit $GITHUB_SHA. This stable release replaces the previous universal APK and does not expire like a GitHub Actions artifact." \
-            --prerelease \
+            --notes "Signed universal APK built from commit $GITHUB_SHA. This stable release replaces the previous universal APK and does not expire like a GitHub Actions artifact." \
             --latest=false

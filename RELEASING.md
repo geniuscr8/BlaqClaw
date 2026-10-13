@@ -61,7 +61,14 @@ git tag -a vX.Y.Z -m "vX.Y.Z"
 git push blaqclaw vX.Y.Z
 ```
 
-The GitHub Actions workflow will then create the GitHub Release, upload the signed APK, and attach `SHA256SUMS.txt`.
+The GitHub Actions workflow will then create the GitHub Release, upload the signed
+APK and Play-compatible AAB, attach `SHA256SUMS.txt`, and publish the release
+mapping file for crash diagnosis. The workflow also runs release unit tests,
+release lint, and APK signature verification before publishing.
+
+The stable direct-download workflow uses the same signing secrets and publishes
+one signed `universal-latest` APK. It removes the previous universal release so
+the direct-download link always points to the newest production-signed build.
 
 ## Optional: local upgrade smoke test
 

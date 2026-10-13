@@ -72,7 +72,7 @@ android {
             readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.3"),
         )
         buildConfigField("String", "VERSION_INFO", getVersionGit())
-        buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw by BlaqClaw | github.com/tuangel134/BlaqClaw\"")
+        buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw | github.com/geniuscr8/BlaqClaw\"")
         buildConfigField("String", "BUILD_FINGERPRINT", "\"${getBuildFingerprint()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -156,6 +156,12 @@ android {
 
     androidResources {
         noCompress += "zip"
+    }
+}
+
+tasks.register("printAppVersion") {
+    doLast {
+        println("${android.defaultConfig.versionName}+${android.defaultConfig.versionCode}")
     }
 }
 

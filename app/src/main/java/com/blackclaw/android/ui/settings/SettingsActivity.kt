@@ -155,7 +155,7 @@ class SettingsActivity : BaseActivity() {
                     onReportBug = { SettingsActions.reportBug(activity) },
                     onShareDebugReport = { SettingsActions.shareDebugReport(activity) },
                     onOpenGitHub = {
-                        activity.startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/tuangel134/BlaqClaw")))
+                        activity.startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/geniuscr8/BlaqClaw")))
                     },
                     onEditGlobalPrompt = { activity.showGlobalPromptDialog() },
                 )

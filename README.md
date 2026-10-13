@@ -38,6 +38,9 @@ the task is complete.
 - [Reporting bugs](#reporting-bugs)
 - [License](#license)
 
+For the production privacy overview, see [`PRIVACY.md`](PRIVACY.md). For signed
+release operations, see [`docs/PRODUCTION_RELEASE_CHECKLIST.md`](docs/PRODUCTION_RELEASE_CHECKLIST.md).
+
 ## What BlaqClaw does
 
 ### Control apps through the Android UI
@@ -178,7 +181,7 @@ automation profiles and proactive actions regularly.
 ## Installation
 
 1. Download a signed APK from the [Releases](https://github.com/geniuscr8/BlaqClaw/releases)
-   page or download the `debug-apk` artifact from a successful
+   page or download the `complete-debug-apks` artifact from a successful
    [GitHub Actions build](https://github.com/geniuscr8/BlaqClaw/actions/workflows/build.yml).
 2. Enable installation from the source you are using when Android asks.
 3. Open BlaqClaw and complete the guided setup.
@@ -246,7 +249,7 @@ manually. It performs the following checks:
 
 1. installs the Android SDK;
 2. builds the debug APK;
-3. uploads the APK as the `debug-apk` artifact;
+3. uploads the APK as the `complete-debug-apks` artifact;
 4. runs unit tests;
 5. runs Android lint and uploads diagnostic reports.
 

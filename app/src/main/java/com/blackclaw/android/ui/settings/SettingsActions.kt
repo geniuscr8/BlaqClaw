@@ -60,7 +60,7 @@ object SettingsActions {
     }
 
     private fun openGitHubIssue(activity: Activity, report: File) {
-        val uri = "https://github.com/tuangel134/BlaqClaw/issues/new".toUri()
+        val uri = "https://github.com/geniuscr8/BlaqClaw/issues/new".toUri()
             .buildUpon()
             .appendQueryParameter("title", "[Bug] ${Build.MANUFACTURER} ${Build.MODEL} - ")
             .appendQueryParameter("body", buildIssueBody(report))

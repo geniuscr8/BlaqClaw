@@ -159,7 +159,7 @@ object DebugReportManager {
             appendLine("adb shell dumpsys activity top > blaqclaw-activity-top.txt")
             appendLine("adb shell dumpsys activity services com.blackclaw.android > blaqclaw-services.txt")
             appendLine()
-            appendLine("Open a new GitHub issue: https://github.com/tuangel134/BlaqClaw")
+            appendLine("Open a new GitHub issue: https://github.com/geniuscr8/BlaqClaw")
             appendLine("Built on: ${Date()}")
             appendLine("Package: ${context.packageName}")
         }

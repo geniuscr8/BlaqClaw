@@ -32,9 +32,9 @@ object AppUpdater {
 
     private const val TAG = "AppUpdater"
     private const val RELEASES_API =
-        "https://api.github.com/repos/tuangel134/BlaqClaw/releases/latest"
+        "https://api.github.com/repos/geniuscr8/BlaqClaw/releases/latest"
     private const val RELEASES_PAGE =
-        "https://github.com/tuangel134/BlaqClaw/releases/latest"
+        "https://github.com/geniuscr8/BlaqClaw/releases/latest"
     private const val CHECK_INTERVAL_MS = 12L * 60 * 60 * 1000 // twice a day
     private const val KEY_LAST_CHECK = "last_update_check"
     private const val APK_NAME = "BlaqClaw-update.apk"
