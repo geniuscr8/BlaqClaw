@@ -235,7 +235,7 @@ dependencies {
     implementation(libs.zstd.jni)
     implementation(libs.xz)
     // Streaming TAR reader for the signed, versioned Linux rootfs bootstrap.
-    implementation("org.apache.commons:commons-compress:1.26.2")
+    implementation("org.apache.commons:commons-compress:1.28.0")
 
     // Shizuku — optional bridge to ADB-level shell access via the user's
     // pre-installed Shizuku app. Lets us run `input tap`, `am force-stop`, etc.
