@@ -29,6 +29,7 @@
     <color name="colorBgPrimary">#FFF8F9FC</color>
     <color name="colorBgSecondary">#FFEEF0F6</color>
     <color name="colorBgTertiary">#FFFFFFFF</color>
+    <color name="colorIconBackground">#FFEEF0F6</color>
 
     <!-- ==================== Chat (BlaqClaw Light) ==================== -->
     <color name="colorChatUserBubble">#FF0066CC</color>

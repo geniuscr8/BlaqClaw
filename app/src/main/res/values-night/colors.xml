@@ -31,6 +31,7 @@
     <color name="colorBgPrimary">#FF0A0A0F</color>
     <color name="colorBgSecondary">#FF0F0F1A</color>
     <color name="colorBgTertiary">#FF141420</color>
+    <color name="colorIconBackground">#FF0B0F1A</color>
 
     <!-- ==================== Chat (BlaqClaw Dark — Cyan accent) ==================== -->
     <color name="colorChatUserBubble">#FF0066CC</color>
