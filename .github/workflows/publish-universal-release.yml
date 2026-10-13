@@ -47,10 +47,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          tag="universal-${GITHUB_SHA::12}"
+          # Keep one stable, non-expiring download instead of accumulating old APKs.
+          tag="universal-latest"
+          old_tags=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 100 \
+            --json tagName,name,isPrerelease \
+            --jq '.[] | select(.isPrerelease == true and (.name | startswith("BlaqClaw Universal APK"))) | .tagName')
+          while IFS= read -r old_tag; do
+            [ -z "$old_tag" ] || gh release delete "$old_tag" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+          done <<< "$old_tags"
           gh release create "$tag" app/build/outputs/apk/debug/*universal*.apk \
             --repo "$GITHUB_REPOSITORY" \
             --title "BlaqClaw Universal APK ($tag)" \
-            --notes "Universal debug APK built from commit $GITHUB_SHA. This release asset does not expire like a GitHub Actions artifact." \
+            --notes "Universal debug APK built from commit $GITHUB_SHA. This stable release replaces the previous universal APK and does not expire like a GitHub Actions artifact." \
             --prerelease \
             --latest=false
