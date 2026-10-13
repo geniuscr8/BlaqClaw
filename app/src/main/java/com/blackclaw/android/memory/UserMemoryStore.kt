@@ -1,6 +1,7 @@
 package com.blackclaw.android.memory
 
 import org.json.JSONObject
+import org.json.JSONArray
 import java.util.UUID
 
 /**
@@ -52,6 +53,18 @@ object UserMemoryStore {
     }
 
     fun all(): List<Fact> = store.all()
+
+    @Synchronized
+    fun exportJson(): JSONArray = JSONArray().also { array -> all().forEach { array.put(it.toJson()) } }
+
+    @Synchronized
+    fun importJson(array: JSONArray): Int {
+        val restored = (0 until array.length()).mapNotNull { index ->
+            runCatching { Fact.fromJson(array.getJSONObject(index)) }.getOrNull()
+        }.filter { it.key.isNotBlank() }.takeLast(MAX_FACTS)
+        if (!store.replaceAll(restored).containsAll(restored)) return 0
+        return restored.size
+    }
 
     /**
      * Keep the [max] most recently touched facts.

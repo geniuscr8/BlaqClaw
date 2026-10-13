@@ -149,6 +149,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.settings.ControlCenterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.settings.EmergencySettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

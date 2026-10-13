@@ -211,6 +211,23 @@ object AutomationProfileStore {
         }
     }
 
+    /** Portable encrypted-backup bridge. The returned JSON contains no secrets. */
+    @Synchronized
+    fun exportJson(): JSONArray = JSONArray().also { array -> list().forEach { array.put(it.toJson()) } }
+
+    /** Replace profiles from a validated backup. Profiles remain disabled on restore. */
+    @Synchronized
+    fun importJson(array: JSONArray): Int {
+        val restored = (0 until array.length()).mapNotNull { index ->
+            runCatching { Profile.fromJson(array.getJSONObject(index)).copy(enabled = false, approvedAtMs = 0L) }
+                .getOrNull()
+        }.map { it.copy(id = it.id.ifBlank { UUID.randomUUID().toString().take(8) }) }
+        val valid = restored.filter { AutomationProfileValidator.validate(it).isEmpty() }.takeLast(MAX_PROFILES)
+        if (valid.isEmpty() && array.length() > 0) return 0
+        if (!save(valid)) return 0
+        return valid.size
+    }
+
     fun find(idOrName: String): Profile? = list().firstOrNull {
         it.id == idOrName || it.name.equals(idOrName, ignoreCase = true)
     }

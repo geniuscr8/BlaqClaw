@@ -142,6 +142,7 @@ class SettingsActivity : BaseActivity() {
                     onOpenAdbPro = { activity.startActivity(Intent(activity, com.blackclaw.android.ui.adb.AdbProActivity::class.java)) },
                     onOpenTerminal = { activity.startActivity(Intent(activity, com.blackclaw.android.ui.terminal.TerminalActivity::class.java)) },
                     onOpenSecurity = { activity.startActivity(Intent(activity, com.blackclaw.android.ui.security.SecurityActivity::class.java)) },
+                    onOpenControlCenter = { activity.startActivity(Intent(activity, ControlCenterActivity::class.java)) },
                     onOpenMemoryPrivacy = { activity.startActivity(Intent(activity, MemoryPrivacyActivity::class.java)) },
                     onOpenEmergency = { activity.startActivity(Intent(activity, EmergencySettingsActivity::class.java)) },
                     onOpenZimLibrary = { activity.startActivity(Intent(activity, com.blackclaw.android.knowledge.ZimLibraryActivity::class.java)) },
@@ -233,6 +234,7 @@ private fun ModernSettingsScreen(
     onOpenAdbPro: () -> Unit,
     onOpenTerminal: () -> Unit,
     onOpenSecurity: () -> Unit,
+    onOpenControlCenter: () -> Unit,
     onOpenMemoryPrivacy: () -> Unit,
     onOpenEmergency: () -> Unit,
     onOpenZimLibrary: () -> Unit,
@@ -311,6 +313,16 @@ private fun ModernSettingsScreen(
                     trailingHighlight = true,
                     colors = colors,
                     onClick = onOpenGuide,
+                )
+                Divider(colors)
+                NavRow(
+                    icon = Icons.Outlined.Dashboard,
+                    title = "Control Center",
+                    subtitle = "Health checks, backup, privacy, templates, and integrations",
+                    trailing = "Open",
+                    trailingHighlight = true,
+                    colors = colors,
+                    onClick = onOpenControlCenter,
                 )
             }
 

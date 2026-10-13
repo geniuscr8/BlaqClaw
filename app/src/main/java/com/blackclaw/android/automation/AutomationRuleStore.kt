@@ -67,6 +67,20 @@ object AutomationRuleStore {
         }.getOrDefault(emptyList())
     }
 
+    @Synchronized
+    fun exportJson(): JSONArray = JSONArray().also { array -> list().forEach { array.put(it.toJson()) } }
+
+    /** Restore rules disabled so importing a backup cannot start automation silently. */
+    @Synchronized
+    fun importJson(array: JSONArray): Int {
+        val restored = (0 until array.length()).mapNotNull { index ->
+            runCatching { Rule.fromJson(array.getJSONObject(index)).copy(enabled = false) }.getOrNull()
+        }.takeLast(MAX_RULES)
+        if (restored.isEmpty() && array.length() > 0) return 0
+        if (!save(restored)) return 0
+        return restored.size
+    }
+
     @Synchronized fun create(
         name: String, trigger: Trigger, match: String, packageName: String, actionText: String,
         latitude: Double = 0.0, longitude: Double = 0.0, radiusM: Float = 150f, cooldownMs: Long = 300_000L,
