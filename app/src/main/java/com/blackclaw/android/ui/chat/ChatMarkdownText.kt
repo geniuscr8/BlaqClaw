@@ -288,7 +288,7 @@ private fun CodeBlock(
                         modifier = Modifier.size(13.dp),
                     )
                     Text(
-                        if (copied) "Copiado" else "Copiar",
+                        if (copied) "Copied" else "Copy",
                         fontSize = fontSize * 0.85f,
                         color = if (copied) colors.accent else colors.textTertiary,
                     )

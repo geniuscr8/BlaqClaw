@@ -75,8 +75,8 @@ object ChannelAuthorization {
                 Result(
                     allowed = true,
                     justPaired = true,
-                    reply = "✅ Vinculado. Esta cuenta ahora controla BlaqClaw por ${channel.displayName}. " +
-                        "Puedes desvincularla desde Ajustes → Canales en el teléfono.",
+                    reply = "✅ Linked. This account now controls BlaqClaw through ${channel.displayName}. " +
+                        "You can unlink it from Settings → Channels on the phone.",
                 )
             }
 
@@ -88,11 +88,11 @@ object ChannelAuthorization {
                     allowed = false,
                     justPaired = false,
                     reply = if (hasCode) {
-                        "🔒 Este canal no está vinculado. Abre BlaqClaw en el teléfono " +
-                            "(Ajustes → Canales), copia el código de vinculación y envíamelo."
+                        "🔒 This channel is not linked. Open BlaqClaw on the phone " +
+                            "(Settings → Channels), copy the pairing code, and send it to me."
                     } else {
-                        "🔒 Este canal no está vinculado y no hay código activo. " +
-                            "Genera uno en el teléfono: Ajustes → Canales."
+                        "🔒 This channel is not linked and has no active code. " +
+                            "Generate one on the phone: Settings → Channels."
                     },
                 )
             }
@@ -109,8 +109,8 @@ object ChannelAuthorization {
                 Result(
                     allowed = false,
                     justPaired = false,
-                    reply = "⛔ Demasiados intentos fallidos. Genera un código nuevo en el teléfono " +
-                        "(Ajustes → Canales) para volver a intentarlo.",
+                    reply = "⛔ Too many failed attempts. Generate a new code on the phone " +
+                        "(Settings → Channels) to try again.",
                 )
             }
         }

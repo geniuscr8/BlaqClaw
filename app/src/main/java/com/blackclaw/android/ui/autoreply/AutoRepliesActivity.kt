@@ -112,7 +112,7 @@ private fun AutoRepliesScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Auto-respuestas", fontSize = 18.sp,
+                        Text("Auto-replies", fontSize = 18.sp,
                             fontWeight = FontWeight.Bold, color = colors.textPrimary)
                         Text("La IA responde por ti", fontSize = 11.sp,
                             color = colors.textSecondary)

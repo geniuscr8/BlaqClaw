@@ -131,14 +131,14 @@ object ZimDiscovery {
      */
     fun explainEmptyResult(hasFullStorageAccess: Boolean, splitPartNames: List<String>): String = when {
         !hasFullStorageAccess ->
-            "Necesito permiso de acceso a todos los archivos para leer bibliotecas ZIM. " +
-                "Kiwix las guarda en Android/media, y sin ese permiso Android me oculta esa carpeta."
+            "I need all-files access permission to read ZIM libraries. " +
+                "Kiwix stores them in Android/media, and Android hides that folder without permission."
         splitPartNames.isNotEmpty() ->
-            "Encontré una biblioteca dividida en partes (${splitPartNames.take(3).joinToString(", ")}" +
-                "${if (splitPartNames.size > 3) ", …" else ""}), y todavía no sé unirlas. " +
-                "Descarga el .zim en un solo archivo."
+            "I found a library split into parts (${splitPartNames.take(3).joinToString(", ")}" +
+                "${if (splitPartNames.size > 3) ", …" else ""}), but I cannot join them yet. " +
+                "Download the .zim as a single file."
         else ->
-            "No encontré archivos .zim. Busqué en Descargas, Documentos y en la carpeta de Kiwix " +
-                "(Android/media), en la memoria interna y en la tarjeta SD."
+            "I could not find any .zim files. I searched Downloads, Documents, the Kiwix folder " +
+                "(Android/media), internal storage, and the SD card."
     }
 }

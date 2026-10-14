@@ -25,14 +25,14 @@ import java.util.concurrent.TimeUnit
 
 class RemoteShellTool : BaseTool() {
     override fun getName() = "remote_shell"
-    override fun getDisplayName() = "Shell remoto"
+    override fun getDisplayName() = "Remote shell"
     override fun getDescriptionEN() =
         "Execute a command on a remote machine (PC/server) via SSH. " +
         "The user must have configured a connection first (remote_connect). " +
         "Use for diagnosing/fixing the user's PC: network issues, process management, " +
         "disk space, service restarts, etc. Output capped at 8KB."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "ejecuta un comando en un PC/servidor remoto via SSH"
+    override fun getBrief() = "executes a command on a remote PC/server via SSH"
     override fun getParameters() = listOf(
         ToolParameter("command", "string", "Shell command to execute on the remote machine.", true),
         ToolParameter("host", "string", "Optional: target host alias or IP. Default: last connected.", false),
@@ -59,7 +59,7 @@ class RemoteShellTool : BaseTool() {
             ToolResult.success(output.ifBlank { "(sin output)" })
         } catch (e: Exception) {
             XLog.w("RemoteShell", "Remote command failed: ${e.message}")
-            ToolResult.error("Error ejecutando en ${conn.host}: ${e.message}")
+            ToolResult.error("Error executing on ${conn.host}: ${e.message}")
         }
     }
 }

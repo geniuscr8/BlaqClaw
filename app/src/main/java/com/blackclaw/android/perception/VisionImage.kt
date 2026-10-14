@@ -27,7 +27,7 @@ object VisionImageLoader {
             ?: "image/jpeg"
         val bytes = context.contentResolver.openInputStream(uri)?.use { input ->
             readBounded(input)
-        } ?: throw IllegalStateException("No pude abrir la imagen seleccionada")
+        } ?: throw IllegalStateException("I could not open the selected image")
         val ocrText = runCatching { ImageOcr.recognizeUri(uri) }.getOrDefault("")
         return VisionImage(bytes = bytes, mimeType = mimeType, ocrText = ocrText)
     }

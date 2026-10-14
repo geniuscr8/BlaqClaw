@@ -277,7 +277,7 @@ object PermissionEducationCatalog {
             PermissionTopic.INTERNET,
             "Internet",
             "Connect cloud models, web searches, channels, downloads, and updates.",
-            "Las funciones online necesitan conectividad de red. Los modelos locales, ZIM y varias herramientas siguen funcionando sin internet.",
+            "Online features need network connectivity. Local models, ZIM files, and several tools continue working without internet.",
             "Cloud providers, web searches, Telegram/Discord/WeChat, and downloads will not work while offline.",
             "Android grants this permission at install time; it has no runtime dialog. BlaqClaw connects only to services required by the feature you use or configure.",
             optional = false,

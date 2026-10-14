@@ -17,7 +17,7 @@ class GameRecordMacroTool : BaseTool() {
         "Open the visible accessibility autoclicker editor over a game. It records configured taps and " +
         "swipes without ADB or Shizuku and saves named macros from the floating panel."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "abre un editor flotante para colocar y guardar taps/swipes sin ADB"
+    override fun getBrief() = "opens a floating editor to place and save taps/swipes without ADB"
     override fun getParameters() = listOf(
         ToolParameter("operation", "string", "open/start, close o status", true),
         ToolParameter("name", "string", "Nombre de la macro para start", false),
@@ -80,7 +80,7 @@ class GameMacroTool : BaseTool() {
             val foreground = GameScreenState.revealAndGetGamePackage()
             if (foreground != macro.packageName) {
                 val launch = ClawApplication.instance.packageManager.getLaunchIntentForPackage(macro.packageName)
-                    ?: return ToolResult.error("No encuentro instalada la app ${macro.packageName}.")
+                    ?: return ToolResult.error("Could not find installed app ${macro.packageName}.")
                 launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
                 ClawApplication.instance.startActivity(launch)
                 Thread.sleep(1_200L)

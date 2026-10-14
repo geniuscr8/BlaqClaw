@@ -106,27 +106,26 @@ object SmartHomeWebhookPolicy {
     fun validateMethod(method: String): String? {
         val normalized = method.trim().uppercase()
         if (normalized.isEmpty() || normalized in ALLOWED_METHODS) return null
-        return "Método HTTP '$method' no permitido para un webhook. " +
-            "Usa uno de: ${ALLOWED_METHODS.sorted().joinToString(", ")}."
+        return "HTTP method '$method' is not allowed for a webhook. " +
+            "Use one of: ${ALLOWED_METHODS.sorted().joinToString(", ")}."
     }
 
     fun errorMessage(verdict: Verdict, url: String): String = when (verdict) {
         Verdict.OK -> ""
         Verdict.NOT_A_URL ->
-            "El webhook '$url' no es una URL https válida. Debe empezar por https:// e " +
-                "incluir un host."
+            "Webhook '$url' is not a valid https URL. It must start with https:// and " +
+                "include a host."
         Verdict.SCHEME_NOT_HTTPS ->
-            "El webhook debe usar https, no http. Sin TLS, la petición y sus cabeceras " +
-                "(incluidos tokens de tu hub) viajan en claro y cualquiera en la red puede " +
-                "leerlas o modificarlas. URL rechazada: $url"
+            "The webhook must use https, not http. Without TLS, the request and its headers " +
+                "(including hub tokens) are exposed and can be read or modified. Rejected URL: $url"
         Verdict.INTERNAL_ADDRESS ->
-            "El webhook apunta a una dirección interna del dispositivo o de la red local " +
-                "($url). Un webhook de domótica no tiene ninguna razón para llamar a " +
-                "localhost ni a la LAN, y permitirlo dejaría alcanzar servicios internos " +
-                "del propio teléfono. Usa la URL pública https de tu hub o servicio."
+            "The webhook points to an internal device or local-network address " +
+                "($url). A smart-home webhook has no reason to call localhost or the LAN, " +
+                "and allowing it could reach internal services on the phone. Use your hub " +
+                "or service's public https URL."
         Verdict.IP_LITERAL_NOT_ALLOWED ->
-            "El webhook usa una dirección IPv6 literal ($url), que no se acepta. Usa el " +
-                "nombre de host https del servicio."
+            "The webhook uses an IPv6 literal address ($url), which is not accepted. Use the " +
+                "service's https hostname."
     }
 
     // ── Host classification ───────────────────────────────────────────────────

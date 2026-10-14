@@ -758,7 +758,7 @@ class LlmConfigActivity : BaseActivity() {
         // rather than hidden in a menu: Zen's free catalog changes often and the
         // user needs an explicit way to re-check it without waiting for the TTL.
         val refreshZenModelsButton = TextView(this).apply {
-            text = "↻ Actualizar modelos gratis"
+            text = "↻ Refresh free models"
             textSize = 13f
             gravity = Gravity.CENTER
             setTextColor(getColor(R.color.colorBrandPrimary))
@@ -767,7 +767,7 @@ class LlmConfigActivity : BaseActivity() {
                 cornerRadius = dp(10).toFloat()
                 setStroke(dp(1), getColor(R.color.colorBrandPrimary))
             }
-            contentDescription = "Actualizar modelos gratis de BlaqClaw Free"
+            contentDescription = "Refresh BlaqClaw Free models"
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -874,15 +874,15 @@ class LlmConfigActivity : BaseActivity() {
         refreshZenModelsButton.setOnClickListener {
             if (selectedProvider != CloudProvider.OPENCODE_ZEN) return@setOnClickListener
             refreshZenModelsButton.isEnabled = false
-            refreshZenModelsButton.text = "↻ Actualizando modelos…"
+                        refreshZenModelsButton.text = "↻ Refreshing models…"
             com.blackclaw.android.agent.OpenCodeZenModels.refreshNow { result ->
                 runOnUiThread {
                     refreshZenModelsButton.isEnabled = true
-                    refreshZenModelsButton.text = "↻ Actualizar modelos gratis"
+                    refreshZenModelsButton.text = "↻ Refresh free models"
                     if (selectedProvider == CloudProvider.OPENCODE_ZEN) {
                         renderModels()
                         val message = if (result.updated) {
-                            "${result.ids.size} modelos gratis actualizados"
+                            "${result.ids.size} free models refreshed"
                         } else {
                             "Update failed; keeping the available list"
                         }

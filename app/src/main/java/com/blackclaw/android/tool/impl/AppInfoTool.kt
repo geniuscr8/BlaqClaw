@@ -48,7 +48,7 @@ class AppInfoTool : BaseTool() {
         return ToolResult.success(buildString {
             appendLine("App: $label")
             appendLine("Paquete: ${info.packageName}")
-            appendLine("Versión: ${info.versionName} (${info.longVersionCode})")
+                appendLine("Version: ${info.versionName} (${info.longVersionCode})")
             appendLine("Instalada: ${df.format(Date(info.firstInstallTime))}")
             appendLine("Actualizada: ${df.format(Date(info.lastUpdateTime))}")
             ai?.let {
@@ -58,7 +58,7 @@ class AppInfoTool : BaseTool() {
                 appendLine("Es del sistema: ${(it.flags and android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0}")
             }
             if (perms.isNotEmpty()) {
-                appendLine("Permisos (${info.requestedPermissions?.size}):")
+                appendLine("Permissions (${info.requestedPermissions?.size}):")
                 perms.forEach { appendLine("  - $it") }
             }
         })

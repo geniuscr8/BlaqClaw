@@ -13,14 +13,14 @@ class ConnectivityCheckTool : BaseTool() {
     override fun getName() = "connectivity_check"
     override fun getDisplayName() = "Conectividad"
     override fun getDescriptionEN() =
-        "Resume el estado de la red: tipo, validado, capabilities, sin conexión, etc."
+        "Summarizes network state: type, validation, capabilities, offline status, etc."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = emptyList<ToolParameter>()
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val cm = ClawApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val net = cm.activeNetwork
-            ?: return ToolResult.success("Sin conexión (modo avión / fuera de cobertura).")
+            ?: return ToolResult.success("No connection (airplane mode / out of coverage).")
         val caps = cm.getNetworkCapabilities(net)
             ?: return ToolResult.success("Red activa pero sin capabilities (raro).")
         val transport = when {

@@ -28,7 +28,7 @@ class CountTool : BaseTool() {
         val lines = t.lines().size
         val approxTokens = (chars / 4).coerceAtLeast(1)  // rough heuristic
         return ToolResult.success(
-            "Caracteres: $chars (sin espacios: $charsNoSpace) · Palabras: $words · Líneas: $lines · ≈Tokens: $approxTokens"
+            "Characters: $chars (without spaces: $charsNoSpace) · Words: $words · Lines: $lines · ≈Tokens: $approxTokens"
         )
     }
 }

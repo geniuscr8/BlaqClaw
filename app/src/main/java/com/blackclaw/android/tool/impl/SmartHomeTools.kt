@@ -30,7 +30,7 @@ class SmartHomeTool : BaseTool() {
         "Resolves the device name to a configured webhook and fires it. " +
         "Use list_devices to see available devices. Supports Home Assistant, IFTTT, and custom webhooks."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "controla dispositivos del hogar inteligente (luces, enchufes, etc.)"
+    override fun getBrief() = "controls smart home devices (lights, plugs, etc.)"
     override fun getParameters() = listOf(
         ToolParameter("device", "string", "Device name (e.g. 'living room light', 'coffee maker').", true),
         ToolParameter("action", "string", "on | off | toggle | set | trigger. Default: toggle.", false),
@@ -57,15 +57,15 @@ class SmartHomeTool : BaseTool() {
 
 class ListSmartDevicesTool : BaseTool() {
     override fun getName() = "list_smart_devices"
-    override fun getDisplayName() = "Dispositivos Smart Home"
+    override fun getDisplayName() = "Smart Home devices"
     override fun getDescriptionEN() = "List all configured smart home devices and their capabilities."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "lista los dispositivos smart home configurados"
+    override fun getBrief() = "lists configured smart home devices"
     override fun getParameters() = emptyList<ToolParameter>()
     override fun execute(params: Map<String, Any>): ToolResult {
         val devices = SmartHomeRegistry.allDevices()
         if (devices.isEmpty()) return ToolResult.success("No smart home devices are configured. The user can add them in Settings → Smart Home.")
-        val sb = StringBuilder("Dispositivos disponibles:\n")
+        val sb = StringBuilder("Available devices:\n")
         devices.forEach { d ->
             sb.append("- ${d.name} (${d.type}) — acciones: ${d.actions.joinToString()}\n")
         }
@@ -80,7 +80,7 @@ class AddSmartDeviceTool : BaseTool() {
         "Add a smart home device configuration. Needs a name, type, webhook URL, and HTTP method. " +
         "The webhook will be called when the user asks to control this device."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "configura un nuevo dispositivo smart home (webhook)"
+    override fun getBrief() = "configures a new smart home device (webhook)"
     override fun getParameters() = listOf(
         ToolParameter("name", "string", "Device friendly name (e.g. 'Luz salón').", true),
         ToolParameter("type", "string", "Device type: light|switch|thermostat|lock|speaker|scene|custom.", true),

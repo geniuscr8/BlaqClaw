@@ -124,20 +124,20 @@ object SshHostKeyPolicy {
      * attack look identical from here, and only the user can tell them apart.
      */
     fun mismatchMessage(host: String, pinned: String, presented: String): String =
-        "ABORTADO: la clave del host $host ha cambiado. No se envió la contraseña.\n" +
-            "Esperada:  ${normalize(pinned)}\n" +
-            "Recibida:  ${normalize(presented)}\n" +
-            "Esto ocurre si alguien está interceptando la conexión (MITM), o si el " +
-            "servidor fue reinstalado o rotó sus claves. Verifica la huella en la " +
-            "propia máquina con 'ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub'. " +
-            "Si el cambio es legítimo, elimina la conexión con remote_disconnect " +
-            "alias='$host' y vuelve a crearla."
+        "ABORTED: the host key for $host changed. The password was not sent.\n" +
+            "Expected:  ${normalize(pinned)}\n" +
+            "Received:  ${normalize(presented)}\n" +
+            "This can happen if someone is intercepting the connection (MITM), or if the " +
+            "server was reinstalled or rotated its keys. Verify the fingerprint on the " +
+            "machine with 'ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub'. " +
+            "If the change is legitimate, remove the connection with remote_disconnect " +
+            "alias='$host' and create it again."
 
     /** Text appended to the first successful connect so the user can verify it. */
     fun firstUseMessage(host: String, presented: String): String =
-        "Huella del host (primera conexión, ahora fijada): ${normalize(presented)}. " +
-            "Compárala en $host con 'ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub'. " +
-            "Si no coincide, la conexión fue interceptada."
+        "Host fingerprint (first connection, now pinned): ${normalize(presented)}. " +
+            "Compare it on $host with 'ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub'. " +
+            "If it does not match, the connection was intercepted."
 
     const val UNKNOWN_KEY_TYPE = "unknown"
 

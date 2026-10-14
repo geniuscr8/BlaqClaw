@@ -48,7 +48,7 @@ class SaveDemoTool : BaseTool() {
     )
     override fun execute(params: Map<String, Any>): ToolResult {
         if (!DemonstrationRecorder.isRecording() && DemonstrationRecorder.currentSteps().isEmpty()) {
-            return ToolResult.error("No hay nada grabado. Usa start_demo primero.")
+            return ToolResult.error("Nothing has been recorded. Use start_demo first.")
         }
         val name = requireString(params, "name").trim()
         val triggerTime = optionalString(params, "trigger_time", "")

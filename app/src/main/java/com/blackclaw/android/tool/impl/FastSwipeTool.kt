@@ -20,7 +20,7 @@ class FastSwipeTool : BaseTool() {
         ToolParameter("x2", "integer", "X final.", true),
         ToolParameter("y2", "integer", "Y final.", true),
         ToolParameter("duration_ms", "integer",
-            "Duración del swipe en ms. Default 250.", false),
+            "Swipe duration in ms. Default 250.", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

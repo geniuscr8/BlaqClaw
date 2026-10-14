@@ -31,12 +31,12 @@ object LocationSnapshotProvider {
 
     /** Prefer a recent cached fix; otherwise wait briefly for one fresh update. */
     fun current(context: Context, maxCachedAgeMs: Long = 5 * 60_000L, timeoutMs: Long = 8_000L): Result<Location> = runCatching {
-        require(hasLocationPermission(context)) { "Falta el permiso de ubicación." }
+        require(hasLocationPermission(context)) { "Location permission is missing." }
         lastKnown(context, maxCachedAgeMs)?.let { return Result.success(it) }
         val lm = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-            ?: throw IllegalStateException("Servicio de ubicación no disponible.")
+            ?: throw IllegalStateException("Location service is not available.")
         val providers = lm.getProviders(true)
-        require(providers.isNotEmpty()) { "No hay proveedores de ubicación activos." }
+        require(providers.isNotEmpty()) { "No active location providers are available." }
         val provider = if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) LocationManager.GPS_PROVIDER else providers.first()
         val latch = CountDownLatch(1)
         var fresh: Location? = null
@@ -45,6 +45,6 @@ object LocationSnapshotProvider {
         lm.requestSingleUpdate(provider, listener, Looper.getMainLooper())
         latch.await(timeoutMs, TimeUnit.MILLISECONDS)
         runCatching { lm.removeUpdates(listener) }
-        fresh ?: lastKnown(context) ?: throw IllegalStateException("No se obtuvo ubicación.")
+        fresh ?: lastKnown(context) ?: throw IllegalStateException("Could not obtain location.")
     }
 }

@@ -47,7 +47,7 @@ class OpenAppActionTool : BaseTool() {
         val query = optionalString(params, "query", "").trim()
         val entry = AppDeepLinks.byKey(appRaw) ?: AppDeepLinks.match(appRaw)
             ?: return ToolResult.error(
-                "App '$appRaw' no está en el catálogo de deep links. Usa open_app(package_name=…) o " +
+                "App '$appRaw' is not in the deep-link catalog. Use open_app(package_name=…) or " +
                 "get_installed_apps(keyword=…) para encontrarla.")
 
         val ctx = ClawApplication.instance
@@ -62,8 +62,8 @@ class OpenAppActionTool : BaseTool() {
             val geo = "geo:0,0?q=$encoded"
             if (tryOpen(ctx, geo, entry.pkg)) {
                 return ToolResult.success(
-                    "Abrí el mapa con resultados de '$query' ordenados por cercanía. " +
-                    "El primero es el más cercano; toca 'Cómo llegar' en ese para navegar.")
+                    "I opened the map with results for '$query' sorted by distance. " +
+                    "The first result is the closest; tap 'Directions' on it to navigate.")
             }
         }
 

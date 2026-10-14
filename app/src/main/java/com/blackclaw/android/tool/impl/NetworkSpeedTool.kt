@@ -23,8 +23,8 @@ class NetworkSpeedTool : BaseTool() {
     override fun getName() = "network_speed"
     override fun getDisplayName() = "Velocidad red"
     override fun getDescriptionEN() =
-        "Mide la velocidad de descarga descargando 1 MB de un endpoint público. " +
-        "No mide subida; útil para comprobar si la red va lenta."
+        "Measures download speed by downloading 1 MB from a public endpoint. " +
+        "It does not measure upload speed; useful for checking whether the network is slow."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = emptyList<ToolParameter>()
 

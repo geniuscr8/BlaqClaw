@@ -16,7 +16,7 @@ import java.io.File
  */
 class WriteFileTool : BaseTool() {
     override fun getName() = "write_file"
-    override fun getDisplayName() = "Escribir archivo"
+    override fun getDisplayName() = "Write file"
     override fun getDescriptionEN() =
         "Save text to a file under Documents/BlaqClaw/. The user can find it in the file manager. " +
         "Use for exports, notes, drafts. mode='append' adds to the end, 'overwrite' replaces."

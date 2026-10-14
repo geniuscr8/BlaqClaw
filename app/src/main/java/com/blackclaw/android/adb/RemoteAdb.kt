@@ -32,11 +32,11 @@ object RemoteAdb {
      */
     fun pair(context: Context, hostPort: String, code: String): Result<String> {
         val (host, port) = parseHostPort(hostPort) ?: return Result.failure(
-            IllegalArgumentException("Formato inválido. Usa host:puerto (ej. 192.168.1.50:37000)."))
+            IllegalArgumentException("Invalid format. Use host:port (e.g. 192.168.1.50:37000)."))
         return try {
             val ok = manager(context).pair(host, port, code.trim())
-            if (ok) Result.success("Emparejado con $host. Ahora usa: adb connect $host:<puerto-de-conexión>")
-            else Result.failure(IllegalStateException("Emparejamiento rechazado. Revisa el código."))
+            if (ok) Result.success("Paired with $host. Now use: adb connect $host:<connection-port>")
+            else Result.failure(IllegalStateException("Pairing rejected. Check the code."))
         } catch (e: Throwable) {
             XLog.w(TAG, "pair failed: ${e.message}")
             Result.failure(e)
@@ -46,17 +46,17 @@ object RemoteAdb {
     /** Connect to a remote device's adbd. [hostPort] is "ip:connectPort". */
     fun connect(context: Context, hostPort: String): Result<String> {
         val (host, port) = parseHostPort(hostPort) ?: return Result.failure(
-            IllegalArgumentException("Formato inválido. Usa host:puerto (ej. 192.168.1.50:5555)."))
+            IllegalArgumentException("Invalid format. Use host:port (e.g. 192.168.1.50:5555)."))
         return try {
             val m = manager(context)
             runCatching { m.disconnect() }
             val ok = m.connect(host, port)
             if (ok) {
                 target = "$host:$port"
-                Result.success("Conectado a $host:$port")
+                Result.success("Connected to $host:$port")
             } else {
                 Result.failure(IllegalStateException(
-                    "No se pudo conectar a $host:$port. ¿Depuración inalámbrica activa y emparejado?"))
+                    "Could not connect to $host:$port. Is wireless debugging active and paired?"))
             }
         } catch (e: Throwable) {
             XLog.w(TAG, "connect failed: ${e.message}")
@@ -97,7 +97,7 @@ object RemoteAdb {
     }
 
     fun describe(): String =
-        connectedTarget()?.let { "ADB remoto conectado a $it" } ?: "ADB remoto sin conexión"
+        connectedTarget()?.let { "Remote ADB connected to $it" } ?: "Remote ADB not connected"
 
     private fun parseHostPort(s: String): Pair<String, Int>? {
         val idx = s.lastIndexOf(':')

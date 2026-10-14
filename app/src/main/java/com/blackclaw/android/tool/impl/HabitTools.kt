@@ -16,12 +16,12 @@ import java.util.*
 
 class HabitLogTool : BaseTool() {
     override fun getName() = "habit_log"
-    override fun getDisplayName() = "Registrar hábito"
+    override fun getDisplayName() = "Log habit"
     override fun getDescriptionEN() =
         "Log a habit completion. Creates the habit if new. Tracks streaks and daily progress. " +
         "Use for: 'bebí agua', 'hice ejercicio', 'medité', 'leí 30 min', 'no fumé'."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "registra que el usuario completó un hábito (agua, ejercicio, etc.)"
+    override fun getBrief() = "logs that the user completed a habit (water, exercise, etc.)"
     override fun getParameters() = listOf(
         ToolParameter("habit", "string", "Habit name (e.g. 'agua', 'ejercicio', 'meditación').", true),
         ToolParameter("value", "string", "Optional quantity (e.g. '2 vasos', '30 min', '5 km').", false),
@@ -38,11 +38,11 @@ class HabitLogTool : BaseTool() {
 
 class HabitStatusTool : BaseTool() {
     override fun getName() = "habit_status"
-    override fun getDisplayName() = "Estado de hábitos"
+    override fun getDisplayName() = "Habit status"
     override fun getDescriptionEN() =
         "Show current habit tracking status — streaks, today's completions, weekly progress."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "muestra el estado de los hábitos (rachas, progreso)"
+    override fun getBrief() = "shows habit status (streaks, progress)"
     override fun getParameters() = listOf(
         ToolParameter("habit", "string", "Optional: specific habit to check. Omit for all.", false),
     )
@@ -58,11 +58,11 @@ class HabitStatusTool : BaseTool() {
 
 class HabitCreateTool : BaseTool() {
     override fun getName() = "habit_create"
-    override fun getDisplayName() = "Crear hábito"
+    override fun getDisplayName() = "Create habit"
     override fun getDescriptionEN() =
         "Create a new habit to track with optional daily goal and reminder time."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "crea un nuevo hábito para trackear con meta diaria opcional"
+    override fun getBrief() = "creates a new habit to track with an optional daily goal"
     override fun getParameters() = listOf(
         ToolParameter("habit", "string", "Habit name.", true),
         ToolParameter("goal", "string", "Daily goal (e.g. '8 vasos', '30 min', '1'). Default '1'.", false),
@@ -75,7 +75,7 @@ class HabitCreateTool : BaseTool() {
         val icon = optionalString(params, "icon", HabitStore.autoIcon(habit))
         val reminderTime = optionalString(params, "reminder_time", "")
         HabitStore.createHabit(habit, goal, icon, reminderTime)
-        return ToolResult.success("Hábito '${icon} $habit' creado (meta diaria: $goal). ${if (reminderTime.isNotBlank()) "Recordatorio a las $reminderTime." else ""}")
+        return ToolResult.success("Habit '${icon} $habit' created (daily goal: $goal). ${if (reminderTime.isNotBlank()) "Reminder at $reminderTime." else ""}")
     }
 }
 
@@ -123,14 +123,14 @@ object HabitStore {
         val h = habits[habit]!!
         val streak = calculateStreak(habit, logs)
         val emoji = if (streak >= 7) "🔥" else if (streak >= 3) "⚡" else "✓"
-        val streakText = if (streak > 1) " (racha: $streak días $emoji)" else ""
+        val streakText = if (streak > 1) " (streak: $streak days $emoji)" else ""
         val valueText = if (value.isNotBlank()) " — $value" else ""
-        return "${h.icon} $habit registrado$valueText$streakText"
+        return "${h.icon} $habit logged$valueText$streakText"
     }
 
     fun statusFor(habit: String): String {
         val habits = allHabits()
-        val h = habits[habit] ?: return "No estoy rastreando '$habit'. ¿Quieres que lo añada?"
+        val h = habits[habit] ?: return "I am not tracking '$habit'. Would you like me to add it?"
         val logs = allLogs()
         val streak = calculateStreak(habit, logs)
         val today = todayStr()
@@ -139,23 +139,23 @@ object HabitStore {
 
         return buildString {
             append("${h.icon} $habit\n")
-            append("Hoy: ${todayLogs.size}/${h.goal}\n")
-            append("Esta semana: ${weekLogs.size} veces\n")
-            append("Racha actual: $streak días${if (streak >= 7) " 🔥" else ""}\n")
+            append("Today: ${todayLogs.size}/${h.goal}\n")
+            append("This week: ${weekLogs.size} times\n")
+            append("Current streak: $streak days${if (streak >= 7) " 🔥" else ""}\n")
             if (todayLogs.isNotEmpty() && todayLogs.last().value.isNotBlank()) {
-                append("Último: ${todayLogs.last().value}")
+                append("Latest: ${todayLogs.last().value}")
             }
         }
     }
 
     fun fullStatus(): String {
         val habits = allHabits()
-        if (habits.isEmpty()) return "No hay hábitos configurados. Dime qué hábitos quieres trackear."
+        if (habits.isEmpty()) return "No habits are configured. Tell me which habits you want to track."
         val logs = allLogs()
         val today = todayStr()
 
         return buildString {
-            append("📊 Tus hábitos:\n")
+            append("📊 Your habits:\n")
             habits.forEach { (name, h) ->
                 val streak = calculateStreak(name, logs)
                 val todayCount = logs.count { it.habit == name && it.date == today }
@@ -167,7 +167,7 @@ object HabitStore {
             val completedToday = habits.count { (name, _) ->
                 logs.any { it.habit == name && it.date == today }
             }
-            append("\nHoy: $completedToday/${habits.size} completados")
+            append("\nToday: $completedToday/${habits.size} completed")
         }
     }
 
@@ -226,7 +226,7 @@ object HabitStore {
                 if (ts > 0) {
                     val item = com.blackclaw.android.assistant.AssistantStore.create(
                         type = com.blackclaw.android.assistant.AssistantItemType.REMINDER,
-                        title = "$icon ¿Completaste tu hábito de $name?",
+                        title = "$icon Did you complete your $name habit?",
                         triggerAtMs = ts, repeat = "daily", category = "habit", source = "ai")
                     com.blackclaw.android.assistant.AssistantScheduler.arm(
                         com.blackclaw.android.ClawApplication.instance, item)

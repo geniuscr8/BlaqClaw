@@ -633,7 +633,7 @@ private fun ChatTopBar(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        if (refreshingZenModels) "Actualizando modelos gratis…" else "↻ Actualizar modelos gratis",
+                                        if (refreshingZenModels) "Refreshing free models…" else "↻ Refresh free models",
                                         fontSize = 13.sp,
                                         color = colors.accent,
                                     )
@@ -716,7 +716,7 @@ private fun ChatTopBar(
                     }
                     HorizontalDivider()
                     DropdownMenuItem(
-                        text = { Text("Descargar modelos…", fontSize = 13.sp, color = colors.accent) },
+                        text = { Text("Download models…", fontSize = 13.sp, color = colors.accent) },
                         onClick = { showModelMenu = false; onSettings() },
                     )
                 }
@@ -1102,13 +1102,13 @@ private fun AssistantBubble(text: String, timestamp: Long, colors: BlaqClawColor
                 ) {
                     Icon(
                         if (copied) Icons.Outlined.Check else Icons.Outlined.ContentCopy,
-                        contentDescription = if (copied) "Copiado" else "Copiar respuesta",
+                        contentDescription = if (copied) "Copied" else "Copy response",
                         tint = if (copied) colors.accent else colors.textTertiary,
                         modifier = Modifier.size(11.dp),
                     )
                     Spacer(Modifier.width(3.dp))
                     Text(
-                        if (copied) "Copiado" else "Copiar",
+                        if (copied) "Copied" else "Copy",
                         fontSize = 9.sp,
                         color = if (copied) colors.accent else colors.textTertiary,
                     )
@@ -1459,7 +1459,7 @@ private fun ChatInputBar(
                 },
                 contentDescription = when {
                     isTaskRunning -> "Stop"
-                    isAwaitingReply -> "Esperando respuesta"
+                    isAwaitingReply -> "Waiting for a response"
                     else -> "Send"
                 },
                 tint = when {
@@ -1968,7 +1968,7 @@ private fun AssistantPanel(
 
         Spacer(Modifier.weight(1f))
         HorizontalDivider(color = colors.divider)
-        DrawerNavItem(Icons.Outlined.Forum, "Auto-respuestas", colors, onAutoReplies)
+        DrawerNavItem(Icons.Outlined.Forum, "Auto-replies", colors, onAutoReplies)
         DrawerNavItem(Icons.Outlined.SmartToy, "Modelos", colors, onModels)
         DrawerNavItem(Icons.Outlined.Settings, "Settings", colors, onSettings)
     }
@@ -2277,7 +2277,7 @@ private fun SidebarContent(
             ) {
                 Icon(Icons.Outlined.Forum, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(20.dp))
                 Spacer(Modifier.width(12.dp))
-                Text("Auto-respuestas", color = colors.textSecondary)
+                Text("Auto-replies", color = colors.textSecondary)
             }
         }
 

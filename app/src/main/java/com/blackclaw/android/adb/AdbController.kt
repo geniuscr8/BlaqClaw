@@ -131,15 +131,15 @@ object AdbController {
                 val pairingPort = port ?: discoverPort(context, AdbMdns.SERVICE_TYPE_TLS_PAIRING)
                 if (pairingPort == null) {
                     state = State.ERROR
-                    lastError = "No se encontró el puerto de emparejamiento. " +
-                        "Mantén abierto el diálogo 'Vincular dispositivo con código' en Ajustes."
+                    lastError = "Could not find the pairing port. " +
+                        "Keep the 'Pair device with pairing code' dialog open in Settings."
                     return@withContext Result.failure(IOException(lastError))
                 }
                 XLog.i(TAG, "Pairing on 127.0.0.1:$pairingPort")
                 val ok = mgr(context).pair("127.0.0.1", pairingPort, code.trim())
                 if (!ok) {
                     state = State.ERROR
-                    lastError = "Emparejamiento rechazado. Verifica el código de 6 dígitos."
+                    lastError = "Pairing rejected. Check the 6-digit code."
                     return@withContext Result.failure(IOException(lastError))
                 }
                 KVUtils.putBoolean(KEY_PAIRED, true)
@@ -174,7 +174,7 @@ object AdbController {
         val svc = com.blackclaw.android.service.ClawAccessibilityService.getConnectedInstance(2_000L)
         if (svc == null) {
             state = State.ERROR
-            lastError = "El servicio de accesibilidad de BlaqClaw no está activo. Actívalo y reintenta."
+            lastError = "BlaqClaw accessibility service is not active. Enable it and try again."
             return@withContext Result.failure(IllegalStateException(lastError))
         }
 
@@ -204,8 +204,8 @@ object AdbController {
         val finalCode = code
         if (finalCode == null) {
             state = State.ERROR
-            lastError = "No pude leer el código en pantalla. Asegúrate de que el diálogo " +
-                "'Vincular dispositivo con código' está abierto y visible."
+            lastError = "Could not read the code on screen. Make sure the " +
+                "'Pair device with pairing code' dialog is open and visible."
             return@withContext Result.failure(IOException(lastError))
         }
 
@@ -214,7 +214,7 @@ object AdbController {
             else discoverPort(context, AdbMdns.SERVICE_TYPE_TLS_PAIRING) ?: 0
         if (pairingPort == 0) {
             state = State.ERROR
-            lastError = "Leí el código de emparejamiento, pero no encontré el puerto. Reintenta."
+            lastError = "The pairing code was read, but the port was not found. Try again."
             return@withContext Result.failure(IOException(lastError))
         }
 
@@ -223,7 +223,7 @@ object AdbController {
             val ok = mgr(context).pair("127.0.0.1", pairingPort, finalCode)
             if (!ok) {
                 state = State.ERROR
-                lastError = "Emparejamiento rechazado por adbd. Genera un código nuevo e inténtalo otra vez."
+                lastError = "Pairing was rejected by adbd. Generate a new code and try again."
                 return@withContext Result.failure(IOException(lastError))
             }
             KVUtils.putBoolean(KEY_PAIRED, true)
@@ -263,7 +263,7 @@ object AdbController {
         val connected = mgr(context).autoConnect(context, CONNECT_TIMEOUT_MS)
         state = if (connected) State.CONNECTED else State.PAIRED_DISCONNECTED
         if (!connected) {
-            lastError = "No se pudo conectar. Asegúrate de que 'Depuración inalámbrica' está activada."
+            lastError = "Could not connect. Make sure 'Wireless debugging' is enabled."
             throw IOException(lastError)
         }
         XLog.i(TAG, "ADB self-connection established")
@@ -348,7 +348,7 @@ object AdbController {
         State.NOT_PAIRED -> "ADB sin emparejar"
         State.PAIRED_DISCONNECTED -> "ADB emparejado · desconectado"
         State.CONNECTING -> "ADB conectando…"
-        State.CONNECTED -> "ADB conectado · acciones rápidas activas"
+        State.CONNECTED -> "ADB connected · quick actions active"
         State.ERROR -> "ADB error: ${lastError ?: "desconocido"}"
     }
 }

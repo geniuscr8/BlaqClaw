@@ -45,8 +45,8 @@ class EmergencyModeTool : BaseTool() {
                     val options = EmergencyStartOptions(mode, cameras,
                         optionalBoolean(params, "send_location", true), optionalString(params, "recipient", ""))
                     if (EmergencyService.start(context, options)) {
-                        ToolResult.success(if (mode == EmergencyMode.DISCREET) "Modo discreto activo."
-                            else "Modo emergencia iniciándose. Tienes 5 segundos para cancelarlo desde la notificación.")
+                        ToolResult.success(if (mode == EmergencyMode.DISCREET) "Discreet mode is active."
+                            else "Emergency mode is starting. You have 5 seconds to cancel it from the notification.")
                     } else ToolResult.error("Could not start protection mode.")
                 }
             }
@@ -55,12 +55,12 @@ class EmergencyModeTool : BaseTool() {
                 ToolResult.success("Emergency mode stopped.")
             }
             "status", "estado" -> ToolResult.success(
-                "Protección: ${if (EmergencyService.isActive) "activa" else "inactiva"}. " +
-                    "Modo: ${EmergencyService.activeMode?.name?.lowercase() ?: "ninguno"}. " +
-                    "Cámaras solicitadas: ${EmergencyService.activeCameras.name.lowercase()}. " +
-                    "Configuración: ${if (EmergencyConfig.isReady) "lista" else "incompleta"}."
+                "Protection: ${if (EmergencyService.isActive) "active" else "inactive"}. " +
+                    "Mode: ${EmergencyService.activeMode?.name?.lowercase() ?: "none"}. " +
+                    "Requested cameras: ${EmergencyService.activeCameras.name.lowercase()}. " +
+                    "Configuration: ${if (EmergencyConfig.isReady) "ready" else "incomplete"}."
             )
-            else -> ToolResult.error("action debe ser start, stop o status")
+            else -> ToolResult.error("action must be start, stop, or status")
         }
     }
 }

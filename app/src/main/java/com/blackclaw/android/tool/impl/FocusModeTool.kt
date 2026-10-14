@@ -153,7 +153,7 @@ class FocusStopTool : BaseTool() {
     override fun getParameters() = emptyList<ToolParameter>()
     override fun execute(params: Map<String, Any>): ToolResult {
         val wasActive = KVUtils.getString("focus_mode_active", "") == "true"
-        if (!wasActive) return ToolResult.success("No hay modo focus activo.")
+        if (!wasActive) return ToolResult.success("Focus mode is not active.")
 
         // Disable DND
         ToolRegistry.getInstance().executeTool("toggle_setting", mapOf("setting" to "dnd", "state" to "off"))

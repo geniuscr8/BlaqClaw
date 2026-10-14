@@ -46,10 +46,10 @@ object EmergencyConfig {
     fun buildLocationUpdate(latitude: Double?, longitude: Double?, atMillis: Long = System.currentTimeMillis()): String {
         val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(atMillis))
         return buildString {
-            append("📍 Actualización de ubicación · BlaqClaw\nHora: ").append(time)
+            append("📍 Location update · BlaqClaw\nTime: ").append(time)
             if (latitude != null && longitude != null) {
-                append("\nUbicación: https://maps.google.com/?q=").append(latitude).append(',').append(longitude)
-            } else append("\nUbicación: no disponible en esta actualización")
+                append("\nLocation: https://maps.google.com/?q=").append(latitude).append(',').append(longitude)
+            } else append("\nLocation: unavailable in this update")
         }
     }
 
@@ -62,16 +62,16 @@ object EmergencyConfig {
     ): String {
         val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(atMillis))
         return buildString {
-            append("🚨 EMERGENCIA · BlaqClaw\n")
-            append(configuredMessage.ifBlank { "Necesito ayuda." })
-            append("\nHora: ").append(time)
+            append("🚨 EMERGENCY · BlaqClaw\n")
+            append(configuredMessage.ifBlank { "I need help." })
+            append("\nTime: ").append(time)
             if (latitude != null && longitude != null) {
-                append("\nUbicación: https://maps.google.com/?q=")
+                append("\nLocation: https://maps.google.com/?q=")
                 append(latitude).append(',').append(longitude)
             } else {
-                append("\nUbicación: no disponible todavía")
+                append("\nLocation: not available yet")
             }
-            append("\nContacto configurado: ").append(configuredName.ifBlank { "sin nombre" })
+            append("\nConfigured contact: ").append(configuredName.ifBlank { "unnamed" })
         }
     }
 

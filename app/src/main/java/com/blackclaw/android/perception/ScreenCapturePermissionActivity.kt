@@ -85,7 +85,7 @@ class ScreenCapturePermissionActivity : AppCompatActivity() {
             launcher.launch(mpm.createScreenCaptureIntent())
         } catch (e: Exception) {
             XLog.e(TAG, "Failed to launch projection intent", e)
-            Toast.makeText(this, "Tu dispositivo no soporta captura de pantalla", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Your device does not support screen capture", Toast.LENGTH_LONG).show()
             finish()
         }
     }

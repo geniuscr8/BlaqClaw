@@ -62,7 +62,7 @@ class ZimSearchTool : BaseTool() {
 
 class ZimConsultTool : BaseTool() {
     override fun getName() = "zim_consult"
-    override fun getDisplayName() = "Consultar biblioteca ZIM"
+    override fun getDisplayName() = "Query ZIM library"
     override fun getDescriptionEN() = "Consult a local .zim like a reference book without pre-indexing it: select likely articles from the ZIM title index, read only those articles, and return small relevant source-labelled passages. Pass core entities in topics for best retrieval."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(

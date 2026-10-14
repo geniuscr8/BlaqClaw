@@ -105,10 +105,10 @@ class WeatherTool : BaseTool() {
         val sb = StringBuilder()
         sb.append("Ahora: ${describeCode(r.code, r.isDay)}, %.1f°C".format(r.tempC))
         r.feelsC?.let { sb.append(" (feels like %.1f°C)".format(it)) }
-        r.humidityPct?.let { sb.append(", humedad ${it}%") }
-        r.windKph?.let { sb.append(", viento %.0f km/h".format(it)) }
+        r.humidityPct?.let { sb.append(", humidity ${it}%") }
+        r.windKph?.let { sb.append(", wind %.0f km/h".format(it)) }
         r.precipMm?.takeIf { it > 0 }?.let { sb.append(", precipitation %.1f mm".format(it)) }
-        r.rainChancePct?.takeIf { it > 0 }?.let { sb.append("\nProb. lluvia hoy: hasta ${it}%") }
+        r.rainChancePct?.takeIf { it > 0 }?.let { sb.append("\nRain chance today: up to ${it}%") }
         return sb.toString()
     }
 
@@ -130,7 +130,7 @@ class WeatherTool : BaseTool() {
 
     private fun geocode(name: String): Triple<Double, Double, String>? {
         val q = URLEncoder.encode(name, "UTF-8")
-        val url = "https://geocoding-api.open-meteo.com/v1/search?name=$q&count=1&language=es&format=json"
+        val url = "https://geocoding-api.open-meteo.com/v1/search?name=$q&count=1&language=en&format=json"
         val req = Request.Builder().url(url).get().build()
         return client.newCall(req).execute().use { r ->
             if (!r.isSuccessful) return null
@@ -201,18 +201,18 @@ class WeatherTool : BaseTool() {
     }
 
     private fun describeCode(code: Int, day: Boolean): String = when (code) {
-        0 -> if (day) "despejado ☀️" else "despejado 🌙"
-        1, 2 -> "parcialmente nuboso ⛅"
-        3 -> "nublado ☁️"
-        45, 48 -> "niebla 🌫️"
-        51, 53, 55 -> "llovizna 🌦️"
-        61, 63, 65 -> "lluvia 🌧️"
-        66, 67 -> "lluvia helada 🌧️❄️"
-        71, 73, 75, 77 -> "nieve ❄️"
-        80, 81, 82 -> "chubascos 🌧️"
-        85, 86 -> "nevadas 🌨️"
-        95 -> "tormenta ⛈️"
-        96, 99 -> "tormenta con granizo ⛈️"
-        else -> "tiempo desconocido"
+        0 -> if (day) "clear ☀️" else "clear 🌙"
+        1, 2 -> "partly cloudy ⛅"
+        3 -> "overcast ☁️"
+        45, 48 -> "fog 🌫️"
+        51, 53, 55 -> "drizzle 🌦️"
+        61, 63, 65 -> "rain 🌧️"
+        66, 67 -> "freezing rain 🌧️❄️"
+        71, 73, 75, 77 -> "snow ❄️"
+        80, 81, 82 -> "rain showers 🌧️"
+        85, 86 -> "snow showers 🌨️"
+        95 -> "thunderstorm ⛈️"
+        96, 99 -> "hailstorm ⛈️"
+        else -> "unknown weather"
     }
 }

@@ -101,7 +101,7 @@ private fun SecurityScreen(
                 title = {
                     Column {
                         Text("Security", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                        Text("Apps riesgosas y bloqueo de anuncios", fontSize = 11.sp, color = colors.textSecondary)
+                        Text("Risky apps and ad blocking", fontSize = 11.sp, color = colors.textSecondary)
                     }
                 },
                 navigationIcon = {
