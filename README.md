@@ -28,6 +28,14 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.9
+
+- Added real local-model streaming for agent responses with bounded memory use.
+- Added resumable model integrity checks using SHA-256 sidecars.
+- Improved English-first voice recognition, microphone-level smoothing, and cancellation handling.
+- Added security action confirmations, local audit history, and permission-health diagnostics.
+- Added English UI regression coverage and clearer active-model progress feedback.
+
 ### v1.3.8
 
 - Fixed signed AAB generation by separating bundle generation from ABI-split

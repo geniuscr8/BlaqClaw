@@ -1969,7 +1969,7 @@ private fun AssistantPanel(
         Spacer(Modifier.weight(1f))
         HorizontalDivider(color = colors.divider)
         DrawerNavItem(Icons.Outlined.Forum, "Auto-replies", colors, onAutoReplies)
-        DrawerNavItem(Icons.Outlined.SmartToy, "Modelos", colors, onModels)
+        DrawerNavItem(Icons.Outlined.SmartToy, "Models", colors, onModels)
         DrawerNavItem(Icons.Outlined.Settings, "Settings", colors, onSettings)
     }
 }
@@ -2262,7 +2262,7 @@ private fun SidebarContent(
             ) {
                 Icon(Icons.Outlined.SmartToy, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(20.dp))
                 Spacer(Modifier.width(12.dp))
-                Text("Modelos", color = colors.textSecondary)
+                Text("Models", color = colors.textSecondary)
             }
         }
         TextButton(

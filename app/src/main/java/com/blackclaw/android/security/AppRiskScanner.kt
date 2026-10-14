@@ -68,7 +68,7 @@ object AppRiskScanner {
             var score = 0
 
             val overlay = "android.permission.SYSTEM_ALERT_WINDOW" in perms
-            if (overlay) { score += 3; reasons.add("Puede dibujar sobre otras apps (anuncios/overlays)") }
+            if (overlay) { score += 3; reasons.add("Can draw over other apps (ads/overlays)") }
 
             val hasA11y = info.packageName in a11yPkgs
             if (hasA11y) { score += 4; reasons.add("Has an accessibility service (can read/control the screen)") }
@@ -89,7 +89,7 @@ object AppRiskScanner {
             if ("android.permission.RECEIVE_SMS" in perms) smsRisk++
             if (smsRisk > 0) { score += smsRisk + 1; reasons.add("Can access SMS (premium SMS fraud risk)") }
 
-            if ("android.permission.RECORD_AUDIO" in perms) { score += 2; reasons.add("Puede grabar audio") }
+            if ("android.permission.RECORD_AUDIO" in perms) { score += 2; reasons.add("Can record audio") }
             if ("android.permission.READ_CALL_LOG" in perms) { score += 2; reasons.add("Reads the call log") }
             if ("android.permission.READ_CONTACTS" in perms) { score += 1 }
             if ("android.permission.CAMERA" in perms) { score += 1 }

@@ -167,7 +167,7 @@ private fun SecurityScreen(
                     }
                     Spacer(Modifier.height(14.dp))
                 }
-                Text("APPS A REVISAR (${apps.size})", fontSize = 11.sp, fontWeight = FontWeight.Bold,
+                Text("APPS TO REVIEW (${apps.size})", fontSize = 11.sp, fontWeight = FontWeight.Bold,
                     color = colors.textTertiary)
                 Spacer(Modifier.height(6.dp))
             }

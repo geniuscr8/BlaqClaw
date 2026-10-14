@@ -4,13 +4,14 @@ import com.blackclaw.android.ClawApplication
 import com.blackclaw.android.security.AdCulpritDetector
 import com.blackclaw.android.security.AppRiskScanner
 import com.blackclaw.android.security.SecurityActions
+import com.blackclaw.android.security.SecurityAuditLog
+import com.blackclaw.android.security.SecurityConfirmationPolicy
 import com.blackclaw.android.tool.BaseTool
 import com.blackclaw.android.tool.ToolParameter
 import com.blackclaw.android.tool.ToolResult
 
 /**
- * Antimalware tools. The AI uses these when the user says things like "una app
- * me llena de anuncios", "revisa si tengo algo malicioso", "bloquea esa app".
+ * On-device security tools for scanning and controlling suspicious apps.
  */
 
 /** Scan installed apps and report the riskiest ones with reasons. */
@@ -84,12 +85,17 @@ class BlockAppTool : BaseTool() {
         ToolParameter("package", "string", "Package name of the app to act on.", true),
         ToolParameter("action", "string",
             "neutralize | stop | overlay_off | disable | uninstall | settings. Default neutralize.", false),
+        ToolParameter("confirm", "boolean", "Required for sensitive actions. Set true only after the user explicitly confirms.", false),
     )
     override fun execute(params: Map<String, Any>): ToolResult {
         val pkg = requireString(params, "package").trim()
         if (pkg.isEmpty()) return ToolResult.error("Package is empty")
         SecurityActions.protectionReason(pkg)?.let { return ToolResult.error("Action blocked: $it") }
         val action = optionalString(params, "action", "neutralize").lowercase().trim()
+        if (SecurityConfirmationPolicy.requiresConfirmation(action) &&
+            !optionalBoolean(params, "confirm", false)) {
+            return ToolResult.error("Confirmation required before '$action' can affect $pkg. Ask the user to confirm, then retry with confirm=true.")
+        }
         val msg = when (action) {
             "neutralize", "block" -> SecurityActions.neutralize(pkg)
             "stop", "force_stop" -> SecurityActions.forceStop(pkg)
@@ -99,6 +105,7 @@ class BlockAppTool : BaseTool() {
             "settings" -> { SecurityActions.openAppSettings(pkg); "Opened settings for $pkg." }
             else -> return ToolResult.error("Invalid action: $action")
         }
+        SecurityAuditLog.record(action, pkg, msg)
         return ToolResult.success(msg)
     }
 }

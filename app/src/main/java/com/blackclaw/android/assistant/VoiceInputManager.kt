@@ -40,6 +40,8 @@ object VoiceInputManager {
 
     @Volatile private var recognizer: SpeechRecognizer? = null
     @Volatile private var wakeLoopActive = false
+    @Volatile private var singleShotCancelled = false
+    @Volatile private var smoothedRmsDb = 0f
     private val main = Handler(Looper.getMainLooper())
     /** Offline engine (preferred when its model is downloaded). */
     private val voskEngine = VoskWakeWordEngine()
@@ -56,7 +58,7 @@ object VoiceInputManager {
         get() {
             val stored = KVUtils.getString(KEY_LANG, "")
             if (stored.isNotEmpty()) return stored
-            return "en-US"
+            return VoiceRecognitionPolicy.englishLocale(stored)
         }
         set(v) { KVUtils.putString(KEY_LANG, v); KVUtils.sync() }
 
@@ -151,6 +153,8 @@ object VoiceInputManager {
         onRms: (Float) -> Unit = {},
         onPartial: (String) -> Unit = {},
     ) {
+        singleShotCancelled = false
+        smoothedRmsDb = 0f
         // On devices without a separate platform recognizer, go directly to the
         // offline engine. Do not let Android resolve our compatibility service as
         // the default recognizer and report a spurious client error first.
@@ -184,13 +188,17 @@ object VoiceInputManager {
         lang: String,
         onUnusable: (() -> Unit)? = null,
     ) {
+        if (singleShotCancelled) return
         if (!isAvailable()) { onError("Voice recognition is unavailable on this device."); return }
         runCatching { recognizer?.destroy() }
         val sr = createRecognizer()
         recognizer = sr
         var done = false
         sr.setRecognitionListener(object : SimpleRecognition() {
-            override fun onRmsChanged(rmsdB: Float) { onRms(rmsdB) }
+            override fun onRmsChanged(rmsdB: Float) {
+                smoothedRmsDb = VoiceRecognitionPolicy.smoothRms(smoothedRmsDb, rmsdB)
+                onRms(smoothedRmsDb)
+            }
             override fun onPartialResults(partialResults: Bundle?) {
                 val t = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     ?.firstOrNull()?.trim().orEmpty()
@@ -425,6 +433,7 @@ object VoiceInputManager {
      * user switches to typing instead of talking.
      */
     fun cancelListenOnce() {
+        singleShotCancelled = true
         main.post { cleanup() }
         runCatching { VoskSingleShot.cancel() }
     }

@@ -26,7 +26,7 @@ class ShellExecTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("command", "string",
-            "Comando shell. Ej: 'input tap 500 800', 'am force-stop com.x', 'getprop ro.product.model'.",
+            "Run a shell command. Example: 'input tap 500 800', 'am force-stop com.x', 'getprop ro.product.model'.",
             true),
     )
 

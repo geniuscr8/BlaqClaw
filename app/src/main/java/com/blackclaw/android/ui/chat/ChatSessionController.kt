@@ -398,7 +398,7 @@ class ChatSessionController(
                                 override fun onPartialText(token: String) {
                                     if (token.isEmpty()) {
                                         if (!hasVisibleContent) {
-                                            postToMain { setStreamingText(streamIdx, "Pensando…", fallbackModelName) }
+                                            postToMain { setStreamingText(streamIdx, "Thinking…", fallbackModelName) }
                                         }
                                         return
                                     }

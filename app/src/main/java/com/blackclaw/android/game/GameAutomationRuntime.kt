@@ -149,7 +149,7 @@ object GameAutomationRuntime {
     @Synchronized fun pause(): Boolean {
         if (!state.running || paused.get()) return false
         paused.set(true)
-        state = state.copy(message = "Pausada")
+        state = state.copy(message = "Paused")
         notify("${state.label} · pausada")
         return true
     }

@@ -276,7 +276,7 @@ class QuickAssistActivity : ComponentActivity() {
         partial.value = ""
         recovery.value = null
         status.value = if (turns.isEmpty()) "I am listening…" else "Go ahead…"
-        updateLiveNotif("ESCUCHANDO", status.value)
+        updateLiveNotif("LISTENING", status.value)
         VoiceInputManager.listenOnce(
             onResult = { onCommand(it) },
             onError = { onListenError(it) },
@@ -338,9 +338,9 @@ class QuickAssistActivity : ComponentActivity() {
         turns.add(Turn(true, command))
         phase.value = Phase.THINKING
         partial.value = ""
-        status.value = "Pensando…"
+        status.value = "Thinking…"
         progress.value = QuickAssistProgress("Preparing the response", "Understanding your request")
-        updateLiveNotif("PENSANDO", command)
+        updateLiveNotif("THINKING", command)
         // For actions, an immediate acknowledgement reassures the user that the phone
         // is working. For plain conversation it only queues ahead of the streamed
         // answer and makes a fast model sound slow, so let the first real sentence speak.
@@ -368,15 +368,20 @@ class QuickAssistActivity : ComponentActivity() {
                             }
                         }
                         is TaskEvent.LoopStart -> if (busy) {
-                            if (status.value == "Pensando…") status.value = "Trabajando…"
-                            progress.value = QuickAssistProgress("Trabajando", "Ronda ${event.round}", event.round)
+                            if (status.value == "Thinking…") status.value = "Working…"
+                            progress.value = QuickAssistProgress("Working", "Round ${event.round}", event.round)
                         }
                         is TaskEvent.Progress -> if (busy) {
                             status.value = event.description.take(60)
-                            progress.value = QuickAssistProgress("En progreso", event.description.take(100), event.step)
+                            progress.value = QuickAssistProgress("In progress", event.description.take(100), event.step)
                         }
                         is TaskEvent.Thinking -> onStreamToken(event.content)
-                        is TaskEvent.Response -> { if (busy && event.text.isNotBlank() && streamBuf.isEmpty()) status.value = event.text.take(300) }
+                        is TaskEvent.Response -> {
+                            if (busy && event.text.isNotBlank() && streamBuf.isEmpty()) {
+                                status.value = event.modelName?.takeIf { it.isNotBlank() }?.let { "Using $it" }
+                                    ?: event.text.take(300)
+                            }
+                        }
                         is TaskEvent.ToolCards -> {
                             val decoded = com.blackclaw.android.cards.AssistCardCodec
                                 .decode(event.payload)
@@ -867,11 +872,11 @@ private fun AssistScreen(
             ) { p ->
                 Text(
                     when (p) {
-                        QuickAssistActivity.Phase.LISTENING -> "ESCUCHANDO"
-                        QuickAssistActivity.Phase.THINKING -> "PENSANDO"
+                        QuickAssistActivity.Phase.LISTENING -> "LISTENING"
+                        QuickAssistActivity.Phase.THINKING -> "THINKING"
                         QuickAssistActivity.Phase.SPEAKING -> "BLAQCLAW"
                         QuickAssistActivity.Phase.NEED_MIC -> "PERMISSION"
-                        QuickAssistActivity.Phase.IDLE -> "EN PAUSA"
+                        QuickAssistActivity.Phase.IDLE -> "IDLE"
                     },
                     color = ObsidianGold.GoldLight, fontSize = 11.sp, fontWeight = FontWeight.Bold,
                     letterSpacing = 3.5.sp,

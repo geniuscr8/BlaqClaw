@@ -31,7 +31,7 @@ class QuickAssistTextPolicyTest {
     }
 
     @Test fun `sentence boundary waits for a useful chunk`() {
-        assertEquals(0, QuickAssistTextPolicy.sentenceBoundary("Hola.", 0))
+        assertEquals(0, QuickAssistTextPolicy.sentenceBoundary("Hello.", 0))
         assertEquals(17, QuickAssistTextPolicy.sentenceBoundary("Esta frase sirve. Otra", 0))
     }
 
@@ -39,5 +39,15 @@ class QuickAssistTextPolicyTest {
         assertTrue(QuickAssistTextPolicy.isAppLaunchTool("open_app_action"))
         assertTrue(QuickAssistTextPolicy.isAppLaunchTool("send_message"))
         assertFalse(QuickAssistTextPolicy.isAppLaunchTool("get_device_info"))
+    }
+
+    @Test fun `task progress labels remain English`() {
+        val labels = listOf(
+            QuickAssistTaskReducer.toolLabel("open_app"),
+            QuickAssistTaskReducer.toolLabel("input_text"),
+            QuickAssistTaskReducer.toolLabel("get_screen_info"),
+        )
+        assertTrue(labels.all { it.none { char -> char in "áéíóúñ" } })
+        assertFalse(labels.any { it.contains("en progreso", ignoreCase = true) })
     }
 }

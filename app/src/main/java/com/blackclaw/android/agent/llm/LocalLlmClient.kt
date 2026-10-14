@@ -40,6 +40,7 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
 
     private var gpuFailed = false
     private var conversationApproxChars = 0
+    @Volatile private var activeStreamListener: StreamingListener? = null
 
     private fun ensureEngine() {
         val modelPath = config.baseUrl
@@ -254,7 +255,9 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
                     val conv = conversation ?: throw RuntimeException("LiteRT-LM conversation not initialized — engine may have failed to load the model")
                     XLog.d(TAG, "chat: sendMessage user chars=${msg.singleText().length} sendCount=$sendCount")
                     try {
-                        lastResponse = conv.sendMessage(msg.singleText())
+                        lastResponse = activeStreamListener?.let { listener ->
+                            streamMessage(conv, msg.singleText(), listener)
+                        } ?: conv.sendMessage(msg.singleText())
                     } catch (e: Exception) {
                         // LiteRT-LM SDK may fail to parse tool calls with standard quotes.
                         // Extract raw model output from error message and parse ourselves.
@@ -310,14 +313,55 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
         toolSpecs: List<ToolSpecification>,
         listener: StreamingListener
     ): LlmResponse {
-        // For now, delegate to blocking chat and simulate streaming
-        // LiteRT-LM streaming requires Flow or MessageCallback which needs more integration
-        val response = chat(messages, toolSpecs)
-        if (!response.text.isNullOrEmpty()) {
-            listener.onPartialText(response.text)
+        activeStreamListener = listener
+        return try {
+            val response = chat(messages, toolSpecs)
+            listener.onComplete(response)
+            response
+        } catch (e: Throwable) {
+            listener.onError(e)
+            throw e
+        } finally {
+            activeStreamListener = null
         }
-        listener.onComplete(response)
-        return response
+    }
+
+    /** Stream native LiteRT-LM deltas; the SDK may emit either deltas or cumulative text. */
+    private fun streamMessage(
+        conversation: com.google.ai.edge.litertlm.Conversation,
+        prompt: String,
+        listener: StreamingListener,
+    ): String {
+        val latch = CountDownLatch(1)
+        val error = AtomicReference<Throwable>()
+        val emitted = StringBuilder()
+        conversation.sendMessageAsync(prompt, object : MessageCallback {
+            override fun onMessage(message: com.google.ai.edge.litertlm.Message) {
+                val text = runCatching { message.contents?.toString() }.getOrNull()
+                    ?: runCatching { message.toString() }.getOrNull().orEmpty()
+                if (text.isBlank()) return
+                val cumulative = text.length >= emitted.length && text.startsWith(emitted.toString())
+                if (cumulative) {
+                    val delta = text.substring(emitted.length)
+                    emitted.setLength(0)
+                    emitted.append(text)
+                    if (delta.isNotEmpty()) listener.onPartialText(delta)
+                } else {
+                    emitted.append(text)
+                    listener.onPartialText(text)
+                }
+            }
+            override fun onDone() { latch.countDown() }
+            override fun onError(throwable: Throwable) {
+                error.set(throwable)
+                latch.countDown()
+            }
+        })
+        if (!latch.await(120, java.util.concurrent.TimeUnit.SECONDS)) {
+            throw RuntimeException("Local model stream timed out")
+        }
+        error.get()?.let { throw it }
+        return emitted.toString()
     }
 
     /**

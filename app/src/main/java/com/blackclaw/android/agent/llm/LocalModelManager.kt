@@ -10,6 +10,7 @@ import okhttp3.Request
 import java.io.File
 import java.io.InputStream
 import java.io.FileOutputStream
+import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 
 /**
@@ -625,6 +626,13 @@ object LocalModelManager {
                 return
             }
 
+            // Persist a streaming SHA-256 sidecar so later launches can detect
+            // storage corruption without keeping the multi-gigabyte model in RAM.
+            val digest = sha256(tempFile)
+            FileOutputStream(File(modelDir, "${model.fileName}.sha256"), false).use {
+                it.write(digest.toByteArray(Charsets.US_ASCII))
+            }
+
             // Rename temp to final
             if (targetFile.exists()) targetFile.delete()
             if (!tempFile.renameTo(targetFile)) {
@@ -648,7 +656,22 @@ object LocalModelManager {
         val file = File(getModelDir(context), model.fileName)
         val tempFile = File(getModelDir(context), "${model.fileName}.downloading")
         tempFile.delete()
+        File(getModelDir(context), "${model.fileName}.sha256").delete()
         return if (file.exists()) file.delete() else true
+    }
+
+    /** Returns the SHA-256 digest using a bounded buffer, never loading the model into memory. */
+    internal fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { input ->
+            val buffer = ByteArray(1024 * 1024)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
     }
 
     /**
