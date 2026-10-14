@@ -68,7 +68,7 @@ jobs:
 
       - name: Build signed release APK
         run: |
-          ./gradlew :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest :app:lintRelease
+          ./gradlew :app:assembleRelease :app:bundleRelease :app:testDebugUnitTest :app:lintRelease
 
       - name: Validate release version
         env:
