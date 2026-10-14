@@ -11,6 +11,7 @@ package com.blackclaw.android.conversation
 object ConversationQuickReplies {
 
     fun replyFor(prompt: String): String? {
+        if (!com.blackclaw.android.agent.InputLanguagePolicy.isEnglish(prompt)) return null
         if (CapabilityQuestionDetector.isGeneralCapabilityQuestion(prompt)) {
             return GENERAL_EN
         }

@@ -26,6 +26,7 @@ object TaskClassifier {
     fun isTask(prompt: String): Boolean {
         val raw = prompt.trim()
         if (raw.isEmpty()) return false
+        if (!InputLanguagePolicy.isEnglish(raw)) return false
         val t = normalize(raw)
         val words = t.split(' ').filter { it.isNotBlank() }
 
@@ -75,72 +76,15 @@ object TaskClassifier {
     // ── 1. Action verbs (normalized, no accents). Imperatives + infinitives + a
     //       few conjugations the user commonly types/says. ──
     private val ACTION_VERBS = setOf(
-        // open / launch
-        "abre", "abreme", "abrir", "abra", "abran", "open", "launch", "lanza", "inicia", "iniciar", "arranca",
-        // send / message
-        "manda", "mandame", "mandar", "envia", "enviame", "enviar", "envie", "mensajea", "escribele",
-        "send", "message", "text", "dile", "contesta", "responde", "responder", "reply", "forward", "reenvia",
-        // search / web
-        "busca", "buscame", "buscar", "investiga", "investigar", "googlea", "search", "find", "look",
-        "averigua", "averiguar", "consulta", "consultar",
-        // play / media
-        "reproduce", "reproducir", "pon", "ponme", "poner", "play", "pausa", "pause", "reanuda",
-        "siguiente", "anterior", "salta",
-        // call
-        "llama", "llamame", "llamar", "marca", "marcar", "call", "dial", "telefonea", "videollamada",
-        // set / create / schedule
-        "crea", "crear", "agrega", "agregar", "anade", "anadir", "programa", "programar", "agenda",
-        "agendar", "configura", "configurar", "create", "add", "schedule",
-        // remind / alarm
-        "recuerda", "recuerdame", "recordar", "avisa", "avisame", "avisar", "despiertame", "remind",
-        // notes
-        "anota", "anotame", "anotar", "apunta", "apuntame", "apuntar", "guarda", "guardame", "guardar",
-        "note", "save", "store", "registra", "registrar",
-        // toggle / device
-        "enciende", "encender", "prende", "prender", "apaga", "apagar", "activa", "activar",
-        "desactiva", "desactivar", "sube", "subir", "baja", "bajar", "ajusta", "ajustar",
-        "silencia", "silenciar", "vibra", "toggle", "enable", "disable", "mute",
-        // navigate / tap
-        "toca", "tocar", "tap", "click", "pulsa", "presiona", "desliza", "swipe", "scroll", "navega",
-        "ve", "vete", "regresa", "vuelve", "cierra", "cerrar", "close", "go",
-        // download / install / delete / share
-        "descarga", "descargar", "instala", "instalar", "install", "download", "borra", "borrar",
-        "elimina", "eliminar", "delete", "comparte", "compartir", "share",
-        // copy / paste
-        "copia", "copiar", "pega", "pegar", "copy", "paste",
-        // translate / calc / convert
-        "traduce", "traducir", "translate", "calcula", "calcular", "convierte", "convertir", "convert",
-        // capture
-        "captura", "capturar", "graba", "grabar", "record", "escanea", "escanear", "scan", "screenshot",
-        // generic do/help (with object)
-        "haz", "hazme", "hacer", "ejecuta", "ejecutar", "ponme", "quitame", "quita", "quitar",
-        // check / read device data
-        "checa", "chequea", "revisa", "revisar", "lee", "leeme", "leer", "muestra", "muestrame", "ensename",
-        "dime", "check", "read", "show", "list", "lista", "listar",
-        // stop / cancel
-        "deten", "detener", "parar", "cancela", "cancelar", "stop", "cancel", "termina",
-        // move / rename
-        "mueve", "mover", "renombra", "renombrar", "move", "rename",
-        // alarms specific
-        "despierta", "suena", "temporiza",
-        // ── subjunctive / 2nd-person forms (after "que", "puedes", etc.) ──
-        "pones", "pongas", "pongan", "ponga",
-        "reproduzcas", "reproduzca",
-        "envies", "envien", "envie",
-        "mandes", "manden",
-        "abras", "abran",
-        "busques", "busquen",
-        "llames", "llamen",
-        "recuerdes", "recuerden",
-        "actives", "activen", "desactives", "desactiven",
-        "apagues", "apaguen", "enciendas", "enciendan",
-        "subas", "bajes", "ajustes",
-        "agregues", "anadas", "programes", "agendes",
-        "anotes", "apuntes", "grabes", "guardes",
-        "traduzcas", "calcules", "conviertas",
-        "descargues", "instales", "borres", "elimines",
-        "compartas", "copies", "pegues", "silencies",
-        "marques", "toques", "cierres", "muestres", "leas", "revises",
+        "open", "launch", "start", "send", "message", "text", "reply", "forward",
+        "search", "find", "look", "investigate", "play", "pause", "resume", "skip",
+        "call", "dial", "create", "add", "schedule", "set", "remind", "wake", "note",
+        "save", "store", "record", "turn", "enable", "disable", "increase", "decrease",
+        "adjust", "mute", "toggle", "tap", "click", "swipe", "scroll", "navigate", "close",
+        "go", "download", "install", "delete", "share", "copy", "paste", "translate",
+        "calculate", "convert", "capture", "record", "scan", "screenshot", "do", "run",
+        "remove", "check", "read", "show", "list", "stop", "cancel", "finish", "move",
+        "rename", "alarm", "timer", "make",
     )
 
     private fun hasActionVerb(words: List<String>): Boolean {
@@ -149,13 +93,12 @@ object TaskClassifier {
         return words.any { it in ACTION_VERBS }
     }
 
-    /** "para" is also one of the most common Spanish prepositions. */
+    /** Treat a leading English "stop" as a direct stop request. */
     private fun hasStopCommand(words: List<String>): Boolean {
-        if (words.firstOrNull() != "para") return false
+        if (words.firstOrNull() != "stop") return false
         val next = words.getOrNull(1)
         return next == null || next in setOf(
-            "la", "el", "las", "los", "esto", "eso", "todo", "ahora", "ya",
-            "musica", "video", "cancion", "proceso", "descarga", "tarea",
+            "this", "that", "everything", "all", "now", "music", "video", "song", "process", "download", "task",
         )
     }
 

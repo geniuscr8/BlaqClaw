@@ -346,6 +346,9 @@ object ToolSelector {
      */
     fun selectPreloadNames(task: String, maxTools: Int = 22): Set<String> {
         val available = ToolRegistry.getInstance().getAllTools().map { it.getName() }.toSet()
+        if (!InputLanguagePolicy.isEnglish(task)) {
+            return CORE.filterTo(LinkedHashSet()) { it in available }
+        }
         val lower = task.lowercase()
 
         val selected = LinkedHashSet<String>()

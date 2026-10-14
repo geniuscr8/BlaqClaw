@@ -50,21 +50,21 @@ class AssistantTimeTest {
     @Test
     fun relativeSpanishMinutes() {
         val before = System.currentTimeMillis()
-        val r = AssistantTime.parse("en 30 min")
+        val r = AssistantTime.parse("in 30 minutes")
         assertTrue("Spanish 'en 30 min' should parse", r >= before + 30 * 60_000)
     }
 
     @Test
     fun relativeSpanishHours() {
         val before = System.currentTimeMillis()
-        val r = AssistantTime.parse("en 2 horas")
+        val r = AssistantTime.parse("in 2 hours")
         assertTrue("Spanish 'en 2 horas' should parse", r >= before + 2 * 3_600_000)
     }
 
     @Test
     fun relativeDentroDe() {
         val before = System.currentTimeMillis()
-        val r = AssistantTime.parse("dentro de 45 minutos")
+        val r = AssistantTime.parse("in 45 minutes")
         assertTrue("'dentro de 45 minutos' should parse", r >= before + 45 * 60_000)
     }
 
@@ -103,7 +103,7 @@ class AssistantTimeTest {
 
     @Test
     fun spanishMananaKeyword() {
-        val r = AssistantTime.parse("mañana 08:15")
+        val r = AssistantTime.parse("tomorrow 08:15")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(8, cal.get(Calendar.HOUR_OF_DAY))
         assertEquals(15, cal.get(Calendar.MINUTE))
@@ -112,7 +112,7 @@ class AssistantTimeTest {
 
     @Test
     fun pasadoManana() {
-        val r = AssistantTime.parse("pasado mañana 10:00")
+        val r = AssistantTime.parse("day after tomorrow 10:00")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(10, cal.get(Calendar.HOUR_OF_DAY))
         assertEquals(0, cal.get(Calendar.MINUTE))
@@ -123,7 +123,7 @@ class AssistantTimeTest {
 
     @Test
     fun weekdayLunes() {
-        val r = AssistantTime.parse("el lunes 09:00")
+        val r = AssistantTime.parse("on monday 09:00")
         assertTrue("weekday should resolve to future", r > System.currentTimeMillis())
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(Calendar.MONDAY, cal.get(Calendar.DAY_OF_WEEK))
@@ -132,7 +132,7 @@ class AssistantTimeTest {
 
     @Test
     fun weekdayViernes() {
-        val r = AssistantTime.parse("el viernes 15:30")
+        val r = AssistantTime.parse("on friday 15:30")
         assertTrue("weekday should resolve to future", r > System.currentTimeMillis())
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(Calendar.FRIDAY, cal.get(Calendar.DAY_OF_WEEK))
@@ -171,19 +171,19 @@ class AssistantTimeTest {
             set(java.util.Calendar.SECOND, 0)
         }
         val out = AssistantTime.format(cal.timeInMillis)
-        assertTrue("Today should show 'hoy'", out.contains("hoy"))
+        assertTrue("Today should show 'today'", out.contains("today"))
     }
 
     @Test
     fun formatShowsMananaForTomorrow() {
         val tomorrow = System.currentTimeMillis() + 24 * 3_600_000
         val out = AssistantTime.format(tomorrow)
-        assertTrue("Tomorrow should show 'mañana'", out.contains("mañana"))
+        assertTrue("Tomorrow should show 'tomorrow'", out.contains("tomorrow"))
     }
 
     @Test
     fun spokenHourALas7() {
-        val r = AssistantTime.parse("a las 7")
+        val r = AssistantTime.parse("at 7")
         assertTrue("'a las 7' should resolve to a future instant", r > System.currentTimeMillis())
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(7, cal.get(Calendar.HOUR_OF_DAY))
@@ -192,14 +192,14 @@ class AssistantTimeTest {
 
     @Test
     fun spokenHourTardeAddsTwelve() {
-        val r = AssistantTime.parse("reunión a las 7 de la tarde")
+        val r = AssistantTime.parse("meeting at 7 in the evening")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals("'7 de la tarde' should be 19h", 19, cal.get(Calendar.HOUR_OF_DAY))
     }
 
     @Test
     fun spokenHourYMedia() {
-        val r = AssistantTime.parse("a las 7 y media")
+        val r = AssistantTime.parse("at 7 and 30")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(7, cal.get(Calendar.HOUR_OF_DAY))
         assertEquals(30, cal.get(Calendar.MINUTE))
@@ -207,7 +207,7 @@ class AssistantTimeTest {
 
     @Test
     fun spokenHourYCuarto() {
-        val r = AssistantTime.parse("las 9 y cuarto de la mañana")
+        val r = AssistantTime.parse("9 in the morning and 15")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(9, cal.get(Calendar.HOUR_OF_DAY))
         assertEquals(15, cal.get(Calendar.MINUTE))
@@ -223,14 +223,14 @@ class AssistantTimeTest {
     @Test
     fun relativeWeeks() {
         val before = System.currentTimeMillis()
-        val r = AssistantTime.parse("en 3 semanas")
+        val r = AssistantTime.parse("in 3 weeks")
         assertTrue("'en 3 semanas' should be ~3 weeks ahead",
             r >= before + 20L * 86_400_000)
     }
 
     @Test
     fun relativeWeeksWithSpokenHour() {
-        val r = AssistantTime.parse("en 3 semanas a las 5 de la tarde")
+        val r = AssistantTime.parse("in 3 weeks at 5 in the evening")
         assertTrue(r > System.currentTimeMillis() + 19L * 86_400_000)
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals("should keep 17h", 17, cal.get(Calendar.HOUR_OF_DAY))
@@ -239,14 +239,14 @@ class AssistantTimeTest {
     @Test
     fun relativeMonths() {
         val before = System.currentTimeMillis()
-        val r = AssistantTime.parse("dentro de 2 meses")
+        val r = AssistantTime.parse("in 2 months")
         assertTrue("'dentro de 2 meses' should be well in the future",
             r >= before + 50L * 86_400_000)
     }
 
     @Test
     fun mediodia() {
-        val r = AssistantTime.parse("mañana al mediodia")
+        val r = AssistantTime.parse("tomorrow at noon")
         val cal = Calendar.getInstance().apply { timeInMillis = r }
         assertEquals(12, cal.get(Calendar.HOUR_OF_DAY))
         assertEquals(0, cal.get(Calendar.MINUTE))

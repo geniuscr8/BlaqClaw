@@ -72,6 +72,7 @@ internal class DirectDeviceDataGuard private constructor(
 
     companion object {
         fun fromTask(task: String): DirectDeviceDataGuard {
+            if (!InputLanguagePolicy.isEnglish(task)) return DirectDeviceDataGuard(null)
             return DirectDeviceDataGuard(parse(task))
         }
 

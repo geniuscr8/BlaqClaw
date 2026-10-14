@@ -6,21 +6,21 @@ import org.junit.Test
 
 class ConversationQuickRepliesTest {
     @Test fun `answers broad automation capability immediately`() {
-        val reply = ConversationQuickReplies.replyFor("¿puedes programar tareas cierto?")
-        assertTrue(reply?.startsWith("Sí.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("¿puedes abrir WhatsApp, cierto?")?.startsWith("Sí.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("¿puedes apagar la linterna, verdad?")?.startsWith("Sí.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("¿eres capaz de abrir WhatsApp?")?.startsWith("Sí.") == true)
+        val reply = ConversationQuickReplies.replyFor("Can you schedule tasks?")
+        assertTrue(reply?.startsWith("Yes.") == true)
+        assertTrue(ConversationQuickReplies.replyFor("Can you open WhatsApp?")?.startsWith("Yes.") == true)
+        assertTrue(ConversationQuickReplies.replyFor("Can you turn off the flashlight?")?.startsWith("Yes.") == true)
+        assertTrue(ConversationQuickReplies.replyFor("Are you able to open WhatsApp?")?.startsWith("Yes.") == true)
     }
 
     @Test fun `does not intercept an actionable request`() {
-        assertNull(ConversationQuickReplies.replyFor("¿puedes programar una tarea para mañana a las 9?"))
-        assertNull(ConversationQuickReplies.replyFor("¿puedes apagar la linterna?"))
-        assertNull(ConversationQuickReplies.replyFor("¿puedes ejecutar ls?"))
+        assertNull(ConversationQuickReplies.replyFor("Can you schedule a task for tomorrow at 9?"))
+        assertNull(ConversationQuickReplies.replyFor("Can you turn off the flashlight?"))
+        assertNull(ConversationQuickReplies.replyFor("Can you run ls?"))
     }
 
     @Test fun `answers general capability question`() {
-        assertTrue(ConversationQuickReplies.replyFor("¿qué puedes hacer?")?.isNotBlank() == true)
-        assertTrue(ConversationQuickReplies.replyFor("¿qué puede hacer BlaqClaw?")?.isNotBlank() == true)
+        assertTrue(ConversationQuickReplies.replyFor("What can you do?")?.isNotBlank() == true)
+        assertTrue(ConversationQuickReplies.replyFor("What can BlaqClaw do?")?.isNotBlank() == true)
     }
 }

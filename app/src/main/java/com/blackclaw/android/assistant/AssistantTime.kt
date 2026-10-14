@@ -10,20 +10,16 @@ import java.util.Locale
  * Accepts what the LLM tends to emit: "2026-12-31 23:59", "tomorrow 09:00",
  * "today 14:30", "in 30m", "in 2h", or a bare "07:30" (next occurrence).
  *
- * V2: Extended with Spanish day names, "el lunes", "pasado mañana",
- * relative expressions in Spanish ("en 30 min", "dentro de 2h"),
- * and better weekday resolution.
+ * English-only natural-language support keeps parsing deterministic for the
+ * English app interface and assistant prompts.
  */
 object AssistantTime {
 
     private val WEEKDAY_MAP = mapOf(
-        "lunes" to Calendar.MONDAY, "monday" to Calendar.MONDAY,
-        "martes" to Calendar.TUESDAY, "tuesday" to Calendar.TUESDAY,
-        "miercoles" to Calendar.WEDNESDAY, "miércoles" to Calendar.WEDNESDAY, "wednesday" to Calendar.WEDNESDAY,
-        "jueves" to Calendar.THURSDAY, "thursday" to Calendar.THURSDAY,
-        "viernes" to Calendar.FRIDAY, "friday" to Calendar.FRIDAY,
-        "sabado" to Calendar.SATURDAY, "sábado" to Calendar.SATURDAY, "saturday" to Calendar.SATURDAY,
-        "domingo" to Calendar.SUNDAY, "sunday" to Calendar.SUNDAY,
+        "monday" to Calendar.MONDAY, "tuesday" to Calendar.TUESDAY,
+        "wednesday" to Calendar.WEDNESDAY, "thursday" to Calendar.THURSDAY,
+        "friday" to Calendar.FRIDAY, "saturday" to Calendar.SATURDAY,
+        "sunday" to Calendar.SUNDAY,
     )
 
     /** Returns epoch ms, or 0 if unparseable. */
@@ -32,23 +28,23 @@ object AssistantTime {
         val s = input.trim().lowercase()
         val now = System.currentTimeMillis()
 
-        // Relative: "in 30m", "en 2h", "en 3 dias", "en 3 semanas", "dentro de 2 meses"
-        Regex("""(?:in|en|dentro\s+de)\s+(\d+)\s*(semanas?|sem|w|meses|mes|segundos?|seg|s|minutos?|min|m|horas?|hrs?|h|d[ií]as?|d)\b""")
+        // Relative: "in 30m", "in 3 days", "in 3 weeks", "in 2 months"
+        Regex("""in\s+(\d+)\s*(weeks?|w|months?|seconds?|s|minutes?|min|m|hours?|hrs?|h|days?|d)\b""")
             .find(s)?.let { m ->
                 val n = m.groupValues[1].toInt()
                 val unit = m.groupValues[2]
                 val cal = Calendar.getInstance()
                 val isDateUnit = when {
-                    unit == "w" || unit.startsWith("sem") -> { cal.add(Calendar.WEEK_OF_YEAR, n); true }
-                    unit == "mes" || unit == "meses" -> { cal.add(Calendar.MONTH, n); true }
-                    unit.startsWith("seg") || unit == "s" -> { cal.add(Calendar.SECOND, n); false }
-                    unit.startsWith("min") || unit == "m" -> { cal.add(Calendar.MINUTE, n); false }
+                    unit == "w" || unit.startsWith("week") -> { cal.add(Calendar.WEEK_OF_YEAR, n); true }
+                    unit == "month" || unit == "months" -> { cal.add(Calendar.MONTH, n); true }
+                    unit.startsWith("second") || unit == "s" -> { cal.add(Calendar.SECOND, n); false }
+                    unit.startsWith("minute") || unit == "min" || unit == "m" -> { cal.add(Calendar.MINUTE, n); false }
                     unit.startsWith("h") -> { cal.add(Calendar.HOUR_OF_DAY, n); false }
                     unit.startsWith("d") -> { cal.add(Calendar.DAY_OF_YEAR, n); true }
                     else -> { return@let }
                 }
                 // For day/week/month offsets, honor an explicit clock time if the
-                // user gave one ("en 3 semanas a las 5"), else default to 09:00.
+                // user gave one ("in 3 weeks at 5"), else default to 09:00.
                 if (isDateUnit) {
                     val hm = Regex("""(\d{1,2}):(\d{2})""").find(s)
                     val spoken = if (hm == null) parseSpokenHour(
@@ -100,30 +96,30 @@ object AssistantTime {
             set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
         }
 
-        // "pasado mañana" / "day after tomorrow"
-        if (s.contains("pasado mañana") || s.contains("day after tomorrow")) {
+        // "day after tomorrow"
+        if (s.contains("day after tomorrow")) {
             cal.add(Calendar.DAY_OF_YEAR, 2)
             return cal.timeInMillis
         }
 
-        // "tomorrow" / "mañana"
-        if (s.contains("tomorrow") || s.contains("mañana")) {
+        // "tomorrow"
+        if (s.contains("tomorrow")) {
             cal.add(Calendar.DAY_OF_YEAR, 1)
             return cal.timeInMillis
         }
 
-        // "today" / "hoy"
-        if (s.contains("today") || s.contains("hoy")) {
-            // If the time already passed today, still keep today (user explicitly said "hoy")
+        // "today"
+        if (s.contains("today")) {
+            // Keep today even if the time has passed because the user explicitly said "today".
             return cal.timeInMillis
         }
 
-        // Weekday: "el lunes", "on monday", "el próximo viernes"
+        // Weekday: "on Monday", "next Friday"
         for ((name, dow) in WEEKDAY_MAP) {
             if (s.contains(name)) {
                 val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
                 var daysAhead = (dow - today + 7) % 7
-                if (daysAhead == 0) daysAhead = 7  // "el lunes" when today is Monday → next week
+                if (daysAhead == 0) daysAhead = 7  // If today is Monday, resolve Monday to next week.
                 // But if time hasn't passed and they just say the day name, could mean today
                 // Only advance if time already passed today for same-day references
                 cal.add(Calendar.DAY_OF_YEAR, daysAhead)
@@ -153,39 +149,36 @@ object AssistantTime {
 
     /**
      * Parse a spoken-style hour without a colon, common in voice/chat:
-     * "a las 7", "las 7 y media", "7 de la tarde", "7pm", "7 y cuarto",
-     * "7 menos cuarto", "mediodia", "medianoche". Returns (hour24, minute) or
-     * null if no hour is found. Applies AM/PM heuristics for Spanish:
-     *  - "de la tarde"/"de la noche"/"pm" → +12 (unless already >=12)
-     *  - "de la mañana"/"am"/"madrugada" → keep as-is
+     * "at 7", "half past 7", "7 in the evening", "7pm", "quarter past 7",
+     * "quarter to 7", "noon", "midnight". Returns (hour24, minute) or
+     * null if no hour is found. Applies English AM/PM heuristics.
      *  - bare small hours (1..7) with no qualifier are left as stated; callers
      *    treat them as the next occurrence.
      */
     private fun parseSpokenHour(s: String): Pair<Int, Int>? {
-        if (s.contains("mediodia") || s.contains("mediodía")) return 12 to 0
-        if (s.contains("medianoche")) return 0 to 0
+        if (s.contains("noon")) return 12 to 0
+        if (s.contains("midnight")) return 0 to 0
 
-        // Find an hour number, ideally near "las"/"la"/"a las" or a qualifier.
-        val m = Regex("""(?:a\s+)?las?\s+(\d{1,2})\b""").find(s)
-            ?: Regex("""\b(?:a\s+)?(\d{1,2})\b""").find(s) ?: return null
+        // Find an hour number, ideally near "at" or a qualifier.
+        val m = Regex("""(?:at\s+)?(\d{1,2})\b""").find(s) ?: return null
         var hour = m.groupValues[1].toIntOrNull() ?: return null
         if (hour !in 0..23) return null
 
         var minute = 0
         when {
-            s.contains("y media") -> minute = 30
-            s.contains("y cuarto") -> minute = 15
-            s.contains("menos cuarto") -> { minute = 45; hour = (hour + 23) % 24 }
-            else -> Regex("""y\s+(\d{1,2})""").find(s)?.let {
+            s.contains("half past") -> minute = 30
+            s.contains("quarter past") -> minute = 15
+            s.contains("quarter to") -> { minute = 45; hour = (hour + 23) % 24 }
+            else -> Regex("""(?:past|and)\s+(\d{1,2})""").find(s)?.let {
                 val mm = it.groupValues[1].toIntOrNull()
                 if (mm != null && mm in 1..59) minute = mm
             }
         }
 
         // AM/PM heuristics.
-        val pm = s.contains("tarde") || s.contains("noche") ||
+        val pm = s.contains("evening") || s.contains("night") ||
             Regex("""\d\s*pm""").containsMatchIn(s) || s.contains(" pm")
-        val am = s.contains("mañana") || s.contains("madrugada") ||
+        val am = s.contains("morning") ||
             Regex("""\d\s*am""").containsMatchIn(s) || s.contains(" am")
         if (pm && hour < 12) hour += 12
         if (am && hour == 12) hour = 0

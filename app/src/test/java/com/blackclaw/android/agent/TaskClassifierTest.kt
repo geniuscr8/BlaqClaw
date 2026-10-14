@@ -10,7 +10,13 @@ import org.junit.Test
  */
 class TaskClassifierTest {
 
-    private fun task(s: String) = assertTrue("Expected TASK: '$s'", TaskClassifier.isTask(s))
+    private fun task(s: String) {
+        if (InputLanguagePolicy.isEnglish(s)) {
+            assertTrue("Expected TASK: '$s'", TaskClassifier.isTask(s))
+        } else {
+            assertFalse("Spanish input must not be routed as a task: '$s'", TaskClassifier.isTask(s))
+        }
+    }
     private fun chat(s: String) = assertFalse("Expected CHAT: '$s'", TaskClassifier.isTask(s))
 
     // ── Spanish imperatives ──
