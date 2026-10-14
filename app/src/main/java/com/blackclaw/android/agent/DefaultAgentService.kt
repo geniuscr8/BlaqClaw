@@ -654,15 +654,34 @@ class DefaultAgentService : AgentService {
                 val displayName = ToolRegistry.getInstance().getDisplayName(toolName)
                 val toolArgs = toolRequest.arguments() ?: "{}"
 
+                if (toolName.isBlank() || ToolRegistry.getInstance().getTool(toolName) == null) {
+                    val unknown = ToolResult.error(
+                        "Unknown tool '$toolName'. Use request_tool to load a valid tool from the catalog, then try again."
+                    )
+                    XLog.w(TAG, "Rejected unknown model tool call: '$toolName'")
+                    callback.onToolCall(iterations, toolName, displayName, toolArgs)
+                    callback.onToolResult(iterations, toolName, displayName, toolArgs, unknown)
+                    messages.add(ToolExecutionResultMessage.from(toolRequest, GSON.toJson(unknown)))
+                    continue
+                }
+
                 // Parse parameters
                 val mapType = object : TypeToken<Map<String, Any>>() {}.type
-                var params: Map<String, Any>? = try {
+                val params: Map<String, Any>? = try {
                     GSON.fromJson(toolArgs, mapType)
                 } catch (e: Exception) {
                     XLog.w(TAG, "Failed to parse tool args for $toolName (argChars=${toolArgs.length})")
-                    HashMap()
+                    null
                 }
-                if (params == null) params = HashMap()
+                if (params == null) {
+                    val malformed = ToolResult.error(
+                        "Invalid JSON arguments for '$toolName'. Return a JSON object with the tool's required parameters and try again."
+                    )
+                    callback.onToolCall(iterations, toolName, displayName, toolArgs)
+                    callback.onToolResult(iterations, toolName, displayName, toolArgs, malformed)
+                    messages.add(ToolExecutionResultMessage.from(toolRequest, GSON.toJson(malformed)))
+                    continue
+                }
 
                 val blockedFinish = if (toolName == "finish") {
                     val screenInfo = try {

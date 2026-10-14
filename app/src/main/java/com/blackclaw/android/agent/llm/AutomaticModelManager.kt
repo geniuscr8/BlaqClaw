@@ -263,9 +263,24 @@ object AutomaticModelManager {
                     record != null -> 3
                     else -> 2
                 }
-            }.thenBy { records[it.key]?.latencyMs ?: Long.MAX_VALUE }
+            }.thenByDescending { healthScore(records[it.key], now) }
                 .thenBy { it.key }
         )
+    }
+
+    /**
+     * Stable health score used after reachability and preference rules.
+     * Successful, fast, recent candidates win; failures recover gradually as
+     * their records age so a temporary outage does not permanently poison AUTO.
+     */
+    internal fun healthScore(record: BenchmarkResult?, now: Long): Int {
+        if (record == null) return 50
+        val ageMinutes = ((now - record.testedAt).coerceAtLeast(0L) / 60_000L)
+            .coerceAtMost(120L)
+        if (!record.success) return (-100 + ageMinutes.toInt()).coerceAtMost(-1)
+        val latencyScore = (100 - (record.latencyMs / 100L).toInt()).coerceIn(0, 100)
+        val freshnessScore = (30 - (ageMinutes / 4L).toInt()).coerceAtLeast(0)
+        return 100 + latencyScore + freshnessScore
     }
 
     fun candidateKeyFor(config: AgentConfig): String? {

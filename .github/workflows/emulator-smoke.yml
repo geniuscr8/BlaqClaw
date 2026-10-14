@@ -1,0 +1,71 @@
+name: Emulator Smoke Tests
+
+on:
+  workflow_run:
+    workflows: ["Release APK"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag containing the universal APK"
+        required: true
+        default: v1.3.8
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [30, 35]
+
+    steps:
+      - name: Check out smoke-test scripts
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up GitHub CLI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG_INPUT: ${{ inputs.release_tag }}
+          RELEASE_TAG_WORKFLOW: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          set -euo pipefail
+          tag="${RELEASE_TAG_INPUT:-$RELEASE_TAG_WORKFLOW}"
+          if [ -z "$tag" ]; then
+            echo "No release tag was provided or detected."
+            exit 1
+          fi
+          mkdir -p apk
+          gh release download "$tag" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern '*universal*.apk' \
+            --dir apk
+          test -n "$(find apk -type f -name '*.apk' -print -quit)"
+
+      - name: Run Android emulator smoke test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_2
+          force-avd-creation: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          disable-animations: true
+          script: ./scripts/emulator-smoke.sh ${{ matrix.api-level }}
+
+      - name: Upload smoke logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulator-smoke-api-${{ matrix.api-level }}
+          path: |
+            logcat-*.txt
+            screen-api*.png
+          if-no-files-found: ignore
