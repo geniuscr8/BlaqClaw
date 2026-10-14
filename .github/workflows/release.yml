@@ -68,7 +68,11 @@ jobs:
 
       - name: Build signed release APK
         run: |
-          ./gradlew :app:assembleRelease :app:bundleRelease :app:testDebugUnitTest :app:lintRelease
+          # Build the AAB without ABI splits first. AGP cannot combine resource
+          # shrinking with multiple split resources during bundle generation.
+          ./gradlew -PdisableAbiSplits :app:bundleRelease
+          # Keep the smaller ABI APKs and universal APK for direct downloads.
+          ./gradlew :app:assembleRelease :app:testDebugUnitTest :app:lintRelease
 
       - name: Validate release version
         env:

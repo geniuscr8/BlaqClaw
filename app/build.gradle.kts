@@ -67,11 +67,11 @@ android {
         // Accept the rebranded keys first while retaining the old names for existing CI jobs.
         versionCode = readLocalOrEnvInt(
             "BLAQCLAW_VERSION_CODE",
-            readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 142),
+            readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 143),
         )
         versionName = readLocalOrEnvString(
             "BLAQCLAW_VERSION_NAME",
-            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.7"),
+            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.8"),
         )
         buildConfigField("String", "VERSION_INFO", getVersionGit())
         buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw | github.com/geniuscr8/BlaqClaw\"")
@@ -129,9 +129,13 @@ android {
     // so 32-bit ABIs can't run inference anyway — we target the two 64-bit ABIs
     // (arm64 for real phones, x86_64 for emulators) and keep a universal APK as
     // a safe fallback. This cuts the per-arch APK from ~217MB to roughly half.
+    // Android Gradle Plugin cannot combine resource shrinking with ABI APK
+    // splits while producing an app bundle. Release CI disables this only for
+    // the bundle task; the separately built APKs retain their ABI splits.
+    val disableAbiSplits = providers.gradleProperty("disableAbiSplits").isPresent
     splits {
         abi {
-            isEnable = true
+            isEnable = !disableAbiSplits
             reset()
             include("arm64-v8a", "x86_64")
             isUniversalApk = true

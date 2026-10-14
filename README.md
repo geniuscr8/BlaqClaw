@@ -28,6 +28,13 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.8
+
+- Fixed signed AAB generation by separating bundle generation from ABI-split
+  APK generation when resource shrinking is enabled.
+- Release builds now publish the universal APK, ABI APKs, AAB, checksums, and
+  mapping file without the Android Gradle Plugin split-resource conflict.
+
 ### v1.3.7
 
 - Updated the English-only unit-test suite to match current command parsing,
