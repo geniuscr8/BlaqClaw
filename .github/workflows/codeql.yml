@@ -38,9 +38,9 @@ jobs:
         with:
           languages: java-kotlin
       # Autobuild cannot reliably discover this Kotlin/Android Gradle project.
-      # Build explicitly so CodeQL observes the Java and Kotlin compilation.
+      # Compile the release sources without producing a debug APK artifact.
       - name: Build for CodeQL
-        run: ./gradlew --no-daemon :app:assembleDebug -x lint -x test
+        run: ./gradlew --no-daemon :app:compileReleaseKotlin :app:compileReleaseJavaWithJavac -x lint -x test
       - uses: github/codeql-action/analyze@v3
         with:
           category: "/language:java-kotlin"
