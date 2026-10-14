@@ -103,13 +103,14 @@ class ScheduleTaskTool : BaseTool() {
             .replace('ñ', 'n')
 
         // Relative: "in 30m" / "in 2h" / "in 1d"
-        val rel = Regex("""^in\s+(\d+)\s*(m|min|mins|minutes|h|hr|hrs|hours|d|day|days)$""").matchEntire(s)
+        val rel = Regex("""^in\s+(\d+)\s*(s|sec|secs|second|seconds|m|min|mins|minute|minutes|h|hr|hrs|hour|hours|d|day|days)$""").matchEntire(s)
         if (rel != null) {
             val n = rel.groupValues[1].toLong()
             val unit = rel.groupValues[2]
             val ms = when {
                 unit.startsWith("d") -> n * 24L * 60L * 60_000L
                 unit.startsWith("h") -> n * 60L * 60_000L
+                unit.startsWith("s") -> n * 1_000L
                 else -> n * 60_000L
             }
             return nowMs + ms

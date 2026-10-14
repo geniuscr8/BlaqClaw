@@ -33,7 +33,7 @@ import com.google.gson.reflect.TypeToken
 class ExecutePlanTool : BaseTool() {
 
     override fun getName() = "execute_plan"
-    override fun getDisplayName() = "Plan multi-paso"
+    override fun getDisplayName() = "Execute plan"
     override fun getDescriptionEN() =
         "Execute a short chain of tool calls in one shot. Use this when you " +
         "already know 2-6 sequential actions (e.g. 'open app, wait, tap_node, " +
@@ -91,7 +91,12 @@ class ExecutePlanTool : BaseTool() {
             val r = ToolRegistry.getInstance().executeTool(step.tool, step.params)
             if (!r.isSuccess) {
                 lastDetail = r.error ?: "unknown error"
-                return@repeat // retry
+                // Do not repeat a failed action automatically. The tool may
+                // have reached the device before returning its error (for
+                // example, sending a message or changing a setting). Retry
+                // only verification failures below, where the action itself
+                // completed successfully.
+                return false to lastDetail
             }
             val data = r.data ?: ""
             // expect: substring must be in the step's own result.
@@ -104,13 +109,13 @@ class ExecutePlanTool : BaseTool() {
                 lastDetail = "could not find '${step.verifyText}' on screen after the step"
                 return@repeat
             }
-            val suffix = if (attempt > 0) " (reintento)" else ""
+            val suffix = if (attempt > 0) " (verified on retry)" else ""
             return true to (data.ifBlank { "ok" } + suffix)
         }
         // Both attempts failed. Attach what's actually on screen so the agent can
         // self-correct instead of guessing blindly.
         val seen = currentScreenSummary()
-        val detail = if (seen.isNotBlank()) "$lastDetail. En pantalla ahora: $seen" else lastDetail
+        val detail = if (seen.isNotBlank()) "$lastDetail. Current screen: $seen" else lastDetail
         return false to detail
     }
 

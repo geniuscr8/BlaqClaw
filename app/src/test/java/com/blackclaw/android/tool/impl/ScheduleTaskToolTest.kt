@@ -13,6 +13,10 @@ class ScheduleTaskToolTest {
         assertEquals(now + 30 * 60_000L, ScheduleTaskTool().parseWhen("in 30 minutes", now))
     }
 
+    @Test fun `parses seconds for short reminders`() {
+        assertEquals(now + 45 * 1_000L, ScheduleTaskTool().parseWhen("in 45 seconds", now))
+    }
+
     @Test fun `parses English today and tomorrow clock`() {
         val today = Calendar.getInstance().apply { timeInMillis = now; set(Calendar.HOUR_OF_DAY, 17) }.timeInMillis
         val tomorrow = Calendar.getInstance().apply { timeInMillis = today; add(Calendar.DAY_OF_YEAR, 1) }.timeInMillis
