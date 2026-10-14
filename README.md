@@ -28,6 +28,12 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.7
+
+- Updated the English-only unit-test suite to match current command parsing,
+  routing, emergency, safety, and user-facing message behavior.
+- Verified the debug APK build and unit-test suite in GitHub Actions.
+
 ### v1.3.6
 
 - Replaced the launcher icon and splash-screen logo with the supplied BlaqClaw
