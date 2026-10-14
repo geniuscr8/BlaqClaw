@@ -258,7 +258,7 @@ internal fun SendMessageDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Enviar ", fontSize = 15.sp, color = colors.textPrimary)
+                    Text("Send ", fontSize = 15.sp, color = colors.textPrimary)
                     Text("\"", fontSize = 15.sp, color = colors.textTertiary)
                     OutlinedTextField(
                         value = message,

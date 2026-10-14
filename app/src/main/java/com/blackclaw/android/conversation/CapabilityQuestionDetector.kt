@@ -12,6 +12,7 @@ object CapabilityQuestionDetector {
 
     /** Returns true when the prompt asks about ability instead of issuing an action. */
     fun isCapabilityQuestion(prompt: String): Boolean {
+        if (!com.blackclaw.android.agent.InputLanguagePolicy.isEnglish(prompt)) return false
         val t = normalize(prompt)
         if (t.isEmpty()) return false
 
@@ -52,6 +53,7 @@ object CapabilityQuestionDetector {
      * and "¿cómo está el Wi‑Fi?" still reach their deterministic tools.
      */
     fun isInformationalQuestion(prompt: String): Boolean {
+        if (!com.blackclaw.android.agent.InputLanguagePolicy.isEnglish(prompt)) return false
         val t = normalize(prompt)
         if (t.isEmpty()) return false
         if (isDirectDeviceRead(t)) return false
@@ -83,6 +85,7 @@ object CapabilityQuestionDetector {
 
     /** General questions such as "¿qué puedes hacer?" can be answered locally. */
     fun isGeneralCapabilityQuestion(prompt: String): Boolean {
+        if (!com.blackclaw.android.agent.InputLanguagePolicy.isEnglish(prompt)) return false
         val t = normalize(prompt)
         return t == "que puedes hacer" ||
             t.startsWith("que puedes hacer ") ||

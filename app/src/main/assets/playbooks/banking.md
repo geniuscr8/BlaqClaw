@@ -29,7 +29,7 @@ TRANSFER / PAY (moves money — HARD STOP):
 1. Open the bank app; the user unlocks it.
 2. Navigate to transfer, fill recipient + amount from the request (get_screen_info
    between steps; verify each field).
-3. **STOP at the confirmation screen.** Do NOT tap "Confirmar"/"Enviar"/"Pagar" or
+3. **STOP at the confirmation screen.** Do NOT tap "Confirm"/"Send"/"Pay" or
    enter the transaction PIN/OTP. Summarize exactly what will be sent (to whom, how
    much) and ask the user to authorize it themselves.
 4. Only proceed past confirmation if the user EXPLICITLY said "confirm and send it"

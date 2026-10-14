@@ -19,7 +19,7 @@ class AssistantDecisionReceiver : BroadcastReceiver() {
             AutomationEngine.executeTask(context, decision.task, "confirmation:$id")
             AssistantReceiver.postNotification(context, "✓ Confirmado", decision.title, false)
         } else {
-            AssistantReceiver.postNotification(context, "Cancelado", decision.title, false)
+            AssistantReceiver.postNotification(context, "Cancelled", decision.title, false)
         }
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager)
             .cancel(id.hashCode())

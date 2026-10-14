@@ -83,7 +83,7 @@ class AssistantWidget : AppWidgetProvider() {
             mgr.updateAppWidget(id, views)
         }
 
-        /** Compact relative time for the widget: "hoy 19:00", "mañ 07:30", "12 jul 10:00". */
+        /** Compact relative time for the widget: "today 19:00", "tomorrow 07:30", "12 Jul 10:00". */
         private fun shortTime(ms: Long): String {
             val now = java.util.Calendar.getInstance()
             val t = java.util.Calendar.getInstance().apply { timeInMillis = ms }

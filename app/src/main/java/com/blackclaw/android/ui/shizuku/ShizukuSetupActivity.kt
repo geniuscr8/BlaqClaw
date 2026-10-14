@@ -229,7 +229,7 @@ private fun StatusCard(
         )
         ShizukuManager.State.READY -> Quintuple(
             Icons.Default.Check,
-            "Todo listo",
+            "All set",
             "BlaqClaw can use quick actions through Shizuku.",
             null, Color(0xFF22C55E),
         )

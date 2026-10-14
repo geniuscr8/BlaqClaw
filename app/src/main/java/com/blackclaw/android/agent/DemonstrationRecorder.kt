@@ -135,7 +135,7 @@ object DemonstrationRecorder {
             "open_app" -> "Open ${params["package_name"] ?: params["app"] ?: "app"}"
             "input_text" -> "Escribir \"${(params["text"] ?: "").toString().take(30)}\""
             "find_and_tap" -> "Tocar \"${params["text"]}\""
-            "send_message" -> "Enviar mensaje a ${params["contact"]}"
+            "send_message" -> "Send message to ${params["contact"]}"
             "system_key" -> "Tecla ${params["key"]}"
             "open_url" -> "Open ${params["url"]}"
             "toggle_setting" -> "${params["setting"]} → ${params["state"]}"

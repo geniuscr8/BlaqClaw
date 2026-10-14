@@ -23,7 +23,7 @@ class AssistantTile : TileService() {
             AssistantStore.countPending(AssistantItemType.REMINDER) +
                 AssistantStore.countPending(AssistantItemType.ALARM)
         }.getOrDefault(0)
-        tile.label = if (pending > 0) "Asistente ($pending)" else "Asistente"
+        tile.label = if (pending > 0) "Assistant ($pending)" else "Assistant"
         tile.state = Tile.STATE_ACTIVE
         tile.updateTile()
     }

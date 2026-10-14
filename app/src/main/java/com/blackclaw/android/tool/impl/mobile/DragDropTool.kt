@@ -47,6 +47,6 @@ class DragDropTool : BaseTool() {
         val move = optionalInt(params, "move_ms", 500).coerceIn(100, 3000).toLong()
         val ok = service.performDragAndDrop(sx, sy, ex, ey, press, move)
         return if (ok) ToolResult.success("Arrastrado ($sx,$sy)→($ex,$ey)")
-        else ToolResult.error("Gesto cancelado")
+        else ToolResult.error("Gesture cancelled")
     }
 }

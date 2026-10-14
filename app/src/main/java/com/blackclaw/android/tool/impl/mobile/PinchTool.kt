@@ -44,6 +44,6 @@ class PinchTool : BaseTool() {
         }
         val ok = service.performPinch(cx, cy, start, end, duration)
         return if (ok) ToolResult.success("Pinch $action en ($cx, $cy)")
-        else ToolResult.error("Gesto cancelado")
+        else ToolResult.error("Gesture cancelled")
     }
 }

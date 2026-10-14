@@ -90,7 +90,7 @@ object AppRiskScanner {
             if (smsRisk > 0) { score += smsRisk + 1; reasons.add("Can access SMS (premium SMS fraud risk)") }
 
             if ("android.permission.RECORD_AUDIO" in perms) { score += 2; reasons.add("Puede grabar audio") }
-            if ("android.permission.READ_CALL_LOG" in perms) { score += 2; reasons.add("Lee el registro de llamadas") }
+            if ("android.permission.READ_CALL_LOG" in perms) { score += 2; reasons.add("Reads the call log") }
             if ("android.permission.READ_CONTACTS" in perms) { score += 1 }
             if ("android.permission.CAMERA" in perms) { score += 1 }
 

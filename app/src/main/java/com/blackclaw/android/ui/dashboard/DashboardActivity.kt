@@ -123,7 +123,7 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 StatCard(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Filled.Alarm,
-                    label = "Alarmas",
+                    label = "Alarms",
                     value = "${today.alarmsSet}",
                     detail = "configured today",
                     colors = colors,

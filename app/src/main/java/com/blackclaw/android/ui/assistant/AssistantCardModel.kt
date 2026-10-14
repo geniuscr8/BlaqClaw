@@ -41,7 +41,7 @@ object AssistantCardModel {
         val urgency: Urgency,
         /** Relative time such as "en 20 min" / "hace 2 h", or empty. */
         val relativeTime: String,
-        /** Absolute time such as "mañana 07:00", or empty. */
+        /** Absolute time such as "tomorrow 07:00", or empty. */
         val absoluteTime: String,
         /** Signed money string for finance rows, else empty. */
         val amountLabel: String,

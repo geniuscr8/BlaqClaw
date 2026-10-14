@@ -174,7 +174,7 @@ fun AssistantItemCard(
                                 android.content.ClipData.newPlainText("draft", item.body)
                             )
                             android.widget.Toast.makeText(
-                                ctx, "Borrador copiado", android.widget.Toast.LENGTH_SHORT,
+                                ctx, "Draft copied", android.widget.Toast.LENGTH_SHORT,
                             ).show()
                         }
                     },
@@ -182,7 +182,7 @@ fun AssistantItemCard(
                 ) {
                     Icon(
                         Icons.Default.ContentCopy,
-                        "Copiar borrador",
+                        "Copy draft",
                         tint = ClawPalette.Signature.base,
                         modifier = Modifier.size(18.dp),
                     )
@@ -274,16 +274,16 @@ private fun AssistantMetaRow(
                 tint = timeTint,
                 // Overdue is stated in words too, not only in colour: colour alone
                 // is invisible to a red-green colourblind user and to a screen reader.
-                prefix = if (data.urgency == Urgency.OVERDUE) "Vencido · " else null,
+                prefix = if (data.urgency == Urgency.OVERDUE) "Overdue · " else null,
             )
         }
         if (data.repeats) MetaChip(data.repeatLabel, accent.base, icon = Icons.Default.Refresh)
-        if (data.hasGeofence) MetaChip("Al llegar", ClawPalette.Note.base, icon = Icons.Default.LocationOn)
-        if (data.hasChallenge) MetaChip("Reto", ClawPalette.Guard.base, icon = Icons.Default.Lock)
+        if (data.hasGeofence) MetaChip("On arrival", ClawPalette.Note.base, icon = Icons.Default.LocationOn)
+        if (data.hasChallenge) MetaChip("Challenge", ClawPalette.Guard.base, icon = Icons.Default.Lock)
         if (data.ringsLoudly) {
-            MetaChip("Suena", ClawPalette.Alarm.base, icon = Icons.Default.NotificationsActive)
+            MetaChip("Rings", ClawPalette.Alarm.base, icon = Icons.Default.NotificationsActive)
         }
-        if (data.isDraft) MetaChip("Borrador", Color(0xFF8A90AE))
+        if (data.isDraft) MetaChip("Draft", Color(0xFF8A90AE))
         if (data.fromAi && !data.isSuggestion) MetaChip("IA", ClawPalette.Signature.base)
     }
 }

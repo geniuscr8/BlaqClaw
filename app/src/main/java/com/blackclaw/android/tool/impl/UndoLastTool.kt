@@ -16,8 +16,8 @@ class UndoLastTool : BaseTool() {
     override fun getDisplayName() = "Deshacer"
     override fun getDescriptionEN() =
         "Undo the most recent item BlaqClaw created (alarm, reminder, event, note, etc.): removes it " +
-        "and cancels its notification. Use for 'deshaz eso', 'cancela lo que acabas de crear', " +
-        "'quita esa alarma', 'undo that'."
+        "and cancels its notification. Use for 'undo that', 'cancel what you just created', " +
+        "'remove that alarm', 'undo that'."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "undo the last thing the assistant created (alarm/reminder/event…)"
     override fun getParameters() = emptyList<ToolParameter>()

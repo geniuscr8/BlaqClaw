@@ -6,46 +6,45 @@ import org.junit.Test
 
 /**
  * Tests for [DefaultAgentService.isTaskLike] — the router that decides whether a
- * message is an actionable task (→ agent loop with tools) or just chat. Must
- * work in Spanish since that's the app's primary language.
+ * message is an actionable task (→ agent loop with tools) or just chat.
  */
 class TaskDetectionTest {
 
     @Test
-    fun spanishAlarmIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("pon una alarma a las 7"))
-        assertTrue(DefaultAgentService.isTaskLike("ponme una alarma mañana"))
+    fun englishAlarmIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("set an alarm at 7"))
+        assertTrue(DefaultAgentService.isTaskLike("set an alarm for tomorrow"))
     }
 
     @Test
-    fun spanishReminderIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("recuérdame llamar al dentista"))
-        assertTrue(DefaultAgentService.isTaskLike("avísame en 30 minutos"))
+    fun englishReminderIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("remind me to call the dentist"))
+        assertTrue(DefaultAgentService.isTaskLike("remind me in 30 minutes"))
     }
 
     @Test
-    fun spanishMessageIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("manda un mensaje a mamá"))
-        assertTrue(DefaultAgentService.isTaskLike("envía un whatsapp a Juan"))
+    fun englishMessageIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("send a message to Mom"))
+        assertTrue(DefaultAgentService.isTaskLike("send a WhatsApp message to John"))
     }
 
     @Test
-    fun spanishOpenAppIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("abre youtube"))
-        assertTrue(DefaultAgentService.isTaskLike("abre la cámara"))
+    fun englishOpenAppIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("open YouTube"))
+        assertTrue(DefaultAgentService.isTaskLike("open the camera"))
     }
 
     @Test
-    fun spanishDeviceControlIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("enciende la linterna"))
-        assertTrue(DefaultAgentService.isTaskLike("sube el volumen"))
-        assertTrue(DefaultAgentService.isTaskLike("apaga el wifi"))
+    fun englishDeviceControlIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("turn on the flashlight"))
+        assertTrue(DefaultAgentService.isTaskLike("increase the volume"))
+        assertTrue(DefaultAgentService.isTaskLike("turn off Wi-Fi"))
     }
 
     @Test
-    fun spanishNoteIsTask() {
-        assertTrue(DefaultAgentService.isTaskLike("anota que tengo reunión el lunes"))
-        assertTrue(DefaultAgentService.isTaskLike("crea una nota"))
+    fun englishNoteIsTask() {
+        assertTrue(DefaultAgentService.isTaskLike("note that I have a meeting on Monday"))
+        assertTrue(DefaultAgentService.isTaskLike("create a note"))
     }
 
     @Test
@@ -57,8 +56,8 @@ class TaskDetectionTest {
 
     @Test
     fun deviceNounsTrigger() {
-        assertTrue(DefaultAgentService.isTaskLike("cuánta batería tengo"))
-        assertTrue(DefaultAgentService.isTaskLike("lee mis notificaciones"))
+        assertTrue(DefaultAgentService.isTaskLike("how much battery do I have"))
+        assertTrue(DefaultAgentService.isTaskLike("read my notifications"))
     }
 
     @Test

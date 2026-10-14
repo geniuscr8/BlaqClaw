@@ -47,7 +47,7 @@ object VoskSingleShot {
         timeoutMs: Long = 12_000L,
         silenceMs: Long = 1800L,
     ) {
-        if (running) { onError("Ya estoy escuchando."); return }
+        if (running) { onError("Already listening."); return }
         if (!isReady()) { onError("The offline voice model is not ready."); return }
         running = true
         thread(name = "vosk-oneshot", isDaemon = true) {

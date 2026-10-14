@@ -54,8 +54,8 @@ sealed class AlarmChallenge {
 
     companion object {
         private val PHRASES = listOf(
-            "ya estoy despierto", "buenos dias mundo", "hoy sera un buen dia",
-            "arriba y a brillar", "vamos con todo hoy",
+            "I am awake", "good morning world", "today will be a good day",
+            "rise and shine", "let us make the most of today",
         )
 
         /** Build a challenge of the given kind (math|memory|type|random). */

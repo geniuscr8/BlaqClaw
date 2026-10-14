@@ -172,7 +172,7 @@ private fun ScheduledTasksScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 Row(Modifier.fillMaxWidth().padding(6.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     listOf(
                         Triple("Agenda", tasks.size, "⏱"),
-                        Triple("Reglas", rules.size, "⚡"),
+                        Triple("Rules", rules.size, "⚡"),
                         Triple("Flujos", profiles.size, "✦"),
                         Triple("Places", places.size, "⌖"),
                     ).forEachIndexed { index, item ->

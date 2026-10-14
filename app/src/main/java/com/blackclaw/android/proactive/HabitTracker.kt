@@ -139,8 +139,8 @@ object HabitTracker {
     )
 
     private fun kindEs(kind: String) = when (kind) {
-        "alarm" -> "una alarma"
-        "reminder" -> "un recordatorio"
+        "alarm" -> "an alarm"
+        "reminder" -> "a reminder"
         "event" -> "un evento"
         else -> kind
     }

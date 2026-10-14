@@ -27,7 +27,7 @@ class Base64Tool : BaseTool() {
                 else -> ToolResult.error("action must be encode or decode")
             }
         } catch (e: Exception) {
-            ToolResult.error("Error de base64: ${e.message}")
+            ToolResult.error("Base64 error: ${e.message}")
         }
     }
 }

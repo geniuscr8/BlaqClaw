@@ -59,7 +59,7 @@ object AssistLiveNotification {
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (nm.getNotificationChannel(CHANNEL_ID) == null) {
                 nm.createNotificationChannel(
-                    NotificationChannel(CHANNEL_ID, "Asistente en vivo",
+                    NotificationChannel(CHANNEL_ID, "Live assistant",
                         NotificationManager.IMPORTANCE_LOW).apply {
                         description = "Voice assistant status"
                         setShowBadge(false)

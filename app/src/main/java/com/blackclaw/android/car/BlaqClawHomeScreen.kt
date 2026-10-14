@@ -13,8 +13,8 @@ import com.blackclaw.android.R
 
 /**
  * Android Auto home: a driving-safe grid of one-tap actions. "Preguntar",
- * "Navegar", "Música" and "Llamar" open a voice search (the car transcribes
- * the speech); "Notificaciones" runs immediately and reads the result aloud.
+ * "Navigate", "Music" and "Call" open a voice search (the car transcribes
+ * the speech); "Notifications" runs immediately and reads the result aloud.
  *
  * Every action funnels into the same task pipeline the phone uses, so anything
  * BlaqClaw can do by voice on the phone also works here.
@@ -36,16 +36,16 @@ class BlaqClawHomeScreen(carContext: CarContext) : Screen(carContext) {
             .addItem(gridItem("Preguntar", R.drawable.ic_car_mic) {
                 screenManager.push(CarAskScreen(carContext, hint = "Ask me anything", commandPrefix = ""))
             })
-            .addItem(gridItem("Navegar", R.drawable.ic_car_navigation) {
+            .addItem(gridItem("Navigate", R.drawable.ic_car_navigation) {
                 screenManager.push(CarAskScreen(carContext, hint = "Where are we going?", commandPrefix = "navigate to "))
             })
             .addItem(gridItem("Music", R.drawable.ic_car_music) {
                 screenManager.push(CarAskScreen(carContext, hint = "What should I play?", commandPrefix = "play "))
             })
-            .addItem(gridItem("Llamar", R.drawable.ic_car_call) {
+            .addItem(gridItem("Call", R.drawable.ic_car_call) {
                 screenManager.push(CarAskScreen(carContext, hint = "Who should I call?", commandPrefix = "call "))
             })
-            .addItem(gridItem("Notificaciones", R.drawable.ic_car_bell) {
+            .addItem(gridItem("Notifications", R.drawable.ic_car_bell) {
                 screenManager.push(CarTaskScreen(carContext, "read my notifications without opening apps"))
             })
             .build()

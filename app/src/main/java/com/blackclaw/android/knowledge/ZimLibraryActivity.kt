@@ -54,7 +54,7 @@ class ZimLibraryActivity : BaseActivity() {
     private var hits by mutableStateOf<List<Hit>>(emptyList())
     private var article by mutableStateOf<DirectZimReader.Article?>(null)
     private var query by mutableStateOf("")
-    private var message by mutableStateOf("Buscando bibliotecas…")
+    private var message by mutableStateOf("Searching for libraries…")
     private var loading by mutableStateOf(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +99,7 @@ class ZimLibraryActivity : BaseActivity() {
 
     private fun loadLibraries() {
         loading = true
-        message = "Buscando archivos .zim…"
+        message = "Searching for .zim files…"
         lifecycleScope.launch {
             val scan = withContext(Dispatchers.IO) { DirectZimLibrary.scan() }
             val scanResult = withContext(Dispatchers.IO) {
@@ -150,7 +150,7 @@ class ZimLibraryActivity : BaseActivity() {
         val requested = query.trim()
         if (requested.isBlank()) return
         loading = true
-        message = "Buscando dentro de ${library.file.name}…"
+        message = "Searching inside ${library.file.name}…"
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {

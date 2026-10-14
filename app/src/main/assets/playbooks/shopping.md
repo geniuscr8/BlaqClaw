@@ -5,8 +5,8 @@ triggers:
   - "compra"
   - "buy this for me"
   - "comprame"
-  - "busca en amazon"
-  - "busca en mercado libre"
+  - "search Amazon"
+  - "search Mercado Libre"
   - "add it to the cart"
   - "agrega al carrito"
   - "quiero comprar"
@@ -25,7 +25,7 @@ explicit authorization.
    named a specific item, open it (tap_node/tap_ocr).
 5. If they said to add it: tap "Add to cart".
 6. **HARD STOP before checkout/payment.** Do NOT tap "Comprar ya", "Buy now",
-   "Pagar" or confirm any payment. Summarize the cart and ask the user to finish
+   "Pay" or confirm any payment. Summarize the cart and ask the user to finish
    the purchase themselves, UNLESS they explicitly said "buy it and pay".
 7. **finish(summary="…")** with the product(s), price, and that you stopped at the cart.
 

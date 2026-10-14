@@ -32,7 +32,7 @@ link, then finish in the UI. Do NOT tap through the launcher manually.
 7. **STOP before confirming/paying.** Requesting a ride spends money. Tell the user
    what you set up and ask them to confirm with the final button, OR if they
    explicitly said "confirm and request it" then tap the confirm button and
-   verify_screen(expect="buscando" or "conductor").
+   verify_screen(expect="searching" or "driver").
 8. **finish(summary="...")** describing the ride set up (app, destination, price/ETA
    if visible) and whether you stopped for confirmation.
 

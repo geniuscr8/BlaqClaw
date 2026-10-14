@@ -444,7 +444,7 @@ private fun AgendaRow(item: AssistantItem, colors: BlaqClawColors, onTap: (Assis
                     Text(item.body, fontSize = 12.sp, color = colors.textSecondary, lineHeight = 16.sp)
                 }
                 Row {
-                    if (item.ring) Text("⏰ suena", fontSize = 11.sp, color = tint)
+                    if (item.ring) Text("⏰ rings", fontSize = 11.sp, color = tint)
                     if (item.source == "ai") {
                         if (item.ring) Spacer(Modifier.width(8.dp))
                         Text("🐾 IA", fontSize = 11.sp, color = tint)

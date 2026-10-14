@@ -44,14 +44,14 @@ class AutomationRuleTool : BaseTool() {
             val id = optionalString(params, "id", optionalString(params, "name", ""))
             if (AutomationRuleStore.setEnabled(id, requireString(params, "operation") == "enable")) {
                 AutomationGeofenceManager.sync(ClawApplication.instance)
-                ToolResult.success("Regla actualizada.")
+                ToolResult.success("Rule updated.")
             } else ToolResult.error("Could not find rule '$id'.")
         }
         "delete" -> {
             val id = optionalString(params, "id", optionalString(params, "name", ""))
             if (AutomationRuleStore.delete(id)) {
                 AutomationGeofenceManager.sync(ClawApplication.instance)
-                ToolResult.success("Regla eliminada.")
+                ToolResult.success("Rule deleted.")
             } else ToolResult.error("Could not find '$id'.")
         }
         "run" -> {

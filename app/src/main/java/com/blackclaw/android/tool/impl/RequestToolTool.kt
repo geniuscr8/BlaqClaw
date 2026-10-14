@@ -53,11 +53,11 @@ class RequestToolTool : BaseTool() {
                 "Check the names in the catalog."
             )
         }
-        val msg = StringBuilder("Cargadas: ${found.joinToString()}.")
+        val msg = StringBuilder("Loaded: ${found.joinToString()}.")
         if (missing.isNotEmpty()) {
-            msg.append(" No existen (ignoradas): ${missing.joinToString()}.")
+            msg.append(" Not found (ignored): ${missing.joinToString()}.")
         }
-        msg.append(" Ya puedes llamarlas.")
+        msg.append(" They are ready to use.")
         // The data field carries the resolved names so the loop can unlock them.
         return ToolResult.success(msg.toString())
     }

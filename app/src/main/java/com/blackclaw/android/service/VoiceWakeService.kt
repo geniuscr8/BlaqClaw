@@ -158,16 +158,16 @@ class VoiceWakeService : Service() {
             val yes = listOf("yes", "confirm", "confirmed", "do it", "go ahead", "ok", "sure", "of course")
             val confirmed = yes.any { low.contains(it) }
             if (confirmed) {
-                say("De acuerdo, jefe.", pendingConfirmWhisper)
+                say("Understood, boss.", pendingConfirmWhisper)
                 runCommand(pending, pendingConfirmWhisper)
             } else {
-                say("Cancelado.", whisper)
+                say("Cancelled.", whisper)
             }
             return
         }
 
         if (runningTask) {
-            say("Un momento, jefe.", whisper)
+            say("One moment, boss.", whisper)
             return
         }
 

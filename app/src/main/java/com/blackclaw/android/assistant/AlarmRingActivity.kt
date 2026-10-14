@@ -71,7 +71,7 @@ class AlarmRingActivity : BaseActivity() {
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val title = intent.getStringExtra(EXTRA_TITLE) ?: "Alarma"
+        val title = intent.getStringExtra(EXTRA_TITLE) ?: "Alarm"
         val itemId = intent.getStringExtra(EXTRA_ITEM_ID)
         val challengeKind = itemId?.let { AssistantStore.find(it)?.challenge } ?: "none"
         lockDismiss = challengeKind.isNotBlank() && challengeKind != "none"

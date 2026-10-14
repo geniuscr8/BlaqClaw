@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Real web search that RETURNS readable results to the agent (unlike web_search,
  * which only opens a browser). Lets BlaqClaw answer "¿qué película se estrena
- * hoy?", "¿quién ganó anoche?", "precio del bitcoin", etc.
+ * "what is the weather today?", "who won last night?", "bitcoin price", etc.
  *
  * No API key: uses DuckDuckGo's free endpoints —
  *  1. Instant Answer API (api.duckduckgo.com) for direct facts.

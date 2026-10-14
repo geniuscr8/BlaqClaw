@@ -86,7 +86,12 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
     }
 
     companion object {
-        fun fromTask(task: String): TaskCreationGuard = TaskCreationGuard(parse(task))
+        fun fromTask(task: String): TaskCreationGuard {
+            // Spanish command aliases are intentionally unsupported. This keeps
+            // the native task guard aligned with the English-only task router.
+            if (!InputLanguagePolicy.isEnglish(task)) return TaskCreationGuard(null)
+            return TaskCreationGuard(parse(task))
+        }
 
         private fun parse(task: String): Match? {
             val normalized = normalize(task)

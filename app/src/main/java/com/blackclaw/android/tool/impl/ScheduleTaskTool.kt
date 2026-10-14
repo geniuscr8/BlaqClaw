@@ -70,10 +70,10 @@ class ScheduleTaskTool : BaseTool() {
         val recurStr = optionalString(params, "recurrence", "once").lowercase()
         val recurrence = when (recurStr) {
             "once" -> ScheduledTaskManager.Recurrence.ONCE
-            "hourly", "cada_hora", "cada hora" -> ScheduledTaskManager.Recurrence.HOURLY
-            "daily", "diario", "diaria" -> ScheduledTaskManager.Recurrence.DAILY
-            "weekly", "semanal" -> ScheduledTaskManager.Recurrence.WEEKLY
-            "interval", "intervalo" -> ScheduledTaskManager.Recurrence.INTERVAL
+            "hourly" -> ScheduledTaskManager.Recurrence.HOURLY
+            "daily" -> ScheduledTaskManager.Recurrence.DAILY
+            "weekly" -> ScheduledTaskManager.Recurrence.WEEKLY
+            "interval" -> ScheduledTaskManager.Recurrence.INTERVAL
             else -> return ToolResult.error("recurrence must be once|hourly|daily|weekly|interval")
         }
 
@@ -103,7 +103,7 @@ class ScheduleTaskTool : BaseTool() {
             .replace('ñ', 'n')
 
         // Relative: "in 30m" / "in 2h" / "in 1d"
-        val rel = Regex("""^(?:in|en)\s+(\d+)\s*(m|min|mins|minutes|minuto|minutos|h|hr|hrs|hours|hora|horas|d|day|days|dia|dias)$""").matchEntire(s)
+        val rel = Regex("""^in\s+(\d+)\s*(m|min|mins|minutes|h|hr|hrs|hours|d|day|days)$""").matchEntire(s)
         if (rel != null) {
             val n = rel.groupValues[1].toLong()
             val unit = rel.groupValues[2]
@@ -116,10 +116,10 @@ class ScheduleTaskTool : BaseTool() {
         }
 
         // Today/tomorrow with HH:mm
-        val rel2 = Regex("""^(today|tomorrow|hoy|manana)(?:\s+a\s+las)?\s+(\d{1,2}):(\d{2})$""").matchEntire(s)
+        val rel2 = Regex("""^(today|tomorrow)(?:\s+at)?\s+(\d{1,2}):(\d{2})$""").matchEntire(s)
         if (rel2 != null) {
             val cal = Calendar.getInstance().apply { timeInMillis = nowMs }
-            if (rel2.groupValues[1] in setOf("tomorrow", "manana")) cal.add(Calendar.DAY_OF_YEAR, 1)
+            if (rel2.groupValues[1] == "tomorrow") cal.add(Calendar.DAY_OF_YEAR, 1)
             cal.set(Calendar.HOUR_OF_DAY, rel2.groupValues[2].toInt())
             cal.set(Calendar.MINUTE, rel2.groupValues[3].toInt())
             cal.set(Calendar.SECOND, 0)
@@ -142,7 +142,7 @@ class ScheduleTaskTool : BaseTool() {
         }
 
         // Plain HH:mm → next occurrence today or tomorrow if past
-        val timeOnly = Regex("""^(?:a\s+las\s+)?(\d{1,2}):(\d{2})$""").matchEntire(s)
+        val timeOnly = Regex("""^(?:(?:at)\s+)?(\d{1,2}):(\d{2})$""").matchEntire(s)
         if (timeOnly != null) {
             val cal = Calendar.getInstance().apply { timeInMillis = nowMs }
             cal.set(Calendar.HOUR_OF_DAY, timeOnly.groupValues[1].toInt())

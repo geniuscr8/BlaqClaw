@@ -50,16 +50,16 @@ class DirectDeviceDataGuardTest {
     @Test
     fun `wifi action is not replaced by an instant status response`() {
         assertNotNull(
-            DirectDeviceDataGuard.deterministicToolCall("cómo está el wifi")
+            DirectDeviceDataGuard.deterministicToolCall("what is the Wi-Fi status")
         )
         assertNull(
-            DirectDeviceDataGuard.deterministicToolCall("apaga el wifi")
+            DirectDeviceDataGuard.deterministicToolCall("turn off Wi-Fi")
         )
         assertNull(
-            DirectDeviceDataGuard.deterministicToolCall("crea una tarea cuando me conecte al wifi")
+            DirectDeviceDataGuard.deterministicToolCall("create a task when I connect to Wi-Fi")
         )
         assertFalse(
-            DirectDeviceDataGuard.fromTask("crea una tarea cuando me conecte al wifi")
+            DirectDeviceDataGuard.fromTask("create a task when I connect to Wi-Fi")
                 .shouldBlockTextOnlyCompletion()
         )
     }

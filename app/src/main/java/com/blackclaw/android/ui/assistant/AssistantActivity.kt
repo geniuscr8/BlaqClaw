@@ -117,7 +117,7 @@ private fun AssistantScreen(
                     // ever runs out of room again it should truncate cleanly rather than
                     // turn into an unreadable smear.
                     Text(
-                        "Asistente",
+                        "Assistant",
                         fontSize = 19.sp,
                         fontWeight = FontWeight.Bold,
                         color = colors.textPrimary,

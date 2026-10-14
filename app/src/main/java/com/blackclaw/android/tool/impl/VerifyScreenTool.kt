@@ -16,7 +16,7 @@ import com.blackclaw.android.utils.XLog
  * SurfaceView where the a11y tree is empty).
  *
  * This is the key to reducing silent failures: the agent can call
- * verify_screen(expect="Mensaje enviado") and KNOW whether it worked.
+ * verify_screen(expect="Message sent") and KNOW whether it worked.
  */
 class VerifyScreenTool : BaseTool() {
     override fun getName() = "verify_screen"
@@ -24,7 +24,7 @@ class VerifyScreenTool : BaseTool() {
     override fun getDescriptionEN() =
         "Verify that expected text is (or is NOT) currently on screen. Checks the accessibility " +
         "tree, then OCR as fallback. Use after a critical action to confirm it worked — e.g. " +
-        "verify_screen(expect='Enviado') after sending a message. Returns FOUND or NOT_FOUND."
+        "verify_screen(expect='Sent') after sending a message. Returns FOUND or NOT_FOUND."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "confirm that expected text is (or is not) on screen after an action"
     override fun getParameters() = listOf(

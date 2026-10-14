@@ -232,7 +232,7 @@ class QuickAssistActivity : ComponentActivity() {
         if (busy) {
             runCatching { appViewModel.stopTask() }
             busy = false
-            status.value = "Cancelado, jefe."
+            status.value = "Cancelled, boss."
             phase.value = Phase.IDLE
         }
         if (cmd.isNotBlank()) onCommand(cmd) else ensureMicThenListen()
@@ -610,7 +610,7 @@ class QuickAssistActivity : ComponentActivity() {
             .replace(Regex("[ \\t]+"), " ")
             .replace(Regex("\\n{3,}"), "\n\n")
             .trim()
-            .ifBlank { "Listo, jefe." }
+            .ifBlank { "All set, boss." }
         turns.add(Turn(false, display, pendingCards.toList()))
         pendingCards.clear()
         status.value = ""
@@ -699,7 +699,7 @@ class QuickAssistActivity : ComponentActivity() {
         runCatching { appViewModel.stopTask() }
         busy = false
         runCatching { Speaker.stop() }
-        status.value = "Cancelado, jefe."
+        status.value = "Cancelled, boss."
         phase.value = Phase.IDLE
         progress.value = null
         scheduleIdleAutoClose()
@@ -1055,7 +1055,7 @@ private fun PremiumAssistHeader(phase: QuickAssistActivity.Phase, onClose: () ->
             Spacer(Modifier.width(11.dp))
             Column {
                 Text("BLAQCLAW", color = ObsidianGold.Ink, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-                Text("ASISTENTE DEL SISTEMA", color = ObsidianGold.Quiet, fontSize = 9.sp, letterSpacing = 1.1.sp)
+                Text("SYSTEM ASSISTANT", color = ObsidianGold.Quiet, fontSize = 9.sp, letterSpacing = 1.1.sp)
             }
             Spacer(Modifier.weight(1f))
             Box(Modifier.size(8.dp).clip(CircleShape)

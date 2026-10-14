@@ -413,7 +413,7 @@ class AutomationProfileTool : BaseTool() {
             }
         }
         profile.actions.forEach { action ->
-            if (action.type == AutomationProfileStore.ActionType.NOTIFY) permissions += "Notificaciones"
+            if (action.type == AutomationProfileStore.ActionType.NOTIFY) permissions += "Notifications"
             if (action.type == AutomationProfileStore.ActionType.TOOL &&
                 ToolRiskPolicy.classify(action.params["tool"].toString()) == ToolRiskPolicy.Tier.SENSITIVE) {
                 permissions += "Confirmation for a sensitive action"
@@ -421,11 +421,11 @@ class AutomationProfileTool : BaseTool() {
         }
         return buildString {
             append("Name: ${profile.name}\n")
-            append("Disparadores: ${profile.triggers.joinToString { it.type.name.lowercase() }}\n")
+            append("Triggers: ${profile.triggers.joinToString { it.type.name.lowercase() }}\n")
             append("Conditions: ${profile.conditions.size} · logic ${profile.conditionLogic.name.lowercase()}\n")
-            append("Acciones: ${profile.actions.joinToString { it.type.name.lowercase() }}\n")
+            append("Actions: ${profile.actions.joinToString { it.type.name.lowercase() }}\n")
             append("Limits: cooldown ${profile.cooldownMs}ms, daily maximum ${if (profile.maxRunsPerDay == 0) "unlimited" else profile.maxRunsPerDay}, maximum time ${profile.maxRuntimeMs}ms, concurrency ${profile.concurrency.name.lowercase()}\n")
-            append("Permisos/capacidades: ${if (permissions.isEmpty()) "ninguno adicional" else permissions.joinToString()}")
+            append("Permissions/capabilities: ${if (permissions.isEmpty()) "none additional" else permissions.joinToString()}")
         }
     }
 }

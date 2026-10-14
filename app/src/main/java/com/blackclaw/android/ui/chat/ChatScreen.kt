@@ -1915,7 +1915,7 @@ private fun AssistantPanel(
                    val label: String, val emoji: String, val tint: Color)
     val cats = listOf(
         Cat(com.blackclaw.android.assistant.AssistantItemType.REMINDER, "Reminders", "🔔", Color(0xFF8B5CF6)),
-        Cat(com.blackclaw.android.assistant.AssistantItemType.ALARM, "Alarmas", "⏰", Color(0xFFF59E0B)),
+        Cat(com.blackclaw.android.assistant.AssistantItemType.ALARM, "Alarms", "⏰", Color(0xFFF59E0B)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.NOTE, "Notas", "📝", Color(0xFF38BDF8)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.EVENT, "Calendar", "📅", Color(0xFFEC4899)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.FINANCE, "Finances", "💰", Color(0xFF22C55E)),
@@ -1926,7 +1926,7 @@ private fun AssistantPanel(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.AutoAwesome, null, tint = colors.accent, modifier = Modifier.size(26.dp))
             Spacer(Modifier.width(10.dp))
-            Text("Asistente", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            Text("Assistant", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
         }
         Text("Your hub for reminders, alarms, and more",
             fontSize = 12.sp, color = colors.textSecondary)
@@ -2230,7 +2230,7 @@ private fun SidebarContent(
             ) {
                 Icon(Icons.Outlined.AutoAwesome, contentDescription = null, tint = colors.accent, modifier = Modifier.size(20.dp))
                 Spacer(Modifier.width(12.dp))
-                Text("Asistente", color = colors.textPrimary, fontWeight = FontWeight.Medium)
+                Text("Assistant", color = colors.textPrimary, fontWeight = FontWeight.Medium)
             }
         }
 

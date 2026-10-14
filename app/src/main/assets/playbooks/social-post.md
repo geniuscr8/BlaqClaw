@@ -22,7 +22,7 @@ X (Twitter):
    open_url(url="twitter://post?message=TEXTO")  (fallback web: https://twitter.com/intent/tweet?text=TEXTO)
 2. get_screen_info; if the text isn't filled, tap the box and input_text it.
 3. STOP before posting unless told to publish. If authorized, tap "Postear"/"Post"
-   and verify_screen(expect="enviado"/the new tweet).
+   and verify_screen(expect="sent"/the new tweet).
 
 Instagram / Facebook:
 1. open_app_action(app="instagram" | "facebook").

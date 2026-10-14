@@ -156,7 +156,6 @@ class VoskWakeWordEngine {
         val text = textRaw.trim().lowercase()
         if (text.isBlank()) return
         if (System.currentTimeMillis() < ttsUntilMs) return
-        if (text.contains("digame") || text.contains("dígame")) return
         if (lastAckWords.isNotEmpty()) {
             val words = text.split(" ").filter { it.length > 2 }.toSet()
             if (words.isNotEmpty() && words.all { it in lastAckWords }) return

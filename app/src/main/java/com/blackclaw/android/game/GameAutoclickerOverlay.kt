@@ -223,7 +223,7 @@ object GameAutoclickerOverlay {
             paint.color = Color.WHITE; paint.textSize = 16f * density
             canvas.drawText("Tap or swipe to add actions", 30f, 52f * density, paint)
             paint.textSize = 13f * density
-            canvas.drawText("LISTO (${gestures.size})", width - 130f * density, 52f * density, paint)
+            canvas.drawText("READY (${gestures.size})", width - 130f * density, 52f * density, paint)
             gestures.forEachIndexed { index, g ->
                 paint.color = 0xff6ee7ff.toInt(); paint.style = Paint.Style.STROKE; paint.strokeWidth = 3f
                 val x = when (g) { is GameGesture.Tap -> g.x; is GameGesture.Swipe -> g.startX }

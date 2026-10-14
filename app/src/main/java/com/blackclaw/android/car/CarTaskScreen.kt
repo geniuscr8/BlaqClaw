@@ -30,7 +30,7 @@ class CarTaskScreen(
     private enum class State { RUNNING, DONE, ERROR }
 
     @Volatile private var state: State = State.RUNNING
-    @Volatile private var message: String = "Un momento…"
+    @Volatile private var message: String = "One moment…"
     private var started = false
 
     init {
@@ -50,10 +50,10 @@ class CarTaskScreen(
             appViewModel.startTask(command, taskId,
                 surface = com.blackclaw.android.conversation.ConversationRepository.Surface.ANDROID_AUTO) { event ->
                 when (event) {
-                    is TaskEvent.Completed -> finishWith(State.DONE, event.answer.ifBlank { "Listo." })
+                    is TaskEvent.Completed -> finishWith(State.DONE, event.answer.ifBlank { "All set." })
                     is TaskEvent.Failed -> finishWith(State.ERROR, "Could not complete it: ${event.error}")
                     is TaskEvent.Blocked -> finishWith(State.ERROR, "Blocked by a system dialog.")
-                    is TaskEvent.Cancelled -> finishWith(State.ERROR, "Cancelado.")
+                    is TaskEvent.Cancelled -> finishWith(State.ERROR, "Cancelled.")
                     is TaskEvent.ToolAction -> update("${event.toolName}…")
                     else -> { /* progress noise — ignore on the car */ }
                 }

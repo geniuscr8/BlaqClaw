@@ -45,7 +45,7 @@ class ForceStopAppTool : BaseTool() {
             return ToolResult.error("Invalid package name: $pkg")
         }
         SecurityPolicy.protectionReason(ClawApplication.instance, pkg)?.let { reason ->
-            return ToolResult.error("No puedo detener $pkg: $reason")
+            return ToolResult.error("Cannot stop $pkg: $reason")
         }
         PrivilegedShell.exec("am force-stop $pkg") ?: return ToolResult.error("am force-stop failed")
         return ToolResult.success("Force-stopped $pkg")

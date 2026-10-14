@@ -48,7 +48,7 @@ class AssistantReceiver : BroadcastReceiver() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (highPriority) {
                     val ch = NotificationChannel(
-                        CHANNEL_ID_HIGH, "Asistente · Alarmas y avisos",
+                        CHANNEL_ID_HIGH, "Assistant · Alarms and alerts",
                         NotificationManager.IMPORTANCE_HIGH,
                     ).apply {
                         description = "Assistant alarms and important alerts"
@@ -57,7 +57,7 @@ class AssistantReceiver : BroadcastReceiver() {
                     nm.createNotificationChannel(ch)
                 } else {
                     val ch = NotificationChannel(
-                        CHANNEL_ID, "Asistente · Recordatorios",
+                        CHANNEL_ID, "Assistant · Reminders",
                         NotificationManager.IMPORTANCE_DEFAULT,
                     ).apply { description = "Assistant reminders and notes" }
                     nm.createNotificationChannel(ch)
@@ -82,7 +82,7 @@ class AssistantReceiver : BroadcastReceiver() {
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 nm.createNotificationChannel(NotificationChannel(
-                    CHANNEL_ID_HIGH, "Asistente · Alarmas y avisos", NotificationManager.IMPORTANCE_HIGH))
+                    CHANNEL_ID_HIGH, "Assistant · Alarms and alerts", NotificationManager.IMPORTANCE_HIGH))
             }
             val id = AssistantDecisionStore.put(title, yesTask)
             fun actionPending(action: String, code: Int): PendingIntent = PendingIntent.getBroadcast(
@@ -129,8 +129,8 @@ class AssistantReceiver : BroadcastReceiver() {
         val title = "$emoji ${item.title}"
         val body = item.body.ifBlank {
             when (item.type) {
-                AssistantItemType.EVENT -> "Evento ahora"
-                else -> "Recordatorio"
+                AssistantItemType.EVENT -> "Event now"
+                else -> "Reminder"
             }
         }
         val high = item.type == AssistantItemType.ALERT || item.type == AssistantItemType.REMINDER
@@ -170,9 +170,9 @@ class AssistantReceiver : BroadcastReceiver() {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val ch = NotificationChannel(
-                CHANNEL_ID_HIGH, "Asistente · Alarmas y avisos",
+                CHANNEL_ID_HIGH, "Assistant · Alarms and alerts",
                 NotificationManager.IMPORTANCE_HIGH,
-            ).apply { description = "Alarmas y avisos importantes"; enableVibration(true) }
+            ).apply { description = "Important alarms and alerts"; enableVibration(true) }
             nm.createNotificationChannel(ch)
         }
         val fsPending = PendingIntent.getActivity(
@@ -182,7 +182,7 @@ class AssistantReceiver : BroadcastReceiver() {
         val n = NotificationCompat.Builder(context, CHANNEL_ID_HIGH)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentTitle("⏰ ${item.title}")
-            .setContentText("Alarma")
+            .setContentText("Alarm")
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setFullScreenIntent(fsPending, true)

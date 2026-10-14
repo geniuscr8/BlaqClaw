@@ -23,7 +23,7 @@ import java.util.Locale
  *  - Wake-word loop: continuously listen; when the transcript starts with the
  *    wake word ("blaqclaw" / "hey blaqclaw"), fire the callback with the rest
  *    of the phrase, then resume listening. This gives hands-free operation —
- *    "Hey BlaqClaw, manda un mensaje a mamá" — useful when the phone is docked
+ *    "Hey BlaqClaw, send a message to Mom" — useful when the phone is docked
  *    or you're driving / working on the PC.
  *
  * Battery note: continuous recognition is opt-in. We use the system recognizer
