@@ -26,6 +26,8 @@ import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.security.AppRiskScanner
 import com.blackclaw.android.security.AdCulpritDetector
 import com.blackclaw.android.security.SecurityActions
+import com.blackclaw.android.security.PermissionDiagnostics
+import com.blackclaw.android.security.SecurityAuditLog
 import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
@@ -71,6 +73,8 @@ private fun SecurityScreen(
     var apps by remember { mutableStateOf<List<AppRiskScanner.AppRisk>>(emptyList()) }
     var adSuspects by remember { mutableStateOf<List<AdCulpritDetector.Suspect>>(emptyList()) }
     var reloadKey by remember { mutableStateOf(0) }
+    val permissionHealth = remember(reloadKey) { PermissionDiagnostics.snapshot(com.blackclaw.android.ClawApplication.instance) }
+    val auditEntries = remember(reloadKey) { SecurityAuditLog.recent().take(3) }
 
     LaunchedEffect(reloadKey) {
         loading = true
@@ -177,6 +181,33 @@ private fun SecurityScreen(
                         fontSize = 13.sp, color = colors.textSecondary,
                         modifier = Modifier.padding(vertical = 20.dp))
                 }
+            }
+            item {
+                val missingRequired = permissionHealth.count { it.required && !it.granted }
+                Surface(
+                    color = colors.surface, shape = RoundedCornerShape(14.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Column(Modifier.padding(14.dp)) {
+                        Text("Permission health", fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                        Text(
+                            if (missingRequired == 0) "Required permissions are ready."
+                            else "$missingRequired required permission(s) need attention.",
+                            fontSize = 12.sp, color = if (missingRequired == 0) colors.accent else Color(0xFFE0A02E),
+                        )
+                        permissionHealth.filter { !it.granted }.take(3).forEach {
+                            Text("• ${it.name}: ${it.remedy}", fontSize = 11.sp, color = colors.textSecondary)
+                        }
+                    }
+                }
+                if (auditEntries.isNotEmpty()) {
+                    Spacer(Modifier.height(10.dp))
+                    Text("Recent security actions", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                    auditEntries.forEach { entry ->
+                        Text("• ${entry.action} · ${entry.packageName}", fontSize = 11.sp, color = colors.textSecondary)
+                    }
+                }
+                Spacer(Modifier.height(14.dp))
             }
             items(apps) { app ->
                 RiskCard(app, colors, onNeutralize = { act(app.pkg, "neutralize") },

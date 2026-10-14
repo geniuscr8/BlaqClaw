@@ -576,7 +576,17 @@ class QuickAssistActivity : ComponentActivity() {
             QuickAssistRecovery.CONNECTION -> runCatching {
                 startActivity(Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS))
             }
-            QuickAssistRecovery.RETRY -> lastCommand.takeIf { it.isNotBlank() }?.let(::onCommand)
+            QuickAssistRecovery.RETRY -> {
+                val resumed = runCatching { appViewModel.resumeLastTask() }.getOrDefault(false)
+                if (resumed) {
+                    busy = true
+                    phase.value = Phase.THINKING
+                    status.value = "Resuming…"
+                    progress.value = QuickAssistProgress("Resuming task", "Continuing from the last checkpoint")
+                } else {
+                    lastCommand.takeIf { it.isNotBlank() }?.let(::onCommand)
+                }
+            }
             null -> Unit
         }
     }

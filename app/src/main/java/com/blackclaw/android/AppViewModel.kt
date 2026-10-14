@@ -110,6 +110,8 @@ class AppViewModel : ViewModel() {
         taskOrchestrator.cancelCurrentTask()
     }
 
+    fun resumeLastTask(): Boolean = taskOrchestrator.resumeLastTask()
+
     fun isTaskRunning(): Boolean = taskSessionStore.isTaskRunning()
 
     fun clearTaskCallback() {

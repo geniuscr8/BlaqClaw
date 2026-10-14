@@ -147,6 +147,20 @@ class TaskOrchestrator(
         XLog.d(TAG, "Current task cancellation requested")
     }
 
+    /** Resume the last user task that was explicitly cancelled, from its original prompt. */
+    fun resumeLastTask(): Boolean {
+        if (isTaskRunning()) return false
+        val candidate = taskSessionStore.resumeCandidate() ?: return false
+        taskSessionStore.clearResumeCandidate()
+        startNewTask(
+            channel = candidate.channel,
+            task = candidate.taskText,
+            messageID = "resume_${System.currentTimeMillis()}",
+            autoReturnToChat = candidate.autoReturnToChat,
+        )
+        return true
+    }
+
     /**
      * Start a new task. Routes through the 3-tier pipeline.
      */

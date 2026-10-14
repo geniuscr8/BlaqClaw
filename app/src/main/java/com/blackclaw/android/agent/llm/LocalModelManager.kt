@@ -629,6 +629,13 @@ object LocalModelManager {
             // Persist a streaming SHA-256 sidecar so later launches can detect
             // storage corruption without keeping the multi-gigabyte model in RAM.
             val digest = sha256(tempFile)
+            val remoteDigest = response.header("X-Checksum-Sha256")
+                ?: response.header("X-Checksum-SHA256")
+            if (!remoteDigest.isNullOrBlank() && !remoteDigest.trim().equals(digest, ignoreCase = true)) {
+                tempFile.delete()
+                callback.onError("Downloaded model failed the publisher checksum validation. Please retry.")
+                return
+            }
             FileOutputStream(File(modelDir, "${model.fileName}.sha256"), false).use {
                 it.write(digest.toByteArray(Charsets.US_ASCII))
             }

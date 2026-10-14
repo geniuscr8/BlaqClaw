@@ -21,6 +21,7 @@ object SecurityActions {
 
     /** Stop the ads NOW: revoke the overlay permission and force-stop the app. */
     fun neutralize(pkg: String): String {
+        SecurityAuditLog.record("neutralize_attempt", pkg, "started")
         guard(pkg)?.let { return it }
         if (PrivilegedShell.isAvailable()) {
             val r1 = PrivilegedShell.exec("appops set $pkg SYSTEM_ALERT_WINDOW ignore")
@@ -39,6 +40,7 @@ object SecurityActions {
     }
 
     fun forceStop(pkg: String): String {
+        SecurityAuditLog.record("force_stop_attempt", pkg, "started")
         guard(pkg)?.let { return it }
         if (!PrivilegedShell.isAvailable()) { openAppSettings(pkg); return "No privileges: I opened $pkg settings for 'Force stop'." }
         PrivilegedShell.exec("am force-stop $pkg")
@@ -48,6 +50,7 @@ object SecurityActions {
     }
 
     fun revokeOverlay(pkg: String): String {
+        SecurityAuditLog.record("overlay_revoke_attempt", pkg, "started")
         guard(pkg)?.let { return it }
         if (!PrivilegedShell.isAvailable()) { openOverlaySettings(pkg); return "No privileges: I opened the overlay settings for $pkg." }
         PrivilegedShell.exec("appops set $pkg SYSTEM_ALERT_WINDOW ignore")
@@ -56,6 +59,7 @@ object SecurityActions {
 
     /** Disable the app (keeps it installed but inert). Needs privileges. */
     fun disableApp(pkg: String): String {
+        SecurityAuditLog.record("disable_attempt", pkg, "started")
         guard(pkg)?.let { return it }
         if (!PrivilegedShell.isAvailable()) { openAppSettings(pkg); return "No privileges: I cannot disable it; I opened its settings." }
         val r = PrivilegedShell.exec("pm disable-user --user 0 $pkg")
@@ -64,6 +68,7 @@ object SecurityActions {
 
     /** Uninstall — always via the system dialog (user confirms). */
     fun uninstall(pkg: String): String {
+        SecurityAuditLog.record("uninstall_attempt", pkg, "started")
         guard(pkg)?.let { return it }
         return try {
             ClawApplication.instance.startActivity(

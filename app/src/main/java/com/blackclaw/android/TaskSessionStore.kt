@@ -23,6 +23,12 @@ data class TaskSessionState(
         get() = phase != TaskSessionPhase.IDLE && messageId.isNotEmpty()
 }
 
+data class TaskResumeCandidate(
+    val taskText: String,
+    val channel: Channel,
+    val autoReturnToChat: Boolean,
+)
+
 /**
  * Single authoritative state holder for the currently running task session.
  *
@@ -36,6 +42,22 @@ class TaskSessionStore {
     val state: StateFlow<TaskSessionState> = _state
 
     fun snapshot(): TaskSessionState = _state.value
+
+    fun resumeCandidate(): TaskResumeCandidate? {
+        val prefs = com.blackclaw.android.ClawApplication.instance
+            .getSharedPreferences("task_resume", android.content.Context.MODE_PRIVATE)
+        val text = prefs.getString("task_text", null)?.trim().orEmpty()
+        val channel = prefs.getString("channel", null)?.let { runCatching { Channel.valueOf(it) }.getOrNull() }
+        return if (text.isNotEmpty() && channel != null) {
+            TaskResumeCandidate(text, channel, prefs.getBoolean("auto_return", channel == Channel.LOCAL))
+        } else null
+    }
+
+    fun clearResumeCandidate() {
+        com.blackclaw.android.ClawApplication.instance
+            .getSharedPreferences("task_resume", android.content.Context.MODE_PRIVATE)
+            .edit().clear().apply()
+    }
 
     fun isTaskRunning(): Boolean = _state.value.isRunning
 
@@ -84,6 +106,15 @@ class TaskSessionStore {
     fun release(): TaskSessionState {
         synchronized(lock) {
             val current = _state.value
+            if (current.stopRequested && current.taskText.isNotBlank()) {
+                com.blackclaw.android.ClawApplication.instance
+                    .getSharedPreferences("task_resume", android.content.Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("task_text", current.taskText)
+                    .putString("channel", current.channel?.name)
+                    .putBoolean("auto_return", current.autoReturnToChat)
+                    .apply()
+            }
             _state.value = TaskSessionState()
             return current
         }

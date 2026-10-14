@@ -36,6 +36,12 @@ the task is complete.
 - Added security action confirmations, local audit history, and permission-health diagnostics.
 - Added English UI regression coverage and clearer active-model progress feedback.
 
+### v1.3.10
+
+- Added task resume checkpoints after cancellation and a resume action in Quick Assist.
+- Added visible permission-health diagnostics and recent security-action history.
+- Added audit records for UI-triggered security actions and publisher checksum-header validation.
+
 ### v1.3.8
 
 - Fixed signed AAB generation by separating bundle generation from ABI-split

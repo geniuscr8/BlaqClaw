@@ -71,7 +71,7 @@ android {
         )
         versionName = readLocalOrEnvString(
             "BLAQCLAW_VERSION_NAME",
-            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.9"),
+            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.10"),
         )
         buildConfigField("String", "VERSION_INFO", getVersionGit())
         buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw | github.com/geniuscr8/BlaqClaw\"")
