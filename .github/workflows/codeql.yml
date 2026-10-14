@@ -34,13 +34,13 @@ jobs:
         run: yes | sdkmanager --licenses >/dev/null
       - name: Install Android SDK packages
         run: sdkmanager "platform-tools" "platforms;android-36" "build-tools;35.0.0"
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: java-kotlin
       # Autobuild cannot reliably discover this Kotlin/Android Gradle project.
       # Compile the release sources without producing a debug APK artifact.
       - name: Build for CodeQL
         run: ./gradlew --no-daemon :app:compileReleaseKotlin :app:compileReleaseJavaWithJavac -x lint -x test
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
         with:
           category: "/language:java-kotlin"
