@@ -46,7 +46,7 @@ class BlaqClawHomeScreen(carContext: CarContext) : Screen(carContext) {
                 screenManager.push(CarAskScreen(carContext, hint = "Who should I call?", commandPrefix = "call "))
             })
             .addItem(gridItem("Notificaciones", R.drawable.ic_car_bell) {
-                screenManager.push(CarTaskScreen(carContext, "lee mis notificaciones sin abrir apps"))
+                screenManager.push(CarTaskScreen(carContext, "read my notifications without opening apps"))
             })
             .build()
 

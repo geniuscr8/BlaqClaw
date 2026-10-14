@@ -14,7 +14,7 @@ class PingHostTool : BaseTool() {
     override fun getName() = "ping_host"
     override fun getDisplayName() = "Ping"
     override fun getDescriptionEN() =
-        "Mide latencia a un host (TCP). Pasa 'host' (e.g. 'google.com') y opcional 'port' (default 80)."
+        "Measures latency to a host (TCP). Pass 'host' (e.g. 'google.com') and optional 'port' (default 80)."
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(

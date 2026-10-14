@@ -185,7 +185,7 @@ class LayoutRegressionTest {
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    "Asistente · Finanzas",
+                    "Assistant · Finances",
                     modifier = Modifier.weight(1f).testTag("title"),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -234,7 +234,7 @@ class LayoutRegressionTest {
                 )
                 // No weight: this lives on whatever is left, which is the bug.
                 Text(
-                    "Asistente · Finanzas y presupuesto",
+                    "Assistant · Finances and budget",
                     modifier = Modifier.testTag("title"),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

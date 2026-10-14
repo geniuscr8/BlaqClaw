@@ -207,7 +207,7 @@ private fun AlarmRingScreen(
                     fontWeight = FontWeight.Medium)
                 if (hasChallenge && !solving) {
                     Spacer(Modifier.height(8.dp))
-                    Text("Alarma importante · resuelve un reto para apagarla",
+                        Text("Important alarm · solve a challenge to dismiss it",
                         fontSize = 13.sp, color = Color(0xFF8B7BB0))
                 }
             }
@@ -274,7 +274,7 @@ private fun AlarmRingScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7C3AED), contentColor = Color.White),
                     ) {
-                        Text(if (hasChallenge) "Resolver para apagar" else "Descartar",
+                        Text(if (hasChallenge) "Solve to dismiss" else "Dismiss",
                             fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                     }
                     Spacer(Modifier.height(14.dp))

@@ -49,7 +49,7 @@ class RequestToolTool : BaseTool() {
 
         if (found.isEmpty()) {
             return ToolResult.error(
-                "Ninguna de esas tools existe: ${requested.joinToString()}. " +
+                "None of those tools exist: ${requested.joinToString()}. " +
                 "Check the names in the catalog."
             )
         }

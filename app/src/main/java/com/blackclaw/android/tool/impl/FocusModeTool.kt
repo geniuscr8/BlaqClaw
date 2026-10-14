@@ -32,7 +32,7 @@ class FocusModeTool : BaseTool() {
         "mode: focus (custom duration) | pomodoro (25+5 cycles). " +
         "Use for: 'necesito concentrarme', 'modo focus 1 hora', 'pomodoro'."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "activa modo focus/pomodoro (DND + timer + auto-reply opcional)"
+    override fun getBrief() = "enables focus/Pomodoro mode (DND + timer + optional auto-reply)"
     override fun getParameters() = listOf(
         ToolParameter("mode", "string", "focus | pomodoro. Default focus.", false),
         ToolParameter("duration_minutes", "integer", "Duration in minutes. Default 25 for pomodoro, 60 for focus.", false),
@@ -68,7 +68,7 @@ class FocusModeTool : BaseTool() {
         val endTime = System.currentTimeMillis() + minutes * 60_000L
         val item = AssistantStore.create(
             type = AssistantItemType.REMINDER,
-            title = "🎯 Fin del modo focus: $label",
+            title = "🎯 Focus mode ended: $label",
             body = "You completed $minutes minutes of focus. Good work!",
             triggerAtMs = endTime, source = "ai",
         )
@@ -166,6 +166,6 @@ class FocusStopTool : BaseTool() {
         KVUtils.putLong("focus_mode_end", 0)
         KVUtils.sync()
 
-        return ToolResult.success("🛑 Modo focus '$label' detenido. DND desactivado.")
+        return ToolResult.success("🛑 Focus mode '$label' stopped. DND disabled.")
     }
 }

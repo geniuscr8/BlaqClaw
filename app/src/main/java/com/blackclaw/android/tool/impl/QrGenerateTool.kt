@@ -45,7 +45,7 @@ class QrGenerateTool : BaseTool() {
             FileOutputStream(file).use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
             ToolResult.success("QR generado: ${file.absolutePath}")
         } catch (e: Exception) {
-            ToolResult.error("Fallo generando QR: ${e.message}")
+            ToolResult.error("QR generation failed: ${e.message}")
         }
     }
 }

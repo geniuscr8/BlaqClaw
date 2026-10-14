@@ -112,7 +112,7 @@ class ScreenCaptureService : Service() {
         val notif: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentTitle("BlaqClaw")
-            .setContentText("Captura de pantalla activa")
+            .setContentText("Screen capture active")
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()

@@ -32,7 +32,7 @@ class OpenAppActionTool : BaseTool() {
         "zoom, yelp, tripadvisor, tinder, bumble, duolingo. " +
         "Pass 'app' (a key or spoken name) and an optional 'query' (destination, food, song, product, " +
         "search term). Examples: open_app_action(app='uber', query='Aeropuerto de Madrid'); " +
-        "open_app_action(app='ebay', query='teclado mecánico'); open_app_action(app='booking', query='Cancún'); " +
+        "open_app_action(app='ebay', query='mechanical keyboard'); open_app_action(app='booking', query='Cancun'); " +
         "open_app_action(app='maps', query='casa'). " +
         "Then verify with get_screen_info and finish the flow with accessibility taps."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -48,7 +48,7 @@ class OpenAppActionTool : BaseTool() {
         val entry = AppDeepLinks.byKey(appRaw) ?: AppDeepLinks.match(appRaw)
             ?: return ToolResult.error(
                 "App '$appRaw' is not in the deep-link catalog. Use open_app(package_name=…) or " +
-                "get_installed_apps(keyword=…) para encontrarla.")
+                "Use get_installed_apps(keyword=…) to find it.")
 
         val ctx = ClawApplication.instance
         val encoded = if (query.isNotEmpty())
@@ -87,7 +87,7 @@ class OpenAppActionTool : BaseTool() {
                 continue
             }
             if (tryOpen(ctx, uri, entry.pkg)) {
-                val what = if (query.isNotEmpty()) " con '$query'" else ""
+                val what = if (query.isNotEmpty()) " with '$query'" else ""
                 return ToolResult.success("Opened ${entry.key}$what. Review the screen and complete the flow.")
             }
         }

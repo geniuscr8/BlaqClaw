@@ -183,7 +183,7 @@ object GameAutomationRuntime {
             XLog.e(TAG, "$label failed", e)
             state = state.copy(message = "Error: ${e.message}")
         } finally {
-            val finalMessage = if (stopRequested.get()) "Detenida por el usuario" else state.message
+            val finalMessage = if (stopRequested.get()) "Stopped by user" else state.message
             val finalCount = state.completedActions
             state = Status(false, state.kind, state.label, finalCount, state.startedAtMs, finalMessage)
             worker = null

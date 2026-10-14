@@ -55,7 +55,7 @@ class AppInfoTool : BaseTool() {
                 appendLine("Target SDK: ${it.targetSdkVersion}")
                 appendLine("Min SDK: ${it.minSdkVersion}")
                 if (it.dataDir != null) appendLine("Data dir: ${it.dataDir}")
-                appendLine("Es del sistema: ${(it.flags and android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0}")
+                appendLine("System app: ${(it.flags and android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0}")
             }
             if (perms.isNotEmpty()) {
                 appendLine("Permissions (${info.requestedPermissions?.size}):")

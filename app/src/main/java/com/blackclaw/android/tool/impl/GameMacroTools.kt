@@ -20,7 +20,7 @@ class GameRecordMacroTool : BaseTool() {
     override fun getBrief() = "opens a floating editor to place and save taps/swipes without ADB"
     override fun getParameters() = listOf(
         ToolParameter("operation", "string", "open/start, close o status", true),
-        ToolParameter("name", "string", "Nombre de la macro para start", false),
+        ToolParameter("name", "string", "Macro name for start", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -119,7 +119,7 @@ class GameAutoclickerTool : BaseTool() {
         "Open/close the floating no-ADB autoclicker, or control a repeated point for up to 30 minutes. " +
         "Playback stops when the game leaves foreground. Start always requires confirmed=true."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "autoclicker visible y limitado para un punto normalizado dentro del juego"
+    override fun getBrief() = "visible, limited autoclicker for a normalized point in a game"
     override fun getParameters() = listOf(
         ToolParameter("operation", "string", "open, close, start, pause, resume, restart, stop, or status", true),
         ToolParameter("x", "integer", "Normalized X 0..1000", false),
@@ -147,7 +147,7 @@ class GameAutoclickerTool : BaseTool() {
             if (!GameScreenState.isGame(packageName)) return ToolResult.error("$packageName is not classified as a game.")
             val x = requireInt(params, "x"); val y = requireInt(params, "y")
             runCatching { GameControlPolicy.toPixel(x, 1001); GameControlPolicy.toPixel(y, 1001) }
-                .getOrElse { return ToolResult.error("x/y deben estar entre 0 y 1000.") }
+                .getOrElse { return ToolResult.error("x/y must be between 0 and 1000.") }
             val interval = optionalLong(params, "interval_ms", 250L).coerceIn(50L, 5_000L)
             val duration = optionalLong(params, "duration_seconds", 180L).coerceIn(1L, 1_800L) * 1_000L
             GameAutomationRuntime.startAutoclicker(packageName, x, y, interval, duration).fold(

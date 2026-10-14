@@ -387,7 +387,7 @@ object AutomationProfileEngine {
         AutomationProfileStore.ActionType.SET_VARIABLE -> {
             val name = expandString(action.params["name"]?.toString().orEmpty(), profile, event).take(80)
             val value = expandString(action.params["value"]?.toString().orEmpty(), profile, event).take(2_000)
-            if (name.isBlank()) Result.failure(IllegalArgumentException("La variable necesita nombre."))
+            if (name.isBlank()) Result.failure(IllegalArgumentException("The variable needs a name."))
             else if (SecretStore.putString(VARIABLE_PREFIX + name, value)) Result.success(Unit)
             else Result.failure(IllegalStateException("Could not save the variable securely."))
         }
@@ -432,7 +432,7 @@ object AutomationProfileEngine {
         }
         AutomationProfileStore.ActionType.IF -> {
             val condition = conditionFrom(action) ?: return Result.failure(
-                IllegalArgumentException("if necesita condition_type y condition_params."))
+                IllegalArgumentException("if needs condition_type and condition_params."))
             val branch = if (conditionMatches(context, condition, event)) action.params["then"] else action.params["else"]
             executeActions(context, profile, nestedActions(branch), event, deadline, depth + 1)
         }
@@ -440,7 +440,7 @@ object AutomationProfileEngine {
             val count = automationInt(action.params["count"]) ?: 0
             val nested = nestedActions(action.params["actions"])
             if (count !in 1..20 || nested.isEmpty()) {
-                Result.failure(IllegalArgumentException("loop necesita count 1..20 y actions."))
+                Result.failure(IllegalArgumentException("loop needs count 1..20 and actions."))
             } else {
                 var result: Result<Unit> = Result.success(Unit)
                 repeat(count) {

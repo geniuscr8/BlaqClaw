@@ -34,7 +34,7 @@ class DiscoverAppActionsTool : BaseTool() {
         if (filter.isNotBlank()) {
             val cap = AppActionScanner.scanCapabilities().firstOrNull { it.key == filter }
                 ?: return ToolResult.error("Capacidad desconocida '$filter'.")
-            if (cap.apps.isEmpty()) return ToolResult.success("Ninguna app instalada para: ${cap.label}.")
+            if (cap.apps.isEmpty()) return ToolResult.success("No installed apps found for: ${cap.label}.")
             val names = cap.apps.joinToString(", ") { "${it.label} (${it.pkg})" }
             return ToolResult.success("${cap.label}: $names")
         }

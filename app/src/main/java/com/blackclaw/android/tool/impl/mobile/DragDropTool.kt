@@ -36,7 +36,7 @@ class DragDropTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val service = requireAccessibilityService()
-            ?: return ToolResult.error("Accessibility service no activo")
+            ?: return ToolResult.error("Accessibility service is not active")
         val sx = requireInt(params, "start_x")
         val sy = requireInt(params, "start_y")
         val ex = requireInt(params, "end_x")

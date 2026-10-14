@@ -31,12 +31,12 @@ class SecurityScanTool : BaseTool() {
         val risks = AppRiskScanner.scan().filter { it.level != AppRiskScanner.Level.LOW }.take(limit)
         if (risks.isEmpty()) return ToolResult.success("No apps with notable risk signals found.")
         return ToolResult.success(buildString {
-            appendLine("Apps con mayor riesgo (${risks.size}):")
+            appendLine("Highest-risk apps (${risks.size}):")
             risks.forEach { r ->
-                appendLine("• ${r.label} [${r.pkg}] — riesgo ${r.level} (${r.score})")
+                appendLine("• ${r.label} [${r.pkg}] — risk ${r.level} (${r.score})")
                 r.reasons.take(4).forEach { appendLine("    - $it") }
             }
-            appendLine("Para bloquear/desinstalar una: block_app(package=\"...\", action=\"neutralize|uninstall|disable\").")
+            appendLine("To block or uninstall one: block_app(package=\"...\", action=\"neutralize|uninstall|disable\").")
         })
     }
 }
@@ -44,7 +44,7 @@ class SecurityScanTool : BaseTool() {
 /** Identify the app most likely spamming ads / drawing overlays. */
 class FindAdCulpritTool : BaseTool() {
     override fun getName() = "find_ad_culprit"
-    override fun getDisplayName() = "Detectar app de anuncios"
+    override fun getDisplayName() = "Find ad culprit"
     override fun getDescriptionEN() =
         "Find which installed app is most likely spamming ads or drawing pop-up overlays. " +
         "Ranks apps that can draw over other apps, boosting the current foreground app and recently " +
@@ -60,10 +60,10 @@ class FindAdCulpritTool : BaseTool() {
         return ToolResult.success(buildString {
             appendLine("Possible ad sources (most likely first):")
             suspects.forEach { s ->
-                appendLine("• ${s.label} [${s.pkg}] — confianza ${s.confidence}%")
+                appendLine("• ${s.label} [${s.pkg}] — confidence ${s.confidence}%")
                 s.reasons.take(3).forEach { appendLine("    - $it") }
             }
-            appendLine("Sugerencia: block_app(package=\"${suspects.first().pkg}\", action=\"neutralize\") " +
+            appendLine("Suggestion: block_app(package=\"${suspects.first().pkg}\", action=\"neutralize\") " +
                 "to revoke the overlay and stop it, or action=\"uninstall\" to remove it.")
         })
     }
@@ -72,7 +72,7 @@ class FindAdCulpritTool : BaseTool() {
 /** Take action against a problem app. */
 class BlockAppTool : BaseTool() {
     override fun getName() = "block_app"
-    override fun getDisplayName() = "Bloquear app"
+    override fun getDisplayName() = "Block app"
     override fun getDescriptionEN() =
         "Act on a problem app. action: 'neutralize' (revoke overlay + force-stop — best for ad spam), " +
         "'stop' (force-stop), 'overlay_off' (revoke draw-over permission), 'disable' (keep installed but " +
@@ -81,7 +81,7 @@ class BlockAppTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "block, stop, or uninstall a problematic app"
     override fun getParameters() = listOf(
-        ToolParameter("package", "string", "Package name de la app a tratar.", true),
+        ToolParameter("package", "string", "Package name of the app to act on.", true),
         ToolParameter("action", "string",
             "neutralize | stop | overlay_off | disable | uninstall | settings. Default neutralize.", false),
     )

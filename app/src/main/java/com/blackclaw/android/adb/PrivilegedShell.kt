@@ -67,7 +67,7 @@ object PrivilegedShell {
 
     /** Human-readable status for the UI / agent error messages. */
     fun describe(): String = when (activeBackend()) {
-        Backend.SHIZUKU -> "Shizuku activo"
+        Backend.SHIZUKU -> "Shizuku active"
         Backend.ADB -> AdbController.describe()
         Backend.NONE -> "No privileged access (neither Shizuku nor paired ADB)"
     }

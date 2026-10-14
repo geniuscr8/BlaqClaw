@@ -1,15 +1,15 @@
 ---
 id: whatsapp_advanced
-name: WhatsApp avanzado (foto, nota de voz, responder)
+name: Advanced WhatsApp (photo, voice note, reply)
 triggers:
-  - "manda una foto por whatsapp"
   - "send a photo on WhatsApp"
-  - "manda una nota de voz"
-  - "nota de voz a"
-  - "audio a"
-  - "responde a"
-  - "contesta a"
-  - "comparte por whatsapp"
+  - "send a photo on WhatsApp"
+  - "send a voice note"
+  - "voice note to"
+  - "audio to"
+  - "reply to"
+  - "respond to"
+  - "share on WhatsApp"
   - "send a photo on whatsapp"
   - "voice note to"
 ---

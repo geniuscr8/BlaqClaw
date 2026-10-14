@@ -54,7 +54,7 @@ class AutomationProfileTool : BaseTool() {
         ToolParameter("max_runtime_ms", "integer", "Maximum run time; default 600000", false),
         ToolParameter("concurrency", "string", "skip_if_running, queue o replace", false),
         ToolParameter("confirm", "boolean", "true only after the user confirms the preview", false),
-        ToolParameter("id", "string", "ID o nombre para enable/disable/delete/run/test", false),
+        ToolParameter("id", "string", "ID or name for enable/disable/delete/run/test", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult = when (requireString(params, "operation").lowercase()) {
@@ -93,7 +93,7 @@ class AutomationProfileTool : BaseTool() {
         val stored = AutomationProfileStore.create(profile, enable = true)
             .getOrElse { return ToolResult.error(it.message ?: "Could not save the profile.") }
         syncRuntimes()
-        return ToolResult.success("✓ Flujo '${stored.name}' activo [${stored.id}].\n$preview")
+        return ToolResult.success("✓ Flow '${stored.name}' active [${stored.id}].\n$preview")
     }
 
     /** Save an editable, non-running automation authored by the agent. */
@@ -137,7 +137,7 @@ class AutomationProfileTool : BaseTool() {
             .getOrElse { return ToolResult.error(it.message ?: "Could not update the profile.") }
         syncRuntimes()
         return ToolResult.success(
-            "✓ Flujo '${stored.name}' actualizado [${stored.id}] · ${if (stored.enabled) "activo" else "desactivado"}.\n$preview"
+            "✓ Flow '${stored.name}' updated [${stored.id}] · ${if (stored.enabled) "active" else "disabled"}.\n$preview"
         )
     }
 
@@ -220,7 +220,7 @@ class AutomationProfileTool : BaseTool() {
         val id = optionalString(params, "id", optionalString(params, "name", ""))
         return if (AutomationProfileStore.setEnabled(id, enabled)) {
             syncRuntimes()
-            ToolResult.success("Perfil '${id}' ${if (enabled) "activado" else "desactivado"}.")
+            ToolResult.success("Profile '${id}' ${if (enabled) "enabled" else "disabled"}.")
         } else ToolResult.error("Profile '$id' not found.")
     }
 
@@ -420,7 +420,7 @@ class AutomationProfileTool : BaseTool() {
             }
         }
         return buildString {
-            append("Nombre: ${profile.name}\n")
+            append("Name: ${profile.name}\n")
             append("Disparadores: ${profile.triggers.joinToString { it.type.name.lowercase() }}\n")
             append("Conditions: ${profile.conditions.size} · logic ${profile.conditionLogic.name.lowercase()}\n")
             append("Acciones: ${profile.actions.joinToString { it.type.name.lowercase() }}\n")

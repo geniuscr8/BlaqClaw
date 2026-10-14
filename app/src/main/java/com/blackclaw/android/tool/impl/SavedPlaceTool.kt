@@ -13,22 +13,22 @@ class SavedPlaceTool : BaseTool() {
     override fun getName() = "saved_place"
     override fun getDisplayName() = "Saved places"
     override fun getDescriptionEN() =
-        "Remember and resolve arbitrary user-named places such as casa, cuarto, casa de mi novia, gimnasio or escuela. " +
+        "Remember and resolve arbitrary user-named places such as home, bedroom, partner's home, gym, or school. " +
             "Use save_here when the user says 'este lugar es X'. Use resolve before authoring a location automation. " +
             "Never assume the current location is a named place if the user is not explicitly defining it."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "guarda y resuelve lugares personales por cualquier nombre"
+    override fun getBrief() = "saves and resolves personal places by any name"
 
     override fun getParameters() = listOf(
         ToolParameter("operation", "string", "save_here, save, resolve, get, list, rename, delete, set_aliases o set_wifi", true),
-        ToolParameter("name", "string", "Nombre libre del lugar", false),
-        ToolParameter("id", "string", "ID del lugar", false),
-        ToolParameter("new_name", "string", "Nombre nuevo", false),
+        ToolParameter("name", "string", "Free-form place name", false),
+        ToolParameter("id", "string", "Place ID", false),
+        ToolParameter("new_name", "string", "New name", false),
         ToolParameter("latitude", "number", "Explicit latitude for save", false),
         ToolParameter("longitude", "number", "Explicit longitude for save", false),
-        ToolParameter("radius_m", "integer", "Radio 25..100000 m; predeterminado 150", false),
-        ToolParameter("aliases", "string", "Aliases separados por | o coma", false),
-        ToolParameter("wifi_ssids", "string", "SSID asociados separados por | o coma", false),
+        ToolParameter("radius_m", "integer", "Radius 25..100000 m; default 150", false),
+        ToolParameter("aliases", "string", "Aliases separated by | or commas", false),
+        ToolParameter("wifi_ssids", "string", "Associated SSIDs separated by | or commas", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult = when (requireString(params, "operation").lowercase()) {

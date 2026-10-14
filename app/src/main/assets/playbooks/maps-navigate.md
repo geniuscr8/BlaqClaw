@@ -2,16 +2,16 @@
 id: maps_navigate
 name: Navigate with Maps (destination, stops, share location)
 triggers:
-  - "navega a"
+  - "navigate to"
   - "take me to"
-  - "llevame a"
+  - "take me to"
   - "how do I get to"
-  - "como llego a"
-  - "ruta a"
+  - "how do I get to"
+  - "route to"
   - "give me directions"
   - "share my location"
   - "send my location"
-  - "haz una parada en"
+  - "make a stop at"
   - "navigate to"
   - "directions to"
   - "share my location"

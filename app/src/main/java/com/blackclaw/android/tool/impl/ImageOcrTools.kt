@@ -34,7 +34,7 @@ class OcrImageTool : BaseTool() {
             else -> return ToolResult.error("Provide the image 'uri' or 'path'.")
         }
         return if (text.isBlank()) ToolResult.success("No text was detected in the image.")
-        else ToolResult.success("Texto detectado:\n${text.take(6000)}")
+        else ToolResult.success("Detected text:\n${text.take(6000)}")
     }
 }
 

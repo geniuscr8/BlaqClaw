@@ -75,7 +75,7 @@ internal object GameScreenState {
 
     fun normalizedOcr(bitmap: Bitmap, limit: Int = 35): String {
         val blocks = ScreenOcr.recognize(bitmap)
-        if (blocks.isEmpty()) return "(OCR: sin texto; usa las coordenadas normalizadas y observa cambios)"
+        if (blocks.isEmpty()) return "(OCR: no text; use normalized coordinates and observe changes)"
         return blocks.take(limit).joinToString("\n") { block ->
             val nx = (block.centerX() * 1000 / bitmap.width).coerceIn(0, 1000)
             val ny = (block.centerY() * 1000 / bitmap.height).coerceIn(0, 1000)
@@ -92,7 +92,7 @@ class GameObserveTool : BaseTool() {
         "fingerprint and OCR labels using stable normalized coordinates from 0 to 1000. Always call " +
         "this before game_action and again after navigation or an unexpected result."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "observa un juego y devuelve texto/coordenadas normalizadas antes de actuar"
+    override fun getBrief() = "observes a game and returns text/normalized coordinates before acting"
     override fun getParameters() = emptyList<ToolParameter>()
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -131,8 +131,8 @@ class GameActionTool : BaseTool() {
         ToolParameter("action", "string", "tap o swipe", true),
         ToolParameter("x", "integer", "X inicial normalizada 0..1000", true),
         ToolParameter("y", "integer", "Y inicial normalizada 0..1000", true),
-        ToolParameter("end_x", "integer", "X final para swipe, 0..1000", false),
-        ToolParameter("end_y", "integer", "Y final para swipe, 0..1000", false),
+        ToolParameter("end_x", "integer", "Final X for swipe, 0..1000", false),
+        ToolParameter("end_y", "integer", "Final Y for swipe, 0..1000", false),
         ToolParameter("duration_ms", "integer", "Swipe duration, 50..3000", false),
         ToolParameter("action_label", "string", "Brief description: open shop, attack, move map...", true),
         ToolParameter("confirmed", "boolean", "Explicit confirmation for risky actions", false),
@@ -164,12 +164,12 @@ class GameActionTool : BaseTool() {
             "tap" -> dispatchTap(x, y)
             "swipe" -> {
                 val endX = runCatching { GameControlPolicy.toPixel(requireInt(params, "end_x"), width) }
-                    .getOrElse { return ToolResult.error("end_x requerida y debe estar entre 0 y 1000") }
+                    .getOrElse { return ToolResult.error("end_x is required and must be between 0 and 1000") }
                 val endY = runCatching { GameControlPolicy.toPixel(requireInt(params, "end_y"), height) }
-                    .getOrElse { return ToolResult.error("end_y requerida y debe estar entre 0 y 1000") }
+                    .getOrElse { return ToolResult.error("end_y is required and must be between 0 and 1000") }
                 dispatchSwipe(x, y, endX, endY, optionalInt(params, "duration_ms", 350).coerceIn(50, 3000))
             }
-            else -> return ToolResult.error("action debe ser 'tap' o 'swipe'.")
+            else -> return ToolResult.error("action must be 'tap' or 'swipe'.")
         }
         if (!dispatched) return ToolResult.error("Could not send the gesture; enable Accessibility or ADB/Shizuku.")
 

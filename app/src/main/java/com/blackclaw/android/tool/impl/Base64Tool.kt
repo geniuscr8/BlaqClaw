@@ -14,7 +14,7 @@ class Base64Tool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("action", "string", "encode | decode", true),
-        ToolParameter("text", "string", "Texto a codificar o cadena base64 a decodificar.", true),
+        ToolParameter("text", "string", "Text to encode or Base64 string to decode.", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -24,7 +24,7 @@ class Base64Tool : BaseTool() {
             when (action) {
                 "encode" -> ToolResult.success(Base64.encodeToString(text.toByteArray(Charsets.UTF_8), Base64.NO_WRAP))
                 "decode" -> ToolResult.success(String(Base64.decode(text, Base64.DEFAULT), Charsets.UTF_8))
-                else -> ToolResult.error("action debe ser encode o decode")
+                else -> ToolResult.error("action must be encode or decode")
             }
         } catch (e: Exception) {
             ToolResult.error("Error de base64: ${e.message}")

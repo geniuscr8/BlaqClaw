@@ -2,14 +2,14 @@
 id: banking
 name: Banking (check balance / transfer — with confirmation)
 triggers:
-  - "consulta mi saldo"
+  - "check my balance"
   - "how much do I have in the bank"
-  - "cuanto tengo en el banco"
-  - "haz una transferencia"
-  - "transfiere"
-  - "manda dinero"
+  - "how much do I have in the bank"
+  - "make a transfer"
+  - "transfer money"
   - "send money"
-  - "paga la tarjeta"
+  - "send money"
+  - "pay my card"
   - "check my balance"
   - "send money"
   - "transfer"
@@ -23,7 +23,7 @@ CHECK BALANCE (read-only):
    get_installed_apps(keyword="banco/bank") to find it).
 2. It will likely require biometric/PIN unlock — the USER must do that; wait.
 3. get_screen_info / read_screen_ocr to read the balance.
-4. finish(summary="Tu saldo es …").
+4. finish(summary="Your balance is …").
 
 TRANSFER / PAY (moves money — HARD STOP):
 1. Open the bank app; the user unlocks it.

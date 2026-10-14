@@ -41,7 +41,7 @@ class ReadScreenOcrTool : BaseTool() {
         val ordered = ScreenOcr.readingOrder(blocks, limit = 40)
         return ToolResult.success(
             "Capture resolution: ${bmp.width}x${bmp.height}\n" +
-            "Texto en orden de lectura:\n" +
+            "Text in reading order:\n" +
             ordered.joinToString("\n") { "• $it" } + "\n\n" +
             ScreenOcr.formatBlocks(blocks)
         )

@@ -345,7 +345,7 @@ object AdbController {
     }
 
     fun describe(): String = when (state) {
-        State.NOT_PAIRED -> "ADB sin emparejar"
+        State.NOT_PAIRED -> "ADB not paired"
         State.PAIRED_DISCONNECTED -> "ADB emparejado · desconectado"
         State.CONNECTING -> "ADB conectando…"
         State.CONNECTED -> "ADB connected · quick actions active"

@@ -10,7 +10,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class CountTool : BaseTool() {
     override fun getName() = "count_text"
-    override fun getDisplayName() = "Contar texto"
+    override fun getDisplayName() = "Count text"
     override fun getDescriptionEN() =
         "Count words, characters (with/without spaces), and lines in a string. " +
         "Use for tweet-length checks, summary length, etc."

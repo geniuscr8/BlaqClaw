@@ -173,7 +173,7 @@ object FixedTerminalEnvironment {
     private fun createHardLink(target: File, link: String, root: File) {
         val source = safeChild(root, link.removePrefix(ROOT_PREFIX).removePrefix("./"))
             ?: throw SecurityException("Invalid hard link: $link")
-        if (!source.exists()) throw SecurityException("Hard link sin destino: $link")
+        if (!source.exists()) throw SecurityException("Hard link has no target: $link")
         target.parentFile?.mkdirs()
         if (target.exists()) target.delete()
         java.nio.file.Files.createLink(target.toPath(), source.toPath())

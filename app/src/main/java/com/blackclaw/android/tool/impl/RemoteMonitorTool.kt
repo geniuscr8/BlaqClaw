@@ -56,7 +56,7 @@ class RemoteMonitorTool : BaseTool() {
         val id = RemoteMonitorManager.start(conn, command, match, interval, label)
         return ToolResult.success(
             "👁 Monitor '$label' iniciado (id=$id). Reviso cada ${interval}s y te aviso si aparece '$match'. " +
-            "Usa stop_monitor(id=\"$id\") para detenerlo.")
+            "Use stop_monitor(id=\"$id\") to stop it.")
     }
 }
 
@@ -80,7 +80,7 @@ class StopMonitorTool : BaseTool() {
 
 class ListMonitorsTool : BaseTool() {
     override fun getName() = "list_monitors"
-    override fun getDisplayName() = "Ver vigilancias"
+    override fun getDisplayName() = "View monitors"
     override fun getDescriptionEN() = "List active remote PC monitors."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "lista los monitores de PC activos"

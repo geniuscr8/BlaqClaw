@@ -90,7 +90,7 @@ class AssistantNoteTool : BaseTool() {    override fun getName() = "assistant_no
         "Save a native in-app note or todo in the Assistant hub. Use for things to remember " +
         "with no specific time. No external app."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "guarda una nota/todo nativa en el hub del asistente"
+    override fun getBrief() = "saves a native note or to-do in the assistant hub"
     override fun getParameters() = listOf(
         ToolParameter("title", "string", "Short note title.", true),
         ToolParameter("body", "string", "Optional note detail.", false),
@@ -263,7 +263,7 @@ class AssistantAgendaTool : BaseTool() {
 
 /** Immediate alert push (no scheduling). */
 class AssistantAlertTool : BaseTool() {    override fun getName() = "assistant_alert"
-    override fun getDisplayName() = "Aviso"
+    override fun getDisplayName() = "Alert"
     override fun getDescriptionEN() =
         "Surface an important heads-up to the user right now as a native push notification, " +
         "and log it in the Assistant hub. Use for time-critical info the user should see immediately."
@@ -278,20 +278,20 @@ class AssistantAlertTool : BaseTool() {    override fun getName() = "assistant_a
         val body = requireString(params, "body").trim()
         AssistantStore.create(type = AssistantItemType.ALERT, title = title, body = body, source = "ai")
         AssistantReceiver.postNotification(ClawApplication.instance, "📢 $title", body, highPriority = true)
-        return ToolResult.success("Aviso enviado: '$title'")
+        return ToolResult.success("Alert sent: '$title'")
     }
 }
 
 /** Finance entry: income (positive) or expense (negative). */
 class AssistantFinanceTool : BaseTool() {
     override fun getName() = "assistant_finance"
-    override fun getDisplayName() = "Finanzas"
+    override fun getDisplayName() = "Finances"
     override fun getDescriptionEN() =
         "Record a native finance entry (income or expense) in the Assistant hub. " +
         "amount is positive for income, negative for expense. Useful when a notification or the user " +
         "mentions a payment, charge, salary, or purchase. Tracks a running balance."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "registra un ingreso/gasto en el control de finanzas del hub"
+    override fun getBrief() = "records income or expenses in the assistant hub"
     override fun getParameters() = listOf(
         ToolParameter("description", "string", "What the entry is for.", true),
         ToolParameter("amount", "number", "Positive = income, negative = expense.", true),
@@ -308,20 +308,20 @@ class AssistantFinanceTool : BaseTool() {
         )
         val bal = AssistantStore.financeBalance()
         val sign = if (amount >= 0) "+" else ""
-        return ToolResult.success("Registrado: $desc ($sign$amount). Balance: ${"%.2f".format(bal)}")
+        return ToolResult.success("Recorded: $desc ($sign$amount). Balance: ${"%.2f".format(bal)}")
     }
 }
 
 /** Read what's currently in the Assistant hub (so the AI can manage it). */
 class AssistantListTool : BaseTool() {
     override fun getName() = "assistant_list"
-    override fun getDisplayName() = "Ver asistente"
+    override fun getDisplayName() = "View assistant hub"
     override fun getDescriptionEN() =
         "List items in the Assistant hub. Optional type filter: reminder|alarm|note|event|alert|finance. " +
         "Use to check what reminders/alarms/notes/events exist, the finance balance, or before " +
         "editing/avoiding duplicates. Returns a compact summary with ids."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "lista lo que hay en el hub del asistente (recordatorios, notas, finanzas…)"
+    override fun getBrief() = "lists what is in the assistant hub (reminders, notes, finances…)"
     override fun getParameters() = listOf(
         ToolParameter("type", "string",
             "Optional filter: reminder|alarm|note|event|alert|finance. Omit for all.", false),
@@ -345,7 +345,7 @@ class AssistantListTool : BaseTool() {
             sb.append('\n')
         }
         val bal = com.blackclaw.android.assistant.AssistantStore.financeBalance()
-        if (filter.isBlank() || filter == "FINANCE") sb.append("Balance finanzas: ${"%.2f".format(bal)}")
+        if (filter.isBlank() || filter == "FINANCE") sb.append("Finance balance: ${"%.2f".format(bal)}")
         return ToolResult.success(sb.toString().trim())
     }
 }
@@ -353,12 +353,12 @@ class AssistantListTool : BaseTool() {
 /** Delete / complete an item by id. */
 class AssistantRemoveTool : BaseTool() {
     override fun getName() = "assistant_remove"
-    override fun getDisplayName() = "Quitar del asistente"
+    override fun getDisplayName() = "Remove from assistant hub"
     override fun getDescriptionEN() =
         "Delete an Assistant hub item by id (from assistant_list). Use to cancel a reminder/alarm/event " +
         "or remove a done note. Cancels its alarm too."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "borra o cancela un elemento del hub por id"
+    override fun getBrief() = "deletes or cancels an item from the hub by ID"
     override fun getParameters() = listOf(
         ToolParameter("id", "string", "Item id from assistant_list.", true),
     )
@@ -366,7 +366,7 @@ class AssistantRemoveTool : BaseTool() {
         val id = requireString(params, "id").trim()
         com.blackclaw.android.assistant.AssistantScheduler.cancel(ClawApplication.instance, id)
         val ok = com.blackclaw.android.assistant.AssistantStore.delete(id)
-        return if (ok) ToolResult.success("Elemento $id eliminado.")
+        return if (ok) ToolResult.success("Item $id deleted.")
         else ToolResult.error("Could not find item $id.")
     }
 }

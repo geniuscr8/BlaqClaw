@@ -17,7 +17,7 @@ class ZimSearchTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(
         ToolParameter("query", "string", "Topic or article to search offline.", true),
-        ToolParameter("library", "string", "Nombre o ruta del .zim. Opcional si solo existe uno.", false),
+        ToolParameter("library", "string", "Name or path of the .zim file. Optional if only one exists.", false),
         ToolParameter("limit", "integer", "Maximum results, 1-10. Default 5.", false),
         ToolParameter("scope", "string", "auto | title | content. Default auto.", false),
     )
@@ -105,7 +105,7 @@ class ZimIndexTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(
         ToolParameter("action", "string", "start | resume | rebuild | stop | status", true),
-        ToolParameter("library", "string", "Nombre o ruta del .zim. Opcional si solo existe uno.", false),
+        ToolParameter("library", "string", "Name or path of the .zim file. Optional if only one exists.", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -149,7 +149,7 @@ class ZimReadTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(
         ToolParameter("title_or_path", "string", "Exact title or path returned by zim_search.", true),
-        ToolParameter("library", "string", "Nombre o ruta del .zim. Opcional si solo existe uno.", false),
+        ToolParameter("library", "string", "Name or path of the .zim file. Optional if only one exists.", false),
         ToolParameter("max_chars", "integer", "Maximum characters, 500-12000. Default 5000.", false),
     )
     override fun execute(params: Map<String, Any>): ToolResult {

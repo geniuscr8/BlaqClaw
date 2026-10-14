@@ -15,7 +15,7 @@ class HashTextTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("text", "string", "Texto a hashear.", true),
+        ToolParameter("text", "string", "Text to hash.", true),
         ToolParameter("algo", "string", "md5|sha1|sha256|sha512. Default sha256.", false),
     )
 

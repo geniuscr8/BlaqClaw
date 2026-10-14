@@ -47,7 +47,7 @@ class AppShortcutsTool : BaseTool() {
             if (list.isEmpty()) return ToolResult.success("No shortcuts found for $pkg.")
             ToolResult.success(
                 "${list.size} atajo(s):\n" + list.joinToString("\n") {
-                    "- ${it.id} : ${it.shortLabel ?: it.longLabel ?: "(sin etiqueta)"}"
+                    "- ${it.id} : ${it.shortLabel ?: it.longLabel ?: "(no label)"}"
                 }
             )
         } catch (e: SecurityException) {

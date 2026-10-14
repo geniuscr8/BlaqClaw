@@ -1,17 +1,17 @@
 ---
 id: device_settings
-name: Ajustes del dispositivo (WiFi, Bluetooth, brillo, etc.)
+name: Device settings (Wi-Fi, Bluetooth, brightness, etc.)
 triggers:
-  - "conecta el wifi"
   - "connect to Wi-Fi"
-  - "conectate al wifi"
-  - "activa el bluetooth"
-  - "empareja"
-  - "emparejar"
-  - "sube el brillo"
-  - "baja el brillo"
+  - "connect to Wi-Fi"
+  - "connect to Wi-Fi"
+  - "turn on Bluetooth"
+  - "pair a device"
+  - "pair a device"
+  - "increase brightness"
+  - "lower brightness"
   - "turn on airplane mode"
-  - "no molestar"
+  - "do not disturb"
   - "connect wifi"
   - "turn on bluetooth"
 ---
@@ -32,7 +32,7 @@ Bluetooth device):
 2. get_screen_info, then find_and_tap the network/device name the user said.
 3. If it asks for a password BlaqClaw doesn't have, STOP and ask the user to type it
    (never guess passwords).
-4. verify_screen(expect="Conectado"/"Connected") before reporting success.
+4. verify_screen(expect="Connected") before reporting success.
 
 Rules:
 - Don't navigate Settings for simple on/off — use toggle_setting.

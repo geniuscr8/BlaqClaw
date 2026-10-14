@@ -203,7 +203,7 @@ object AppUpdater {
             AlertDialog.Builder(activity)
                 .setTitle("Update available")
                 .setMessage(msg)
-                .setPositiveButton(if (apkUrl != null) "Actualizar" else "Descargar") { _, _ ->
+                .setPositiveButton(if (apkUrl != null) "Update" else "Download") { _, _ ->
                     if (apkUrl != null) {
                         // On Android 8+ the installer won't launch unless the app
                         // is allowed to install unknown apps. Check first so the

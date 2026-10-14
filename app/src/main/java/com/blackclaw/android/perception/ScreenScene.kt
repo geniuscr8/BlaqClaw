@@ -20,7 +20,7 @@ data class ScreenScene(
             visibleText.take(12).forEach { append("· ").append(it.take(120)).append('\n') }
         }
         if (actions.isNotEmpty()) {
-            append("Puedes interactuar con: ")
+            append("You can interact with: ")
             append(actions.take(4).joinToString(", ")).append('.')
         }
     }.trim()

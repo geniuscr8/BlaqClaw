@@ -84,7 +84,7 @@ class EmergencyEvidenceActivity : BaseActivity() {
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
                         try {
-                            startActivity(Intent.createChooser(intent, "Exportar evidencia"))
+                            startActivity(Intent.createChooser(intent, "Export evidence"))
                         } catch (_: ActivityNotFoundException) {
                             Toast.makeText(this@EmergencyEvidenceActivity, "No app is available for sharing", Toast.LENGTH_LONG).show()
                         }

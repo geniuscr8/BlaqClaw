@@ -81,7 +81,7 @@ object TerminalEngine {
         if (command.isEmpty()) return ""
 
         if (blocked.any { command.lowercase().contains(it) })
-            return "bloqueado por seguridad: '$command'"
+            return "blocked for security: '$command'"
 
         val parts = command.split(Regex("\\s+"), limit = 2)
         val verb = parts[0]
@@ -91,7 +91,7 @@ object TerminalEngine {
             "clear", "cls" -> "\u000C"   // form-feed; UI treats it as "clear screen"
             "help", "?" -> helpText()
             "pwd" -> cwd
-            "whoami" -> execShell(context, "id -un 2>/dev/null || whoami").ifBlank { "app (uid del proceso)" }
+            "whoami" -> execShell(context, "id -un 2>/dev/null || whoami").ifBlank { "app (process UID)" }
             "backend" -> handleBackend(rest)
             "cd" -> handleCd(context, rest)
             "adb" -> handleAdb(context, rest)
@@ -183,9 +183,9 @@ object TerminalEngine {
         BlaqClaw local Linux terminal. Commands:
           <cmd>             run in isolated Linux (bash, python3, git, curl, jq…)
           cd <dir> / pwd    navigation (the session remembers the directory)
-          backend [auto|local|privileged]   cambia el backend manual opcional
+          backend [auto|local|privileged]   change the optional manual backend
           whoami            effective user
-          clear             limpia la pantalla
+          clear             clear the screen
           adb ...           control through Wireless Debugging (see 'adb')
         Local mode does not require Shizuku or ADB. Privileged backend requires Pro Mode.
     """.trimIndent()

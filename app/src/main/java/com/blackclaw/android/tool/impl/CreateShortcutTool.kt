@@ -18,7 +18,7 @@ import com.blackclaw.android.ui.chat.ComposeChatActivity
  */
 class CreateShortcutTool : BaseTool() {
     override fun getName() = "create_shortcut"
-    override fun getDisplayName() = "Crear acceso directo"
+    override fun getDisplayName() = "Create shortcut"
     override fun getDescriptionEN() =
         "Create a homescreen shortcut that runs a task or chat when tapped. " +
         "The user is asked to confirm the pin. Useful for one-tap automations."
@@ -64,7 +64,7 @@ class CreateShortcutTool : BaseTool() {
             if (ok) ToolResult.success("Acceso directo pedido: \"$label\". Confirma en el launcher.")
             else ToolResult.error("The launcher rejected the request.")
         } catch (e: Exception) {
-            ToolResult.error("Fallo creando acceso directo: ${e.message}")
+            ToolResult.error("Shortcut creation failed: ${e.message}")
         }
     }
 }

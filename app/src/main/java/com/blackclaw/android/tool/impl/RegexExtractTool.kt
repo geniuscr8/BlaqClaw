@@ -10,11 +10,11 @@ class RegexExtractTool : BaseTool() {
     override fun getDisplayName() = "Regex"
     override fun getDescriptionEN() =
         "Extracts all regex matches from text. " +
-        "Atajos predefinidos disponibles para 'pattern': email, url, phone, ipv4, hashtag, mention."
+        "Built-in shortcuts available for 'pattern': email, url, phone, ipv4, hashtag, mention."
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("text", "string", "Texto donde buscar.", true),
+            ToolParameter("text", "string", "Text to search.", true),
         ToolParameter("pattern", "string",
             "Standard Java regex, or a shortcut: email|url|phone|ipv4|hashtag|mention.", true),
     )

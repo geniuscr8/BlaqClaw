@@ -115,9 +115,9 @@ object SavedPlaceStore {
         wifiSsids: List<String> = emptyList(),
         id: String = "",
     ): Result<Place> = runCatching {
-        val cleanName = cleanLabel(name, "nombre")
+        val cleanName = cleanLabel(name, "name")
         require(validCoordinates(latitude, longitude)) { "Invalid coordinates." }
-        require(radiusM in 25f..100_000f) { "El radio debe estar entre 25 y 100000 metros." }
+        require(radiusM in 25f..100_000f) { "Radius must be between 25 and 100000 meters." }
         val cleanAliases = aliases.mapNotNull { it.trim().takeIf(String::isNotBlank) }
             .distinctBy(::normalize).take(MAX_ALIASES)
         val cleanWifi = wifiSsids.map { normalizeSsid(it) }.filter(String::isNotBlank).distinct().take(20)
@@ -135,7 +135,7 @@ object SavedPlaceStore {
         val collision = all.firstOrNull { p ->
             (existingIndex < 0 || p.id != all[existingIndex].id) && p.allNames().any { normalize(it) in claimed }
         }
-        if (collision != null) throw IllegalArgumentException("Ese nombre o alias ya pertenece a '${collision.name}'.")
+        if (collision != null) throw IllegalArgumentException("That name or alias already belongs to '${collision.name}'.")
 
         val now = System.currentTimeMillis()
         val place = if (existingIndex >= 0) {
@@ -221,7 +221,7 @@ object SavedPlaceStore {
     private fun cleanLabel(value: String, label: String): String {
         val clean = value.trim().replace(Regex("\\s+"), " ")
         require(clean.isNotBlank()) { "Falta $label." }
-        require(clean.length <= 80) { "El $label no puede superar 80 caracteres." }
+        require(clean.length <= 80) { "$label cannot exceed 80 characters." }
         return clean
     }
 

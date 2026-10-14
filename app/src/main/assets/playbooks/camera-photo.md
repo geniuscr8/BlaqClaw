@@ -2,13 +2,13 @@
 id: camera_photo
 name: Camera and photos
 triggers:
-  - "toma una foto"
+  - "take a photo"
   - "take a photo of me"
-  - "tomate una foto"
+  - "take a photo of me"
   - "open the camera"
-  - "abre la camara"
-  - "graba un video"
-  - "hazme una selfie"
+  - "open the camera"
+  - "record a video"
+  - "take a selfie"
   - "take a photo"
   - "open camera"
   - "record a video"

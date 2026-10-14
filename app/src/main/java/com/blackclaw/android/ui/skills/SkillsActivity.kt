@@ -350,7 +350,7 @@ private fun SkillEditorDialog(
                 )
                 Spacer(Modifier.height(10.dp))
 
-                FieldLabel("Disparador (opcional)", colors)
+                FieldLabel("Trigger (optional)", colors)
                 OutlinedTextField(
                     value = trigger,
                     onValueChange = { trigger = it },

@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
  */
 class TapOcrTool : BaseTool() {
     override fun getName() = "tap_ocr"
-    override fun getDisplayName() = "Pulsar texto (OCR)"
+    override fun getDisplayName() = "Tap text (OCR)"
     override fun getDescriptionEN() =
         "Tap on a piece of visible text using OCR. Works in games, videos, " +
         "WebView surfaces — anything regular tap_node can't see. " +

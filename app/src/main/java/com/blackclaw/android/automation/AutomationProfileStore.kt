@@ -424,10 +424,10 @@ object AutomationProfileValidator {
                 AutomationProfileStore.ActionType.NOTIFY ->
                     if (action.params["text"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs text.")
                 AutomationProfileStore.ActionType.SET_VARIABLE ->
-                    if (action.params["name"]?.toString().isNullOrBlank()) add("set_variable necesita name.")
+                    if (action.params["name"]?.toString().isNullOrBlank()) add("set_variable needs name.")
                 AutomationProfileStore.ActionType.IF ->
                     if (action.params["then"] !is List<*>) {
-                        add("if necesita then con acciones.")
+                        add("if needs then with actions.")
                     } else {
                         validateNestedActions(action.params["then"], 1, this)
                         validateNestedActions(action.params["else"], 1, this)
@@ -435,7 +435,7 @@ object AutomationProfileValidator {
                 AutomationProfileStore.ActionType.LOOP -> {
                     val count = automationInt(action.params["count"]) ?: 0
                     if (count !in 1..20 || action.params["actions"] !is List<*>) {
-                        add("loop necesita count 1..20 y actions.")
+                        add("loop needs count 1..20 and actions.")
                     } else validateNestedActions(action.params["actions"], 1, this)
                 }
             }
@@ -447,26 +447,26 @@ object AutomationProfileValidator {
         trigger: AutomationProfileStore.Trigger,
         errors: MutableList<String>,
     ) {
-        val label = "El disparador ${index + 1}"
+        val label = "Trigger ${index + 1}"
         val p = trigger.params
         fun required(key: String) {
-            if (p[key]?.toString().isNullOrBlank()) errors += "$label necesita $key."
+            if (p[key]?.toString().isNullOrBlank()) errors += "$label needs $key."
         }
         fun optionalBoolean(key: String) {
             val raw = p[key]?.toString() ?: return
-            if (raw.toBooleanStrictOrNull() == null) errors += "$label: $key debe ser true o false."
+            if (raw.toBooleanStrictOrNull() == null) errors += "$label: $key must be true or false."
         }
         when (trigger.type) {
             AutomationProfileStore.TriggerType.TIME -> {
                 val hour = automationInt(p["hour"])
                 val minute = automationInt(p["minute"])
-                if (hour == null || hour !in 0..23) errors += "$label: hour debe estar entre 0 y 23."
-                if (minute == null || minute !in 0..59) errors += "$label: minute debe estar entre 0 y 59."
+                if (hour == null || hour !in 0..23) errors += "$label: hour must be between 0 and 23."
+                if (minute == null || minute !in 0..59) errors += "$label: minute must be between 0 and 59."
                 validateDays(p["days"]?.toString(), label, errors)
             }
             AutomationProfileStore.TriggerType.INTERVAL -> {
                 val minutes = automationInt(p["minutes"])
-                if (minutes == null || minutes !in 1..10_080) errors += "$label: minutes debe estar entre 1 y 10080."
+                if (minutes == null || minutes !in 1..10_080) errors += "$label: minutes must be between 1 and 10080."
             }
             AutomationProfileStore.TriggerType.NOTIFICATION -> Unit
             AutomationProfileStore.TriggerType.LOCATION_ENTER,
@@ -482,7 +482,7 @@ object AutomationProfileValidator {
                     if (lon == null || lon !in -180.0..180.0) errors += "$label: invalid longitude."
                 }
                 if (p["radius_m"] != null && radius == null) errors += "$label: radius_m must be a number."
-                if (radius != null && radius !in 25f..100_000f) errors += "$label: radius_m debe estar entre 25 y 100000."
+                if (radius != null && radius !in 25f..100_000f) errors += "$label: radius_m must be between 25 and 100000."
             }
             AutomationProfileStore.TriggerType.APP_FOREGROUND,
             AutomationProfileStore.TriggerType.APP_CLOSED -> required("package")
@@ -513,9 +513,9 @@ object AutomationProfileValidator {
                 required("token")
                 val token = p["token"]?.toString().orEmpty()
                 if (token.isNotEmpty() && token.length !in 8..256) {
-                    errors += "$label: token debe tener entre 8 y 256 caracteres."
+                    errors += "$label: token must be between 8 and 256 characters."
                 }
-                if (token != token.trim()) errors += "$label: token no puede comenzar ni terminar con espacios."
+                if (token != token.trim()) errors += "$label: token cannot begin or end with spaces."
             }
         }
     }
@@ -528,7 +528,7 @@ object AutomationProfileValidator {
         val label = "Condition ${index + 1}"
         val p = condition.params
         fun required(key: String) {
-            if (p[key]?.toString().isNullOrBlank()) errors += "$label necesita $key."
+            if (p[key]?.toString().isNullOrBlank()) errors += "$label needs $key."
         }
         when (condition.type) {
             AutomationProfileStore.ConditionType.TIME_WINDOW -> {
@@ -536,7 +536,7 @@ object AutomationProfileValidator {
                 validateClock(p["end"]?.toString(), "$label end", errors)
             }
             AutomationProfileStore.ConditionType.DAY_OF_WEEK -> {
-                if (p["days"]?.toString().isNullOrBlank()) errors += "$label necesita days."
+                if (p["days"]?.toString().isNullOrBlank()) errors += "$label needs days."
                 else validateDays(p["days"]?.toString(), label, errors)
             }
             AutomationProfileStore.ConditionType.APP -> required("package")
@@ -547,7 +547,7 @@ object AutomationProfileValidator {
             AutomationProfileStore.ConditionType.BATTERY_LEVEL -> validateRange(p, label, errors)
             AutomationProfileStore.ConditionType.CHARGING -> {
                 p["value"]?.toString()?.let { raw ->
-                    if (raw.toBooleanStrictOrNull() == null) errors += "$label: value debe ser true o false."
+                    if (raw.toBooleanStrictOrNull() == null) errors += "$label: value must be true or false."
                 }
             }
             AutomationProfileStore.ConditionType.SCREEN ->
@@ -561,9 +561,9 @@ object AutomationProfileValidator {
                 val hasPlace = !p["place"]?.toString().isNullOrBlank() || !p["place_id"]?.toString().isNullOrBlank()
                 val lat = p["latitude"]?.toString()?.toDoubleOrNull()
                 val lon = p["longitude"]?.toString()?.toDoubleOrNull()
-                if (!hasPlace && (lat == null || lon == null)) errors += "$label necesita place/place_id o latitude/longitude."
+        if (!hasPlace && (lat == null || lon == null)) errors += "$label needs place/place_id or latitude/longitude."
                 val inside = p["inside"]?.toString()
-                if (inside != null && inside.toBooleanStrictOrNull() == null) errors += "$label: inside debe ser true o false."
+                if (inside != null && inside.toBooleanStrictOrNull() == null) errors += "$label: inside must be true or false."
             }
             AutomationProfileStore.ConditionType.WIFI -> Unit
             AutomationProfileStore.ConditionType.BLUETOOTH,
@@ -572,7 +572,7 @@ object AutomationProfileValidator {
             AutomationProfileStore.ConditionType.POWER_SAVE,
             AutomationProfileStore.ConditionType.DEVICE_IDLE -> {
                 p["value"]?.toString()?.let { raw ->
-                    if (raw.toBooleanStrictOrNull() == null) errors += "$label: value debe ser true o false."
+                    if (raw.toBooleanStrictOrNull() == null) errors += "$label: value must be true or false."
                 }
             }
         }
@@ -583,9 +583,9 @@ object AutomationProfileValidator {
         val max = params["max"]?.let { automationInt(it) }
         if (params["min"] != null && min == null) errors += "$label: min must be a number."
         if (params["max"] != null && max == null) errors += "$label: max must be a number."
-        if (min != null && min !in 0..100) errors += "$label: min debe estar entre 0 y 100."
-        if (max != null && max !in 0..100) errors += "$label: max debe estar entre 0 y 100."
-        if (min != null && max != null && min > max) errors += "$label: min no puede superar max."
+        if (min != null && min !in 0..100) errors += "$label: min must be between 0 and 100."
+        if (max != null && max !in 0..100) errors += "$label: max must be between 0 and 100."
+        if (min != null && max != null && min > max) errors += "$label: min cannot exceed max."
     }
 
     private fun validateClock(raw: String?, label: String, errors: MutableList<String>) {
@@ -593,7 +593,7 @@ object AutomationProfileValidator {
         val hour = parts?.getOrNull(0)?.toIntOrNull()
         val minute = parts?.getOrNull(1)?.toIntOrNull()
         if (parts?.size != 2 || hour == null || hour !in 0..23 || minute == null || minute !in 0..59) {
-            errors += "$label debe usar HH:mm."
+            errors += "$label must use HH:mm."
         }
     }
 
@@ -637,10 +637,10 @@ object AutomationProfileValidator {
                     if (params["text"]?.toString().isNullOrBlank()) errors += "Nested agent_task action needs text."
                 AutomationProfileStore.ActionType.WAIT -> {
                     val ms = automationLong(params["ms"]) ?: -1
-                    if (ms !in 0..60_000) errors += "wait anidado fuera de rango."
+                    if (ms !in 0..60_000) errors += "nested wait is out of range."
                 }
                 AutomationProfileStore.ActionType.IF -> {
-                    if (params["then"] !is List<*>) errors += "if anidado necesita then con acciones."
+                    if (params["then"] !is List<*>) errors += "nested if needs then with actions."
                     else {
                         validateNestedActions(params["then"], depth + 1, errors)
                         validateNestedActions(params["else"], depth + 1, errors)
@@ -648,16 +648,16 @@ object AutomationProfileValidator {
                 }
                 AutomationProfileStore.ActionType.LOOP -> {
                     val count = automationInt(params["count"]) ?: 0
-                    if (count !in 1..20) errors += "loop anidado fuera de rango."
-                    if (params["actions"] !is List<*>) errors += "loop anidado necesita actions."
+                    if (count !in 1..20) errors += "nested loop is out of range."
+                    if (params["actions"] !is List<*>) errors += "nested loop needs actions."
                     else validateNestedActions(params["actions"], depth + 1, errors)
                 }
                 AutomationProfileStore.ActionType.NOTIFY ->
-                    if (params["text"]?.toString().isNullOrBlank()) errors += "notify anidado necesita text."
+                    if (params["text"]?.toString().isNullOrBlank()) errors += "nested notify needs text."
                 AutomationProfileStore.ActionType.SET_VARIABLE ->
-                    if (params["name"]?.toString().isNullOrBlank()) errors += "set_variable anidado necesita name."
+                    if (params["name"]?.toString().isNullOrBlank()) errors += "nested set_variable needs name."
                 AutomationProfileStore.ActionType.RUN_ROUTINE ->
-                    if (params["name"]?.toString().isNullOrBlank()) errors += "run_routine anidado necesita name."
+                    if (params["name"]?.toString().isNullOrBlank()) errors += "nested run_routine needs name."
                 else -> Unit
             }
         }

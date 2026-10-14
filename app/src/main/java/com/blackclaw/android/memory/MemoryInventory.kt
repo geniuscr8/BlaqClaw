@@ -63,7 +63,7 @@ object MemoryInventory {
         val categories = listOf(
             Category(
                 id = "profile",
-                title = "Perfil aprendido",
+                title = "Learned profile",
                 explanation = "Inferred from how you use the phone: schedules, apps, and " +
                     "frequent contacts. You did not explicitly provide it; it was inferred.",
                 count = profileLines.size,
@@ -72,7 +72,7 @@ object MemoryInventory {
             ),
             Category(
                 id = "facts",
-                title = "Hechos que pediste recordar",
+                title = "Facts you asked me to remember",
                 explanation = "What you deliberately saved with \"remember that…\".",
                 count = facts.size,
                 preview = facts.takeLast(PREVIEW_LIMIT).map { Item(it.key, it.value) },
@@ -81,7 +81,7 @@ object MemoryInventory {
             Category(
                 id = "conversations",
                 title = "Conversation summaries",
-                explanation = "Un resumen corto de cada charla anterior, para poder " +
+                explanation = "A short summary of each previous conversation, so BlaqClaw can " +
                     "to resume references from another day.",
                 count = conversations.size,
                 preview = conversations.takeLast(PREVIEW_LIMIT).map {
@@ -91,9 +91,9 @@ object MemoryInventory {
             ),
             Category(
                 id = "tasks",
-                title = "Tareas recientes",
+                title = "Recent tasks",
                 explanation = "What you asked it to do in recent hours, to resolve " +
-                    "\"otra vez\" o \"a la misma persona\".",
+                    "\"again\" or \"to the same person\".",
                 count = tasks.size,
                 preview = tasks.take(PREVIEW_LIMIT).map { Item(it.task, it.outcome) },
                 leavesDevice = true,

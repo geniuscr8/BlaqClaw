@@ -1,14 +1,14 @@
 ---
 id: social_post
-name: Publicar en redes (X / Instagram / Facebook)
+name: Post to social media (X / Instagram / Facebook)
 triggers:
-  - "publica"
-  - "postea"
-  - "haz un post"
-  - "tuitea"
-  - "twittea"
-  - "sube una historia"
-  - "sube a instagram"
+  - "publish"
+  - "post"
+  - "make a post"
+  - "tweet"
+  - "tweet"
+  - "post a story"
+  - "post to Instagram"
   - "post on"
   - "tweet"
   - "share a story"

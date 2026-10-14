@@ -123,7 +123,7 @@ object LocalModelManager {
         ),
         ModelInfo(
             id = "gemma4-e4b-uncensored",
-            displayName = "Gemma 4 E4B abliterated — 4.1 GB · sin censura, potente",
+            displayName = "Gemma 4 E4B abliterated — 4.1 GB · uncensored, powerful",
             url = "https://huggingface.co/DuoNeural/Gemma-4-Abliterated-LiteRT/resolve/main/Gemma-4-E4B-Abliterated.litertlm",
             fileName = "gemma-4-E4B-abliterated.litertlm",
             sizeBytes = 4_120_150_016L,

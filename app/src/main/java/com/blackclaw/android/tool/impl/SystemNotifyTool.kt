@@ -42,9 +42,9 @@ class SystemNotifyTool : BaseTool() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Alertas del agente",
+                "Agent alerts",
                 NotificationManager.IMPORTANCE_DEFAULT,
-            ).apply { description = "Mensajes y recordatorios del agente BlaqClaw" }
+            ).apply { description = "BlaqClaw agent messages and reminders" }
             nm.createNotificationChannel(channel)
         }
         val n = NotificationCompat.Builder(ctx, CHANNEL_ID)

@@ -47,7 +47,7 @@ class WriteFileTool : BaseTool() {
                 "overwrite", "replace" -> file.writeText(content)
                 else -> file.appendText(content + "\n")
             }
-            ToolResult.success("Escrito ${content.length} caracteres en ${file.absolutePath}")
+            ToolResult.success("Wrote ${content.length} characters to ${file.absolutePath}")
         } catch (e: Exception) {
             ToolResult.error("Could not write the file: ${e.message}")
         }

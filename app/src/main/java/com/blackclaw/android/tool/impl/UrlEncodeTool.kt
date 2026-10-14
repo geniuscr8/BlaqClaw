@@ -15,7 +15,7 @@ class UrlEncodeTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("action", "string", "encode | decode", true),
-        ToolParameter("text", "string", "Texto a procesar.", true),
+        ToolParameter("text", "string", "Text to process.", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

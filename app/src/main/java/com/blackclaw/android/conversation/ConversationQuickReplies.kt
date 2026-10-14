@@ -12,7 +12,7 @@ object ConversationQuickReplies {
 
     fun replyFor(prompt: String): String? {
         if (CapabilityQuestionDetector.isGeneralCapabilityQuestion(prompt)) {
-            return GENERAL_ES
+            return GENERAL_EN
         }
         if (!CapabilityQuestionDetector.isCapabilityQuestion(prompt)) return null
 
@@ -27,18 +27,14 @@ object ConversationQuickReplies {
             normalized.contains("tasks")
         return when {
             isAutomationQuestion && isEnglish -> AUTOMATION_EN
-            isAutomationQuestion -> AUTOMATION_ES
-            else -> GENERAL_ES
+            isAutomationQuestion -> AUTOMATION_EN
+            else -> GENERAL_EN
         }
     }
 
-    private const val GENERAL_ES =
-        "Sí. Puedo conversar, consultar información del teléfono, analizar imágenes, " +
-            "usar la terminal segura y crear o ejecutar tareas y automatizaciones. Dime qué quieres hacer."
-
-    private const val AUTOMATION_ES =
-        "Sí. Puedo crear y ejecutar tareas y automatizaciones en Android. " +
-            "Dime el disparador y lo que debe hacer; por ejemplo: «cuando llegue a casa, activa el Wi‑Fi»."
+    private const val GENERAL_EN =
+        "Yes. I can chat, check phone information, analyze images, use the secure terminal, " +
+            "and create or run tasks and automations. Tell me what you want to do."
 
     private const val AUTOMATION_EN =
         "Yes. I can create and run Android tasks and automations. Tell me the trigger " +

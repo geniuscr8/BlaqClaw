@@ -155,7 +155,7 @@ private fun TerminalScreen(
                 )
                 Spacer(Modifier.width(8.dp))
                 IconButton(onClick = { submit() }, enabled = !busy) {
-                    Icon(Icons.AutoMirrored.Filled.Send, "Ejecutar",
+                    Icon(Icons.AutoMirrored.Filled.Send, "Run",
                         tint = if (busy) colors.textSecondary else colors.accent)
                 }
             }

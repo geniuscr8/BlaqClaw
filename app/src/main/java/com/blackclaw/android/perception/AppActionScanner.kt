@@ -60,9 +60,9 @@ object AppActionScanner {
             Intent(Intent.ACTION_DIAL, Uri.parse("tel:123"))),
         Triple("browser", "Open websites / search",
             Intent(Intent.ACTION_VIEW, Uri.parse("https://example.com"))),
-        Triple("share", "Compartir texto",
+        Triple("share", "Share text",
             Intent(Intent.ACTION_SEND).apply { type = "text/plain" }),
-        Triple("calendar", "Crear evento de calendario",
+        Triple("calendar", "Create calendar event",
             Intent(Intent.ACTION_INSERT).apply { data = CalendarContract.Events.CONTENT_URI }),
         Triple("web_search", "Web search",
             Intent(Intent.ACTION_WEB_SEARCH)),
@@ -108,7 +108,7 @@ object AppActionScanner {
         }
         val catalog = verifiedCatalog()
         if (catalog.isNotEmpty()) {
-            sb.append("\nApps con deep link instaladas (").append(catalog.size).append("):\n")
+            sb.append("\nInstalled apps with deep links (").append(catalog.size).append("):\n")
             sb.append(catalog.joinToString(", ") { (e, scheme) ->
                 e.key + if (scheme) "✓" else "~"
             })

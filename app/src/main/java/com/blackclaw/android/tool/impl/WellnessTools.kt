@@ -38,7 +38,7 @@ class MoodLogTool : BaseTool() {
 
 class WellnessStatusTool : BaseTool() {
     override fun getName() = "wellness_status"
-    override fun getDisplayName() = "Estado bienestar"
+    override fun getDisplayName() = "Wellness status"
     override fun getDescriptionEN() =
         "Show wellness overview: recent moods, sleep inference, screen time, and suggestions."
     override fun getDescriptionCN() = getDescriptionEN()

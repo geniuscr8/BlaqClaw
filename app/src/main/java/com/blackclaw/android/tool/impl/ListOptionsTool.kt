@@ -52,10 +52,10 @@ class ListOptionsTool : BaseTool() {
         if (filter.isNotBlank()) items = items.filter { it.label.lowercase().contains(filter) }
         if (items.isEmpty()) {
             return ToolResult.success("No labeled tappable options were detected on screen. " +
-                "Prueba read_screen_ocr si es una app tipo canvas.")
+                "Try read_screen_ocr for canvas-based apps.")
         }
 
-        val sb = StringBuilder("Opciones en pantalla (toca con tap(x, y)):\n")
+        val sb = StringBuilder("On-screen options (tap with tap(x, y)):\n")
         items.take(limit).forEachIndexed { i, o ->
             sb.append("${i + 1}. [${o.cx},${o.cy}] ${o.label.take(80)}\n")
         }

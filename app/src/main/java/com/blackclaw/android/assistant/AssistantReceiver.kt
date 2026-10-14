@@ -51,7 +51,7 @@ class AssistantReceiver : BroadcastReceiver() {
                         CHANNEL_ID_HIGH, "Asistente · Alarmas y avisos",
                         NotificationManager.IMPORTANCE_HIGH,
                     ).apply {
-                        description = "Alarmas y avisos importantes del asistente"
+                        description = "Assistant alarms and important alerts"
                         enableVibration(true)
                     }
                     nm.createNotificationChannel(ch)
@@ -59,7 +59,7 @@ class AssistantReceiver : BroadcastReceiver() {
                     val ch = NotificationChannel(
                         CHANNEL_ID, "Asistente · Recordatorios",
                         NotificationManager.IMPORTANCE_DEFAULT,
-                    ).apply { description = "Recordatorios y notas del asistente" }
+                    ).apply { description = "Assistant reminders and notes" }
                     nm.createNotificationChannel(ch)
                 }
             }

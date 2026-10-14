@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 /** Execute an existing routine by name or id. */
 class RunRoutineTool : BaseTool() {
     override fun getName() = "run_routine"
-    override fun getDisplayName() = "Ejecutar rutina"
+    override fun getDisplayName() = "Run routine"
     override fun getDescriptionEN() =
         "Execute a saved routine by name (fuzzy match). Routines are multi-step automated " +
         "sequences like 'morning routine', 'focus mode', 'workout'. Use list_routines to see available ones."
@@ -36,7 +36,7 @@ class RunRoutineTool : BaseTool() {
 /** List all saved routines. */
 class ListRoutinesTool : BaseTool() {
     override fun getName() = "list_routines"
-    override fun getDisplayName() = "Ver rutinas"
+    override fun getDisplayName() = "View routines"
     override fun getDescriptionEN() =
         "List all saved routines with their schedules and step count."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -61,13 +61,13 @@ class ListRoutinesTool : BaseTool() {
 /** Create a new routine. Steps are passed as a JSON array. */
 class CreateRoutineTool : BaseTool() {
     override fun getName() = "create_routine"
-    override fun getDisplayName() = "Crear rutina"
+    override fun getDisplayName() = "Create routine"
     override fun getDescriptionEN() =
         "Create a multi-step routine the user can run later or schedule. " +
         "steps is a JSON array: [{\"tool\":\"tool_name\",\"params\":{...},\"desc\":\"what this step does\"}]. " +
         "trigger_time (optional) is 'HH:MM' to auto-run daily. trigger_days: 'daily'|'weekdays'|'mon,wed,fri'."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "crea una rutina multi-paso (morning routine, focus mode, etc.)"
+    override fun getBrief() = "creates a multi-step routine (morning routine, focus mode, etc.)"
     override fun getParameters() = listOf(
         ToolParameter("name", "string", "Routine name (e.g. 'Morning routine').", true),
         ToolParameter("steps", "string", "JSON array of steps: [{\"tool\":\"...\",\"params\":{},\"desc\":\"...\"}].", true),
@@ -116,10 +116,10 @@ class CreateRoutineTool : BaseTool() {
 /** Delete a routine by name or id. */
 class DeleteRoutineTool : BaseTool() {
     override fun getName() = "delete_routine"
-    override fun getDisplayName() = "Borrar rutina"
+    override fun getDisplayName() = "Delete routine"
     override fun getDescriptionEN() = "Delete a routine by name or id."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "borra una rutina por nombre o id"
+    override fun getBrief() = "deletes a routine by name or ID"
     override fun getParameters() = listOf(
         ToolParameter("name", "string", "Routine name or id.", true),
     )
@@ -137,14 +137,14 @@ class DeleteRoutineTool : BaseTool() {
 /** Tool for the AI to learn about the user profile. */
 class LearnUserTool : BaseTool() {
     override fun getName() = "learn_user"
-    override fun getDisplayName() = "Aprender del usuario"
+    override fun getDisplayName() = "Learn from user"
     override fun getDescriptionEN() =
         "Save a learned trait or preference about the user to their profile. " +
         "Use when you notice a pattern or the user reveals something about themselves. " +
         "Categories: name, city, wake_time, sleep_time, work_hours, interest, contact, routine_note, trait. " +
         "This builds a profile so you can anticipate their needs better over time."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "guarda un rasgo/preferencia aprendida del usuario en su perfil"
+    override fun getBrief() = "saves a learned user trait or preference to their profile"
     override fun getParameters() = listOf(
         ToolParameter("category", "string", "What kind of info: name|city|wake_time|sleep_time|work_hours|interest|contact|routine_note|trait.", true),
         ToolParameter("value", "string", "The value to save.", true),

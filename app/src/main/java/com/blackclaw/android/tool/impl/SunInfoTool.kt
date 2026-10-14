@@ -37,7 +37,7 @@ class SunInfoTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("lat", "number", "Latitude (optional). Uses GPS if omitted.", false),
-        ToolParameter("lon", "number", "Longitud (opcional).", false),
+        ToolParameter("lon", "number", "Longitude (optional).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

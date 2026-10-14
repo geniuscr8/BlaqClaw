@@ -785,7 +785,7 @@ object ProactiveAssistantManager {
                         }
                     }
                 }
-                logAction("📢 Aviso — $label", r.isSuccess)
+                logAction("📢 Alert — $label", r.isSuccess)
                 r.isSuccess
             }
             else -> {

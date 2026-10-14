@@ -76,7 +76,7 @@ class DirectZimReader(private val file: File) : Closeable {
     private var cachedCluster: DecodedCluster? = null
 
     init {
-        require(file.isFile && file.canRead()) { "No se puede leer ${file.absolutePath}" }
+        require(file.isFile && file.canRead()) { "Cannot read ${file.absolutePath}" }
         header = readHeader()
         mimeTypes = readMimeTypes()
         titleIndex = loadTitleIndex()
@@ -183,7 +183,7 @@ class DirectZimReader(private val file: File) : Closeable {
             if (value.isEmpty()) break
             out += value
         }
-        require(out.isNotEmpty()) { "ZIM sin lista MIME" }
+        require(out.isNotEmpty()) { "ZIM has no MIME list" }
         return out
     }
 
@@ -256,7 +256,7 @@ class DirectZimReader(private val file: File) : Closeable {
     }
 
     private fun dirent(index: Long): Dirent {
-        require(index in 0 until header.entryCount) { "Índice de entrada fuera de rango" }
+        require(index in 0 until header.entryCount) { "Entry index out of range" }
         val offset = u64(header.pathPtrPos + index * 8)
         require(offset in HEADER_SIZE until raf.length()) { "Invalid entry pointer" }
         raf.seek(offset)
@@ -324,7 +324,7 @@ class DirectZimReader(private val file: File) : Closeable {
         val width = if (extended) 8 else 4
         require(decoded.size >= width) { "Incomplete cluster header" }
         val firstOffset = leUnsigned(decoded, 0, width)
-        require(firstOffset % width == 0L && firstOffset in (2L * width)..decoded.size.toLong()) { "Tabla de blobs inválida" }
+        require(firstOffset % width == 0L && firstOffset in (2L * width)..decoded.size.toLong()) { "Invalid blob table" }
         val blobCount = firstOffset / width - 1
         return DecodedCluster(decoded, width, firstOffset, blobCount)
     }

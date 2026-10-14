@@ -19,17 +19,17 @@ object SecurityPolicy {
 
     fun protectionReason(context: Context, pkg: String): String? {
         if (!isValidPackageName(pkg)) return "Invalid package name"
-        if (pkg in ALWAYS_PROTECTED) return "Componente esencial de Android o BlaqClaw"
+        if (pkg in ALWAYS_PROTECTED) return "Essential Android or BlaqClaw component"
         val pm = context.packageManager
         val info = runCatching { pm.getApplicationInfo(pkg, 0) }.getOrNull()
             ?: return "The app is not installed"
-        if ((info.flags and ApplicationInfo.FLAG_SYSTEM) != 0) return "App del sistema protegida"
+        if ((info.flags and ApplicationInfo.FLAG_SYSTEM) != 0) return "Protected system app"
 
         val homePackages = runCatching {
             pm.queryIntentActivities(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME), 0)
                 .map { it.activityInfo.packageName }.toSet()
         }.getOrDefault(emptySet())
-        if (pkg in homePackages) return "Launcher/inicio del dispositivo protegido"
+        if (pkg in homePackages) return "Protected device launcher/home app"
 
         val accessibility = runCatching {
             val manager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
@@ -42,7 +42,7 @@ object SecurityPolicy {
             val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
             dpm.activeAdmins?.map { it.packageName }?.toSet() ?: emptySet()
         }.getOrDefault(emptySet())
-        if (pkg in ownerPackages) return "Administrador/propietario del dispositivo protegido"
+        if (pkg in ownerPackages) return "Protected device administrator/owner"
         return null
     }
 }

@@ -143,7 +143,7 @@ private fun ScheduledTasksScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                         }
                     } else if (selected == 1) {
                         IconButton(onClick = { showAddRule = true }) {
-                            Icon(Icons.Default.Add, contentDescription = "Nueva regla", tint = colors.accent)
+                            Icon(Icons.Default.Add, contentDescription = "New rule", tint = colors.accent)
                         }
                     } else if (selected == 2) {
                         IconButton(onClick = { showAgentFlowBuilder = true }) {
@@ -374,7 +374,7 @@ private fun SavedPlacesPane(
                         Text(place.name, color = colors.textPrimary, fontWeight = FontWeight.SemiBold)
                         Text(
                             buildString {
-                                append("Radio ${place.radiusM.toInt()} m · ID ${place.id}")
+                                append("Radius ${place.radiusM.toInt()} m · ID ${place.id}")
                                 if (place.aliases.isNotEmpty()) append(" · ${place.aliases.joinToString()}")
                             },
                             color = colors.textSecondary, fontSize = 11.sp,
@@ -459,7 +459,7 @@ private fun SavePlaceDialog(
                         saving = false; error = result.exceptionOrNull()?.message ?: "Could not save."
                     }
                 }
-            }) { Text(if (saving) "Guardando…" else "Save") }
+            }) { Text(if (saving) "Saving…" else "Save") }
         },
         dismissButton = { TextButton(enabled = !saving, onClick = onDismiss) { Text("Cancel", color = colors.textSecondary) } },
     )
@@ -743,8 +743,8 @@ private fun AddRuleDialog(colors: BlaqClawColors, onDismiss: () -> Unit, onSaved
                 OutlinedTextField(match, { match = it }, label = { Text("Contact or text") }, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(pkg, { pkg = it }, label = { Text("Optional package (com.whatsapp)") }, modifier = Modifier.fillMaxWidth())
             } else {
-                OutlinedTextField(lat, { lat = it }, label = { Text("Latitud") }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(lon, { lon = it }, label = { Text("Longitud") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(lat, { lat = it }, label = { Text("Latitude") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(lon, { lon = it }, label = { Text("Longitude") }, modifier = Modifier.fillMaxWidth())
             }
             OutlinedTextField(action, { action = it }, label = { Text("Actions in order") }, minLines = 3,
                 placeholder = { Text("Turn off mobile data, turn on Wi-Fi, and verify") }, modifier = Modifier.fillMaxWidth())

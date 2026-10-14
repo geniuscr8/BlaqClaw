@@ -20,16 +20,16 @@ class AutomationRuleTool : BaseTool() {
     override fun getBrief() = "creates if-then rules by notification or location and runs complex actions"
     override fun getParameters() = listOf(
         ToolParameter("operation", "string", "create, list, enable, disable, delete o run", true),
-        ToolParameter("name", "string", "Nombre de la regla", false),
+        ToolParameter("name", "string", "Rule name", false),
         ToolParameter("trigger", "string", "notification, location_enter o location_exit", false),
         ToolParameter("match", "string", "Text/contact to find in the title or content", false),
-        ToolParameter("package_name", "string", "Paquete opcional, ej. com.whatsapp", false),
+        ToolParameter("package_name", "string", "Optional package, e.g. com.whatsapp", false),
         ToolParameter("action", "string", "Task or complete sequence that BlaqClaw will run", false),
         ToolParameter("latitude", "number", "Latitude for location", false),
         ToolParameter("longitude", "number", "Longitude for location", false),
-        ToolParameter("radius_m", "integer", "Radio 50..5000 metros", false),
+        ToolParameter("radius_m", "integer", "Radius 50..5000 meters", false),
         ToolParameter("cooldown_minutes", "integer", "Evita repeticiones; predeterminado 5", false),
-        ToolParameter("id", "string", "ID o nombre para enable/disable/delete/run", false),
+        ToolParameter("id", "string", "ID or name for enable/disable/delete/run", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult = when (requireString(params, "operation").lowercase()) {
@@ -61,7 +61,7 @@ class AutomationRuleTool : BaseTool() {
             AutomationEngine.fire(ClawApplication.instance, rule)
             ToolResult.success("Ejecutando '${rule.name}'.")
         }
-        else -> ToolResult.error("operation debe ser create, list, enable, disable, delete o run.")
+        else -> ToolResult.error("operation must be create, list, enable, disable, delete, or run.")
     }
 
     private fun create(params: Map<String, Any>): ToolResult {
@@ -71,7 +71,7 @@ class AutomationRuleTool : BaseTool() {
             "notification" -> AutomationRuleStore.Trigger.NOTIFICATION
             "location_enter" -> AutomationRuleStore.Trigger.LOCATION_ENTER
             "location_exit" -> AutomationRuleStore.Trigger.LOCATION_EXIT
-            else -> return ToolResult.error("trigger debe ser notification, location_enter o location_exit.")
+            else -> return ToolResult.error("trigger must be notification, location_enter, or location_exit.")
         }
         val lat = params["latitude"]?.toString()?.toDoubleOrNull() ?: 0.0
         val lon = params["longitude"]?.toString()?.toDoubleOrNull() ?: 0.0

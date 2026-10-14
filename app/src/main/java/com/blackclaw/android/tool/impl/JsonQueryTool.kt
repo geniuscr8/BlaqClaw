@@ -59,7 +59,7 @@ class JsonQueryTool : BaseTool() {
                 '[' -> {
                     if (sb.isNotEmpty()) { parts.add(sb.toString()); sb.clear() }
                     val end = path.indexOf(']', i)
-                    if (end < 0) throw IllegalArgumentException("[ sin cerrar")
+                    if (end < 0) throw IllegalArgumentException("Unclosed [")
                     parts.add("[" + path.substring(i + 1, end) + "]")
                     i = end
                 }

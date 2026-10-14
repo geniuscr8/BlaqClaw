@@ -283,11 +283,11 @@ object ProactiveBriefing {
         if (budget > 0) {
             val remaining = budget - monthSpent
             val pct = (monthSpent / budget * 100).toInt()
-            sb.append(" Llevas $pct% del presupuesto del mes; te quedan ${"%.0f".format(remaining)}.")
+            sb.append(" You have used $pct% of this month's budget; ${"%.0f".format(remaining)} remains.")
         }
         if (goal > 0) {
             val pct = (balance / goal * 100).toInt().coerceAtLeast(0)
-            sb.append(" Meta${if (goalName.isNotBlank()) " ($goalName)" else ""}: $pct% (${"%.0f".format(balance.coerceAtLeast(0.0))}/${"%.0f".format(goal)}).")
+            sb.append(" Goal${if (goalName.isNotBlank()) " ($goalName)" else ""}: $pct% (${"%.0f".format(balance.coerceAtLeast(0.0))}/${"%.0f".format(goal)}).")
         }
         return sb.toString()
     }

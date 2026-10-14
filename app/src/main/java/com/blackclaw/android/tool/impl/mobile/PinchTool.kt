@@ -18,18 +18,18 @@ class PinchTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("center_x", "integer", "X del centro del gesto.", true),
-        ToolParameter("center_y", "integer", "Y del centro.", true),
+        ToolParameter("center_x", "integer", "Gesture center X.", true),
+        ToolParameter("center_y", "integer", "Gesture center Y.", true),
         ToolParameter("action", "string", "in (zoom out) | out (zoom in)", true),
         ToolParameter("amount", "integer",
-            "Distancia en pixels entre los dedos al inicio (default 400). " +
+            "Distance in pixels between fingers at the start (default 400). " +
             "Higher values zoom in more.", false),
         ToolParameter("duration_ms", "integer", "Duration (default 400ms).", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val service = requireAccessibilityService()
-            ?: return ToolResult.error("Accessibility service no activo")
+            ?: return ToolResult.error("Accessibility service is not active")
         val cx = requireInt(params, "center_x")
         val cy = requireInt(params, "center_y")
         validateCoordinates(cx, cy)?.let { return ToolResult.error(it) }
@@ -40,7 +40,7 @@ class PinchTool : BaseTool() {
         val (start, end) = when (action) {
             "out", "zoom_in", "zoom-in" -> Pair(120, amount)        // start close, end apart
             "in", "zoom_out", "zoom-out" -> Pair(amount, 120)       // start apart, end close
-            else -> return ToolResult.error("action debe ser 'in' o 'out'")
+            else -> return ToolResult.error("action must be 'in' or 'out'")
         }
         val ok = service.performPinch(cx, cy, start, end, duration)
         return if (ok) ToolResult.success("Pinch $action en ($cx, $cy)")

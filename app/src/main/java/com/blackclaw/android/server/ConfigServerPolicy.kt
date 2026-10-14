@@ -158,7 +158,7 @@ object ConfigServerPolicy {
             "http" -> if (isLoopbackHost(host)) {
                 null
             } else {
-                "http solo se permite en localhost. Para un servidor de modelos en otra " +
+                "HTTP is allowed only on localhost. For a model server on another " +
                     "machine uses https, or expose it on loopback (tunnel / adb reverse): " +
                     "Android blocks unencrypted traffic to network addresses, and your API key " +
                     "and all screen content would travel through it."

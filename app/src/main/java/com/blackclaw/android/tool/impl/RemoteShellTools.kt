@@ -56,7 +56,7 @@ class RemoteShellTool : BaseTool() {
 
         return try {
             val output = SshExecutor.execute(conn, command, timeout)
-            ToolResult.success(output.ifBlank { "(sin output)" })
+        ToolResult.success(output.ifBlank { "(no output)" })
         } catch (e: Exception) {
             XLog.w("RemoteShell", "Remote command failed: ${e.message}")
             ToolResult.error("Error executing on ${conn.host}: ${e.message}")
@@ -276,7 +276,7 @@ class LocalTerminalTool : BaseTool() {
         "It is always unprivileged: it cannot use Android shell commands, Shizuku, ADB, " +
         "or remote devices. Built-ins: cd, pwd, whoami, clear and help."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "terminal Linux fijo y aislado (sin Shizuku ni ADB)"
+    override fun getBrief() = "fixed, isolated Linux terminal (without Shizuku or ADB)"
     override fun getParameters() = listOf(
         ToolParameter("command", "string", "Command to run in the terminal session.", true),
         ToolParameter("timeout_seconds", "integer", "Reservado (el engine gestiona el timeout).", false),
@@ -291,7 +291,7 @@ class LocalTerminalTool : BaseTool() {
             com.blackclaw.android.ClawApplication.instance, command)
         val clean = out.replace("\u000C", "").trim()
         val capped = if (clean.length > 8000) clean.take(8000) + "\n…[truncado]" else clean
-        return ToolResult.success(capped.ifBlank { "(exit 0, sin output)" })
+        return ToolResult.success(capped.ifBlank { "(exit 0, no output)" })
     }
 }
 

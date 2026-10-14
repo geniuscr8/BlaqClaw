@@ -226,7 +226,7 @@ class SetMusicPlayerTool : BaseTool() {
     override fun getDescriptionEN() =
         "Set the user's default/preferred music player so future 'play music' commands use it. " +
         "app: spotify|youtube_music|youtube|amazon_music|apple_music|deezer|soundcloud|tidal|" +
-        "poweramp|musicolet|vlc, or 'default' to clear. Use when the user says 'usa X para la música' " +
+        "poweramp|musicolet|vlc, or 'default' to clear. Use when the user says 'use X for music' " +
         "or 'mi reproductor es X'."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "set the user's preferred music player"

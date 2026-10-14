@@ -73,7 +73,7 @@ class EmergencyEvidencePlayerActivity : BaseActivity() {
             setBackgroundColor(BACKDROP)
         }
         val title = TextView(this).apply {
-            text = intent.getStringExtra(EXTRA_TITLE) ?: "Evidencia"
+            text = intent.getStringExtra(EXTRA_TITLE) ?: "Evidence"
             textSize = 20f
             setTextColor(Color.WHITE)
             setPadding(12, 12, 12, 20)

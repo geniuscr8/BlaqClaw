@@ -1918,7 +1918,7 @@ private fun AssistantPanel(
         Cat(com.blackclaw.android.assistant.AssistantItemType.ALARM, "Alarmas", "⏰", Color(0xFFF59E0B)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.NOTE, "Notas", "📝", Color(0xFF38BDF8)),
         Cat(com.blackclaw.android.assistant.AssistantItemType.EVENT, "Calendar", "📅", Color(0xFFEC4899)),
-        Cat(com.blackclaw.android.assistant.AssistantItemType.FINANCE, "Finanzas", "💰", Color(0xFF22C55E)),
+        Cat(com.blackclaw.android.assistant.AssistantItemType.FINANCE, "Finances", "💰", Color(0xFF22C55E)),
     )
     Column(
         Modifier.fillMaxSize().padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)

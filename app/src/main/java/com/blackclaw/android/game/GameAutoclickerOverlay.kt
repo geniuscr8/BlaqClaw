@@ -93,7 +93,7 @@ object GameAutoclickerOverlay {
         }
         box.addView(title)
         nameInput = EditText(service).apply {
-            hint = "Nombre: farmeo, ataque…"
+            hint = "Name: farming, attack…"
             setHintTextColor(0xff9aa4b2.toInt()); setTextColor(Color.WHITE); textSize = 14f
             setSingleLine(true)
         }.also { box.addView(it, LinearLayout.LayoutParams(dp(230, density), dp(44, density))) }

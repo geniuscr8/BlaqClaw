@@ -73,10 +73,10 @@ object AppRiskScanner {
             val hasA11y = info.packageName in a11yPkgs
             if (hasA11y) { score += 4; reasons.add("Has an accessibility service (can read/control the screen)") }
 
-            if (info.packageName in adminPkgs) { score += 4; reasons.add("Es administrador del dispositivo") }
+            if (info.packageName in adminPkgs) { score += 4; reasons.add("Is a device administrator") }
 
             if ("android.permission.REQUEST_INSTALL_PACKAGES" in perms) {
-                score += 3; reasons.add("Puede instalar otras apps (riesgo de 'dropper')")
+                score += 3; reasons.add("Can install other apps (potential 'dropper' risk)")
             }
             if ("android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" in perms ||
                 "android.permission.BIND_ACCESSIBILITY_SERVICE" in perms) {
@@ -87,7 +87,7 @@ object AppRiskScanner {
             if ("android.permission.SEND_SMS" in perms) smsRisk++
             if ("android.permission.READ_SMS" in perms) smsRisk++
             if ("android.permission.RECEIVE_SMS" in perms) smsRisk++
-            if (smsRisk > 0) { score += smsRisk + 1; reasons.add("Accede a SMS (fraude por SMS premium)") }
+            if (smsRisk > 0) { score += smsRisk + 1; reasons.add("Can access SMS (premium SMS fraud risk)") }
 
             if ("android.permission.RECORD_AUDIO" in perms) { score += 2; reasons.add("Puede grabar audio") }
             if ("android.permission.READ_CALL_LOG" in perms) { score += 2; reasons.add("Lee el registro de llamadas") }
