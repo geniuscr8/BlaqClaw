@@ -9,15 +9,15 @@ import org.junit.Test
 class LanguageDetectorTest {
 
     @Test
-    fun detectsSpanishFromCommonWords() {
-        assertEquals(LanguageDetector.Language.SPANISH,
-            LanguageDetector.detect("abre whatsapp y manda un mensaje"))
+    fun nonEnglishInputDoesNotEnableSpanishMode() {
+        assertEquals(LanguageDetector.Language.UNKNOWN,
+            LanguageDetector.detect("open whatsapp y manda un mensaje"))
     }
 
     @Test
-    fun detectsSpanishFromAccents() {
-        assertEquals(LanguageDetector.Language.SPANISH,
-            LanguageDetector.detect("pon la alarma para mañana"))
+    fun accentedInputDoesNotEnableSpanishMode() {
+        assertEquals(LanguageDetector.Language.UNKNOWN,
+            LanguageDetector.detect("qué día es"))
     }
 
     @Test
@@ -39,16 +39,14 @@ class LanguageDetectorTest {
     }
 
     @Test
-    fun accentCharsForceSpanish() {
-        // Even with few words, accents are a strong Spanish signal
+    fun accentsDoNotChangeEnglishOnlyDetection() {
         val result = LanguageDetector.detect("qué día es")
-        assertEquals(LanguageDetector.Language.SPANISH, result)
+        assertEquals(LanguageDetector.Language.UNKNOWN, result)
     }
 
     @Test
-    fun spanishInputStillGetsEnglishInstruction() {
-        val instruction = LanguageDetector.getLanguageInstruction("abre la cámara y toma una foto")
-        assert(instruction.contains("English"))
+    fun nonEnglishInputDoesNotGetLanguageTrainingInstruction() {
+        assertEquals("", LanguageDetector.getLanguageInstruction("qué día es"))
     }
 
     @Test
@@ -63,15 +61,14 @@ class LanguageDetectorTest {
     }
 
     @Test
-    fun spanishCommandVerbs() {
-        // Common phone task verbs in Spanish
+    fun englishCommandVerbs() {
         listOf(
-            "busca videos de gatos",
-            "envía un mensaje a mamá",
-            "llama a Juan",
-            "pon una alarma",
+            "search for cat videos",
+            "send a message to Mom",
+            "call John",
+            "set an alarm",
         ).forEach {
-            assertEquals("Failed for: $it", LanguageDetector.Language.SPANISH,
+            assertEquals("Failed for: $it", LanguageDetector.Language.ENGLISH,
                 LanguageDetector.detect(it))
         }
     }

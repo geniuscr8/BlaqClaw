@@ -14,24 +14,24 @@ class WakeWordMatcherTest {
 
     @Test
     fun exactMatchExtractsCommand() {
-        val m = WakeWordMatcher.match("blaqclaw manda un mensaje a mama", "blaqclaw")
+        val m = WakeWordMatcher.match("blaqclaw send a message to Mom", "blaqclaw")
         assertNotNull(m)
-        assertEquals("manda un mensaje a mama", m!!.command)
+        assertEquals("send a message to mom", m!!.command)
     }
 
     @Test
     fun spacedMishearingMatches() {
         // STT often hears "blaq claw" as two words
-        val m = WakeWordMatcher.match("blaq claw pon una alarma", "blaqclaw")
+        val m = WakeWordMatcher.match("blaq claw set an alarm", "blaqclaw")
         assertNotNull(m)
-        assertEquals("pon una alarma", m!!.command)
+        assertEquals("set an alarm", m!!.command)
     }
 
     @Test
     fun commonMishearingBlackLaw() {
-        val m = WakeWordMatcher.match("black law abre whatsapp", "blaqclaw")
+        val m = WakeWordMatcher.match("black law open whatsapp", "blaqclaw")
         assertNotNull(m)
-        assertEquals("abre whatsapp", m!!.command)
+        assertEquals("open whatsapp", m!!.command)
     }
 
     @Test
@@ -39,14 +39,6 @@ class WakeWordMatcherTest {
         val m = WakeWordMatcher.match("blaclo enciende la luz", "blaqclaw")
         assertNotNull(m)
         assertEquals("enciende la luz", m!!.command)
-    }
-
-    @Test
-    fun spanishGarraTriggers() {
-        // "garra" = Spanish for "claw" — a recognizer-friendly trigger
-        val m = WakeWordMatcher.match("garra qué hora es", "blaqclaw")
-        assertNotNull(m)
-        assertEquals("que hora es", m!!.command)
     }
 
     @Test
@@ -63,9 +55,9 @@ class WakeWordMatcherTest {
 
     @Test
     fun commaAfterWakeWordIsStripped() {
-        val m = WakeWordMatcher.match("blaqclaw, llama a Juan", "blaqclaw")
+        val m = WakeWordMatcher.match("blaqclaw, call John", "blaqclaw")
         assertNotNull(m)
-        assertEquals("llama a juan", m!!.command)
+        assertEquals("call john", m!!.command)
     }
 
     @Test
@@ -97,33 +89,4 @@ class WakeWordMatcherTest {
         assertNull(m)
     }
 
-    @Test
-    fun garraWakeWord() {
-        val m = WakeWordMatcher.match("garra pon una alarma a las 7", "garra")
-        assertNotNull(m)
-        assertEquals("pon una alarma a las 7", m!!.command)
-    }
-
-    @Test
-    fun garraMishearings() {
-        // Common es-ES mishearings of "garra" should still fire.
-        assertNotNull(WakeWordMatcher.match("gara qué hora es", "garra"))
-        assertNotNull(WakeWordMatcher.match("agarra abre youtube", "garra"))
-    }
-
-    @Test
-    fun garraGluedToCommand() {
-        // Recognizer merges the wake word with the command.
-        val m = WakeWordMatcher.match("garrapon musica", "garra")
-        assertNotNull(m)
-        assertEquals("pon musica", m!!.command)
-    }
-
-    @Test
-    fun garraPluralNotGluedAsCommand() {
-        // "garras" (plural) shouldn't produce a bogus 1-char command.
-        val m = WakeWordMatcher.match("garras", "garra")
-        // Either matches with empty command (variant) — must NOT be "s".
-        if (m != null) assertTrue(m.command != "s")
-    }
 }
