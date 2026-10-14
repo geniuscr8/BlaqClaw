@@ -10,6 +10,7 @@ object ToolRegistry {
     enum class DeviceType { TV, MOBILE }
 
     private val tools = LinkedHashMap<String, BaseTool>()
+    @Volatile private var generation: Long = 0L
     var deviceType: DeviceType = DeviceType.TV
         private set
 
@@ -24,6 +25,7 @@ object ToolRegistry {
             DeviceType.TV -> registerTvTools()
             DeviceType.MOBILE -> registerMobileTools()
         }
+        generation++
     }
 
     private fun registerCommonTools() {
@@ -291,6 +293,9 @@ object ToolRegistry {
     fun getDisplayName(name: String): String = tools[name]?.getDisplayName() ?: name
 
     fun getAllTools(): List<BaseTool> = tools.values.toList()
+
+    /** Changes whenever the registered tool set is rebuilt. */
+    fun getGeneration(): Long = generation
 
     private val toolExecutor = java.util.concurrent.Executors.newCachedThreadPool { r ->
         Thread(r, "tool-exec").apply { isDaemon = true }

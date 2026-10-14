@@ -509,6 +509,7 @@ class DefaultAgentService : AgentService {
 
             // LLM call (with retry)
             val llmResponse: LlmResponse
+            val llmStartedAt = System.nanoTime()
             try {
                 llmResponse = retryHandler.chatWithRetry(messages, toolSpecs, callback, iterations)
             } catch (e: Exception) {
@@ -533,7 +534,8 @@ class DefaultAgentService : AgentService {
                 step = iterations,
                 inputTokens = llmResponse.tokenUsage?.inputTokenCount(),
                 outputTokens = llmResponse.tokenUsage?.outputTokenCount(),
-                totalTokenCount = llmResponse.tokenUsage?.totalTokenCount()
+                totalTokenCount = llmResponse.tokenUsage?.totalTokenCount(),
+                latencyMs = ((System.nanoTime() - llmStartedAt) / 1_000_000L).coerceAtLeast(0L),
             )
             callback.onTokenUpdate(tokenMonitor.getStatus())
 

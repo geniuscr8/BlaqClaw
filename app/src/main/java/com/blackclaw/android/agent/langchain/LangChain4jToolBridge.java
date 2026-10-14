@@ -18,10 +18,12 @@ import dev.langchain4j.model.chat.request.json.JsonStringSchema;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * Bridges our custom tool abstraction to LangChain4j's tool system.
@@ -30,16 +32,28 @@ import java.util.Map;
 public class LangChain4jToolBridge {
 
     private static final Gson GSON = new Gson();
+    private static final Map<String, List<ToolSpecification>> SPEC_CACHE = new HashMap<>();
+    private static long cachedGeneration = -1L;
+    private static boolean cachedChineseDescriptions;
 
     /**
      * Builds LangChain4j ToolSpecification list from all registered tools.
      */
-    public static List<ToolSpecification> buildToolSpecifications() {
+    public static synchronized List<ToolSpecification> buildToolSpecifications() {
+        return buildToolSpecificationsInternal(null);
+    }
+
+    private static List<ToolSpecification> buildToolSpecificationsInternal(java.util.Set<String> names) {
+        String key = cacheKey(names);
+        List<ToolSpecification> cached = SPEC_CACHE.get(key);
+        if (cached != null) return cached;
         List<ToolSpecification> specs = new ArrayList<>();
         for (BaseTool tool : ToolRegistry.getInstance().getAllTools()) {
-            specs.add(toSpecification(tool));
+            if (names == null || names.contains(tool.getName())) specs.add(toSpecification(tool));
         }
-        return specs;
+        List<ToolSpecification> result = Collections.unmodifiableList(specs);
+        SPEC_CACHE.put(key, result);
+        return result;
     }
 
     /**
@@ -47,14 +61,20 @@ public class LangChain4jToolBridge {
      * {@code names}. Used to send a task-relevant subset to the LLM instead of
      * all ~85 tools, which drastically cuts input tokens per request.
      */
-    public static List<ToolSpecification> buildToolSpecifications(java.util.Set<String> names) {
-        List<ToolSpecification> specs = new ArrayList<>();
-        for (BaseTool tool : ToolRegistry.getInstance().getAllTools()) {
-            if (names == null || names.contains(tool.getName())) {
-                specs.add(toSpecification(tool));
-            }
+    public static synchronized List<ToolSpecification> buildToolSpecifications(java.util.Set<String> names) {
+        return buildToolSpecificationsInternal(names);
+    }
+
+    private static String cacheKey(java.util.Set<String> names) {
+        long generation = ToolRegistry.getInstance().getGeneration();
+        boolean chinese = BaseTool.useChineseDescription;
+        if (generation != cachedGeneration || chinese != cachedChineseDescriptions) {
+            SPEC_CACHE.clear();
+            cachedGeneration = generation;
+            cachedChineseDescriptions = chinese;
         }
-        return specs;
+        if (names == null) return "*";
+        return String.join(",", new TreeSet<>(names));
     }
 
     /**
