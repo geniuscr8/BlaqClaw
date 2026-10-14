@@ -553,7 +553,7 @@ class ChatSessionController(
                                     buffer.append(token)
                                     postToMain { setStreamingText(streamIdx, buffer.toString(), fallbackModelName) }
                                 } else if (!hasVisibleContent) {
-                                    postToMain { setStreamingText(streamIdx, "Analizando imagen…", fallbackModelName) }
+                                    postToMain { setStreamingText(streamIdx, "Analyzing image…", fallbackModelName) }
                                 }
                             }
                             override fun onComplete(response: com.blackclaw.android.agent.llm.LlmResponse) = Unit

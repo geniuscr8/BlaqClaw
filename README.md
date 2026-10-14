@@ -33,6 +33,13 @@ the task is complete.
 - Fixed conversational routing for English topic statements such as “set theory is interesting”.
 - Added regression coverage for apostrophe-normalized English topic phrases.
 
+### v1.3.14
+
+- Added explicit confirmation before sensitive chat tasks can start.
+- Added clearer task activity summaries and model privacy/cost guidance.
+- Added cloud provider presets, validation, and an authenticated connection test to LAN configuration.
+- Improved accessibility touch targets, reduced-motion behavior, and English UI consistency.
+
 ### v1.3.12
 
 - Added a branded splash screen and a tested first-launch setup flow.

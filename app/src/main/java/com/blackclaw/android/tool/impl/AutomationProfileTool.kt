@@ -242,7 +242,7 @@ class AutomationProfileTool : BaseTool() {
         val name = when {
             params.containsKey("name") -> requireString(params, "name").trim()
             base != null -> base.name
-            else -> throw IllegalArgumentException("Falta name.")
+            else -> throw IllegalArgumentException("Name is required.")
         }
         val triggers = if (params.containsKey("triggers")) {
             parseArray(jsonText(params, "triggers", "[]")) { row ->
@@ -392,7 +392,7 @@ class AutomationProfileTool : BaseTool() {
 
     private fun <T : Enum<T>> enumValue(raw: Any?, values: Array<T>): T {
         val normalized = raw?.toString()?.trim()?.uppercase()?.replace('-', '_')
-            ?: throw IllegalArgumentException("Falta type.")
+            ?: throw IllegalArgumentException("Type is required.")
         return values.firstOrNull { it.name == normalized }
             ?: throw IllegalArgumentException("Unknown type '$raw'.")
     }

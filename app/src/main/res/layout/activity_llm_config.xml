@@ -157,7 +157,7 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_edit_text"
                         android:gravity="center"
-                        android:text="Probar modelos configurados"
+                        android:text="Test configured models"
                         android:textColor="@color/colorInfoPrimary"
                         android:textSize="13dp" />
 

@@ -3,6 +3,7 @@ package com.blackclaw.android.server
 import android.content.Context
 import com.blackclaw.android.BuildConfig
 import com.blackclaw.android.channel.ChannelManager
+import com.blackclaw.android.agent.llm.LlmSessionManager
 import com.blackclaw.android.tool.ToolRegistry
 import com.blackclaw.android.tool.ToolResult
 import com.blackclaw.android.utils.KVUtils
@@ -76,6 +77,7 @@ class ConfigServer(
                         uri == "/api/channels" && method == Method.POST -> handlePostChannels(session)
                         uri == "/api/llm" && method == Method.GET -> handleGetLlm()
                         uri == "/api/llm" && method == Method.POST -> handlePostLlm(session)
+                        uri == "/api/llm/test" && method == Method.GET -> handleTestLlm()
                         uri == "/api/debug/tools" && method == Method.GET && BuildConfig.DEBUG -> handleGetTools()
                         uri == "/api/debug/execute" && method == Method.POST && BuildConfig.DEBUG -> handleExecuteTool(session)
                         uri == "/api/debug/screen-full" && method == Method.GET && BuildConfig.DEBUG -> handleGetScreenFull()
@@ -274,6 +276,41 @@ class ConfigServer(
         val result = JsonObject().apply {
             addProperty("code", 0)
             addProperty("message", "ok")
+        }
+        return newFixedLengthResponse(Response.Status.OK, MIME_JSON, result.toString())
+    }
+
+    /** Test the currently saved cloud configuration with one minimal request. */
+    private fun handleTestLlm(): Response {
+        val started = System.nanoTime()
+        val config = com.blackclaw.android.agent.llm.ModelConfigRepository.snapshot()
+        if (config.effectiveMode == com.blackclaw.android.agent.llm.ActiveModelMode.LOCAL) {
+            return jsonResult(-1, "The active model is on-device; no cloud connection is configured.")
+        }
+        if (config.activeCloud.modelName.isBlank() || config.activeCloud.resolvedApiKey.isBlank()) {
+            return jsonResult(-1, "Configure a cloud API key and model first.")
+        }
+        val response = LlmSessionManager.singleShotCloud(
+            "Reply with the single word OK. Do not use tools.",
+            temperature = 0.0,
+        )
+        return if (!response.isNullOrBlank()) {
+            val latencyMs = (System.nanoTime() - started) / 1_000_000L
+            val data = JsonObject().apply {
+                addProperty("latencyMs", latencyMs)
+                addProperty("model", config.activeCloud.modelName)
+            }
+            jsonResult(0, "Connection successful.", data)
+        } else {
+            jsonResult(-1, "The provider did not return a response.")
+        }
+    }
+
+    private fun jsonResult(code: Int, message: String, data: JsonObject? = null): Response {
+        val result = JsonObject().apply {
+            addProperty("code", code)
+            addProperty("message", message)
+            if (data != null) add("data", data)
         }
         return newFixedLengthResponse(Response.Status.OK, MIME_JSON, result.toString())
     }

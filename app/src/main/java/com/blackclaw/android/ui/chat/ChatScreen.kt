@@ -588,15 +588,14 @@ private fun ChatTopBar(
                     val automaticConfig = com.blackclaw.android.agent.llm.ModelConfigRepository.snapshot()
                     DropdownMenuItem(
                         text = {
-                            Text(
-                                if (automaticConfig.isLocalActive()) {
-                                    "Automatic · offline · ${automaticConfig.local.displayName}"
-                                } else {
-                                    "Automatic · online · ${automaticConfig.activeCloud.modelName}"
-                                },
-                                fontSize = 13.sp,
-                                color = colors.accent,
-                            )
+                            Column {
+                                Text("Automatic", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.accent)
+                                Text(
+                                    "Uses online AI when available, then falls back to on-device AI.",
+                                    fontSize = 11.sp,
+                                    color = colors.textTertiary,
+                                )
+                            }
                         },
                         enabled = false,
                         onClick = {},
@@ -624,6 +623,16 @@ private fun ChatTopBar(
                     val activeCloud = com.blackclaw.android.agent.llm.ModelConfigRepository.snapshot().activeCloud
                     val activeProvider = activeCloud.provider
                     if (activeCloud.isConfigured) {
+                        DropdownMenuItem(
+                            text = {
+                                Column {
+                                    Text("Cloud models", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.accent)
+                                    Text("Best capability; requires internet and may incur provider charges.", fontSize = 11.sp, color = colors.textTertiary)
+                                }
+                            },
+                            enabled = false,
+                            onClick = {},
+                        )
                         val modelsToShow = if (activeProvider == com.blackclaw.android.agent.CloudProvider.OPENCODE_ZEN) {
                             zenModels
                         } else {
@@ -690,6 +699,16 @@ private fun ChatTopBar(
                     // Local models: downloaded models
                     val localPath = kvUtils.getLocalModelPath()
                     if (localPath.isNotEmpty() && java.io.File(localPath).exists()) {
+                        DropdownMenuItem(
+                            text = {
+                                Column {
+                                    Text("On-device models", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.accent)
+                                    Text("Private and offline; speed depends on your phone.", fontSize = 11.sp, color = colors.textTertiary)
+                                }
+                            },
+                            enabled = false,
+                            onClick = {},
+                        )
                         val localName = java.io.File(localPath).nameWithoutExtension
                             .replace("-", " ").replace("_", " ")
                         DropdownMenuItem(
@@ -1177,10 +1196,31 @@ private fun SystemMessage(text: String, colors: BlaqClawColors) {
 private fun ToolGroup(message: ChatMessage, colors: BlaqClawColors) {
     val steps = message.toolSteps.orEmpty()
     if (steps.isEmpty()) return
+    val completed = steps.count { it.success }
+    val failed = steps.size - completed
 
     Column(
         modifier = Modifier.padding(start = 54.dp, end = 48.dp, top = 3.dp, bottom = 3.dp),
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 4.dp, end = 4.dp, bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                "Task activity",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = colors.textSecondary,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                if (failed == 0) "$completed steps completed" else "$failed step${if (failed == 1) "" else "s"} need attention",
+                fontSize = 10.sp,
+                color = if (failed == 0) colors.accent else colors.textTertiary,
+            )
+        }
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
@@ -1531,7 +1571,7 @@ private fun ModeChip(
     )
     Row(
         modifier = modifier
-            .heightIn(min = 40.dp)
+            .heightIn(min = 48.dp)
             .clip(RoundedCornerShape(11.dp))
             .background(fill)
             .border(1.dp, outline, RoundedCornerShape(11.dp))
@@ -2307,6 +2347,7 @@ private fun ActiveTaskBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { expanded = !expanded }
+                    .heightIn(min = 48.dp)
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -2342,6 +2383,7 @@ private fun ActiveTaskBar(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .heightIn(min = 48.dp)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -2367,7 +2409,7 @@ private fun ActiveTaskBar(
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
                             .clickable { onStopTask(task) }
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                            .padding(horizontal = 8.dp, vertical = 12.dp),
                     )
                 }
             }
@@ -2375,6 +2417,7 @@ private fun ActiveTaskBar(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .heightIn(min = 48.dp)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.End,
                 ) {
@@ -2385,7 +2428,7 @@ private fun ActiveTaskBar(
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
                             .clickable { onStopAll() }
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                            .padding(horizontal = 8.dp, vertical = 12.dp),
                     )
                 }
             }

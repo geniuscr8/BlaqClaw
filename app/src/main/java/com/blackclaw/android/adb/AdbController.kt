@@ -244,7 +244,7 @@ object AdbController {
     suspend fun connect(context: Context): Result<Unit> = withContext(Dispatchers.IO) {
         if (isConnected()) return@withContext Result.success(Unit)
         if (!isPaired()) {
-            return@withContext Result.failure(IllegalStateException("Empareja primero el dispositivo."))
+            return@withContext Result.failure(IllegalStateException("Pair the device first."))
         }
         state = State.CONNECTING
         lastError = null
@@ -346,7 +346,7 @@ object AdbController {
 
     fun describe(): String = when (state) {
         State.NOT_PAIRED -> "ADB not paired"
-        State.PAIRED_DISCONNECTED -> "ADB emparejado · desconectado"
+        State.PAIRED_DISCONNECTED -> "ADB paired · disconnected"
         State.CONNECTING -> "ADB conectando…"
         State.CONNECTED -> "ADB connected · quick actions active"
         State.ERROR -> "ADB error: ${lastError ?: "unknown"}"

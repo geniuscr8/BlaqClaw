@@ -18,7 +18,7 @@ class FlashlightTool : BaseTool() {
     }
 
     override fun getName() = "flashlight"
-    override fun getDisplayName() = "Linterna"
+    override fun getDisplayName() = "Flashlight"
     override fun getDescriptionEN() =
         "Turn the flashlight on/off. action: 'on' | 'off' | 'toggle' (default toggle)."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -45,7 +45,7 @@ class FlashlightTool : BaseTool() {
             }
             cm.setTorchMode(cameraId, target)
             torchOn = target
-            ToolResult.success("Linterna ${if (target) "encendida" else "apagada"}")
+            ToolResult.success("Flashlight ${if (target) "turned on" else "turned off"}")
         } catch (e: Exception) {
             ToolResult.error("Flashlight failed: ${e.message}")
         }

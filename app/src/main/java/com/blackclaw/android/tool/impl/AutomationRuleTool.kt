@@ -19,7 +19,7 @@ class AutomationRuleTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "creates if-then rules by notification or location and runs complex actions"
     override fun getParameters() = listOf(
-        ToolParameter("operation", "string", "create, list, enable, disable, delete o run", true),
+        ToolParameter("operation", "string", "create, list, enable, disable, delete, or run", true),
         ToolParameter("name", "string", "Rule name", false),
         ToolParameter("trigger", "string", "notification, location_enter o location_exit", false),
         ToolParameter("match", "string", "Text/contact to find in the title or content", false),
@@ -28,7 +28,7 @@ class AutomationRuleTool : BaseTool() {
         ToolParameter("latitude", "number", "Latitude for location", false),
         ToolParameter("longitude", "number", "Longitude for location", false),
         ToolParameter("radius_m", "integer", "Radius 50..5000 meters", false),
-        ToolParameter("cooldown_minutes", "integer", "Evita repeticiones; predeterminado 5", false),
+        ToolParameter("cooldown_minutes", "integer", "Prevents repeats; default 5", false),
         ToolParameter("id", "string", "ID or name for enable/disable/delete/run", false),
     )
 

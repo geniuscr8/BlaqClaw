@@ -48,7 +48,7 @@ class ComposeChatActivity : ComponentActivity() {
     }
 
     private fun onImagePicked(uri: android.net.Uri) {
-        Toast.makeText(this, "Analizando imagen…", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(com.blackclaw.android.R.string.chat_analyzing_image), Toast.LENGTH_SHORT).show()
         executor.submit {
             val image = runCatching { com.blackclaw.android.perception.VisionImageLoader.load(this, uri) }
             runOnUiThread {

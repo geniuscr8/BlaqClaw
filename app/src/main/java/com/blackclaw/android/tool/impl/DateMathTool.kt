@@ -15,7 +15,7 @@ import kotlin.math.abs
  */
 class DateMathTool : BaseTool() {
     override fun getName() = "date_math"
-    override fun getDisplayName() = "Calendario"
+    override fun getDisplayName() = "Calendar"
     override fun getDescriptionEN() =
         "Date math. ops: 'add' (date + amount + unit), 'diff' (between two dates), " +
         "'day_of_week' (which weekday is a date), 'format' (reformat date)."

@@ -119,7 +119,7 @@ private fun ScheduledTasksScreen(colors: BlaqClawColors, onBack: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Automatizaciones",
+                    Text("Automations",
                         fontSize = 18.sp, fontWeight = FontWeight.Bold,
                         color = colors.textPrimary)
                 },

@@ -150,9 +150,9 @@ object ConfigServerPolicy {
         val parsed = runCatching { java.net.URI(trimmed) }.getOrNull()
             ?: return "This is not a valid URL."
         val scheme = parsed.scheme?.lowercase()
-            ?: return "Falta el esquema. Debe empezar por https://"
+            ?: return "The URL is missing a scheme. It must start with https://"
         val host = parsed.host?.lowercase()
-        if (host.isNullOrEmpty()) return "Falta el host en la URL."
+        if (host.isNullOrEmpty()) return "The URL is missing a host."
         return when (scheme) {
             "https" -> null
             "http" -> if (isLoopbackHost(host)) {
@@ -163,7 +163,7 @@ object ConfigServerPolicy {
                     "Android blocks unencrypted traffic to network addresses, and your API key " +
                     "and all screen content would travel through it."
             }
-            else -> "Esquema '$scheme' no permitido. Usa https."
+            else -> "The '$scheme' scheme is not allowed. Use https."
         }
     }
 

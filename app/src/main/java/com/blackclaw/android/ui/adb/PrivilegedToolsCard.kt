@@ -27,7 +27,7 @@ import kotlinx.coroutines.delay
  *
  * `ToolRiskPolicy` refuses `shell_exec`, `terminal`, `remote_shell`,
  * `remote_connect` and `add_smart_device` unless the user armed them here, and its
- * refusal message names "Ajustes → Modo Pro" literally. Without this card those tools
+ * refusal message names "Settings → Pro mode" literally. Without this card those tools
  * are simply unreachable and the error is a dead end.
  *
  * The switch is deliberately not a plain preference. Granting Shizuku or pairing ADB
@@ -70,7 +70,7 @@ fun PrivilegedToolsCard(modifier: Modifier = Modifier) {
                         color = ClawTextColors.Primary,
                     )
                     Text(
-                        if (armed) "Activo · quedan $minutesLeft min"
+                        if (armed) "Active · $minutesLeft min remaining"
                         else "Disabled",
                         fontSize = 12.sp,
                         color = if (armed) ClawPalette.Guard.base else ClawTextColors.Tertiary,
@@ -94,7 +94,7 @@ fun PrivilegedToolsCard(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(10.dp))
             Text(
                 "Enable shell_exec, terminal, and remote shell for " +
-                    "${PrivilegedToolConsent.WINDOW_MS / 60_000} minutos y luego se apaga solo. " +
+                    "${PrivilegedToolConsent.WINDOW_MS / 60_000} minutes, then it turns off automatically. " +
                     "This is requested separately from Shizuku/ADB because the AI reads screens, notifications, and " +
                     "web pages: if any of them manipulates the AI, it should not be able to open a shell.",
                 fontSize = 12.sp,

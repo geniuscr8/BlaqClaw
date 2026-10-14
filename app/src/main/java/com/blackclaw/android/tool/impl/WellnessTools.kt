@@ -133,7 +133,7 @@ object WellnessStore {
         val sleeps = sleepEntries().filter { System.currentTimeMillis() - it.timestamp < 7 * 86_400_000 }
 
         return buildString {
-            append("🧘 Bienestar esta semana:\n\n")
+            append("🧘 Wellness this week:\n\n")
             if (moods.isNotEmpty()) {
                 append("Mood (${moods.size} records):\n")
                 moods.takeLast(5).forEach { m ->

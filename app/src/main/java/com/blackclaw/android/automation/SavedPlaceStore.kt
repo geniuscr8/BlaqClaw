@@ -220,7 +220,7 @@ object SavedPlaceStore {
 
     private fun cleanLabel(value: String, label: String): String {
         val clean = value.trim().replace(Regex("\\s+"), " ")
-        require(clean.isNotBlank()) { "Falta $label." }
+        require(clean.isNotBlank()) { "$label is required." }
         require(clean.length <= 80) { "$label cannot exceed 80 characters." }
         return clean
     }

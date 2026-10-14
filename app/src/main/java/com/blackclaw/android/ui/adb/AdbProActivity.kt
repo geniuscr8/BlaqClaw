@@ -43,7 +43,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 /**
- * "Modo Pro" — guided self-ADB pairing. Lets BlaqClaw pair with its own adbd
+ * "Pro mode" — guided self-ADB pairing. Lets BlaqClaw pair with its own adbd
  * over loopback using Wireless Debugging, granting shell-level power (fast taps,
  * force-stop, dumpsys…) with NO PC and NO Shizuku.
  */
@@ -139,7 +139,7 @@ private fun AdbProScreen(
             Spacer(Modifier.height(16.dp))
 
             // Consent for arbitrary-command tools. Lives here because ToolRiskPolicy's
-            // refusal message points the user at "Ajustes → Modo Pro" by name, and
+            // refusal message points the user at "Settings → Pro mode" by name, and
             // without this card those tools are unreachable.
                             Text("AI PERMISSIONS",
                 fontSize = 11.sp, fontWeight = FontWeight.Bold,

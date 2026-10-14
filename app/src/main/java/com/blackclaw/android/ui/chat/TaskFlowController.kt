@@ -59,6 +59,7 @@ class TaskFlowController(
     fun sendTask(
         text: String,
         originOverride: com.blackclaw.android.tool.guard.ToolRiskPolicy.Origin? = null,
+        confirmedByUser: Boolean = false,
     ) {
         // The user can leave the composer in Tarea mode after a previous action
         // and then ask a capability question. Keep that question conversational
@@ -71,6 +72,13 @@ class TaskFlowController(
         if (originOverride == null && shouldStayConversationally) {
             chatSessionController.sendChat(text)
             return
+        }
+        if (!confirmedByUser) {
+            val decision = com.blackclaw.android.conversation.ConversationRouter.decide(text)
+            if (decision.confirmation == com.blackclaw.android.conversation.ConversationRouter.Confirmation.REQUIRED) {
+                showSensitiveTaskConfirmation(text, decision.reason, originOverride)
+                return
+            }
         }
         if (appViewModel.isTaskRunning()) {
             addSystem("Another task is still running. Stop it first.")
@@ -203,6 +211,30 @@ class TaskFlowController(
                 }
             }
         }
+    }
+
+    private fun showSensitiveTaskConfirmation(
+        text: String,
+        reason: String,
+        originOverride: com.blackclaw.android.tool.guard.ToolRiskPolicy.Origin?,
+    ) {
+        android.app.AlertDialog.Builder(activity)
+            .setTitle(activity.getString(com.blackclaw.android.R.string.task_confirm_sensitive_title))
+            .setMessage(activity.getString(com.blackclaw.android.R.string.task_confirm_sensitive_message, text, reason))
+            .setNegativeButton(com.blackclaw.android.R.string.task_confirm_cancel) { dialog, _ ->
+                addSystem(activity.getString(com.blackclaw.android.R.string.task_confirm_cancelled))
+                onTaskTerminal?.invoke(TaskEvent.Cancelled)
+                dialog.dismiss()
+            }
+            .setPositiveButton(com.blackclaw.android.R.string.task_confirm_start) { dialog, _ ->
+                sendTask(text, originOverride, confirmedByUser = true)
+                dialog.dismiss()
+            }
+            .setOnCancelListener {
+                addSystem(activity.getString(com.blackclaw.android.R.string.task_confirm_cancelled))
+                onTaskTerminal?.invoke(TaskEvent.Cancelled)
+            }
+            .show()
     }
 
     private fun executeDirectToolTask(

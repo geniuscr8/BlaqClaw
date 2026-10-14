@@ -799,21 +799,33 @@ private fun HeroCard(
             // Quick status pills
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 StatusPill(
-                    label = if (caps.canRunInteractiveTask) "A11y ✓" else "A11y ⚠",
+                    label = if (caps.canRunInteractiveTask) "App control ✓" else "App control ⚠",
                     ok = caps.canRunInteractiveTask,
                     colors = colors,
                 )
                 StatusPill(
-                    label = if (caps.overlayGranted) "Overlay ✓" else "Overlay ⚠",
+                    label = if (caps.overlayGranted) "Floating panel ✓" else "Floating panel ⚠",
                     ok = caps.overlayGranted,
                     colors = colors,
                 )
                 StatusPill(
-                    label = if (caps.batteryOptimizationIgnored) "Bat ✓" else "Bat ⚠",
+                    label = if (caps.batteryOptimizationIgnored) "Background ✓" else "Background ⚠",
                     ok = caps.batteryOptimizationIgnored,
                     colors = colors,
                 )
             }
+            Spacer(Modifier.height(10.dp))
+            val readyCount = listOf(
+                caps.canRunInteractiveTask,
+                caps.overlayGranted,
+                caps.batteryOptimizationIgnored,
+            ).count { it }
+            Text(
+                if (readyCount == 3) "Core setup is ready for background tasks."
+                else "$readyCount of 3 core setup checks are complete. Open Guided setup to finish.",
+                fontSize = 12.sp,
+                color = colors.textSecondary,
+            )
         }
     }
 }
@@ -876,6 +888,7 @@ private fun NavRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
+            .heightIn(min = 56.dp)
             .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
