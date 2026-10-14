@@ -2,6 +2,8 @@
 
 # BlaqClaw
 
+<img src="app/src/main/res/drawable-nodpi/blaqclaw_logo.png" alt="BlaqClaw purple claw logo" width="220" />
+
 **A local-first AI assistant that can operate your Android phone.**
 
 BlaqClaw combines an LLM with Android accessibility, OCR, voice, automation,
