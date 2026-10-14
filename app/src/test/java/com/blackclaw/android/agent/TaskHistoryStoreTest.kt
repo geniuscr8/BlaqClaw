@@ -25,10 +25,10 @@ class TaskHistoryStoreTest {
     @Test
     fun recentTaskAppearsInSnippet() {
         val snippet = TaskHistoryStore.formatSnippet(
-            listOf(e("manda hola a Ana por WhatsApp", "enviado", 5)), now)
-        assertTrue(snippet.contains("manda hola a Ana"))
-        assertTrue(snippet.contains("enviado"))
-        assertTrue(snippet.contains("Tareas recientes"))
+            listOf(e("send hello to Ana on WhatsApp", "sent", 5)), now)
+        assertTrue(snippet.contains("send hello to Ana"))
+        assertTrue(snippet.contains("sent"))
+        assertTrue(snippet.contains("Recent tasks"))
     }
 
     @Test

@@ -21,6 +21,6 @@ class ScreenSceneTest {
         assertEquals("Spotify", scene.foregroundApp)
         assertEquals(listOf("Now Playing", "Play"), scene.visibleText)
         assertEquals(listOf("Play"), scene.actions)
-        assertTrue(scene.describeForQuickAssist().contains("Puedes interactuar con: Play."))
+        assertTrue(scene.describeForQuickAssist().contains("You can interact with: Play."))
     }
 }

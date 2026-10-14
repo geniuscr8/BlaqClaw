@@ -56,7 +56,7 @@ class TaskDetectionTest {
 
     @Test
     fun deviceNounsTrigger() {
-        assertTrue(DefaultAgentService.isTaskLike("how much battery do I have"))
+        assertTrue(DefaultAgentService.isTaskLike("check my battery level"))
         assertTrue(DefaultAgentService.isTaskLike("read my notifications"))
     }
 

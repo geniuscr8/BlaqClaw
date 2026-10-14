@@ -54,11 +54,11 @@ class AgentLatencyPolicyTest {
     }
 
     @Test fun `fast chat only accepts unambiguous conversation`() {
-        assertTrue(DefaultAgentService.shouldUseFastChat("hola qué tal"))
-        assertTrue(DefaultAgentService.shouldUseFastChat("quién fue Einstein"))
-        assertFalse(DefaultAgentService.shouldUseFastChat("abre WhatsApp"))
-        assertFalse(DefaultAgentService.shouldUseFastChat("lee mis notificaciones"))
-        assertFalse(DefaultAgentService.shouldUseFastChat("pon una alarma mañana a las 7"))
+        assertTrue(DefaultAgentService.shouldUseFastChat("hello, how are you"))
+        assertTrue(DefaultAgentService.shouldUseFastChat("who was Einstein"))
+        assertFalse(DefaultAgentService.shouldUseFastChat("open WhatsApp"))
+        assertFalse(DefaultAgentService.shouldUseFastChat("read my notifications"))
+        assertFalse(DefaultAgentService.shouldUseFastChat("set an alarm tomorrow at 7"))
     }
 
     @Test fun `fast chat prompt stays compact and tool free`() {

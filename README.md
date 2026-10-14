@@ -28,6 +28,13 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.11
+
+- Fixed the release test suite after the English-only migration.
+- Corrected topic detection for conversational English such as “set theory is interesting”.
+- Fixed general capability detection for “What can BlaqClaw do?”.
+- Removed the remaining Spanish screen-description label.
+
 ### v1.3.9
 
 - Added real local-model streaming for agent responses with bounded memory use.

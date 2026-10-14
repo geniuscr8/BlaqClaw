@@ -92,6 +92,7 @@ object CapabilityQuestionDetector {
             t == "que sabes hacer" ||
             t == "what can you do" ||
             t.startsWith("what can you do ") ||
+            Regex("^what can (?:blaqclaw|the assistant) do(?: .*)?$").matches(t) ||
             t == "what do you do" ||
             t == "para que sirves" ||
             Regex("""^(que|what)\s+(puede|can)\s+(hacer|do)(\s+(blaqclaw|el asistente|you))?$""").matches(t)
@@ -206,6 +207,7 @@ object CapabilityQuestionDetector {
         Regex("""^(explicame|ensename|muestrame|mostrarme)\b"""),
         Regex("""^(?:se\s+llama|(?:mi|mis|el|la|los|las|este|esta|ese|esa)\s+\w+(?:\s+\w+){0,3}\s+se\s+llama)\b"""),
         Regex("""^tengo\s+tiempo\s+para\b"""),
+        Regex("""^(?:i am|im|i'm)\s+(?:interested|learning|studying)\b"""),
     )
 
     private val CONTENT_REQUEST = Regex(

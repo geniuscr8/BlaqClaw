@@ -139,7 +139,7 @@ class ToolRiskPolicyTest {
 
         val unarmed = ToolRiskPolicy.evaluate("shell_exec", Origin.LOCAL, false) as Decision.Deny
         // Names the setting the user has to touch, otherwise the error is a dead end.
-        assertTrue(unarmed.reason.contains("Modo Pro"))
+        assertTrue(unarmed.reason.contains("Pro Mode"))
     }
 
     // ── Auditing ──────────────────────────────────────────────────────────────

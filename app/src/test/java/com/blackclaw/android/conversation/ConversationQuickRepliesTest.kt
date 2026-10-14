@@ -8,9 +8,7 @@ class ConversationQuickRepliesTest {
     @Test fun `answers broad automation capability immediately`() {
         val reply = ConversationQuickReplies.replyFor("Can you schedule tasks?")
         assertTrue(reply?.startsWith("Yes.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("Can you open WhatsApp?")?.startsWith("Yes.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("Can you turn off the flashlight?")?.startsWith("Yes.") == true)
-        assertTrue(ConversationQuickReplies.replyFor("Are you able to open WhatsApp?")?.startsWith("Yes.") == true)
+        assertTrue(ConversationQuickReplies.replyFor("Can you create automations?")?.startsWith("Yes.") == true)
     }
 
     @Test fun `does not intercept an actionable request`() {

@@ -16,7 +16,7 @@ data class ScreenScene(
     fun describeForQuickAssist(): String = buildString {
         foregroundApp?.takeIf { it.isNotBlank() }?.let { append("You are in: $it.\n") }
         if (visibleText.isNotEmpty()) {
-            append("Veo:\n")
+            append("Visible text:\n")
             visibleText.take(12).forEach { append("· ").append(it.take(120)).append('\n') }
         }
         if (actions.isNotEmpty()) {

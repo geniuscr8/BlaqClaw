@@ -38,7 +38,7 @@ class AutomationProfileToolValidationTest {
             )
         )
         assertFalse(result.isSuccess)
-        assertTrue(result.error.orEmpty().contains("objeto JSON"))
+        assertTrue(result.error.orEmpty().contains("JSON object"))
     }
 
     @Test fun `create without confirmation remains a preview`() {

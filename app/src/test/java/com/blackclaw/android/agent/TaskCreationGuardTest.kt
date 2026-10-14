@@ -8,7 +8,7 @@ class TaskCreationGuardTest {
 
     @Test
     fun `native todo request cannot finish as an app recommendation`() {
-        val guard = TaskCreationGuard.fromTask("crea una tarea: comprar leche")
+        val guard = TaskCreationGuard.fromTask("create a task: buy milk")
 
         assertTrue(guard.shouldBlockTextOnlyCompletion("Puedes usar Todoist para eso."))
         assertTrue(guard.buildPromptSection().contains("assistant_note"))
@@ -22,17 +22,17 @@ class TaskCreationGuardTest {
 
     @Test
     fun `wifi event task selects automation path`() {
-        val guard = TaskCreationGuard.fromTask("crea una tarea cuando me conecte al wifi")
+        val guard = TaskCreationGuard.fromTask("create a task when I connect to Wi-Fi")
 
         assertTrue(guard.buildPromptSection().contains("automation_profile"))
-        assertTrue(guard.shouldBlockTextOnlyCompletion("Usa Tasker o MacroDroid."))
+        assertTrue(guard.shouldBlockTextOnlyCompletion("Use Tasker or MacroDroid."))
         guard.recordToolResult("automation_profile", success = true)
-        assertFalse(guard.shouldBlockTextOnlyCompletion("Vista previa creada."))
+        assertFalse(guard.shouldBlockTextOnlyCompletion("Preview created."))
     }
 
     @Test
     fun `generic task question is not guarded`() {
-        val guard = TaskCreationGuard.fromTask("qué es una tarea programada")
+        val guard = TaskCreationGuard.fromTask("what is a scheduled task")
 
         assertFalse(guard.shouldBlockTextOnlyCompletion("Es una tarea que se ejecuta más tarde."))
         assertTrue(guard.buildPromptSection().isEmpty())

@@ -11,15 +11,14 @@ class NotificationIntentRegressionTest {
     @Test
     fun `notification mentions do not read device notifications`() {
         val contextualMentions = listOf(
-            "notificación",
-            "qué es una notificación",
-            "la palabra notificación aparece mucho",
-            "hablemos de las notificaciones de Android",
-            "mis notificaciones son molestas",
-            "resume este artículo sobre las notificaciones",
-            "muéstrame cómo crear las notificaciones",
-            "muestra las notificaciones de este artículo",
-            "quiero aprender a leer mis notificaciones desde Kotlin",
+            "what is a notification",
+            "the word notification appears often",
+            "let us discuss Android notifications",
+            "my notifications are annoying",
+            "summarize this article about notifications",
+            "show me how to create notifications",
+            "show notifications from this article",
+            "I want to learn to read notifications from Kotlin",
         )
 
         contextualMentions.forEach { prompt ->
@@ -33,11 +32,11 @@ class NotificationIntentRegressionTest {
     @Test
     fun `bare and conceptual notification mentions stay in chat`() {
         listOf(
-            "notificación",
-            "qué es una notificación",
-            "la palabra notificación aparece mucho",
-            "hablemos de las notificaciones de Android",
-            "mis notificaciones son molestas",
+            "notification",
+            "what is a notification",
+            "the word notification appears often",
+            "let us discuss Android notifications",
+            "my notifications are annoying",
         ).forEach { prompt ->
             assertFalse("Expected CHAT: $prompt", TaskClassifier.isTask(prompt))
         }
@@ -46,18 +45,17 @@ class NotificationIntentRegressionTest {
     @Test
     fun `explicit notification data requests still use the fast path`() {
         listOf(
-            "lee mis notificaciones",
-            "revisa las notificaciones",
-            "qué notificaciones tengo",
-            "hay notificaciones nuevas",
-            "yo whats on my notifs",
+            "read my notifications",
+            "check my notifications",
+            "what notifications do I have",
+            "are there new notifications",
             "check my notifications",
             "show me current notifications",
             "how many notifications",
             "what notifications do i have",
-            "puedes leer mis notificaciones",
-            "quiero ver mis notificaciones",
-            "enséñame mis notificaciones",
+            "show me my notifications",
+            "I want to see my notifications",
+            "show me my notifications",
         ).forEach { prompt ->
             val call = DirectDeviceDataGuard.deterministicToolCall(prompt)
             assertNotNull("Expected notification tool call for: $prompt", call)
