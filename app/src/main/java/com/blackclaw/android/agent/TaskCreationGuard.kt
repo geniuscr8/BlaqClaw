@@ -98,7 +98,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
             if (!hasTaskNoun(normalized) || !hasCreationVerb(normalized)) return null
 
             val automation = listOf(
-                "when ", "if ", "cuando ", "si ", "al conect", "al entrar", "al salir", "cada vez",
+                "when ", "whenever ", "if ", "every time ", "cuando ", "si ", "al conect", "al entrar", "al salir", "cada vez",
                 "automat", "tasker", "macro", "regla", "perfil", "if then", "si-entonces",
             ).any { normalized.contains(it) }
             if (automation) {

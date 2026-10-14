@@ -270,6 +270,9 @@ internal class DirectDeviceDataGuard private constructor(
             Regex(
                 """\b(i\s+want\s+to\s+see|let\s+me\s+see)\s+(?:all\s+)?(my|the|current|new|pending)\s+(notifications?|notifs?)\b"""
             ),
+            Regex(
+                """\b(?:i\s+d|i\s+would)\s+like\s+to\s+(?:see|check)\s+(?:all\s+)?(my|the|current|new|pending)\s+(notifications?|notifs?)\b"""
+            ),
             Regex("""^(lee|revisa|checa|muestra|lista)\s+notificacion(?:es)?$"""),
             Regex("""^(read|check|show|list)\s+(notifications?|notifs?)$"""),
         )

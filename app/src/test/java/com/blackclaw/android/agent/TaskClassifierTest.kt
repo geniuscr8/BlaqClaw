@@ -134,6 +134,7 @@ class TaskClassifierTest {
         chat("no apagues el wifi")
         chat("no leas mis notificaciones")
         chat("please do not open WhatsApp")
+        chat("don't open WhatsApp")
         chat("never read my notifications")
         chat("por favor no apagues el wifi")
         chat("¿hay que programar tareas?")

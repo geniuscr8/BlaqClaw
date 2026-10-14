@@ -31,6 +31,13 @@ class TaskCreationGuardTest {
     }
 
     @Test
+    fun `recurring English trigger selects automation path`() {
+        val guard = TaskCreationGuard.fromTask("create a task whenever I connect to Wi-Fi")
+
+        assertTrue(guard.buildPromptSection().contains("automation_profile"))
+    }
+
+    @Test
     fun `generic task question is not guarded`() {
         val guard = TaskCreationGuard.fromTask("what is a scheduled task")
 

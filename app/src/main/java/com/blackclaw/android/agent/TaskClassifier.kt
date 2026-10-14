@@ -108,7 +108,7 @@ object TaskClassifier {
 
     private fun isNegatedEnglishCommand(text: String): Boolean {
         return Regex(
-            """\b(?:please\s+)?(?:do\s+not|don't|never)\s+""" +
+            """\b(?:please\s+)?(?:do\s+not|don't|don\s+t|never)\s+""" +
                 """(?:open|launch|start|send|message|text|reply|call|search|play|""" +
                 """create|add|schedule|set|remind|turn|enable|disable|increase|""" +
                 """decrease|adjust|mute|toggle|tap|click|swipe|scroll|navigate|""" +
