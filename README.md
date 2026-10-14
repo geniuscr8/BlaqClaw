@@ -26,6 +26,13 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.5
+
+- Completed the English-only migration for command parsing, voice recognition,
+  wake words, emergency commands, aliases, and training flows.
+- Removed the bundled Spanish voice model and Spanish runtime command paths.
+- Updated tests and release validation for the English command experience.
+
 ### v1.3.4
 
 - Added the Control Center for setup health, encrypted backup and restore,
