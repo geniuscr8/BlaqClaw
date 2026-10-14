@@ -259,7 +259,7 @@ class SetMusicPlayerTool : BaseTool() {
             return ToolResult.success("Done: I will use the system default player.")
         }
         val pkg = PLAYERS[app]
-            ?: return ToolResult.error("No conozco el reproductor '$app'. Opciones: ${PLAYERS.keys.joinToString()}.")
+            ?: return ToolResult.error("Unknown player '$app'. Options: ${PLAYERS.keys.joinToString()}.")
         KVUtils.putString(PlayMusicTool.KEY_PREF_PLAYER, pkg); KVUtils.sync()
         return ToolResult.success("Done, boss. I will use $app for music from now on.")
     }

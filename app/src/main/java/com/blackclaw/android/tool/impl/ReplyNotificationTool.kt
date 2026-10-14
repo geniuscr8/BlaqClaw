@@ -25,7 +25,7 @@ class ReplyNotificationTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "reply directly to a notification (quick reply) without opening the app"
     override fun getParameters() = listOf(
-        ToolParameter("from", "string", "Sender/app text to match the notification (e.g. 'Mamá', 'WhatsApp').", true),
+        ToolParameter("from", "string", "Sender/app text to match the notification (e.g. 'Mom', 'WhatsApp').", true),
         ToolParameter("message", "string", "The reply text to send.", true),
     )
 

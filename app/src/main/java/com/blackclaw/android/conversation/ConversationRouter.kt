@@ -10,22 +10,19 @@ object ConversationRouter {
                         val reason: String)
 
     private val readSignals = listOf(
-        "lee ", "léeme", "dime mi", "muestra", "consulta", "revisa", "cuánta batería", "cuanta bateria",
-        "notificaciones", "qué tengo", "que tengo", "agenda", "ubicación", "ubicacion", "clipboard",
-        "read ", "show ", "check ", "what notifications", "battery",
+        "read ", "show ", "check ", "what notifications", "battery", "calendar", "location", "clipboard",
     )
     private val destructive = listOf(
-        "borra todo", "elimina todo", "desinstala", "formatea", "restablecer de fábrica",
-        "envía dinero", "envia dinero", "transfiere", "paga ", "factory reset", "delete all", "send money",
+        "factory reset", "delete all", "uninstall", "send money", "transfer ", "pay ",
     )
 
     fun decide(text: String): Decision {
         val normalized = text.lowercase().trim()
-        if (!TaskClassifier.isTask(text)) return Decision(Mode.CONVERSE, .92, Confirmation.NONE, "conversación")
+        if (!TaskClassifier.isTask(text)) return Decision(Mode.CONVERSE, .92, Confirmation.NONE, "conversation")
         val mode = if (readSignals.any { it in normalized }) Mode.READ else Mode.ACT
         val confirmation = if (mode == Mode.ACT && destructive.any { it in normalized })
             Confirmation.REQUIRED else Confirmation.NONE
         return Decision(mode, if (mode == Mode.READ) .86 else .88, confirmation,
-            if (mode == Mode.READ) "lectura sin cambios" else "acción solicitada")
+            if (mode == Mode.READ) "read-only request" else "requested action")
     }
 }

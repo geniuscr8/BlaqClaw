@@ -142,7 +142,7 @@ object ConversationMemory {
         val distinct = dedupeRequests(userMsgs)
         val budget = MAX_SUMMARY_LENGTH - lastAssistantCost(lastAssistant)
         val kept = ArrayList<String>()
-        var used = "Usuario pidió: ".length
+        var used = "User requested: ".length
         for (request in distinct) {
             val piece = request.take(PER_REQUEST_CHARS)
             val cost = piece.length + if (kept.isEmpty()) 0 else SEPARATOR.length
@@ -153,9 +153,9 @@ object ConversationMemory {
         if (kept.isEmpty()) kept.add(distinct.first().take(PER_REQUEST_CHARS))
 
         return buildString {
-            append("Usuario pidió: ").append(kept.joinToString(SEPARATOR))
+            append("User requested: ").append(kept.joinToString(SEPARATOR))
             val dropped = distinct.size - kept.size
-            if (dropped > 0) append(" (+$dropped más)")
+            if (dropped > 0) append(" (+$dropped more)")
             if (lastAssistant.isNotBlank()) {
                 append(". Resultado: ").append(lastAssistant.take(LAST_REPLY_CHARS))
             }
@@ -194,14 +194,14 @@ object ConversationMemory {
             .joinToString(" ") { it.second }.lowercase()
         val topics = mutableListOf<String>()
         val keywords = mapOf(
-            "whatsapp" to "mensajería", "telegram" to "mensajería",
-            "alarma" to "alarmas", "recordatorio" to "recordatorios",
-            "foto" to "cámara", "cámara" to "cámara",
-            "música" to "música", "spotify" to "música",
-            "batería" to "device", "wifi" to "device",
-            "contacto" to "contactos", "llamar" to "llamadas",
-            "buscar" to "búsqueda", "google" to "búsqueda",
-            "nota" to "notas", "finanza" to "finanzas", "gasto" to "finanzas",
+            "whatsapp" to "messaging", "telegram" to "messaging",
+            "alarm" to "alarms", "reminder" to "reminders",
+            "photo" to "camera", "camera" to "camera",
+            "music" to "music", "spotify" to "music",
+            "battery" to "device", "wifi" to "device",
+            "contact" to "contacts", "call" to "calls",
+            "search" to "search", "google" to "search",
+            "note" to "notes", "finance" to "finance", "expense" to "finance",
         )
         for ((key, topic) in keywords) {
             if (userText.contains(key) && topic !in topics) {

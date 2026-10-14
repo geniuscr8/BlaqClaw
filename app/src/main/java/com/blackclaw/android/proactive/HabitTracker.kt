@@ -130,12 +130,12 @@ object HabitTracker {
         }.getOrDefault(emptySet())
     }
 
-    // ── Human-readable phrasing (Spanish) ──
+    // ── Human-readable English phrasing ──
 
     private val DOW_ES = mapOf(
         Calendar.SUNDAY to "domingos", Calendar.MONDAY to "lunes", Calendar.TUESDAY to "martes",
-        Calendar.WEDNESDAY to "miércoles", Calendar.THURSDAY to "jueves",
-        Calendar.FRIDAY to "viernes", Calendar.SATURDAY to "sábados",
+        Calendar.WEDNESDAY to "Wednesday", Calendar.THURSDAY to "Thursday",
+        Calendar.FRIDAY to "Friday", Calendar.SATURDAY to "Saturday",
     )
 
     private fun kindEs(kind: String) = when (kind) {
@@ -147,7 +147,7 @@ object HabitTracker {
 
     /** A short description of a detected habit. */
     fun describe(habit: Habit): String {
-        val dow = DOW_ES[habit.dayOfWeek] ?: "ese día"
+        val dow = DOW_ES[habit.dayOfWeek] ?: "that day"
         val hh = "%02d:00".format(habit.hour)
         return "Sueles poner ${kindEs(habit.kind)} a las $hh los $dow (${habit.count} veces)."
     }

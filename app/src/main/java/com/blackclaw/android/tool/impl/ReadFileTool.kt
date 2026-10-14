@@ -13,7 +13,7 @@ import java.io.File
  */
 class ReadFileTool : BaseTool() {
     override fun getName() = "read_file"
-    override fun getDisplayName() = "Leer archivo"
+    override fun getDisplayName() = "Read file"
     override fun getDescriptionEN() =
         "Read a text file under Documents/BlaqClaw/. Without filename, returns the file list. " +
         "Max 32 KB returned to keep tokens sane."
@@ -37,14 +37,14 @@ class ReadFileTool : BaseTool() {
             })
         }
         val file = File(dir, name)
-        if (!file.exists() || !file.isFile) return ToolResult.error("Archivo no encontrado: $name")
+        if (!file.exists() || !file.isFile) return ToolResult.error("File not found: $name")
         return try {
             val limit = 32 * 1024
             val text = file.readText().take(limit)
             val truncated = if (file.length() > limit) "\n…[truncado a 32 KB]" else ""
             ToolResult.success("[${file.name}]\n$text$truncated")
         } catch (e: Exception) {
-            ToolResult.error("Error de lectura: ${e.message}")
+            ToolResult.error("Read error: ${e.message}")
         }
     }
 }

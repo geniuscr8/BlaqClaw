@@ -23,7 +23,7 @@ class DiscoverAppActionsTool : BaseTool() {
         "Optional 'capability' to filter: music|navigate|email|sms|call|browser|share|calendar|web_search. " +
         "Returns the real list for this phone."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "averigua por sí solo qué apps instaladas soporta (música, mapas, correo, etc.)"
+    override fun getBrief() = "finds which installed apps are supported (music, maps, email, etc.)"
     override fun getParameters() = listOf(
         ToolParameter("capability", "string",
             "Optional filter: music|navigate|email|sms|call|browser|share|calendar|web_search.", false),

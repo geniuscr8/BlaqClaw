@@ -82,7 +82,7 @@ class AddSmartDeviceTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "configures a new smart home device (webhook)"
     override fun getParameters() = listOf(
-        ToolParameter("name", "string", "Device friendly name (e.g. 'Luz salón').", true),
+        ToolParameter("name", "string", "Device friendly name (e.g. 'Living room light').", true),
         ToolParameter("type", "string", "Device type: light|switch|thermostat|lock|speaker|scene|custom.", true),
         ToolParameter("webhook_url", "string", "HTTP endpoint to call (e.g. Home Assistant API URL).", true),
         ToolParameter("method", "string", "HTTP method: GET|POST|PUT. Default POST.", false),

@@ -77,7 +77,7 @@ class PowerInfoTool : BaseTool() {
                 BatteryManager.BATTERY_STATUS_DISCHARGING -> "Descargando"
                 BatteryManager.BATTERY_STATUS_FULL -> "Llena"
                 BatteryManager.BATTERY_STATUS_NOT_CHARGING -> "No carga"
-                else -> "Desconocido"
+                else -> "Unknown"
             }
             sb.append("Status: ").append(chargingStatus)
         }

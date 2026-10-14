@@ -239,18 +239,18 @@ object AutomationProfileStore {
             .takeLast(20)
         if (profiles.isEmpty()) return ""
         return buildString {
-            append("\n\n## Automatizaciones BlaqClaw\n")
+            append("\n\n## BlaqClaw automations\n")
             profiles.forEach { profile ->
-                append("- [${profile.id}] ${if (profile.enabled) "ACTIVA" else "BORRADOR"} · ${profile.name}: ")
+                append("- [${profile.id}] ${if (profile.enabled) "ACTIVE" else "DRAFT"} · ${profile.name}: ")
                 append(profile.triggers.joinToString { it.type.name.lowercase() })
                 append(" → ")
                 append(profile.actions.joinToString { it.type.name.lowercase() })
-                if (profile.conditions.isNotEmpty()) append(" · ${profile.conditions.size} condición(es) ${profile.conditionLogic.name.lowercase()}")
+                if (profile.conditions.isNotEmpty()) append(" · ${profile.conditions.size} condition(s) ${profile.conditionLogic.name.lowercase()}")
                 append("\n")
             }
-            append("Usa automation_profile capabilities para conocer el catálogo real; ")
-            append("update con el id para cambios parciales, draft para guardar una propuesta desactivada y run/test para probarla. ")
-            append("Los lugares se resuelven con saved_place y se referencian por place_id estable.\n")
+            append("Use automation_profile capabilities to inspect the real catalog; ")
+            append("use update with the id for partial changes, draft to save a disabled proposal, and run/test to test it. ")
+            append("Places are resolved with saved_place and referenced by stable place_id.\n")
         }
     }
 
@@ -393,36 +393,36 @@ object AutomationProfileValidator {
     private val privilegedTools = setOf("shell_exec", "terminal", "remote_shell", "remote_connect", "add_smart_device")
 
     fun validate(profile: AutomationProfileStore.Profile): List<String> = buildList {
-        if (profile.name.isBlank()) add("El perfil necesita un nombre.")
-        if (profile.name.length > MAX_NAME) add("El nombre no puede superar $MAX_NAME caracteres.")
-        if (profile.triggers.isEmpty()) add("El perfil necesita al menos un disparador.")
-        if (profile.triggers.size > MAX_TRIGGERS) add("Demasiados disparadores (máximo $MAX_TRIGGERS).")
-        if (profile.conditions.size > MAX_CONDITIONS) add("Demasiadas condiciones (máximo $MAX_CONDITIONS).")
-        if (profile.actions.isEmpty()) add("El perfil necesita al menos una acción.")
-        if (profile.actions.size > MAX_ACTIONS) add("Demasiadas acciones (máximo $MAX_ACTIONS).")
-        if (profile.cooldownMs !in 0L..7 * 24 * 60 * 60_000L) add("cooldown_ms está fuera de rango.")
-        if (profile.maxRunsPerDay !in 0..1_000) add("max_runs_per_day está fuera de rango.")
-        if (profile.maxRuntimeMs !in 1_000L..30 * 60 * 1_000L) add("max_runtime_ms está fuera de rango.")
+        if (profile.name.isBlank()) add("The profile needs a name.")
+        if (profile.name.length > MAX_NAME) add("The name cannot exceed $MAX_NAME characters.")
+        if (profile.triggers.isEmpty()) add("The profile needs at least one trigger.")
+        if (profile.triggers.size > MAX_TRIGGERS) add("Too many triggers (maximum $MAX_TRIGGERS).")
+        if (profile.conditions.size > MAX_CONDITIONS) add("Too many conditions (maximum $MAX_CONDITIONS).")
+        if (profile.actions.isEmpty()) add("The profile needs at least one action.")
+        if (profile.actions.size > MAX_ACTIONS) add("Too many actions (maximum $MAX_ACTIONS).")
+        if (profile.cooldownMs !in 0L..7 * 24 * 60 * 60_000L) add("cooldown_ms is out of range.")
+        if (profile.maxRunsPerDay !in 0..1_000) add("max_runs_per_day is out of range.")
+        if (profile.maxRuntimeMs !in 1_000L..30 * 60 * 1_000L) add("max_runtime_ms is out of range.")
         profile.triggers.forEachIndexed { index, trigger -> validateTrigger(index, trigger, this) }
         profile.conditions.forEachIndexed { index, condition -> validateCondition(index, condition, this) }
         profile.actions.forEachIndexed { index, action ->
             when (action.type) {
                 AutomationProfileStore.ActionType.TOOL -> {
                     val tool = action.params["tool"]?.toString().orEmpty()
-                    if (tool.isBlank()) add("La acción ${index + 1} necesita tool.")
-                    if (tool in privilegedTools) add("El tool privilegiado '$tool' no puede ejecutarse automáticamente.")
-                    if (tool == "automation_profile") add("Un perfil no puede invocar automation_profile recursivamente.")
+                    if (tool.isBlank()) add("Action ${index + 1} needs tool.")
+                    if (tool in privilegedTools) add("Privileged tool '$tool' cannot run automatically.")
+                    if (tool == "automation_profile") add("A profile cannot invoke automation_profile recursively.")
                 }
                 AutomationProfileStore.ActionType.AGENT_TASK ->
-                    if (action.params["text"]?.toString().isNullOrBlank()) add("La acción ${index + 1} necesita text.")
+                    if (action.params["text"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs text.")
                 AutomationProfileStore.ActionType.RUN_ROUTINE ->
-                    if (action.params["name"]?.toString().isNullOrBlank()) add("La acción ${index + 1} necesita name.")
+                    if (action.params["name"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs name.")
                 AutomationProfileStore.ActionType.WAIT -> {
                     val ms = automationLong(action.params["ms"]) ?: -1
                     if (ms !in 0..60_000) add("wait solo permite 0..60000 ms.")
                 }
                 AutomationProfileStore.ActionType.NOTIFY ->
-                    if (action.params["text"]?.toString().isNullOrBlank()) add("La acción ${index + 1} necesita text.")
+                    if (action.params["text"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs text.")
                 AutomationProfileStore.ActionType.SET_VARIABLE ->
                     if (action.params["name"]?.toString().isNullOrBlank()) add("set_variable necesita name.")
                 AutomationProfileStore.ActionType.IF ->
@@ -478,10 +478,10 @@ object AutomationProfileValidator {
                 val lon = p["longitude"]?.toString()?.toDoubleOrNull()
                 val radius = p["radius_m"]?.let { automationFloat(it) }
                 if (!hasSemanticPlace) {
-                    if (lat == null || lat !in -90.0..90.0) errors += "$label: latitude inválida."
-                    if (lon == null || lon !in -180.0..180.0) errors += "$label: longitude inválida."
+                    if (lat == null || lat !in -90.0..90.0) errors += "$label: invalid latitude."
+                    if (lon == null || lon !in -180.0..180.0) errors += "$label: invalid longitude."
                 }
-                if (p["radius_m"] != null && radius == null) errors += "$label: radius_m debe ser un número."
+                if (p["radius_m"] != null && radius == null) errors += "$label: radius_m must be a number."
                 if (radius != null && radius !in 25f..100_000f) errors += "$label: radius_m debe estar entre 25 y 100000."
             }
             AutomationProfileStore.TriggerType.APP_FOREGROUND,
@@ -525,7 +525,7 @@ object AutomationProfileValidator {
         condition: AutomationProfileStore.Condition,
         errors: MutableList<String>,
     ) {
-        val label = "La condición ${index + 1}"
+        val label = "Condition ${index + 1}"
         val p = condition.params
         fun required(key: String) {
             if (p[key]?.toString().isNullOrBlank()) errors += "$label necesita $key."
@@ -581,8 +581,8 @@ object AutomationProfileValidator {
     private fun validateRange(params: Map<String, Any>, label: String, errors: MutableList<String>) {
         val min = params["min"]?.let { automationInt(it) }
         val max = params["max"]?.let { automationInt(it) }
-        if (params["min"] != null && min == null) errors += "$label: min debe ser un número."
-        if (params["max"] != null && max == null) errors += "$label: max debe ser un número."
+        if (params["min"] != null && min == null) errors += "$label: min must be a number."
+        if (params["max"] != null && max == null) errors += "$label: max must be a number."
         if (min != null && min !in 0..100) errors += "$label: min debe estar entre 0 y 100."
         if (max != null && max !in 0..100) errors += "$label: max debe estar entre 0 y 100."
         if (min != null && max != null && min > max) errors += "$label: min no puede superar max."
@@ -600,42 +600,41 @@ object AutomationProfileValidator {
     private fun validateDays(raw: String?, label: String, errors: MutableList<String>) {
         if (raw.isNullOrBlank() || raw.equals("daily", true) || raw.equals("weekdays", true)) return
         val allowed = setOf(
-            "1", "2", "3", "4", "5", "6", "7", "sun", "sunday", "dom", "domingo",
-            "mon", "monday", "lun", "lunes", "tue", "tuesday", "mar", "martes",
-            "wed", "wednesday", "mie", "miércoles", "thu", "thursday", "jue", "jueves",
-            "fri", "friday", "vie", "viernes", "sat", "saturday", "sab", "sábado",
+            "1", "2", "3", "4", "5", "6", "7", "sun", "sunday",
+            "mon", "monday", "tue", "tuesday", "wed", "wednesday",
+            "thu", "thursday", "fri", "friday", "sat", "saturday",
         )
         raw.split(',', '|', ' ').filter { it.isNotBlank() }.forEach {
-            if (it.lowercase() !in allowed) errors += "$label: día desconocido '$it'."
+            if (it.lowercase() !in allowed) errors += "$label: unknown day '$it'."
         }
     }
 
     private fun validateOneOf(raw: String?, allowed: Set<String>, label: String, errors: MutableList<String>) {
-        if (!raw.isNullOrBlank() && raw.lowercase() !in allowed) errors += "$label inválido."
+        if (!raw.isNullOrBlank() && raw.lowercase() !in allowed) errors += "$label is invalid."
     }
 
     private fun validateNestedActions(value: Any?, depth: Int, errors: MutableList<String>) {
         if (value !is List<*>) return
         if (depth > 3 || value.size > MAX_ACTIONS) {
-            errors += "Las acciones anidadas superan el límite permitido."
+            errors += "Nested actions exceed the allowed limit."
             return
         }
         value.forEach { row ->
-            val map = row as? Map<*, *> ?: run { errors += "Acción anidada inválida."; return@forEach }
+            val map = row as? Map<*, *> ?: run { errors += "Invalid nested action."; return@forEach }
             val rawType = map["type"]?.toString()?.uppercase()?.replace('-', '_')
             val type = runCatching { AutomationProfileStore.ActionType.valueOf(rawType ?: "") }.getOrNull()
-                ?: run { errors += "Tipo de acción anidada desconocido."; return@forEach }
+                ?: run { errors += "Unknown nested action type."; return@forEach }
             @Suppress("UNCHECKED_CAST")
             val params = map["params"] as? Map<String, Any> ?: emptyMap()
             when (type) {
                 AutomationProfileStore.ActionType.TOOL -> {
                     val tool = params["tool"]?.toString().orEmpty()
-                    if (tool.isBlank()) errors += "La acción anidada necesita tool."
-                    if (tool in privilegedTools) errors += "El tool privilegiado '$tool' no puede automatizarse."
-                    if (tool == "automation_profile") errors += "Un perfil no puede invocar automation_profile recursivamente."
+                    if (tool.isBlank()) errors += "Nested action needs tool."
+                    if (tool in privilegedTools) errors += "Privileged tool '$tool' cannot be automated."
+                    if (tool == "automation_profile") errors += "A profile cannot invoke automation_profile recursively."
                 }
                 AutomationProfileStore.ActionType.AGENT_TASK ->
-                    if (params["text"]?.toString().isNullOrBlank()) errors += "La acción agent_task anidada necesita text."
+                    if (params["text"]?.toString().isNullOrBlank()) errors += "Nested agent_task action needs text."
                 AutomationProfileStore.ActionType.WAIT -> {
                     val ms = automationLong(params["ms"]) ?: -1
                     if (ms !in 0..60_000) errors += "wait anidado fuera de rango."

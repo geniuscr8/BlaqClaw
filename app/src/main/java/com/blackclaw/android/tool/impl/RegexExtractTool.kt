@@ -16,7 +16,7 @@ class RegexExtractTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("text", "string", "Texto donde buscar.", true),
         ToolParameter("pattern", "string",
-            "Regex Java estándar, o un atajo: email|url|phone|ipv4|hashtag|mention.", true),
+            "Standard Java regex, or a shortcut: email|url|phone|ipv4|hashtag|mention.", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

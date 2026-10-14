@@ -21,7 +21,7 @@ object TaskContinuationDetector {
      * keep them here instead of sending them to the text-only chat model.
      */
     private val SHORT_FOLLOW_UPS = setOf(
-        "ya", "si", "sí", "ok", "okay", "dale", "va",
+        "yes", "ok", "okay", "go ahead", "continue",
         "pudiste", "hazlo", "hazla", "hazlos", "hazlas",
         "manualmente", "otros", "otra", "reintenta", "reintentar",
         "intenta", "intentarlo", "ahora", "continua", "continuar",
@@ -53,10 +53,10 @@ object TaskContinuationDetector {
     }
 
     fun buildPrompt(userText: String): String =
-        "Continúa la tarea anterior desde el estado actual. Conserva lo que ya se completó, " +
+            "Continue the previous task from its current state. Preserve what is already complete, " +
             "no repitas pasos confirmados y termina solo lo pendiente. Los resultados de las " +
-            "herramientas son la única prueba de que algo ocurrió: no conviertas una respuesta " +
-            "anterior del modelo en éxito y verifica antes de afirmarlo. Instrucción del usuario: $userText"
+            "tools are the only proof that something happened: do not turn a previous model " +
+            "response into success and verify before claiming it. User instruction: $userText"
 
     private fun normalize(value: String): String =
         Normalizer.normalize(value.lowercase(), Normalizer.Form.NFD)

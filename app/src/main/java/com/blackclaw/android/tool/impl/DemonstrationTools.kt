@@ -18,7 +18,7 @@ class StartDemoTool : BaseTool() {
     override fun getDisplayName() = "Learn by demonstration"
     override fun getDescriptionEN() =
         "Start recording the actions you're about to perform so they can be saved as a reusable " +
-        "routine. Use when the user says 'aprende esto', 'mira cómo lo hago', 'graba esto'. " +
+        "routine. Use when the user says 'learn this', 'watch how I do it', 'record this'. " +
         "After recording, call save_demo to store it."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "start recording actions to learn a routine by demonstration"
@@ -83,8 +83,8 @@ class SaveLastAsRoutineTool : BaseTool() {
     override fun getDisplayName() = "Save the latest flow as a routine"
     override fun getDescriptionEN() =
         "Save the steps of the LAST task you just performed as a reusable routine, WITHOUT having " +
-        "recorded it in advance. Use when the user says 'guarda lo que hiciste', 'guarda lo último " +
-        "como rutina X', 'repite esto la próxima vez'. Optional trigger_time to run it daily."
+        "recorded it in advance. Use when the user says 'save what you did', 'save the latest " +
+        "as routine X', 'repeat this next time'. Optional trigger_time to run it daily."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "save the latest executed flow as a routine (without announcing it first)"
     override fun getParameters() = listOf(

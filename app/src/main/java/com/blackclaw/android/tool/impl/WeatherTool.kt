@@ -50,7 +50,7 @@ class WeatherTool : BaseTool() {
     override fun execute(params: Map<String, Any>): ToolResult {
         val name = optionalString(params, "location", "").trim()
         return try {
-            val (lat, lon, label) = if (name.isEmpty() || name.equals("aquí", true) || name.equals("here", true)) {
+            val (lat, lon, label) = if (name.isEmpty() || name.equals("here", true)) {
                 val loc = lastKnownLocation() ?: return ToolResult.error(
                     "No location is available. Provide an explicit city or grant ACCESS_FINE_LOCATION."
                 )

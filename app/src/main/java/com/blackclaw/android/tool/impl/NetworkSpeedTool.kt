@@ -38,7 +38,7 @@ class NetworkSpeedTool : BaseTool() {
                 if (!resp.isSuccessful) return ToolResult.error("HTTP ${resp.code}")
                 val bytes = resp.body?.bytes()?.size ?: 0
                 val elapsedMs = (System.nanoTime() - t0) / 1_000_000.0
-                if (bytes <= 0) return ToolResult.error("Sin datos")
+                if (bytes <= 0) return ToolResult.error("No data")
                 val mbps = (bytes * 8.0 / 1024 / 1024) / (elapsedMs / 1000.0)
                 ToolResult.success(
                     "Descarga: %.0f KB en %.0f ms = %.2f Mbps".format(

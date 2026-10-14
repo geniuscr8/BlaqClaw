@@ -34,7 +34,7 @@ object ZimConsultEngine {
         maxOutputChars: Int = 7_000,
     ): List<Excerpt> {
         val tokens = meaningfulTokens("$question $topics")
-        require(tokens.isNotEmpty()) { "La pregunta no contiene términos consultables" }
+        require(tokens.isNotEmpty()) { "The query contains no searchable terms" }
         val queries = candidateQueries(question, topics, tokens)
         val candidates = LinkedHashMap<String, Candidate>()
         queries.forEachIndexed { queryOrder, query ->

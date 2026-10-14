@@ -69,7 +69,7 @@ class CreateRoutineTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "crea una rutina multi-paso (morning routine, focus mode, etc.)"
     override fun getParameters() = listOf(
-        ToolParameter("name", "string", "Routine name (e.g. 'Rutina mañana').", true),
+        ToolParameter("name", "string", "Routine name (e.g. 'Morning routine').", true),
         ToolParameter("steps", "string", "JSON array of steps: [{\"tool\":\"...\",\"params\":{},\"desc\":\"...\"}].", true),
         ToolParameter("description", "string", "Short description of what the routine does.", false),
         ToolParameter("icon", "string", "Emoji icon (default ⚡).", false),

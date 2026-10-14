@@ -42,7 +42,7 @@ class MathEvalTool : BaseTool() {
                          else "%.6f".format(v).trimEnd('0').trimEnd('.')
             ToolResult.success("$expr = $pretty")
         } catch (e: Exception) {
-            ToolResult.error("No pude evaluar: ${e.message}")
+            ToolResult.error("Could not evaluate: ${e.message}")
         }
     }
 
@@ -53,7 +53,7 @@ class MathEvalTool : BaseTool() {
         fun parse(): Double {
             val v = expr()
             skipWs()
-            if (i < s.length) error("Carácter inesperado '${s[i]}' en $i")
+            if (i < s.length) error("Unexpected character '${s[i]}' at $i")
             return v
         }
 
@@ -102,18 +102,18 @@ class MathEvalTool : BaseTool() {
 
         private fun primary(): Double {
             skipWs()
-            val c = peek() ?: error("Fin inesperado")
+            val c = peek() ?: error("Unexpected end of expression")
             if (c == '(') {
                 i++
                 val v = expr()
                 skipWs()
-                if (peek() != ')') error("Falta ')'")
+                if (peek() != ')') error("Missing ')'")
                 i++
                 return v
             }
             if (c.isLetter()) return identifier()
             if (c.isDigit() || c == '.') return number()
-            error("Símbolo desconocido '$c' en $i")
+            error("Unknown symbol '$c' at $i")
         }
 
         private fun identifier(): Double {
@@ -128,7 +128,7 @@ class MathEvalTool : BaseTool() {
                     i++
                     val arg = expr()
                     skipWs()
-                    if (peek() != ')') error("Falta ')' tras $name")
+                    if (peek() != ')') error("Missing ')' after $name")
                     i++
                     when (name) {
                         "sqrt" -> sqrt(arg)
@@ -139,10 +139,10 @@ class MathEvalTool : BaseTool() {
                         "log", "log10" -> log10(arg)
                         "exp" -> exp(arg)
                         "abs" -> abs(arg)
-                        else -> error("Función desconocida '$name'")
+                        else -> error("Unknown function '$name'")
                     }
                 }
-                else -> error("Identificador desconocido '$name'")
+                else -> error("Unknown identifier '$name'")
             }
         }
 

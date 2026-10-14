@@ -32,19 +32,19 @@ class PathTraceTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val service = requireAccessibilityService()
-            ?: return ToolResult.error("Accessibility service no activo")
+            ?: return ToolResult.error("Accessibility service is not active")
         val raw = requireString(params, "points")
         val arr: List<List<Int>> = try {
             val type = object : TypeToken<List<List<Number>>>() {}.type
             val parsed: List<List<Number>> = Gson().fromJson(raw.trim(), type)
-                ?: return ToolResult.error("points debe ser JSON array")
+            ?: return ToolResult.error("points must be a JSON array")
             parsed.map { it.map { n -> n.toInt() } }
         } catch (e: Exception) {
             return ToolResult.error("Invalid JSON: ${e.message}")
         }
-        if (arr.size < 2) return ToolResult.error("Necesito al menos 2 puntos")
+        if (arr.size < 2) return ToolResult.error("At least 2 points are required")
         if (arr.size > 32) return ToolResult.error("Maximum 32 points")
-        if (arr.any { it.size < 2 }) return ToolResult.error("Cada punto debe ser [x, y]")
+        if (arr.any { it.size < 2 }) return ToolResult.error("Each point must be [x, y]")
         // Validate each point
         for (p in arr) {
             validateCoordinates(p[0], p[1])?.let { return ToolResult.error(it) }
@@ -53,6 +53,6 @@ class PathTraceTool : BaseTool() {
         val matrix = arr.map { intArrayOf(it[0], it[1]) }.toTypedArray()
         val ok = service.performPath(matrix, dur)
         return if (ok) ToolResult.success("Trayectoria de ${arr.size} puntos en ${dur}ms")
-        else ToolResult.error("Gesto cancelado")
+        else ToolResult.error("Gesture cancelled")
     }
 }

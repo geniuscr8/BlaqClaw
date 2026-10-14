@@ -92,7 +92,7 @@ class AssistantWidget : AppWidgetProvider() {
             val dDay = t.get(java.util.Calendar.DAY_OF_YEAR) - now.get(java.util.Calendar.DAY_OF_YEAR)
             return when {
                 sameYear && dDay == 0 -> hm
-                sameYear && dDay == 1 -> "mañ $hm"
+                sameYear && dDay == 1 -> "tomorrow $hm"
                 else -> java.text.SimpleDateFormat("dd MMM", java.util.Locale.getDefault())
                     .format(java.util.Date(ms))
             }

@@ -59,7 +59,7 @@ object EmergencyEvidenceVault {
     /** Encrypt a completed recorder output and return the durable queue file. */
     @Synchronized
     fun seal(context: Context, plain: File): File {
-        require(plain.isFile && plain.length() > 0) { "Segmento de evidencia vacío" }
+        require(plain.isFile && plain.length() > 0) { "Evidence segment is empty" }
         val base = plain.name.removeSuffix(".pending.m4a").removeSuffix(".pending.mp4")
         val target = File(plain.parentFile, "$base.bcenc")
         val temporary = File(target.path + ".tmp")
@@ -70,7 +70,7 @@ object EmergencyEvidenceVault {
             require(temporary.length() > plain.length()) { "Salida cifrada incompleta" }
             if (target.exists()) require(target.delete()) { "No se pudo reemplazar el segmento" }
             require(temporary.renameTo(target)) { "No se pudo publicar el segmento cifrado" }
-            require(plain.delete()) { "El segmento se cifró, pero no se pudo retirar el original" }
+        require(plain.delete()) { "The segment was encrypted, but the original could not be removed" }
             return target
         } catch (e: Exception) {
             temporary.delete()
@@ -132,7 +132,7 @@ object EmergencyEvidenceVault {
 
         try {
             decryptFile(encrypted, temporary, secretKey())
-            require(temporary.length() > 0) { "Evidencia descifrada vacía" }
+        require(temporary.length() > 0) { "Decrypted evidence is empty" }
             require(temporary.renameTo(output)) { "No se pudo preparar la evidencia" }
             return output
         } catch (error: Exception) {
@@ -204,7 +204,7 @@ object EmergencyEvidenceVault {
         DataInputStream(BufferedInputStream(FileInputStream(encrypted))).use { input ->
             require(input.readInt() == MAGIC) { "Formato de evidencia desconocido" }
             val ivSize = input.readUnsignedByte()
-            require(ivSize in 12..32) { "Cabecera de evidencia inválida" }
+        require(ivSize in 12..32) { "Invalid evidence header" }
             val iv = ByteArray(ivSize)
             input.readFully(iv)
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
@@ -224,14 +224,14 @@ object EmergencyEvidenceVault {
     }
 
     private fun resolveItem(context: Context, item: EvidenceItem): File {
-        require(item.id == item.fileName || item.id == "uploaded/${item.fileName}") { "Identificador inválido" }
+        require(item.id == item.fileName || item.id == "uploaded/${item.fileName}") { "Invalid identifier" }
         require(item.fileName.endsWith(".bcenc") && '/' !in item.fileName && '\\' !in item.fileName) {
-            "Nombre de evidencia inválido"
+            "Invalid evidence name"
         }
         val root = directory(context).canonicalFile
         val candidate = File(root, item.id).canonicalFile
         require(candidate.path.startsWith(root.path + File.separator) && candidate.isFile) {
-            "La evidencia ya no está disponible"
+            "The evidence is no longer available"
         }
         return candidate
     }

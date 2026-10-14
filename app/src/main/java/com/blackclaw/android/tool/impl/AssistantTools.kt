@@ -144,7 +144,7 @@ class AssistantAppointmentTool : BaseTool() {
     override fun getName() = "assistant_appointment"
     override fun getDisplayName() = "Appointment / meeting"
     override fun getDescriptionEN() =
-        "Schedule an appointment/meeting the user mentions ('tengo una reunión a las 7', " +
+        "Schedule an appointment/meeting the user mentions ('I have a meeting at 7', " +
         "'cita el viernes 10:00', 'en 3 semanas tengo X'). Creates ONE calendar event that ALSO " +
         "rings like an alarm at its time and shows on the calendar/agenda. Use this for ANY future " +
         "commitment with a time — it handles near and far future. " +
@@ -154,7 +154,7 @@ class AssistantAppointmentTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "schedules an appointment or meeting in the calendar, sounds an alarm, and alerts you beforehand"
     override fun getParameters() = listOf(
-        ToolParameter("title", "string", "What the appointment is (e.g. 'Reunión con cliente').", true),
+        ToolParameter("title", "string", "What the appointment is (e.g. 'Client meeting').", true),
         ToolParameter("when", "string", "When it starts (e.g. 'a las 7' → '19:00', 'el viernes 10:00').", true),
         ToolParameter("location", "string", "Optional place.", false),
         ToolParameter("ring", "string", "true (rings like an alarm, default) | false (silent calendar entry).", false),
@@ -211,7 +211,7 @@ class AssistantAgendaTool : BaseTool() {
     override fun getDisplayName() = "Agenda"
     override fun getDescriptionEN() =
         "Read the user's upcoming agenda (alarms, reminders, events) from the Assistant hub. " +
-        "Use for 'qué tengo hoy', 'qué tengo mañana', 'mi agenda de esta semana', 'what's coming up'. " +
+        "Use for 'what do I have today', 'what do I have tomorrow', 'my schedule this week', 'what's coming up'. " +
         "range: today | tomorrow | week | all (default today). Returns a chronological list."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "reads the upcoming schedule (today/tomorrow/week) and summarizes it"

@@ -59,7 +59,7 @@ object GeofenceChecker {
             if (shouldFire && !alreadyFired) {
                 AssistantReceiver.postNotification(
                     context, "📍 ${g.title}",
-                    g.body.ifBlank { "Recordatorio de ubicación" }, highPriority = true)
+                    g.body.ifBlank { "Location reminder" }, highPriority = true)
                 KVUtils.putBoolean(firedKey, true); KVUtils.sync()
                 XLog.i(TAG, "Geofence fired: ${g.title} (${dist[0].toInt()}m)")
                 // One-shot: mark done so it doesn't repeat.

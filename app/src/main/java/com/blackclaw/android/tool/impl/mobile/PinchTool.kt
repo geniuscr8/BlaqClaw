@@ -23,7 +23,7 @@ class PinchTool : BaseTool() {
         ToolParameter("action", "string", "in (zoom out) | out (zoom in)", true),
         ToolParameter("amount", "integer",
             "Distancia en pixels entre los dedos al inicio (default 400). " +
-            "Cuanto mayor, más zoom.", false),
+            "Higher values zoom in more.", false),
         ToolParameter("duration_ms", "integer", "Duration (default 400ms).", false),
     )
 

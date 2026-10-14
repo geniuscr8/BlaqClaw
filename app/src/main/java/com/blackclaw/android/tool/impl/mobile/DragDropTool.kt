@@ -30,7 +30,7 @@ class DragDropTool : BaseTool() {
         ToolParameter("end_x", "integer", "X destino.", true),
         ToolParameter("end_y", "integer", "Y destino.", true),
         ToolParameter("press_ms", "integer",
-            "Cuánto mantener pulsado antes de mover (default 500ms para activar long-press).", false),
+            "How long to hold before moving (default 500ms to activate long-press).", false),
         ToolParameter("move_ms", "integer", "Drag duration (default 500ms).", false),
     )
 

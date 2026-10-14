@@ -120,7 +120,7 @@ object DemonstrationRecorder {
         val routine = RoutineEngine.create(RoutineEngine.Routine(
             id = "",
             name = name,
-            description = "Aprendida por demostración (${captured.size} pasos)",
+            description = "Learned by demonstration (${captured.size} steps)",
             icon = icon,
             steps = routineSteps,
             triggerTime = triggerTime,

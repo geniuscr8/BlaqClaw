@@ -62,7 +62,7 @@ class CreateShortcutTool : BaseTool() {
         return try {
             val ok = sm.requestPinShortcut(shortcut, null)
             if (ok) ToolResult.success("Acceso directo pedido: \"$label\". Confirma en el launcher.")
-            else ToolResult.error("El launcher rechazó la petición.")
+            else ToolResult.error("The launcher rejected the request.")
         } catch (e: Exception) {
             ToolResult.error("Fallo creando acceso directo: ${e.message}")
         }

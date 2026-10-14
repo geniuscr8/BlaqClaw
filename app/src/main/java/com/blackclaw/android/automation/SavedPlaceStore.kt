@@ -116,7 +116,7 @@ object SavedPlaceStore {
         id: String = "",
     ): Result<Place> = runCatching {
         val cleanName = cleanLabel(name, "nombre")
-        require(validCoordinates(latitude, longitude)) { "Coordenadas inválidas." }
+        require(validCoordinates(latitude, longitude)) { "Invalid coordinates." }
         require(radiusM in 25f..100_000f) { "El radio debe estar entre 25 y 100000 metros." }
         val cleanAliases = aliases.mapNotNull { it.trim().takeIf(String::isNotBlank) }
             .distinctBy(::normalize).take(MAX_ALIASES)
@@ -126,8 +126,8 @@ object SavedPlaceStore {
             id.isNotBlank() -> all.indexOfFirst { it.id == id }
             else -> all.indexOfFirst { normalize(it.name) == normalize(cleanName) }
         }
-        if (id.isNotBlank() && existingIndex < 0) throw IllegalArgumentException("No encontré el lugar '$id'.")
-        if (existingIndex < 0 && all.size >= MAX_PLACES) throw IllegalStateException("Límite de $MAX_PLACES lugares alcanzado.")
+        if (id.isNotBlank() && existingIndex < 0) throw IllegalArgumentException("Could not find place '$id'.")
+        if (existingIndex < 0 && all.size >= MAX_PLACES) throw IllegalStateException("The limit of $MAX_PLACES places has been reached.")
 
         // Do not let two places claim the same semantic name/alias: that makes natural
         // language automation nondeterministic.
@@ -167,19 +167,19 @@ object SavedPlaceStore {
 
     @Synchronized
     fun rename(idOrName: String, newName: String): Result<Place> {
-        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("No encontré '$idOrName'."))
+        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("Could not find '$idOrName'."))
         return save(newName, current.latitude, current.longitude, current.radiusM, current.aliases, current.wifiSsids, current.id)
     }
 
     @Synchronized
     fun setAliases(idOrName: String, aliases: List<String>): Result<Place> {
-        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("No encontré '$idOrName'."))
+        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("Could not find '$idOrName'."))
         return save(current.name, current.latitude, current.longitude, current.radiusM, aliases, current.wifiSsids, current.id)
     }
 
     @Synchronized
     fun setWifiSsids(idOrName: String, ssids: List<String>): Result<Place> {
-        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("No encontré '$idOrName'."))
+        val current = find(idOrName) ?: return Result.failure(IllegalArgumentException("Could not find '$idOrName'."))
         return save(current.name, current.latitude, current.longitude, current.radiusM, current.aliases, ssids, current.id)
     }
 
@@ -201,7 +201,7 @@ object SavedPlaceStore {
                 if (p.aliases.isNotEmpty()) append(" · aliases: ${p.aliases.joinToString()}")
                 append(" · radio ${p.radiusM.toInt()}m\n")
             }
-            append("Resuelve nombres de lugares con saved_place; no inventes coordenadas ni sustituyas un lugar ambiguo por la ubicación actual.\n")
+            append("Resolve place names with saved_place; do not invent coordinates or replace an ambiguous place with the current location.\n")
         }
     }
 

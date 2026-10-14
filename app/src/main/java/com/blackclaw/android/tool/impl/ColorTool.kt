@@ -15,7 +15,7 @@ class ColorTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("input", "string", "Color en cualquier formato común.", true),
+        ToolParameter("input", "string", "Color in any common format.", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

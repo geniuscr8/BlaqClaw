@@ -91,7 +91,7 @@ class AutomationProfileTool : BaseTool() {
         }
         requireLocalConfirmation()?.let { return it }
         val stored = AutomationProfileStore.create(profile, enable = true)
-            .getOrElse { return ToolResult.error(it.message ?: "No se pudo guardar el perfil.") }
+            .getOrElse { return ToolResult.error(it.message ?: "Could not save the profile.") }
         syncRuntimes()
         return ToolResult.success("✓ Flujo '${stored.name}' activo [${stored.id}].\n$preview")
     }
@@ -106,7 +106,7 @@ class AutomationProfileTool : BaseTool() {
             return ToolResult.error("'${duplicate.name}' [${duplicate.id}] already exists. Use update to avoid replacing it accidentally.")
         }
         val stored = AutomationProfileStore.create(profile, enable = false)
-            .getOrElse { return ToolResult.error(it.message ?: "No se pudo guardar el borrador.") }
+            .getOrElse { return ToolResult.error(it.message ?: "Could not save the draft.") }
         syncRuntimes()
         return ToolResult.success(
                 "✓ Draft '${stored.name}' saved [${stored.id}] and DISABLED.\n${preview(stored)}\n" +
@@ -117,7 +117,7 @@ class AutomationProfileTool : BaseTool() {
     /** PATCH-like update: omitted fields are preserved instead of being erased. */
     private fun update(params: Map<String, Any>): ToolResult {
         val id = optionalString(params, "id", optionalString(params, "name", "")).trim()
-        if (id.isBlank()) return ToolResult.error("update necesita id o name del perfil existente.")
+        if (id.isBlank()) return ToolResult.error("update requires the id or name of an existing profile.")
         val existing = AutomationProfileStore.find(id)
             ?: return ToolResult.error("Profile '$id' not found.")
         val updated = parseProfile(params, existing).getOrElse {
@@ -134,7 +134,7 @@ class AutomationProfileTool : BaseTool() {
         }
         requireLocalConfirmation()?.let { return it }
         val stored = AutomationProfileStore.create(updated, enable = existing.enabled)
-            .getOrElse { return ToolResult.error(it.message ?: "No se pudo actualizar el perfil.") }
+            .getOrElse { return ToolResult.error(it.message ?: "Could not update the profile.") }
         syncRuntimes()
         return ToolResult.success(
             "✓ Flujo '${stored.name}' actualizado [${stored.id}] · ${if (stored.enabled) "activo" else "desactivado"}.\n$preview"
@@ -182,7 +182,7 @@ class AutomationProfileTool : BaseTool() {
                 if (action.type == AutomationProfileStore.ActionType.TOOL) {
                     val toolName = action.params["tool"]?.toString().orEmpty()
                     if (toolName.isNotBlank() && ToolRegistry.getInstance().getTool(toolName) == null) {
-                        add("La herramienta '$toolName' no existe en este dispositivo.")
+                        add("Tool '$toolName' does not exist on this device.")
                     }
                 }
                 listOf("then", "else", "actions").forEach { key ->
@@ -232,7 +232,7 @@ class AutomationProfileTool : BaseTool() {
         val profile = AutomationProfileStore.find(id) ?: return ToolResult.error("Profile '$id' not found.")
         val result = AutomationProfileEngine.runNow(ClawApplication.instance, profile)
         return if (result.isSuccess) ToolResult.success("Profile '${profile.name}' is running.")
-        else ToolResult.error(result.exceptionOrNull()?.message ?: "No se pudo ejecutar.")
+        else ToolResult.error(result.exceptionOrNull()?.message ?: "Could not execute the profile.")
     }
 
     private fun parseProfile(
@@ -394,7 +394,7 @@ class AutomationProfileTool : BaseTool() {
         val normalized = raw?.toString()?.trim()?.uppercase()?.replace('-', '_')
             ?: throw IllegalArgumentException("Falta type.")
         return values.firstOrNull { it.name == normalized }
-            ?: throw IllegalArgumentException("Tipo desconocido '$raw'.")
+            ?: throw IllegalArgumentException("Unknown type '$raw'.")
     }
 
     private fun preview(profile: AutomationProfileStore.Profile): String {
@@ -407,7 +407,7 @@ class AutomationProfileTool : BaseTool() {
                 AutomationProfileStore.TriggerType.APP_FOREGROUND,
                 AutomationProfileStore.TriggerType.APP_CLOSED -> permissions += "Accesibilidad"
                 AutomationProfileStore.TriggerType.CALL_STATE -> permissions += "Phone state"
-                AutomationProfileStore.TriggerType.SMS_RECEIVED -> permissions += "Permiso de SMS recibido"
+                AutomationProfileStore.TriggerType.SMS_RECEIVED -> permissions += "SMS permission received"
                 AutomationProfileStore.TriggerType.WEBHOOK -> permissions += "Intent externo con token"
                 else -> Unit
             }

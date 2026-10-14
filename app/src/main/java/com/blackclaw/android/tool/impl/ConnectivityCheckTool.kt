@@ -25,7 +25,7 @@ class ConnectivityCheckTool : BaseTool() {
             ?: return ToolResult.success("Red activa pero sin capabilities (raro).")
         val transport = when {
             caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Móvil"
+            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Mobile data"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "Ethernet"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> "Bluetooth"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> "VPN"

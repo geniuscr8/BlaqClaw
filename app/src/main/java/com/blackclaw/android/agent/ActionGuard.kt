@@ -12,7 +12,7 @@ import com.blackclaw.android.utils.XLog
  * or where an untrusted source (a notification the proactive assistant read)
  * tries to steer the agent into doing something dangerous.
  *
- * Heuristics — based on tool name + param keywords, in EN/ES/中文. Tunable.
+ * Heuristics — based on tool name + parameter keywords in English and Chinese.
  */
 object ActionGuard {
 
@@ -26,32 +26,26 @@ object ActionGuard {
 
     /**
      * Patterns that mark a tool's args / target as destructive.
-     * Covers English, Spanish (the app's primary UI language) and a few
-     * common 中文 phrasings, since the model and notifications can be in any.
+     * Covers English and a few common Chinese phrasings.
      */
     private val DESTRUCTIVE_PATTERNS = listOf(
         // delete everything / all data / account / history
         Regex("(?i)\\bdelete\\s+(everything|all|all my|account|chat history)"),
-        Regex("(?i)\\b(borra|borrar|elimina|eliminar)\\s+(todo|todos|toda|todas|mi cuenta|la cuenta|el historial|todo el historial|todos los contactos)"),
         // clear all data / cache / history
         Regex("(?i)\\bclear\\s+(all data|app data|cache|history)"),
-        Regex("(?i)\\b(borra|borrar|limpia|limpiar|vaciar?)\\s+(todos los datos|datos de la app|cache|caché|el historial|historial)"),
         // factory reset
         Regex("(?i)\\bfactory\\s+reset"),
-        Regex("(?i)\\b(restablecimiento|restablecer|restaurar)\\s+(de\\s+)?fábrica|formatear (el )?(telefono|teléfono|dispositivo)"),
         Regex("(?i)恢复出厂|出厂设置|格式化"),
         // unsubscribe all / mass-remove
         Regex("(?i)\\bunsubscribe\\s+all"),
         Regex("(?i)\\bremove\\s+all\\s+contacts"),
-        Regex("(?i)\\b(elimina|borra|quita)\\s+(todos los|todas las)\\s+contactos?"),
         // payments / purchases / transfers
         Regex("(?i)\\b(buy|purchase|checkout|pay)\\b"),
-        Regex("(?i)\\b(compra|comprar|pagar|paga|realiza el pago|confirmar (la )?compra|transfiere|transferir|envía dinero|enviar dinero)\\b"),
-        Regex("(?i)\\b(transfer|transferir|envía|enviar)\\s+\\$?\\d"),
+        Regex("(?i)\\b(buy|purchase|pay|confirm (the )?purchase|transfer|send money)\\b"),
+        Regex("(?i)\\b(transfer|send)\\s+\\$?\\d"),
         Regex("(?i)付款|转账|购买|结账"),
         // uninstall / wipe apps
         Regex("(?i)\\b(uninstall|wipe)\\b"),
-        Regex("(?i)\\b(desinstala|desinstalar)\\b"),
     )
 
     /**
@@ -61,9 +55,7 @@ object ActionGuard {
      */
     private val INJECTION_PATTERNS = listOf(
         Regex("(?i)ignore (all )?(previous|prior|above) (instructions|prompts?)"),
-        Regex("(?i)(ignora|olvida) (todas )?(las )?(instrucciones|órdenes) (previas|anteriores)"),
         Regex("(?i)you are now (a|an|in)\\b"),
-        Regex("(?i)(ahora eres|actúa como|haz de cuenta que eres)\\b"),
         Regex("(?i)system prompt|developer message|jailbreak"),
         Regex("(?i)disregard (your|the) (rules|guidelines|safety)"),
     )

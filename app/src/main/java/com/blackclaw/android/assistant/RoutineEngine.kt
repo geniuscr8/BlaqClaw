@@ -197,7 +197,7 @@ object RoutineEngine {
                     stepsCompleted = completed,
                     totalSteps = routine.steps.size,
                     failedStep = "${step.toolName}: ${result.error}",
-                    summary = "Rutina '${routine.name}': ${completed}/${routine.steps.size} pasos completados. Falló: ${step.description}",
+                    summary = "Routine '${routine.name}': ${completed}/${routine.steps.size} steps completed. Failed: ${step.description}",
                 )
             }
             completed++
@@ -272,7 +272,7 @@ object RoutineEngine {
                 if (r.description.isNotBlank()) append(" — ${r.description}")
                 append("\n")
             }
-            append("El usuario puede pedir 'ejecuta mi rutina de mañana' y tú llamas run_routine.\n")
+            append("The user can ask to 'run my morning routine' and you call run_routine.\n")
         }
     }
 }

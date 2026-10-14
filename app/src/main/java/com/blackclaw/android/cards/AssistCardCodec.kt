@@ -138,7 +138,7 @@ object AssistCardCodec {
             val lon = o.num("lon")
             if (lat == null || lon == null || !validCoordinates(lat, lon)) null
             else AssistCard.Place(
-                name = o.str("name").ifBlank { "Ubicación" },
+                name = o.str("name").ifBlank { "Location" },
                 lat = lat,
                 lon = lon,
                 detail = o.str("detail"),

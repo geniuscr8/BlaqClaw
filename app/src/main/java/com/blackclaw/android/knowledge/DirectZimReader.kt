@@ -85,7 +85,7 @@ class DirectZimReader(private val file: File) : Closeable {
     @Synchronized
     fun searchTitles(query: String, limit: Int = 5): List<SearchHit> {
         val needle = normalize(query)
-        require(needle.isNotBlank()) { "Consulta vacía" }
+        require(needle.isNotBlank()) { "Query is empty" }
         val max = limit.coerceIn(1, 20)
         val start = lowerBound(needle)
         val hits = LinkedHashMap<String, SearchHit>()
@@ -112,13 +112,13 @@ class DirectZimReader(private val file: File) : Closeable {
     @Synchronized
     fun readArticle(titleOrPath: String, maxChars: Int = 5_000): Article {
         val requested = titleOrPath.trim()
-        require(requested.isNotBlank()) { "Título o ruta vacíos" }
+        require(requested.isNotBlank()) { "Title or path is empty" }
         val initial = if (requested.length > 2 && requested[1] == '/') {
             findByPath(requested) ?: error("No existe la ruta '$requested' en ${file.name}")
         } else {
             findExactTitle(requested)
                 ?: searchTitles(requested, 1).firstOrNull()?.let { findByPath(it.path) }
-                ?: error("No encontré el artículo '$requested' en ${file.name}")
+                ?: error("Could not find article '$requested' in ${file.name}")
         }
         return decodeArticle(resolve(initial), initial.displayTitle, maxChars)
     }
@@ -134,7 +134,7 @@ class DirectZimReader(private val file: File) : Closeable {
     /** Read one title-listing position for incremental content indexing. Non-text entries return null. */
     @Synchronized
     fun readArticleAtTitlePosition(position: Long, maxChars: Int = 100_000): Article? {
-        require(position in 0 until titleIndex.size) { "Posición de título fuera de rango" }
+        require(position in 0 until titleIndex.size) { "Title position is out of range" }
         val listed = dirent(titleIndex.entryIndex(position))
         val resolved = resolve(listed)
         if (!resolved.isArticle || !isTextMime(resolved.mimeIndex)) return null
@@ -144,9 +144,9 @@ class DirectZimReader(private val file: File) : Closeable {
     fun libraryInfo(): String = "${file.name} · ZIM v${header.version} · ${header.entryCount} entradas · ${mimeTypes.size} MIME"
 
     private fun decodeArticle(entry: Dirent, displayTitle: String, maxChars: Int): Article {
-        require(entry.isArticle) { "La entrada no contiene un artículo" }
+        require(entry.isArticle) { "The entry does not contain an article" }
         val mime = mimeOf(entry.mimeIndex)
-        require(mime.startsWith("text/") || mime.contains("html")) { "La entrada es $mime, no texto" }
+        require(mime.startsWith("text/") || mime.contains("html")) { "The entry is $mime, not text" }
         val raw = readBlob(entry.cluster, entry.blob)
         val decoded = raw.toString(Charsets.UTF_8)
         val text = if (mime.contains("html")) htmlToText(decoded) else decoded
@@ -155,10 +155,10 @@ class DirectZimReader(private val file: File) : Closeable {
     }
 
     private fun readHeader(): Header {
-        require(raf.length() >= HEADER_SIZE) { "Archivo demasiado pequeño para ser ZIM" }
-        require(u32(0) == MAGIC) { "Firma ZIM inválida" }
+        require(raf.length() >= HEADER_SIZE) { "File is too small to be a ZIM" }
+        require(u32(0) == MAGIC) { "Invalid ZIM signature" }
         val major = u16(4)
-        require(major == 5 || major == 6) { "Versión ZIM no soportada: $major" }
+        require(major == 5 || major == 6) { "Unsupported ZIM version: $major" }
         val entries = u32(24)
         val clusters = u32(28)
         val pathPos = u64(32)
@@ -166,12 +166,12 @@ class DirectZimReader(private val file: File) : Closeable {
         val clusterPos = u64(48)
         val mimePos = u64(56)
         val checksum = u64(72)
-        require(entries in 1..50_000_000 && clusters in 1..entries) { "Contadores ZIM inválidos" }
-        require(pathPos in HEADER_SIZE until raf.length()) { "Índice de rutas inválido" }
-        require(clusterPos in HEADER_SIZE until raf.length()) { "Índice de clusters inválido" }
+        require(entries in 1..50_000_000 && clusters in 1..entries) { "Invalid ZIM counters" }
+        require(pathPos in HEADER_SIZE until raf.length()) { "Invalid path index" }
+        require(clusterPos in HEADER_SIZE until raf.length()) { "Invalid cluster index" }
         // The common layout puts MIME data immediately after the header, but valid
         // writers may place optional data first. It only has to precede path pointers.
-        require(mimePos in HEADER_SIZE until pathPos) { "Lista MIME inválida" }
+        require(mimePos in HEADER_SIZE until pathPos) { "Invalid MIME list" }
         return Header(major, entries, clusters, pathPos, titlePos, clusterPos, mimePos, checksum)
     }
 
@@ -192,16 +192,16 @@ class DirectZimReader(private val file: File) : Closeable {
         // are still readable through X/listing/titleOrdered/v1.
         if (header.titleIdxPos != 0L && header.titleIdxPos != -1L && header.titleIdxPos != Long.MAX_VALUE) {
             val pos = header.titleIdxPos
-            require(pos in HEADER_SIZE until raf.length()) { "Índice de títulos inválido" }
+            require(pos in HEADER_SIZE until raf.length()) { "Invalid title index" }
             return object : TitleIndex {
                 override val size = header.entryCount
                 override fun entryIndex(position: Long) = u32(pos + position * 4)
             }
         }
         val listing = findByPath("X/listing/titleOrdered/v1")
-            ?: error("Este ZIM no contiene un índice de títulos compatible")
+            ?: error("This ZIM has no compatible title index")
         val bytes = readBlob(listing.cluster, listing.blob)
-        require(bytes.size % 4 == 0) { "Índice de títulos ZIM corrupto" }
+        require(bytes.size % 4 == 0) { "Corrupt ZIM title index" }
         return object : TitleIndex {
             override val size = bytes.size.toLong() / 4
             override fun entryIndex(position: Long): Long = leUnsigned(bytes, (position * 4).toInt(), 4)
@@ -249,7 +249,7 @@ class DirectZimReader(private val file: File) : Closeable {
         var current = original
         repeat(12) {
             if (!current.isRedirect) return current
-            require(current.redirect in 0 until header.entryCount) { "Redirección ZIM inválida" }
+            require(current.redirect in 0 until header.entryCount) { "Invalid ZIM redirect" }
             current = dirent(current.redirect)
         }
         error("Demasiadas redirecciones ZIM")
@@ -258,7 +258,7 @@ class DirectZimReader(private val file: File) : Closeable {
     private fun dirent(index: Long): Dirent {
         require(index in 0 until header.entryCount) { "Índice de entrada fuera de rango" }
         val offset = u64(header.pathPtrPos + index * 8)
-        require(offset in HEADER_SIZE until raf.length()) { "Puntero de entrada inválido" }
+        require(offset in HEADER_SIZE until raf.length()) { "Invalid entry pointer" }
         raf.seek(offset)
         val mime = readU16()
         val parameterLength = raf.readUnsignedByte()
@@ -293,7 +293,7 @@ class DirectZimReader(private val file: File) : Closeable {
         require(blobNumber in 0 until cluster.blobCount) { "Blob fuera de rango" }
         val blobStart = leUnsigned(cluster.bytes, (blobNumber * cluster.offsetWidth).toInt(), cluster.offsetWidth)
         val blobEnd = leUnsigned(cluster.bytes, ((blobNumber + 1) * cluster.offsetWidth).toInt(), cluster.offsetWidth)
-        require(blobStart in cluster.firstBlobOffset..blobEnd && blobEnd <= cluster.bytes.size) { "Rango de blob inválido" }
+        require(blobStart in cluster.firstBlobOffset..blobEnd && blobEnd <= cluster.bytes.size) { "Invalid blob range" }
         return cluster.bytes.copyOfRange(blobStart.toInt(), blobEnd.toInt())
     }
 
@@ -302,7 +302,7 @@ class DirectZimReader(private val file: File) : Closeable {
         val end = if (clusterNumber + 1 < header.clusterCount) {
             u64(header.clusterPtrPos + (clusterNumber + 1) * 8)
         } else if (header.checksumPos > start) header.checksumPos else raf.length()
-        require(start >= HEADER_SIZE && end > start && end <= raf.length()) { "Rango de cluster inválido" }
+        require(start >= HEADER_SIZE && end > start && end <= raf.length()) { "Invalid cluster range" }
         raf.seek(start)
         val info = raf.readUnsignedByte()
         val compressedSize = end - start - 1
@@ -318,8 +318,8 @@ class DirectZimReader(private val file: File) : Closeable {
             2 -> InflaterInputStream(ByteArrayInputStream(payload)).use(::readLimited)
             4 -> XZInputStream(ByteArrayInputStream(payload)).use(::readLimited)
             5 -> ZstdInputStream(ByteArrayInputStream(payload)).use(::readLimited)
-            3 -> error("Compresión BZip2 ZIM histórica no soportada")
-            else -> error("Compresión ZIM desconocida: $compression")
+            3 -> error("Legacy BZip2 ZIM compression is unsupported")
+            else -> error("Unknown ZIM compression: $compression")
         }
         val width = if (extended) 8 else 4
         require(decoded.size >= width) { "Cabecera de cluster incompleta" }
@@ -523,7 +523,7 @@ object DirectZimLibrary {
                     ZimDiscovery.explainEmptyResult(result.hasFullStorageAccess, result.splitPartNames),
                 )
             }
-            return Resolution(null, "No encontré la biblioteca '$requested'. Disponibles: ${found.joinToString { it.name }}")
+            return Resolution(null, "Could not find library '$requested'. Available: ${found.joinToString { it.name }}")
         }
         return when (found.size) {
             0 -> Resolution(

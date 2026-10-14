@@ -137,7 +137,7 @@ object AutomationProfileEngine {
         val errors = AutomationProfileValidator.validate(profile)
         if (errors.isNotEmpty()) return Result.failure(IllegalArgumentException(errors.joinToString(" ")))
         if (profile.actions.any { it.requireConfirmation } && profile.approvedAtMs <= 0L) {
-            return Result.failure(IllegalStateException("El perfil necesita confirmación del usuario antes de ejecutar acciones sensibles."))
+            return Result.failure(IllegalStateException("The profile needs user confirmation before running sensitive actions."))
         }
         dispatcher.execute {
             scheduleProfile(context.applicationContext, profile, Event(AutomationProfileStore.TriggerType.MANUAL), force = true)
@@ -338,7 +338,7 @@ object AutomationProfileEngine {
         val result = executeActions(context, profile, profile.actions, event, deadline, depth = 0)
         if (result.isSuccess) AutomationProfileStore.markRun(profile.id, eventType = event.type.name)
         else {
-            val error = result.exceptionOrNull()?.message ?: "acción falló"
+            val error = result.exceptionOrNull()?.message ?: "action failed"
             AutomationProfileStore.markFailure(profile.id, error, event.type.name)
             XLog.w(TAG, "Profile ${profile.id} stopped: $error")
         }
@@ -352,13 +352,13 @@ object AutomationProfileEngine {
         deadline: Long,
         depth: Int,
     ): Result<Unit> {
-        if (depth > 3) return Result.failure(IllegalStateException("profundidad máxima de if/loop alcanzada"))
+        if (depth > 3) return Result.failure(IllegalStateException("Maximum if/loop depth reached"))
         for ((index, action) in actions.withIndex()) {
             if (System.currentTimeMillis() > deadline) {
-                return Result.failure(IllegalStateException("tiempo máximo del perfil alcanzado"))
+                return Result.failure(IllegalStateException("Maximum profile runtime reached"))
             }
             if (action.requireConfirmation && profile.approvedAtMs <= 0L) {
-                return Result.failure(IllegalStateException("acción ${index + 1} requiere confirmación"))
+                return Result.failure(IllegalStateException("Action ${index + 1} requires confirmation"))
             }
             val result = runCatching { executeAction(context, profile, action, event, deadline, depth) }
                 .getOrElse { Result.failure<Unit>(it) }
@@ -378,7 +378,7 @@ object AutomationProfileEngine {
         AutomationProfileStore.ActionType.WAIT -> {
             val ms = automationLong(action.params["ms"])?.coerceIn(0L, 60_000L) ?: 0L
             if (System.currentTimeMillis() + ms > deadline) {
-                Result.failure(IllegalStateException("tiempo máximo del perfil alcanzado"))
+                Result.failure(IllegalStateException("Maximum profile runtime reached"))
             } else {
                 Thread.sleep(ms)
                 Result.success(Unit)
@@ -402,7 +402,7 @@ object AutomationProfileEngine {
         AutomationProfileStore.ActionType.RUN_ROUTINE -> {
             val name = expandString(action.params["name"]?.toString().orEmpty(), profile, event)
             val routine = RoutineEngine.findByName(name) ?: RoutineEngine.find(name)
-                ?: return Result.failure(IllegalArgumentException("No encontré rutina '$name'."))
+                ?: return Result.failure(IllegalArgumentException("Could not find routine '$name'."))
             ToolExecutionContext.setOrigin(ToolRiskPolicy.Origin.AUTOMATION)
             try {
                 val result = RoutineEngine.execute(routine)
@@ -419,12 +419,12 @@ object AutomationProfileEngine {
             try {
                 val result = ToolRegistry.getInstance().executeTool(toolName, toolParams)
                 if (result.isSuccess) Result.success(Unit)
-                else Result.failure(IllegalStateException(result.error ?: "tool falló"))
+                else Result.failure(IllegalStateException(result.error ?: "Tool failed"))
             } finally { ToolExecutionContext.reset() }
         }
         AutomationProfileStore.ActionType.AGENT_TASK -> {
             val text = expandString(action.params["text"]?.toString().orEmpty(), profile, event)
-            if (text.isBlank()) Result.failure(IllegalArgumentException("La tarea está vacía."))
+            if (text.isBlank()) Result.failure(IllegalArgumentException("The task is empty."))
             else {
                 AutomationEngine.executeTask(context, text, "profile:${profile.id}")
                 Result.success(Unit)

@@ -16,7 +16,7 @@ class JsonQueryTool : BaseTool() {
     override fun getName() = "json_query"
     override fun getDisplayName() = "JSON query"
     override fun getDescriptionEN() =
-        "Extrae datos de un JSON. Path como 'data.items[0].name' o 'items[*].id'."
+        "Extracts data from JSON. Path such as 'data.items[0].name' or 'items[*].id'."
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
@@ -31,7 +31,7 @@ class JsonQueryTool : BaseTool() {
             val root: Any = when {
                 raw.startsWith("[") -> JSONArray(raw)
                 raw.startsWith("{") -> JSONObject(raw)
-                else -> return ToolResult.error("JSON debe empezar por { o [")
+                else -> return ToolResult.error("JSON must start with { or [")
             }
             val result = navigate(root, path)
             val text = when (result) {

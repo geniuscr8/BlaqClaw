@@ -32,7 +32,7 @@ class AppShortcutsTool : BaseTool() {
         val pkg = requireString(params, "package").trim()
         val ctx = ClawApplication.instance
         val launcher = ctx.getSystemService(Context.LAUNCHER_APPS_SERVICE) as? LauncherApps
-            ?: return ToolResult.error("LauncherApps no disponible.")
+            ?: return ToolResult.error("LauncherApps is not available.")
         return try {
             val q = LauncherApps.ShortcutQuery().apply {
                 setPackage(pkg)
@@ -43,7 +43,7 @@ class AppShortcutsTool : BaseTool() {
                 )
             }
             val list = launcher.getShortcuts(q, Process.myUserHandle())
-                ?: return ToolResult.error("Permiso denegado o app sin atajos.")
+                ?: return ToolResult.error("Permission denied or the app has no shortcuts.")
             if (list.isEmpty()) return ToolResult.success("No shortcuts found for $pkg.")
             ToolResult.success(
                 "${list.size} atajo(s):\n" + list.joinToString("\n") {
@@ -51,7 +51,7 @@ class AppShortcutsTool : BaseTool() {
                 }
             )
         } catch (e: SecurityException) {
-            ToolResult.error("BlaqClaw no es el launcher por defecto, no puedo leer atajos.")
+            ToolResult.error("BlaqClaw is not the default launcher, so shortcuts cannot be read.")
         } catch (e: Exception) {
             ToolResult.error("Failed: ${e.message}")
         }

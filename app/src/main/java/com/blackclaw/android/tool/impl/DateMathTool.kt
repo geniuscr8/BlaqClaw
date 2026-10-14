@@ -23,16 +23,16 @@ class DateMathTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("op", "string", "add | diff | day_of_week | format", true),
-        ToolParameter("date", "string", "Fecha base (yyyy-MM-dd o 'today').", false),
-        ToolParameter("date2", "string", "Segunda fecha (para diff).", false),
-        ToolParameter("amount", "integer", "(add) cuánto sumar.", false),
+        ToolParameter("date", "string", "Base date (yyyy-MM-dd or 'today').", false),
+        ToolParameter("date2", "string", "Second date (for diff).", false),
+        ToolParameter("amount", "integer", "(add) amount to add.", false),
         ToolParameter("unit", "string", "(add) day | week | month | year. Default day.", false),
-        ToolParameter("format", "string", "(format) patrón Java SimpleDateFormat.", false),
+        ToolParameter("format", "string", "(format) Java SimpleDateFormat pattern.", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val op = requireString(params, "op").lowercase()
-        val date = parseDate(optionalString(params, "date", "today")) ?: return ToolResult.error("date inválida")
+        val date = parseDate(optionalString(params, "date", "today")) ?: return ToolResult.error("Invalid date")
         return try {
             when (op) {
                 "add" -> {
@@ -46,18 +46,18 @@ class DateMathTool : BaseTool() {
                         "year" -> Calendar.YEAR
                         "hour" -> Calendar.HOUR_OF_DAY
                         "minute" -> Calendar.MINUTE
-                        else -> return ToolResult.error("unit desconocido")
+                        else -> return ToolResult.error("Unknown unit")
                     }, amt)
                     ToolResult.success(SimpleDateFormat("yyyy-MM-dd EEE", Locale.getDefault()).format(cal.time))
                 }
                 "diff" -> {
                     val date2 = parseDate(optionalString(params, "date2", "today"))
-                        ?: return ToolResult.error("date2 inválida")
+                        ?: return ToolResult.error("Invalid date2")
                     val days = abs(date2.time - date.time) / 86_400_000L
                     val years = days / 365
                     val months = (days % 365) / 30
                     val rem = (days % 365) % 30
-                    ToolResult.success("$days días (~${years}a ${months}m ${rem}d)")
+                    ToolResult.success("$days days (~${years}y ${months}m ${rem}d)")
                 }
                 "day_of_week" -> {
                     val dow = SimpleDateFormat("EEEE", Locale.getDefault()).format(date)
@@ -70,7 +70,7 @@ class DateMathTool : BaseTool() {
                 else -> ToolResult.error("op desconocido '$op'")
             }
         } catch (e: Exception) {
-            ToolResult.error("date_math falló: ${e.message}")
+            ToolResult.error("date_math failed: ${e.message}")
         }
     }
 

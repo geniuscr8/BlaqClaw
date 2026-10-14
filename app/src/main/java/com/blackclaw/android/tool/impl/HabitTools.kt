@@ -19,11 +19,11 @@ class HabitLogTool : BaseTool() {
     override fun getDisplayName() = "Log habit"
     override fun getDescriptionEN() =
         "Log a habit completion. Creates the habit if new. Tracks streaks and daily progress. " +
-        "Use for: 'bebí agua', 'hice ejercicio', 'medité', 'leí 30 min', 'no fumé'."
+        "Use for: 'I drank water', 'I exercised', 'I meditated', 'I read for 30 minutes', 'I did not smoke'."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "logs that the user completed a habit (water, exercise, etc.)"
     override fun getParameters() = listOf(
-        ToolParameter("habit", "string", "Habit name (e.g. 'agua', 'ejercicio', 'meditación').", true),
+        ToolParameter("habit", "string", "Habit name (e.g. 'water', 'exercise', 'meditation').", true),
         ToolParameter("value", "string", "Optional quantity (e.g. '2 vasos', '30 min', '5 km').", false),
         ToolParameter("note", "string", "Optional note.", false),
     )

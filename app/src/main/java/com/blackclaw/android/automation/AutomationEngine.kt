@@ -29,7 +29,7 @@ object AutomationEngine {
             .filter { it.enabled && it.trigger == AutomationRuleStore.Trigger.NOTIFICATION }
             .filter { notificationMatches(it, packageName, title, text) }
             .filter { cooldownReady(it) }
-            .forEach { fire(context, it, "Notificación de $title") }
+            .forEach { fire(context, it, "Notification from $title") }
     }
 
     fun onLocation(context: Context, location: Location) {
@@ -53,7 +53,7 @@ object AutomationEngine {
                     AutomationRuleStore.Trigger.LOCATION_EXIT -> wasInside && !inside
                     else -> false
                 }
-                if (crossed && cooldownReady(rule)) fire(context, rule, "Ubicación detectada")
+                if (crossed && cooldownReady(rule)) fire(context, rule, "Location detected")
             }
     }
 
@@ -77,15 +77,15 @@ object AutomationEngine {
                 )
             }
             .filter { cooldownReady(it) }
-            .forEach { fire(context, it, "Ubicación detectada") }
+            .forEach { fire(context, it, "Location detected") }
     }
 
-    fun fire(context: Context, rule: AutomationRuleStore.Rule, reason: String = "Ejecución manual") {
+    fun fire(context: Context, rule: AutomationRuleStore.Rule, reason: String = "Manual execution") {
         AutomationRuleStore.markRun(rule.id)
         if (isWakeAction(rule.actionText)) {
             val item = AssistantStore.create(
                 type = AssistantItemType.ALARM,
-                title = rule.name.ifBlank { "Alerta de automatización" },
+                title = rule.name.ifBlank { "Automation alert" },
                 body = reason,
                 triggerAtMs = System.currentTimeMillis() + 1_500L,
                 challenge = "none", source = "automation",
@@ -127,7 +127,7 @@ object AutomationEngine {
 
     private fun isWakeAction(text: String): Boolean {
         val s = text.lowercase()
-        return listOf("despiértame", "despiertame", "wake me", "haz sonar una alarma", "activa una alarma")
+        return listOf("wake me", "set an alarm", "activate an alarm")
             .any { it in s }
     }
 

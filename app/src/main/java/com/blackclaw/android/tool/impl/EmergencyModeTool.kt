@@ -19,7 +19,7 @@ class EmergencyModeTool : BaseTool() {
     override fun getParameters() = listOf(
         ToolParameter("action", "string", "start | stop | status", true),
         ToolParameter("mode", "string", "emergency | discreet. Default emergency.", false),
-        ToolParameter("cameras", "string", "none | front | back | both. 'Ambas cámaras' MUST map to both.", false),
+        ToolParameter("cameras", "string", "none | front | back | both.", false),
         ToolParameter("send_location", "boolean", "Send initial and five-minute location updates. Default true.", false),
         ToolParameter("recipient", "string", "Optional phone override for this session; otherwise trusted contact.", false),
     )

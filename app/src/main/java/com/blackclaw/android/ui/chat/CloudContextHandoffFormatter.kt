@@ -55,7 +55,7 @@ object CloudContextHandoffFormatter {
         val normalized = content.lowercase()
         return listOf(
             "cargar herramienta", "herramienta", "tool", "create contacts", "create_contacts",
-            "failed", "falló", "fallo", "error", "intentando", "ejecutando",
+            "failed", "failure", "error", "trying", "executing",
             "guardad", "agregad", "permission", "task", "task",
         ).any { it in normalized }
     }

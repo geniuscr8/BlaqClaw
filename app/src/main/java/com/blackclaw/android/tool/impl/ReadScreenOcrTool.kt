@@ -32,7 +32,7 @@ class ReadScreenOcrTool : BaseTool() {
         if (!ScreenCaptureService.isRunning()) {
             ScreenCapturePermissionActivity.start(ClawApplication.instance)
             return ToolResult.error(
-                "Pidiendo permiso de captura de pantalla. Espera 2 segundos y vuelve a llamar a esta herramienta."
+                "Requesting screen-capture permission. Wait 2 seconds and call this tool again."
             )
         }
         val bmp = ScreenCaptureService.captureBitmap()

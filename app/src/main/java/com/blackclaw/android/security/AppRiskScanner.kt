@@ -98,15 +98,15 @@ object AppRiskScanner {
             val sideloaded = installer == null || installer !in PLAY_STORE
             if (sideloaded && !isSystem) {
                 score += 2
-                reasons.add(if (installer == null) "Origen de instalación desconocido"
-                    else "No se instaló desde Play Store ($installer)")
+                reasons.add(if (installer == null) "Unknown installation source"
+                    else "Not installed from the Play Store ($installer)")
             }
 
             val hidden = pm.getLaunchIntentForPackage(info.packageName) == null && !isSystem
-            if (hidden) { score += 5; reasons.add("No tiene icono en el lanzador (firma típica de adware tipo IconAds)") }
+            if (hidden) { score += 5; reasons.add("No launcher icon (typical IconAds adware signal)") }
 
             // Classic hidden-adware combo: can overlay AND hides its icon.
-            if (hidden && overlay) { score += 3; reasons.add("Combina superposición + icono oculto (patrón de anuncios fuera de contexto)") }
+            if (hidden && overlay) { score += 3; reasons.add("Combines overlay permission with a hidden icon (out-of-context ad pattern)") }
 
             val level = when {
                 score >= 8 -> Level.HIGH

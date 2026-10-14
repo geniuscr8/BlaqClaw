@@ -108,10 +108,10 @@ object AutomationProfileScheduler {
             "sun" to 1, "sunday" to 1, "dom" to 1, "domingo" to 1,
             "mon" to 2, "monday" to 2, "lun" to 2, "lunes" to 2,
             "tue" to 3, "tuesday" to 3, "mar" to 3, "martes" to 3,
-            "wed" to 4, "wednesday" to 4, "mie" to 4, "miércoles" to 4,
+            "wed" to 4, "wednesday" to 4,
             "thu" to 5, "thursday" to 5, "jue" to 5, "jueves" to 5,
             "fri" to 6, "friday" to 6, "vie" to 6, "viernes" to 6,
-            "sat" to 7, "saturday" to 7, "sab" to 7, "sábado" to 7,
+            "sat" to 7, "saturday" to 7,
         )
         return raw.split(',', '|', ' ').mapNotNull { token ->
             token.toIntOrNull()?.takeIf { it in 1..7 } ?: names[token.lowercase()]

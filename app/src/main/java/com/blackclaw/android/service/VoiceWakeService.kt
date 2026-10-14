@@ -155,7 +155,7 @@ class VoiceWakeService : Service() {
             }
             pendingDecisionId = null
             val low = command.lowercase()
-            val yes = listOf("sí", "si", "confirmo", "confirma", "hazlo", "dale", "adelante", "ok", "vale", "claro")
+            val yes = listOf("yes", "confirm", "confirmed", "do it", "go ahead", "ok", "sure", "of course")
             val confirmed = yes.any { low.contains(it) }
             if (confirmed) {
                 say("De acuerdo, jefe.", pendingConfirmWhisper)

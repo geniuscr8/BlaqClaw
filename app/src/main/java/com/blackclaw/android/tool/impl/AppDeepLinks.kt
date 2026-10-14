@@ -173,7 +173,7 @@ object AppDeepLinks {
             openUri = "freenow://", webFallback = "https://free-now.com/"),
         Entry("indrive", listOf("indrive", "indriver"), "sinet.startup.inDriver",
             openUri = "indrive://", webFallback = "https://indrive.com/"),
-        Entry("moovit", listOf("moovit", "transporte publico", "transporte público"), "com.tranzmate",
+        Entry("moovit", listOf("moovit", "public transit"), "com.tranzmate",
             openUri = "moovit://", webFallback = "https://moovit.com/"),
 
         // ── Comida / delivery ──
@@ -369,10 +369,10 @@ object AppDeepLinks {
         Entry("word", listOf("word", "microsoft word", "documento word"),
             "com.microsoft.office.word",
             openUri = "ms-word://", webFallback = "https://office.com/"),
-        Entry("excel", listOf("excel", "microsoft excel", "hoja de calculo", "hoja de cálculo"),
+        Entry("excel", listOf("excel", "microsoft excel", "spreadsheet"),
             "com.microsoft.office.excel",
             openUri = "ms-excel://", webFallback = "https://office.com/"),
-        Entry("powerpoint", listOf("powerpoint", "power point", "presentacion", "presentación"),
+        Entry("powerpoint", listOf("powerpoint", "power point", "presentation"),
             "com.microsoft.office.powerpoint",
             openUri = "ms-powerpoint://", webFallback = "https://office.com/"),
         Entry("teams", listOf("teams", "microsoft teams"), "com.microsoft.teams",

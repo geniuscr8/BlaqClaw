@@ -92,7 +92,7 @@ class AutoFailoverLlmClient(
 
     private fun requireUsableResponse(response: LlmResponse) {
         if (response.text.isNullOrBlank() && !response.hasToolExecutionRequests()) {
-            throw IllegalStateException("El modelo no devolvió una respuesta")
+            throw IllegalStateException("The model returned no response")
         }
     }
 
@@ -124,7 +124,7 @@ class AutoFailoverLlmClient(
             }
         }
         throw IllegalStateException(
-            "No se pudo conectar con ningún modelo configurado",
+            "Could not connect to any configured model",
             lastError,
         )
     }

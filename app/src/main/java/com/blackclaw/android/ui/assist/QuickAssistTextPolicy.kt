@@ -5,9 +5,7 @@ internal object QuickAssistTextPolicy {
     fun isFarewell(command: String): Boolean {
         val text = command.lowercase().trim()
         val phrases = listOf(
-            "gracias", "muchas gracias", "adiós", "adios", "hasta luego", "nos vemos",
-            "eso es todo", "nada más", "nada mas", "ya está", "ya esta", "listo gracias",
-            "chao", "bye", "thanks", "thank you", "that's all", "cállate", "callate", "ya no",
+            "bye", "thanks", "thank you", "that's all", "be quiet", "stop",
         )
         return text.split(' ').size <= 3 && phrases.any { text == it || text.startsWith(it) }
     }
@@ -23,28 +21,23 @@ internal object QuickAssistTextPolicy {
 
     fun isScreenQuery(command: String): Boolean {
         val text = command.lowercase().trim()
-        return text.contains("que hay en mi pantalla") || text.contains("qué hay en mi pantalla") ||
-            text.contains("que ves en pantalla") || text.contains("qué ves en pantalla") ||
-            text.contains("que estoy viendo") || text.contains("qué estoy viendo") ||
-            text.contains("lee mi pantalla") || text.contains("leeme la pantalla") ||
-            text.contains("que dice la pantalla") || text.contains("qué dice la pantalla") ||
-            text.contains("what's on my screen") || text.contains("read my screen") ||
-            text.contains("que app estoy usando") || text.contains("dónde estoy") ||
-            text.contains("donde estoy")
+        return text.contains("what is on my screen") || text.contains("what do you see on screen") ||
+            text.contains("what am i looking at") || text.contains("read my screen") ||
+            text.contains("what does the screen say") || text.contains("what app am i using") ||
+            text.contains("where am i")
     }
 
     fun friendlyError(raw: String): String {
         val error = raw.lowercase()
         return when {
-            error.contains("no está instalada") || error.contains("not installed") || error.contains("no instalada") ->
+            error.contains("not installed") ->
                 "That app is not installed. Should I install it from the Play Store?"
-            error.contains("permission") || error.contains("permission") || error.contains("accesibilidad") ||
-                error.contains("accessibility") -> "I need a permission for that. Check it in Settings."
-            error.contains("not_found") || error.contains("no encontr") || error.contains("not found") ->
+            error.contains("permission") || error.contains("accessibility") -> "I need a permission for that. Check it in Settings."
+            error.contains("not_found") || error.contains("not found") ->
                 "I could not find that element on screen. Should I try another way?"
-            error.contains("network") || error.contains("timeout") || error.contains("conexión") || error.contains("conexion") ->
+            error.contains("network") || error.contains("timeout") ->
                 "There was a connection problem."
-            error.contains("rate") || error.contains("límite") || error.contains("limite") || error.contains("429") ->
+            error.contains("rate") || error.contains("429") ->
                 "The model is busy right now. Try again in a few seconds."
             error.contains("401") || error.contains("403") || error.contains("unauthor") ->
                 "That model is no longer available; I switched to another free model. Try again."
@@ -56,10 +49,8 @@ internal object QuickAssistTextPolicy {
     fun recoveryFor(raw: String): QuickAssistRecovery? {
         val error = raw.lowercase()
         return when {
-            error.contains("permission") || error.contains("permission") ||
-                error.contains("accesibilidad") || error.contains("accessibility") -> QuickAssistRecovery.ACCESSIBILITY
-            error.contains("network") || error.contains("timeout") || error.contains("conexión") ||
-                error.contains("conexion") -> QuickAssistRecovery.CONNECTION
+            error.contains("permission") || error.contains("accessibility") -> QuickAssistRecovery.ACCESSIBILITY
+            error.contains("network") || error.contains("timeout") -> QuickAssistRecovery.CONNECTION
             error.isNotBlank() -> QuickAssistRecovery.RETRY
             else -> null
         }
@@ -86,9 +77,6 @@ internal object QuickAssistTextPolicy {
 
     fun stripReasoning(text: String): String {
         val reasoningPatterns = listOf(
-            Regex("""(?i)^(respond[ií]|contest[eé]|ofrec[ií]|ayud[oé]|salud[oé]|pregunt[oé])\s+(al|a la|el|la)\s+usuario.*"""),
-            Regex("""(?i)^(debo|voy a|necesito|tengo que|puedo|quiero)\s+(responder|contestar|ayudar|saludar|preguntar|decir).*"""),
-            Regex("""(?i)^el usuario (quiere|pide|dice|necesita|solicita).*"""),
             Regex("""(?i)^(i should|i will|i need to|i can|the user wants|the user is).*"""),
             Regex("""(?i)^(let me|first,? i|now i|then i|ok,? so).*"""),
         )

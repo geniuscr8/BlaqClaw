@@ -24,7 +24,7 @@ import java.io.File
 object AutomaticModelManager {
 
     private const val BENCHMARK_KEY = "blaqclaw_auto_model_benchmarks_v1"
-    private const val PROBE_PROMPT = "Responde únicamente OK."
+    private const val PROBE_PROMPT = "Respond only with OK."
     private const val PROBE_SYSTEM = "Responde con una sola palabra: OK."
 
     private val gson = Gson()
@@ -335,7 +335,7 @@ object AutomaticModelManager {
                         prompt = PROBE_PROMPT,
                         temperature = 0.0,
                     )
-                    if (local.text.isNullOrBlank()) error("Respuesta vacía")
+                    if (local.text.isNullOrBlank()) error("Empty response")
                 } else {
                     client = LlmClientFactory.createSingle(
                         candidate.toAgentConfig(template),
@@ -346,7 +346,7 @@ object AutomaticModelManager {
                         emptyList(),
                     )
                     if (response.text.isNullOrBlank() && !response.hasToolExecutionRequests()) {
-                        error("Respuesta vacía")
+                        error("Empty response")
                     }
                 }
                 BenchmarkResult(

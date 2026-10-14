@@ -30,7 +30,7 @@ class TapBurstTool : BaseTool() {
         ToolParameter("y", "integer", "Y coordinate", true),
         ToolParameter("count", "integer", "Number of taps (2..30).", true),
         ToolParameter("interval_ms", "integer",
-            "Pausa entre taps (default 30ms). 0 = lo más rápido posible.", false),
+            "Pause between taps (default 30ms). 0 = as fast as possible.", false),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {
@@ -52,9 +52,9 @@ class TapBurstTool : BaseTool() {
         }
 
         val service = requireAccessibilityService()
-            ?: return ToolResult.error("Accessibility service no activo")
+            ?: return ToolResult.error("Accessibility service is not active")
         val ok = service.performTapBurst(x, y, count, interval)
         return if (ok) ToolResult.success("$count taps en ($x, $y) cada ${interval}ms")
-        else ToolResult.error("El gesto fue cancelado")
+        else ToolResult.error("The gesture was cancelled")
     }
 }

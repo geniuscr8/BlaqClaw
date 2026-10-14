@@ -53,13 +53,13 @@ class SleepLogTool : BaseTool() {
     override fun getName() = "sleep_log"
     override fun getDisplayName() = "Record sleep"
     override fun getDescriptionEN() =
-        "Log sleep data. Use when user says 'dormí 7 horas', 'me acosté tarde', 'dormí mal', etc."
+        "Log sleep data. Use when the user says 'I slept 7 hours', 'I went to bed late', 'I slept badly', etc."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "records sleep hours and quality"
     override fun getParameters() = listOf(
         ToolParameter("hours", "number", "Hours slept (e.g. 7.5).", false),
         ToolParameter("quality", "string", "bad|ok|good|great. Or 1-10.", false),
-        ToolParameter("note", "string", "Optional note (e.g. 'me desperté a las 3').", false),
+        ToolParameter("note", "string", "Optional note (e.g. 'I woke up at 3').", false),
     )
     override fun execute(params: Map<String, Any>): ToolResult {
         val hours = (params["hours"] as? Number)?.toDouble()

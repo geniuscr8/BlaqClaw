@@ -54,16 +54,16 @@ data class AutoReplyProfile(
             appendLine()
         }
         if (conversationContext.isNotBlank()) {
-            appendLine("## Historial de cómo responde el usuario (imítalo)")
+        appendLine("## User response history (imitate it)")
             appendLine(conversationContext.trim().take(8000))
             appendLine()
         }
-        appendLine("## Instrucciones de ejecución")
+        appendLine("## Execution instructions")
         appendLine("1. Abre $app y revisa los mensajes recientes de \"$contactName\".")
         appendLine("2. Si hay un mensaje sin responder, escribe una respuesta siguiendo la personalidad y el historial.")
-        appendLine("3. Si el contexto sugiere que el usuario está ocupado, responde brevemente excusándote.")
+        appendLine("3. If the context suggests the user is busy, reply briefly and apologize.")
         appendLine("4. NO respondas a mensajes que no sean del contacto especificado.")
-        appendLine("5. Después de responder, llama finish() con un resumen.")
+        appendLine("5. After replying, call finish() with a summary.")
     }
 
     companion object {
@@ -83,7 +83,7 @@ data class AutoReplyProfile(
         fun blank() = AutoReplyProfile(
             id = UUID.randomUUID().toString().take(8),
             contactName = "", app = "WhatsApp",
-            personality = "Responde de forma natural y breve, como lo haría yo.",
+            personality = "Respond naturally and briefly, as I would.",
             conversationContext = "",
             enabled = true, cronEnabled = false, cronIntervalMinutes = 15,
             createdAtMs = System.currentTimeMillis(),
