@@ -12,6 +12,7 @@ Recommended local inputs:
 
 ```bash
 export KEYSTORE_FILE=/absolute/path/to/blaqclaw-release.keystore
+export KEYSTORE_TYPE=PKCS12
 export KEYSTORE_PASSWORD=...
 export KEY_ALIAS=blaqclaw-release
 export KEY_PASSWORD=...

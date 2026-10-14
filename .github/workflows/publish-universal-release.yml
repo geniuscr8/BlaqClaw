@@ -57,6 +57,7 @@ jobs:
           echo "$ANDROID_KEYSTORE_B64" | base64 --decode > "$key_path"
           cat > local.properties <<EOF
           KEYSTORE_FILE=$key_path
+          KEYSTORE_TYPE=PKCS12
           KEYSTORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
           KEY_ALIAS=$ANDROID_KEY_ALIAS
           KEY_PASSWORD=$ANDROID_KEY_PASSWORD

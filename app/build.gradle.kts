@@ -51,6 +51,8 @@ android {
             }
             if (keystorePath.isNotEmpty()) {
                 storeFile = file(keystorePath)
+                val keystoreType = readSigningValue("KEYSTORE_TYPE")
+                if (keystoreType.isNotEmpty()) storeType = keystoreType
                 storePassword = readSigningValue("KEYSTORE_PASSWORD")
                 keyAlias = readSigningValue("KEY_ALIAS")
                 keyPassword = readSigningValue("KEY_PASSWORD")
