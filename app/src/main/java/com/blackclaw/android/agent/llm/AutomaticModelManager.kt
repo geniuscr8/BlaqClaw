@@ -26,6 +26,7 @@ object AutomaticModelManager {
     private const val BENCHMARK_KEY = "blaqclaw_auto_model_benchmarks_v1"
     private const val PROBE_PROMPT = "Respond only with OK."
     private const val PROBE_SYSTEM = "Answer with a single word: OK."
+    private const val FAILURE_COOLDOWN_MS = 2 * 60_000L
 
     private val gson = Gson()
     private val resultLock = Any()
@@ -238,7 +239,18 @@ object AutomaticModelManager {
             candidates
         }
 
-        return effective.sortedWith(
+        // Do not start every new task with a provider that just failed. Keep
+        // it in the fallback pool, but give healthy candidates a chance first.
+        // If every candidate is cooling down, retain the full pool so AUTO
+        // never becomes unusable because of one transient outage.
+        val now = System.currentTimeMillis()
+        val ready = effective.filter { candidate ->
+            val record = records[candidate.key]
+            record == null || record.success || now - record.testedAt >= FAILURE_COOLDOWN_MS
+        }
+        val pool = if (ready.isNotEmpty()) ready else effective
+
+        return pool.sortedWith(
             compareBy<Candidate> {
                 // Online AUTO should try cloud first; offline AUTO must never
                 // waste a round trip before using a downloaded model.
