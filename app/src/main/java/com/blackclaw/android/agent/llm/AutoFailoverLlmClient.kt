@@ -115,6 +115,13 @@ class AutoFailoverLlmClient(
                 }
                 return result
             } catch (error: Exception) {
+                // Cancellation is a control-flow signal, not a provider
+                // failure. Falling over here can resurrect a task the user
+                // explicitly stopped and may start a second network request.
+                if (isCancellation(error)) {
+                    if (error is InterruptedException) Thread.currentThread().interrupt()
+                    throw error
+                }
                 lastError = error
                 candidate?.let {
                     AutomaticModelManager.recordRuntimeFailure(it, elapsedMs(started), error)
@@ -156,4 +163,17 @@ class AutoFailoverLlmClient(
 
     private fun elapsedMs(started: Long): Long =
         ((System.nanoTime() - started) / 1_000_000L).coerceAtLeast(1L)
+
+    private fun isCancellation(error: Throwable): Boolean {
+        var current: Throwable? = error
+        repeat(6) {
+            if (current is InterruptedException) return true
+            val message = current?.message.orEmpty()
+            if (message.contains("cancelled", ignoreCase = true) ||
+                message.contains("canceled", ignoreCase = true) ||
+                message.contains("interrupted", ignoreCase = true)) return true
+            current = current?.cause
+        }
+        return Thread.currentThread().isInterrupted
+    }
 }

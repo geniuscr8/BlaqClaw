@@ -11,4 +11,12 @@ data class LlmResponse(
     val modelName: String? = null
 ) {
     fun hasToolExecutionRequests(): Boolean = toolExecutionRequests.isNotEmpty()
+
+    /** Reject transport-level success responses that contain no usable output. */
+    fun requireUsable(): LlmResponse {
+        if (text.isNullOrBlank() && !hasToolExecutionRequests()) {
+            throw IllegalStateException("The model returned an empty response")
+        }
+        return this
+    }
 }

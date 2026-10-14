@@ -53,7 +53,7 @@ class AnthropicLlmClient(
             .toolSpecifications(toolSpecs)
             .build()
         val response = chatModel.chat(request)
-        return response.toLlmResponse()
+        return response.toLlmResponse().requireUsable()
     }
 
     override fun chatStreaming(
@@ -76,7 +76,7 @@ class AnthropicLlmClient(
             }
 
             override fun onCompleteResponse(response: ChatResponse) {
-                val llmResponse = response.toLlmResponse()
+                val llmResponse = response.toLlmResponse().requireUsable()
                 resultRef.set(llmResponse)
                 listener.onComplete(llmResponse)
                 latch.countDown()

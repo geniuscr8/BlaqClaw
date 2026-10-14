@@ -216,13 +216,27 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
         ensureEngine()
         prepareAgentContextIfNeeded(messages, toolSpecs)
 
-        // Detect new task or recreate needed
-        if (processedMessageCount == 0 || messages.size < processedMessageCount || sendCount >= 8) {
-            val systemPrompt = messages.filterIsInstance<SystemMessage>().firstOrNull()?.text()
+        // Detect a new task or recreate after several turns. After a long
+        // stateful session, fold the previous turns into a compact system
+        // prompt and send only the newest message; resending the full history
+        // defeats the reset and is a common source of local context overflow.
+        val recreateForTurns = sendCount >= 8 && messages.size > 1
+        if (processedMessageCount == 0 || messages.size < processedMessageCount || recreateForTurns) {
+            val baseSystemPrompt = messages.filterIsInstance<SystemMessage>().firstOrNull()?.text()
                 ?: config.systemPrompt.ifEmpty { LOCAL_SYSTEM_PROMPT }
+            val tuning = LocalModelTuningStore.get(config.baseUrl)
+            val systemPrompt = if (recreateForTurns) {
+                compactAgentSystemPrompt(baseSystemPrompt, messages.dropLast(1), tuning)
+            } else {
+                baseSystemPrompt
+            }
             createConversation(systemPrompt, toolSpecs)
             sendCount = 0
-            processedMessageCount = 0
+            processedMessageCount = if (recreateForTurns) {
+                (messages.size - 1).coerceAtLeast(0)
+            } else {
+                0
+            }
         }
 
         // Find new messages to send
@@ -260,8 +274,11 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
                 }
                 is AiMessage -> { /* already in conversation state */ }
                 is ToolExecutionResultMessage -> {
-                    // Truncate tool results to prevent token overflow + reduce crash risk
-                    val truncatedResult = msg.text().take(400)
+                    // Keep both the beginning and the conclusion of a result.
+                    // A head-only slice often drops the actual answer from lists,
+                    // diagnostics, and confirmations while still consuming the
+                    // same context budget.
+                    val truncatedResult = compactToolResult(msg.text(), 900)
                     val toolResultText = "[Tool ${msg.toolName()} result]: $truncatedResult"
                     val conv = conversation ?: throw RuntimeException("LiteRT-LM conversation not initialized — engine may have failed to load the model")
                     XLog.d(TAG, "chat: sendMessage toolResult chars=${toolResultText.length} sendCount=$sendCount")
@@ -360,6 +377,14 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
             text = responseText,
             toolExecutionRequests = emptyList()
         )
+    }
+
+    private fun compactToolResult(raw: String, maxChars: Int): String {
+        val normalized = raw.replace(Regex("\\s+"), " ").trim()
+        if (normalized.length <= maxChars) return normalized
+        val head = (maxChars * 2 / 3).coerceAtLeast(1)
+        val tail = (maxChars - head).coerceAtLeast(1)
+        return normalized.take(head) + " … [middle omitted] … " + normalized.takeLast(tail)
     }
 
     /**
