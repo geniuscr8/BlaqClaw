@@ -12,14 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.zip.ZipInputStream
 
 /**
- * Manages offline Vosk speech models for the wake-word engine — now multi-language.
- *
- *  - Spanish (es): ships BUNDLED in the APK (assets/vosk-model-es.zip), unpacked
- *    on first use. Always available, zero download.
- *  - English (en): DOWNLOADABLE on demand (kept out of the APK to stay small).
- *
- * The user picks the recognition language; the engine loads that model and uses
- * the matching wake word ("garra" for ES, "claw" for EN).
+ * Manages the English offline Vosk speech model for the wake-word engine.
+ * The English model is downloaded on demand and kept out of the APK to reduce
+ * the application size.
  */
 object VoskModelManager {
 
@@ -32,12 +27,11 @@ object VoskModelManager {
         val url: String?,        // download url (null = bundled only)
         val wakeWord: String,
     ) {
-        ES("es", "vosk-model-es", "vosk-model-es.zip", null, "garra"),
         EN("en", "vosk-model-en", null,
             "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip", "claw"),
         ;
         companion object {
-            fun of(code: String): Lang = entries.firstOrNull { it.code == code } ?: ES
+            fun of(code: String): Lang = entries.firstOrNull { it.code == code } ?: EN
         }
     }
 
@@ -97,11 +91,8 @@ object VoskModelManager {
         }
     }
 
-    /** Ensure the bundled Spanish model is unpacked in the background. */
-    fun prepareIfNeeded() {
-        if (isReady(Lang.ES) || preparing || !isBundled(Lang.ES)) return
-        download(Lang.ES)
-    }
+    /** English is downloaded explicitly from Voice Settings. */
+    fun prepareIfNeeded() = Unit
 
     fun delete(lang: Lang) {
         runCatching {

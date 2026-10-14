@@ -230,7 +230,7 @@ class AssistantAgendaTool : BaseTool() {
             return c.timeInMillis
         }
         val (from, to) = when (range) {
-            "tomorrow", "mañana" -> startOfDay(1) to startOfDay(2)
+            "tomorrow" -> startOfDay(1) to startOfDay(2)
             "week", "semana" -> now to startOfDay(8)
             "all", "todo" -> now to Long.MAX_VALUE
             else -> now to startOfDay(1) // today
@@ -239,7 +239,7 @@ class AssistantAgendaTool : BaseTool() {
             .filter { it.triggerAtMs < to }
         if (items.isEmpty()) {
             val label = when (range) {
-                "tomorrow", "mañana" -> "tomorrow"
+                "tomorrow" -> "tomorrow"
                 "week", "semana" -> "this week"
                 "all", "todo" -> "in the near future"
                 else -> "today"

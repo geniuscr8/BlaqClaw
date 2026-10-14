@@ -14,7 +14,7 @@ class VoiceModeTool : BaseTool() {
     override fun getDisplayName() = "Voice mode"
     override fun getDescriptionEN() =
         "Enable or disable hands-free voice mode. When on, say the wake word " +
-        "('garra' offline, or 'Hey BlaqClaw' online) followed by a command and BlaqClaw listens " +
+        "('claw' offline, or 'Hey BlaqClaw' online) followed by a command and BlaqClaw listens " +
         "and acts. action: on | off | download_offline (downloads the offline model ~40MB so it " +
         "works with no beep and no internet). Optionally set a custom wake_word."
     override fun getDescriptionCN() = getDescriptionEN()
@@ -40,15 +40,15 @@ class VoiceModeTool : BaseTool() {
             "status" -> {
                 val sb = StringBuilder()
                 sb.append("Voice mode: ${if (VoiceInputManager.wakeEnabled) "enabled" else "disabled"}\n")
-                sb.append("Backend: ${if (VoskModelManager.isReady()) "offline (Vosk, wake='garra')" else "online (SpeechRecognizer, wake='${VoiceInputManager.wakeWord}')"}\n")
-                sb.append("Reconocimiento disponible: ${VoiceInputManager.isAvailable()}")
+                sb.append("Backend: ${if (VoskModelManager.isReady()) "offline (Vosk, wake='claw')" else "online (SpeechRecognizer, wake='${VoiceInputManager.wakeWord}')"}\n")
+                sb.append("Recognition available: ${VoiceInputManager.isAvailable()}")
                 ToolResult.success(sb.toString())
             }
             "on" -> {
                 VoiceInputManager.wakeEnabled = true
                 runCatching { com.blackclaw.android.service.VoiceWakeService.start(com.blackclaw.android.ClawApplication.instance) }
                 val backend = if (VoskModelManager.isReady())
-                    "offline (di 'garra' + tu orden, sin beep ni internet, funciona en segundo plano)"
+                    "offline (say 'claw' + your command; no beep or internet required)"
                 else
                     "online (di '${VoiceInputManager.wakeWord}' + tu orden). Para el modo offline sin beep, usa download_offline."
                 ToolResult.success("🎤 Voice mode enabled — $backend")

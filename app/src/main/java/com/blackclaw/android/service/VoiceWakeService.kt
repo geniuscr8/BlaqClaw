@@ -27,7 +27,7 @@ import java.util.UUID
 /**
  * Always-listening voice wake service.
  *
- * Owns the wake-word loop as a foreground service so "garra, …" works even when
+ * Owns the wake-word loop as a foreground service so "claw, …" works even when
  * the app is closed or the screen is off. On wake + command it runs the command
  * as a task and speaks the result back.
  *
@@ -258,15 +258,12 @@ class VoiceWakeService : Service() {
         updateNotif("paused_assist")
     }
 
-    /** Heuristic destructive-intent check for spoken commands (ES/EN). */
+    /** Heuristic destructive-intent check for English spoken commands. */
     private fun isDestructive(command: String): Boolean {
         val c = command.lowercase()
         val patterns = listOf(
-            "borra todo", "borrar todo", "elimina todo", "eliminar todo",
-            "formatea", "formatear", "restablece", "restablecer de fábrica", "restablecer de fabrica",
-            "desinstala", "desinstalar", "envía dinero", "envia dinero", "transfiere", "transferir",
-            "paga ", "pagar ", "confirma la compra", "borra todos", "elimina todos",
-            "delete all", "factory reset", "uninstall", "send money", "transfer ",
+            "delete everything", "delete all", "format", "factory reset", "uninstall",
+            "send money", "transfer ", "pay ", "confirm the purchase",
         )
         return patterns.any { c.contains(it) }
     }

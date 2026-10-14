@@ -76,11 +76,11 @@ class DateMathTool : BaseTool() {
 
     private fun parseDate(input: String): Date? {
         val s = input.trim().lowercase()
-        if (s == "today" || s == "hoy" || s == "now") return Date()
-        if (s == "yesterday" || s == "ayer") {
+        if (s == "today" || s == "now") return Date()
+        if (s == "yesterday") {
             val c = Calendar.getInstance(); c.add(Calendar.DAY_OF_YEAR, -1); return c.time
         }
-        if (s == "tomorrow" || s == "mañana") {
+        if (s == "tomorrow") {
             val c = Calendar.getInstance(); c.add(Calendar.DAY_OF_YEAR, 1); return c.time
         }
         for (p in listOf("yyyy-MM-dd HH:mm", "yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy")) {

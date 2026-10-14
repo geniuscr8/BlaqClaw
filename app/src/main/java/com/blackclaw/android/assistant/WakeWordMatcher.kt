@@ -4,8 +4,7 @@ package com.blackclaw.android.assistant
  * Fuzzy wake-word matching.
  *
  * The Android SpeechRecognizer transcribes a non-dictionary word like
- * "BlaqClaw" very inconsistently — especially in Spanish (es-ES), where it
- * tends to hear "black law", "blaclo", "black o", "blac claw", "garra negra"…
+ * "BlaqClaw" inconsistently, sometimes as "black law", "blaclo", or "black o".
  * A naive `contains("blaqclaw")` almost never fires.
  *
  * This matcher:
@@ -25,18 +24,12 @@ object WakeWordMatcher {
     private val DEFAULT_VARIANTS = listOf(
         "blaqclaw", "blaq claw", "blac claw", "black law", "black lo",
         "blaclo", "blaclaw", "blakclo", "black o", "blackclo", "blak claw",
-        "blackcla", "blakla", "garra", "garra negra",
-    )
-
-    /** Common mishearings for the "garra" wake word (es-ES recognizer). */
-    private val GARRA_VARIANTS = listOf(
-        "garra", "gara", "garrá", "agarra", "agara", "garda", "garras",
-        "gará", "gadra", "graga", "garro", "carra", "garrar",
+        "blackcla", "blakla",
     )
 
     /** Max Levenshtein distance for a fuzzy token match (scales with length).
-     *  Kept tight for short words to avoid false triggers on common Spanish
-     *  words (e.g. "blanco" must NOT match "blaclo"). Known mishearings are
+     *  Kept tight for short words to avoid false triggers on common words.
+     *  Known mishearings are
      *  handled as exact entries in DEFAULT_VARIANTS instead. */
     private fun tolerance(len: Int): Int = when {
         len <= 7 -> 1
@@ -65,7 +58,6 @@ object WakeWordMatcher {
         }
         return when (w) {
             "blaqclaw" -> (DEFAULT_VARIANTS + base).distinct()
-            "garra" -> (GARRA_VARIANTS + base).distinct()
             else -> base.distinct()
         }
     }

@@ -15,12 +15,9 @@ import kotlin.concurrent.thread
  * push-to-talk (the assist panel) when the system SpeechRecognizer is unusable.
  *
  * Why this exists: some OEM ROMs (HonorOS/MagicOS observed) either point the
- * DEFAULT recognizer at a component that fails to bind, or ship Google's
- * on-device "Soda" recognizer WITHOUT the Spanish language pack downloaded
- * ("Returning no LP, as MDD has not downloaded this pack") — so both online and
- * offline Google paths fail with error 12/13. Vosk needs none of that: the
- * Spanish model ships bundled in the app, works fully offline, no Google
- * Speech Services, no language-pack download, no network.
+ * DEFAULT recognizer at a component that fails to bind, or fail to provide a
+ * usable offline language pack. Vosk needs none of that: the English model is
+ * downloaded on demand and works fully offline after preparation.
  *
  * Listens until it hears a complete utterance, then a short trailing silence,
  * and returns the transcript. Overall + post-speech-silence timeouts guard it.

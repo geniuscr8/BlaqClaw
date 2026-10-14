@@ -259,8 +259,7 @@ private fun VoiceSettingsScreen(
                 var dlProg by remember { mutableStateOf(0) }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    listOf(VoskModelManager.Lang.ES to "Spanish (claw)",
-                           VoskModelManager.Lang.EN to "English (claw)").forEach { (lang, label) ->
+                    listOf(VoskModelManager.Lang.EN to "English (claw)").forEach { (lang, label) ->
                         val selected = activeLang == lang
                         Box(
                             modifier = Modifier
@@ -313,7 +312,7 @@ private fun VoiceSettingsScreen(
                     }
                 }
                 HorizontalDivider(color = Color.White.copy(alpha = 0.06f))
-                Text("Reconocimiento offline", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text("English offline recognition", color = textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 val statusText = when {
                     modelReady -> "✓ Ready — works without internet or a beep (wake word: \"claw\")"
                     preparing -> "⏳ Preparing the model… $progress%"

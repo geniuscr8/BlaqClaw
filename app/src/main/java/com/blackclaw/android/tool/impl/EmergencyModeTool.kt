@@ -28,18 +28,18 @@ class EmergencyModeTool : BaseTool() {
         val action = requireString(params, "action").lowercase()
         val context = ClawApplication.instance
         return when (action) {
-            "start", "activar", "iniciar" -> {
+            "start" -> {
                 if (!EmergencyConfig.isReady) {
                     ToolResult.error("First configure a trusted contact in Settings → Emergency mode.")
                 } else {
                     val mode = when (optionalString(params, "mode", "emergency").lowercase()) {
-                        "discreet", "discreto", "discreta" -> EmergencyMode.DISCREET
+                        "discreet" -> EmergencyMode.DISCREET
                         else -> EmergencyMode.EMERGENCY
                     }
                     val cameras = when (optionalString(params, "cameras", "back").lowercase()) {
-                        "both", "ambas", "ambos", "two", "2" -> EmergencyCameras.BOTH
-                        "front", "frontal", "selfie" -> EmergencyCameras.FRONT
-                        "none", "ninguna", "audio" -> EmergencyCameras.NONE
+                        "both", "two", "2" -> EmergencyCameras.BOTH
+                        "front", "selfie" -> EmergencyCameras.FRONT
+                        "none", "audio" -> EmergencyCameras.NONE
                         else -> EmergencyCameras.BACK
                     }
                     val options = EmergencyStartOptions(mode, cameras,
@@ -50,11 +50,11 @@ class EmergencyModeTool : BaseTool() {
                     } else ToolResult.error("Could not start protection mode.")
                 }
             }
-            "stop", "detener", "cancelar" -> {
+            "stop" -> {
                 EmergencyService.stop(context)
                 ToolResult.success("Emergency mode stopped.")
             }
-            "status", "estado" -> ToolResult.success(
+            "status" -> ToolResult.success(
                 "Protection: ${if (EmergencyService.isActive) "active" else "inactive"}. " +
                     "Mode: ${EmergencyService.activeMode?.name?.lowercase() ?: "none"}. " +
                     "Requested cameras: ${EmergencyService.activeCameras.name.lowercase()}. " +
