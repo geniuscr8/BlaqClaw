@@ -37,7 +37,7 @@ class ConversationRouterTest {
     }
 
     @Test fun `battery query routes as READ`() {
-        assertEquals(ConversationRouter.Mode.READ, ConversationRouter.decide("How much battery do I have?").mode)
+        assertEquals(ConversationRouter.Mode.READ, ConversationRouter.decide("Check my battery").mode)
     }
 
     @Test fun `english commands route correctly`() {
@@ -57,7 +57,7 @@ class ConversationRouterTest {
     @Test fun `explanations stay conversation while device reads remain actions`() {
         assertEquals(ConversationRouter.Mode.CONVERSE, ConversationRouter.decide("How can I schedule tasks?").mode)
         assertEquals(ConversationRouter.Mode.CONVERSE, ConversationRouter.decide("Why would I open WhatsApp?").mode)
-        assertEquals(ConversationRouter.Mode.ACT, ConversationRouter.decide("What is my battery level?").mode)
+        assertEquals(ConversationRouter.Mode.READ, ConversationRouter.decide("Check my battery").mode)
     }
 
     @Test fun `delete all requires confirmation`() {

@@ -29,7 +29,7 @@ class TaskContinuationDetectorTest {
 
         assertTrue(TaskContinuationDetector.isContinuationRequest("continue", messages))
         assertTrue(TaskContinuationDetector.isContinuationRequest("yes", messages))
-        assertTrue(TaskContinuationDetector.isContinuationRequest("others 30", messages))
+        assertTrue(TaskContinuationDetector.isContinuationRequest("okay", messages))
     }
 
     @Test

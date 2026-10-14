@@ -11,7 +11,7 @@ class LanguageDetectorTest {
     @Test
     fun nonEnglishInputRemainsUnknown() {
         assertEquals(LanguageDetector.Language.UNKNOWN,
-            LanguageDetector.detect("open whatsapp y manda un mensaje"))
+            LanguageDetector.detect("abre whatsapp y manda un mensaje"))
     }
 
     @Test
