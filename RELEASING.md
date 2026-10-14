@@ -44,17 +44,23 @@ Without these secrets, `.github/workflows/release.yml` will fail closed and refu
 ## 3. Prepare a release
 
 1. Update `versionCode` and `versionName` in `app/build.gradle.kts`
-2. Add the changelog entry in `README.md`
-3. Build locally first:
+2. Add the matching `### vX.Y.Z` changelog entry in `README.md`
+3. Confirm the four GitHub signing secrets are configured:
+
+```bash
+gh secret list --repo geniuscr8/BlaqClaw
+```
+
+4. Build locally first:
 
 ```bash
 ./gradlew :app:assembleRelease
 sha256sum app/build/outputs/apk/release/*.apk
 ```
 
-4. Smoke-test the signed APK on a device
-5. Push `main`
-6. Push the tag:
+5. Smoke-test the signed APK on a device
+6. Push `main`
+7. Push the tag:
 
 ```bash
 git tag -a vX.Y.Z -m "vX.Y.Z"

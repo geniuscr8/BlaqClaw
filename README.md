@@ -24,6 +24,17 @@ the task is complete.
 > between manufacturers, and some capabilities require additional permissions or
 > privileged access. Review every permission and automation before enabling it.
 
+## Release notes
+
+### v1.3.4
+
+- Added the Control Center for setup health, encrypted backup and restore,
+  automation templates, privacy checks, and local action history.
+- Refreshed the BlaqClaw theme and launcher identity.
+- Hardened signed APK/AAB releases with tests, lint, checksums, mapping files,
+  and stable universal APK publishing.
+- Added dependency update monitoring and CodeQL security scanning.
+
 ## Contents
 
 - [What BlaqClaw does](#what-blaqclaw-does)

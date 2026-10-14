@@ -19,11 +19,25 @@ jobs:
     name: Analyze Android code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: temurin
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses >/dev/null
+      - name: Install Android SDK packages
+        run: sdkmanager "platform-tools" "platforms;android-36" "build-tools;35.0.0"
       - uses: github/codeql-action/init@v3
         with:
           languages: java-kotlin
-      - uses: github/codeql-action/autobuild@v3
+      # Autobuild cannot reliably discover this Kotlin/Android Gradle project.
+      # Build explicitly so CodeQL observes the Java and Kotlin compilation.
+      - name: Build for CodeQL
+        run: ./gradlew --no-daemon :app:assembleDebug -x lint -x test
       - uses: github/codeql-action/analyze@v3
         with:
           category: "/language:java-kotlin"
