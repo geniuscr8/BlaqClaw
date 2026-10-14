@@ -10,21 +10,9 @@ package com.blackclaw.android.agent
 object LanguageDetector {
 
     enum class Language(val code: String, val instruction: String) {
-        SPANISH("es", "Always respond in English."),
         ENGLISH("en", "Always respond in English."),
         UNKNOWN("", ""),
     }
-
-    private val SPANISH_MARKERS = setOf(
-        "abre", "abre", "manda", "envia", "envía", "busca", "pon", "dime",
-        "quiero", "necesito", "puedes", "haz", "hazme", "muestra", "cierra",
-        "llama", "escribe", "mañana", "hoy", "alarma", "recordatorio",
-        "cómo", "qué", "cuál", "dónde", "cuándo", "por qué", "cuánto",
-        "el", "la", "los", "las", "un", "una", "del", "al", "es", "está",
-        "tiene", "para", "con", "por", "que", "como", "pero", "más",
-        "también", "ahora", "después", "antes", "aquí", "todo", "nada",
-        "bien", "mal", "sí", "no", "yo", "tú", "él", "ella", "nosotros",
-    )
 
     private val ENGLISH_MARKERS = setOf(
         "open", "send", "search", "set", "tell", "show", "close",
@@ -44,26 +32,13 @@ object LanguageDetector {
         val words = text.lowercase().split(Regex("[\\s,.!?;:]+")).filter { it.length > 1 }
         if (words.size < 2) return Language.UNKNOWN
 
-        var esScore = 0
         var enScore = 0
         for (word in words) {
-            if (word in SPANISH_MARKERS) esScore++
             if (word in ENGLISH_MARKERS) enScore++
         }
 
-        // English accent characters are a strong signal
-        val accents = text.count { it in "áéíóúñ¿¡" }
-        esScore += accents * 2
-
         return when {
-            // Clear winner with at least 2 markers
-            esScore > enScore && esScore >= 2 -> Language.SPANISH
-            enScore > esScore && enScore >= 2 -> Language.ENGLISH
-            // Single marker but the other language has none → lean that way
-            esScore >= 1 && enScore == 0 -> Language.SPANISH
-            enScore >= 1 && esScore == 0 -> Language.ENGLISH
-            // Accents alone → English
-            accents > 0 -> Language.SPANISH
+            enScore >= 1 -> Language.ENGLISH
             else -> Language.UNKNOWN
         }
     }

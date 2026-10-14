@@ -41,11 +41,6 @@ object TaskParser {
             ?: matchBackHome(lower)
             ?: matchOpenUrl(lower, task)
             ?: matchOpenSettings(lower)
-            ?: matchPlayMusicEs(esn(lower), task)
-            ?: matchNavigateEs(esn(lower), task)
-            ?: matchRideEs(esn(lower), task)
-            ?: matchGameAutoclickerEs(esn(lower))
-            ?: matchOpenAppEs(esn(lower), task)
             ?: matchOpenApp(lower, task, installedPackages)
     }
 
