@@ -143,7 +143,7 @@ class SshHostKeyPolicyTest {
         assertTrue(message, message.contains("mi-pc"))
         assertTrue(message, message.contains("SHA256:PINNED"))
         assertTrue(message, message.contains("SHA256:PRESENTED"))
-        assertTrue(message, message.contains("No se envió la contraseña"))
+        assertTrue(message, message.contains("The password was not sent"))
     }
 
     @Test fun `first use message shows the fingerprint the user must verify`() {

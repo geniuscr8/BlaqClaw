@@ -7,27 +7,27 @@ import org.junit.Test
 
 class QuickAssistTextPolicyTest {
     @Test fun `farewells and greetings stay conversational`() {
-        assertTrue(QuickAssistTextPolicy.isFarewell("muchas gracias"))
-        assertTrue(QuickAssistTextPolicy.isGreeting("Hola BlaqClaw!"))
-        assertFalse(QuickAssistTextPolicy.isFarewell("gracias por buscar el clima de mañana"))
+        assertTrue(QuickAssistTextPolicy.isFarewell("thanks"))
+        assertTrue(QuickAssistTextPolicy.isGreeting("Hello BlaqClaw!"))
+        assertFalse(QuickAssistTextPolicy.isFarewell("thanks for checking tomorrow's weather"))
     }
 
-    @Test fun `screen questions are recognized in spanish and english`() {
-        assertTrue(QuickAssistTextPolicy.isScreenQuery("¿Qué hay en mi pantalla?"))
+    @Test fun `screen questions are recognized in English`() {
+        assertTrue(QuickAssistTextPolicy.isScreenQuery("What is on my screen?"))
         assertTrue(QuickAssistTextPolicy.isScreenQuery("read my screen"))
-        assertFalse(QuickAssistTextPolicy.isScreenQuery("cuéntame un chiste"))
+        assertFalse(QuickAssistTextPolicy.isScreenQuery("tell me a joke"))
     }
 
     @Test fun `failure classification returns useful recovery`() {
-        assertEquals(QuickAssistRecovery.ACCESSIBILITY, QuickAssistTextPolicy.recoveryFor("Falta permiso de accesibilidad"))
+        assertEquals(QuickAssistRecovery.ACCESSIBILITY, QuickAssistTextPolicy.recoveryFor("Accessibility permission is missing"))
         assertEquals(QuickAssistRecovery.CONNECTION, QuickAssistTextPolicy.recoveryFor("network timeout"))
         assertEquals(QuickAssistRecovery.RETRY, QuickAssistTextPolicy.recoveryFor("element not found"))
         assertEquals(null, QuickAssistTextPolicy.recoveryFor(""))
     }
 
     @Test fun `reasoning lines are removed without losing answer`() {
-        val cleaned = QuickAssistTextPolicy.stripReasoning("Debo responder al usuario con brevedad.\nListo, jefe.")
-        assertEquals("Listo, jefe.", cleaned)
+        val cleaned = QuickAssistTextPolicy.stripReasoning("I should answer the user briefly.\nReady, chief.")
+        assertEquals("Ready, chief.", cleaned)
     }
 
     @Test fun `sentence boundary waits for a useful chunk`() {

@@ -63,7 +63,7 @@ class AutomationProfileEngineTest {
                 mapOf("tool" to "terminal"),
             )),
         )
-        assertTrue(AutomationProfileValidator.validate(profile).any { "privilegiado" in it })
+        assertTrue(AutomationProfileValidator.validate(profile).any { "Privileged" in it })
     }
 
     @Test fun `validator rejects invalid time and location parameters`() {

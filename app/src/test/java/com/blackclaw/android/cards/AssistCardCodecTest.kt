@@ -159,7 +159,7 @@ class AssistCardCodecTest {
 
     @Test fun `a place with no name gets a fallback rather than an empty title`() {
         val payload = """[{"type":"place","lat":0.0,"lon":0.0}]"""
-        assertEquals("Ubicación", (AssistCardCodec.decode(payload).single() as AssistCard.Place).name)
+        assertEquals("Location", (AssistCardCodec.decode(payload).single() as AssistCard.Place).name)
     }
 
     @Test fun `extra unknown fields are ignored`() {

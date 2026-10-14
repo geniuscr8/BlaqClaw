@@ -9,7 +9,7 @@ import org.junit.Test
 class LanguageDetectorTest {
 
     @Test
-    fun nonEnglishInputDoesNotEnableSpanishMode() {
+    fun nonEnglishInputRemainsUnknown() {
         assertEquals(LanguageDetector.Language.UNKNOWN,
             LanguageDetector.detect("open whatsapp y manda un mensaje"))
     }

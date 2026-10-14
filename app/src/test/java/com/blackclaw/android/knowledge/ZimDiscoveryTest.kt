@@ -21,7 +21,7 @@ class ZimDiscoveryTest {
 
     /** Levels between [root] and [file], i.e. what maxDepth has to cover. */
     private fun depthBetween(root: String, file: String): Int {
-        assertTrue("$file no está bajo $root", file.startsWith("$root/"))
+        assertTrue("$file is not under $root", file.startsWith("$root/"))
         return file.removePrefix("$root/").split('/').size
     }
 
@@ -32,7 +32,7 @@ class ZimDiscoveryTest {
         val reachable = ZimDiscovery.searchRoots(listOf(volume)).any { root ->
             actual.startsWith(root.path + "/") && depthBetween(root.path, actual) <= root.depth
         }
-        assertTrue("la ruta real de Kiwix debe quedar cubierta por algún root", reachable)
+        assertTrue("the real Kiwix path must be covered by a search root", reachable)
     }
 
     @Test fun `the Kiwix path is five levels down, which is why a depth of four missed it`() {
@@ -44,7 +44,7 @@ class ZimDiscoveryTest {
 
     @Test fun `the media root reaches an archive nested under a package folder`() {
         val root = rootFor("$volume/Android/media")
-        assertTrue("debe existir un root para Android/media", root != null)
+        assertTrue("a root for Android/media must exist", root != null)
         val actual = "$volume/Android/media/org.kiwix.kiwixmobile/kiwix/algo.zim"
         assertTrue(depthBetween(root!!.path, actual) <= root.depth)
     }
@@ -151,9 +151,9 @@ class ZimDiscoveryTest {
 
     @Test fun `a missing permission is reported as a permission problem`() {
         val message = ZimDiscovery.explainEmptyResult(hasFullStorageAccess = false, splitPartNames = emptyList())
-        assertTrue("debe mencionar el permiso", message.contains("permiso"))
+        assertTrue("must mention permission", message.contains("permission"))
         // Must not send the user moving files around when the file was never the problem.
-        assertFalse(message.contains("No encontré archivos"))
+        assertFalse(message.contains("I could not find any .zim files"))
     }
 
     @Test fun `the permission explanation names the folder Android hides`() {
@@ -164,7 +164,7 @@ class ZimDiscoveryTest {
     @Test fun `split parts are explained instead of reported as nothing found`() {
         val message = ZimDiscovery.explainEmptyResult(true, listOf("wiki.zimaa", "wiki.zimab"))
         assertTrue(message.contains("wiki.zimaa"))
-        assertFalse(message.contains("No encontré archivos"))
+        assertFalse(message.contains("I could not find any .zim files"))
     }
 
     @Test fun `a long list of split parts is truncated`() {
@@ -183,6 +183,6 @@ class ZimDiscoveryTest {
     @Test fun `a missing permission outranks split parts in the explanation`() {
         // Without access the split-part list is not trustworthy either.
         val message = ZimDiscovery.explainEmptyResult(false, listOf("wiki.zimaa"))
-        assertTrue(message.contains("permiso"))
+        assertTrue(message.contains("permission"))
     }
 }

@@ -99,14 +99,14 @@ class MemoryStoreLogicTest {
     @Test fun `dropped requests are counted rather than silently lost`() {
         val many = (1..30).map { "USER" to "peticion distinta numero $it que es bastante larga" }
         val summary = ConversationMemory.extractSummary(many)
-        assertTrue(summary, summary.contains("más)"))
+        assertTrue(summary, summary.contains("more)"))
     }
 
     @Test fun `at least one request survives even with a long outcome`() {
         val summary = ConversationMemory.extractSummary(
             turns("USER" to "x".repeat(500), "ASSISTANT" to "y".repeat(500))
         )
-        assertTrue(summary, summary.startsWith("Usuario pidió: "))
+        assertTrue(summary, summary.startsWith("User requested: "))
         assertTrue(summary.length in 1..300)
     }
 

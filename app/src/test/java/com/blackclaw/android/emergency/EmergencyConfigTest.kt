@@ -12,13 +12,13 @@ class EmergencyConfigTest {
     }
 
     @Test fun alertIncludesLocationOnlyWhenAvailable() {
-        val located = EmergencyConfig.formatAlert("Ayuda", "Ana", 28.632, -106.069, 0L)
+        val located = EmergencyConfig.formatAlert("Help", "Ana", 28.632, -106.069, 0L)
         assertTrue(located.contains("https://maps.google.com/?q=28.632,-106.069"))
-        assertTrue(located.contains("Ayuda"))
+        assertTrue(located.contains("Help"))
         assertTrue(located.contains("Ana"))
 
-        val missing = EmergencyConfig.formatAlert("Ayuda", "Ana", null, null, 0L)
-        assertTrue(missing.contains("no disponible"))
+        val missing = EmergencyConfig.formatAlert("Help", "Ana", null, null, 0L)
+        assertTrue(missing.contains("not available"))
         assertFalse(missing.contains("maps.google.com"))
     }
 
@@ -31,7 +31,7 @@ class EmergencyConfigTest {
 
     @Test fun periodicLocationUpdateIsClearlyStructured() {
         val update = EmergencyConfig.buildLocationUpdate(28.632, -106.069, 0L)
-        assertTrue(update.contains("Actualización de ubicación"))
+        assertTrue(update.contains("Location update"))
         assertTrue(update.contains("https://maps.google.com/?q=28.632,-106.069"))
     }
 }

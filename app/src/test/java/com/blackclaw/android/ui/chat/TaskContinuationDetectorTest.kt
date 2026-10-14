@@ -8,29 +8,28 @@ class TaskContinuationDetectorTest {
     @Test
     fun `resumes a task that stopped at the iteration limit`() {
         val messages = listOf(
-            ChatMessage(ChatMessage.Role.USER, "Añade 30 contactos inventados"),
-            ChatMessage(ChatMessage.Role.ASSISTANT, "Error: se alcanzó el número máximo de iteraciones (60)"),
+            ChatMessage(ChatMessage.Role.USER, "Add 30 fake contacts"),
+            ChatMessage(ChatMessage.Role.ASSISTANT, "Error: maximum iteration limit reached (60)"),
         )
 
-        assertTrue(TaskContinuationDetector.isContinuationRequest("continúa", messages))
-        assertTrue(TaskContinuationDetector.buildPrompt("continua").contains("estado actual"))
+        assertTrue(TaskContinuationDetector.isContinuationRequest("continue", messages))
+        assertTrue(TaskContinuationDetector.buildPrompt("continue").contains("current state"))
     }
 
     @Test
     fun `routes short replies after a tool task back to the agent`() {
         val messages = listOf(
-            ChatMessage(ChatMessage.Role.USER, "Añade contactos inventados"),
+            ChatMessage(ChatMessage.Role.USER, "Add fake contacts"),
             ChatMessage(ChatMessage.Role.SYSTEM, "Create Contacts..."),
             ChatMessage(ChatMessage.Role.TOOL_GROUP, "", toolSteps = listOf(
-                ToolStep("Create Contacts", "FAILED — permiso denegado", success = false),
+                ToolStep("Create Contacts", "FAILED — permission denied", success = false),
             )),
-            ChatMessage(ChatMessage.Role.ASSISTANT, "No se pudieron guardar los contactos."),
+            ChatMessage(ChatMessage.Role.ASSISTANT, "The contacts could not be saved."),
         )
 
-        assertTrue(TaskContinuationDetector.isContinuationRequest("ya", messages))
-        assertTrue(TaskContinuationDetector.isContinuationRequest("pudiste?", messages))
-        assertTrue(TaskContinuationDetector.isContinuationRequest("otros 30", messages))
-        assertTrue(TaskContinuationDetector.isContinuationRequest("sí", messages))
+        assertTrue(TaskContinuationDetector.isContinuationRequest("continue", messages))
+        assertTrue(TaskContinuationDetector.isContinuationRequest("yes", messages))
+        assertTrue(TaskContinuationDetector.isContinuationRequest("others 30", messages))
     }
 
     @Test
