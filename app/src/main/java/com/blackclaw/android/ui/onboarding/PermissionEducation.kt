@@ -480,7 +480,7 @@ fun PermissionBundleExplanationDialog(
                             Spacer(Modifier.height(5.dp))
                             Text(item.whyNeeded, color = colors.textSecondary, fontSize = 11.5.sp, lineHeight = 16.sp)
                             Spacer(Modifier.height(5.dp))
-                            Text("Sin este permiso: ${item.withoutIt}", color = colors.textTertiary, fontSize = 10.5.sp, lineHeight = 14.sp)
+                            Text("Without this permission: ${item.withoutIt}", color = colors.textTertiary, fontSize = 10.5.sp, lineHeight = 14.sp)
                         }
                     }
                 }

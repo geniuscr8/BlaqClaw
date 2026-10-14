@@ -346,7 +346,7 @@ private fun PcInstructions(colors: BlaqClawColors) {
             "(Algunas builds usan /storage/emulated/0/... — la ruta correcta sale en " +
                 "the Shizuku app itself, under \"Start via ADB\".)",
             colors)
-        StepCard(5, "Permiso a BlaqClaw",
+        StepCard(5, "BlaqClaw permission",
             "Return to this screen and tap \"Grant permission\".",
             colors)
         Surface(

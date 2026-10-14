@@ -37,13 +37,13 @@ object GameAutomationRuntime {
         loop: Boolean = false,
         maxDurationMs: Long = 10 * 60_000L,
     ): Result<Unit> {
-        if (state.running) return Result.failure(IllegalStateException("Ya hay una automatización activa."))
+        if (state.running) return Result.failure(IllegalStateException("An automation is already active."))
         val safeRepeat = repeat.coerceIn(1, 100)
         val safeSpeed = speed.coerceIn(0.25, 3.0)
         val safeMaxDuration = maxDurationMs.coerceIn(10_000L, MAX_RUNTIME_MS)
         val estimate = (macro.estimatedDurationMs() * safeRepeat / safeSpeed).roundToLong()
         if (!loop && estimate > MAX_RUNTIME_MS) {
-            return Result.failure(IllegalArgumentException("La macro duraría más de 30 minutos; reduce repeticiones."))
+            return Result.failure(IllegalArgumentException("The macro would run longer than 30 minutes; reduce repetitions."))
         }
         stopRequested.set(false)
         paused.set(false)
@@ -63,12 +63,12 @@ object GameAutomationRuntime {
                             continue@macroLoop
                         }
                         if (System.currentTimeMillis() >= deadline) {
-                            state = state.copy(message = "Completada: alcanzó el tiempo configurado")
+                            state = state.copy(message = "Completed: configured duration reached")
                             return@runAutomation
                         }
                         if (!waitOrStop((gesture.delayBeforeMs / safeSpeed).roundToLong())) return@runAutomation
                         if (!foregroundStillMatches(macro.packageName)) {
-                            state = state.copy(message = "Detenida: el juego dejó de estar al frente")
+                            state = state.copy(message = "Stopped: the game is no longer in the foreground")
                             return@runAutomation
                         }
                         val ok = when (gesture) {
@@ -79,7 +79,7 @@ object GameAutomationRuntime {
                             )
                         }
                         if (!ok) {
-                            state = state.copy(message = "Detenida: falló el gesto ${count + 1}")
+                            state = state.copy(message = "Stopped: gesture ${count + 1} failed")
                             return@runAutomation
                         }
                         count++
@@ -102,7 +102,7 @@ object GameAutomationRuntime {
         intervalMs: Long,
         durationMs: Long,
     ): Result<Unit> {
-        if (state.running) return Result.failure(IllegalStateException("Ya hay una automatización activa."))
+        if (state.running) return Result.failure(IllegalStateException("An automation is already active."))
         val interval = intervalMs.coerceIn(50L, 5_000L)
         val duration = durationMs.coerceIn(1_000L, MAX_RUNTIME_MS)
         val clicks = (duration / interval).coerceIn(1, 20_000).toInt()
@@ -121,11 +121,11 @@ object GameAutomationRuntime {
                         state = state.copy(completedActions = 0, message = "Reiniciando")
                     }
                     if (!foregroundStillMatches(packageName)) {
-                        state = state.copy(message = "Detenido: el juego dejó de estar al frente")
+                        state = state.copy(message = "Stopped: the game is no longer in the foreground")
                         return@runAutomation
                     }
                     if (!dispatchTap(normalizedX, normalizedY)) {
-                        state = state.copy(message = "Detenido: falló el tap")
+                        state = state.copy(message = "Stopped: tap failed")
                         return@runAutomation
                     }
                     index++
@@ -213,7 +213,7 @@ object GameAutomationRuntime {
     private fun awaitReady(): Boolean {
         while (paused.get() && !stopRequested.get()) {
             if (System.currentTimeMillis() - state.startedAtMs > MAX_RUNTIME_MS) {
-                state = state.copy(message = "Detenida: límite total de 30 minutos")
+                state = state.copy(message = "Stopped: 30-minute total limit reached")
                 stopRequested.set(true)
                 return false
             }

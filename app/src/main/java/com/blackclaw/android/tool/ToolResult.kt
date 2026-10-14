@@ -1,5 +1,7 @@
 package com.blackclaw.android.tool
 
+import com.blackclaw.android.utils.EnglishText
+
 /**
  * What a tool hands back.
  *
@@ -29,10 +31,10 @@ class ToolResult private constructor(
 
     companion object {
         @JvmStatic
-        fun success(data: String): ToolResult = ToolResult(true, data, null)
+        fun success(data: String): ToolResult = ToolResult(true, EnglishText.translate(data), null)
 
         @JvmStatic
-        fun error(error: String): ToolResult = ToolResult(false, null, error)
+        fun error(error: String): ToolResult = ToolResult(false, null, EnglishText.translate(error))
 
         /**
          * Success with a structured payload for the UI.
@@ -44,7 +46,7 @@ class ToolResult private constructor(
          */
         @JvmStatic
         fun successWithCards(data: String, cards: String?): ToolResult =
-            ToolResult(true, data, null, cards?.takeIf { it.isNotBlank() })
+            ToolResult(true, EnglishText.translate(data), null, cards?.takeIf { it.isNotBlank() })
     }
 
     // Deliberately omits [cards]: this string ends up in logs, and the payload would bury

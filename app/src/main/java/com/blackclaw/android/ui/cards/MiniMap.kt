@@ -121,7 +121,7 @@ fun MiniMap(
 
             failed -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
-                    "Mapa no disponible · %.4f, %.4f".format(lat, lon),
+                    "Map unavailable · %.4f, %.4f".format(lat, lon),
                     fontSize = 11.sp,
                     color = skin.textTertiary,
                 )

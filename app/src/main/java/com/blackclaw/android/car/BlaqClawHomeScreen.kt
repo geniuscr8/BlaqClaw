@@ -34,16 +34,16 @@ class BlaqClawHomeScreen(carContext: CarContext) : Screen(carContext) {
     override fun onGetTemplate(): Template {
         val list = ItemList.Builder()
             .addItem(gridItem("Preguntar", R.drawable.ic_car_mic) {
-                screenManager.push(CarAskScreen(carContext, hint = "Pregúntame lo que sea", commandPrefix = ""))
+                screenManager.push(CarAskScreen(carContext, hint = "Ask me anything", commandPrefix = ""))
             })
             .addItem(gridItem("Navegar", R.drawable.ic_car_navigation) {
-                screenManager.push(CarAskScreen(carContext, hint = "¿A dónde vamos?", commandPrefix = "navégame a "))
+                screenManager.push(CarAskScreen(carContext, hint = "Where are we going?", commandPrefix = "navigate to "))
             })
-            .addItem(gridItem("Música", R.drawable.ic_car_music) {
-                screenManager.push(CarAskScreen(carContext, hint = "¿Qué música pongo?", commandPrefix = "pon "))
+            .addItem(gridItem("Music", R.drawable.ic_car_music) {
+                screenManager.push(CarAskScreen(carContext, hint = "What should I play?", commandPrefix = "play "))
             })
             .addItem(gridItem("Llamar", R.drawable.ic_car_call) {
-                screenManager.push(CarAskScreen(carContext, hint = "¿A quién llamo?", commandPrefix = "llama a "))
+                screenManager.push(CarAskScreen(carContext, hint = "Who should I call?", commandPrefix = "call "))
             })
             .addItem(gridItem("Notificaciones", R.drawable.ic_car_bell) {
                 screenManager.push(CarTaskScreen(carContext, "lee mis notificaciones sin abrir apps"))

@@ -131,7 +131,7 @@ class ZimLibraryActivity : BaseActivity() {
                         failures.take(2).joinToString(" · ")
                 loaded.isEmpty() ->
                     ZimDiscovery.explainEmptyResult(scan.hasFullStorageAccess, scan.splitPartNames)
-                loaded.size == 1 -> "1 biblioteca offline disponible"
+                loaded.size == 1 -> "1 offline library available"
                 else -> "${loaded.size} bibliotecas offline disponibles"
             }
         }
@@ -261,7 +261,7 @@ private fun ZimLibraryScreen(
                 else -> LazyColumn(Modifier.fillMaxSize().padding(horizontal = 18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     item {
                         GlassCard {
-                            Text("Tu conocimiento, sin internet", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            Text("Your knowledge, without internet", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                             Spacer(Modifier.height(6.dp))
                             Text("BlaqClaw queries only the articles it needs. It never loads all of Wikipedia into memory.",
                                 color = Color(0xFFB8AEC8), fontSize = 14.sp, lineHeight = 20.sp)

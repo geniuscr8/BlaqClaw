@@ -609,7 +609,7 @@ private fun ChatTopBar(
                     )
                     val localName = automaticConfig.local.displayName.ifBlank { "no local model" }
                     DropdownMenuItem(
-                        text = { Text("Sin internet: $localName", fontSize = 13.sp) },
+                        text = { Text("Offline: $localName", fontSize = 13.sp) },
                         enabled = false,
                         onClick = {},
                     )

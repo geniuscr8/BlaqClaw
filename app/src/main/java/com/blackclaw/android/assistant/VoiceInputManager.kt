@@ -184,7 +184,7 @@ object VoiceInputManager {
         lang: String,
         onUnusable: (() -> Unit)? = null,
     ) {
-        if (!isAvailable()) { onError("Reconocimiento de voz no disponible en este dispositivo."); return }
+        if (!isAvailable()) { onError("Voice recognition is unavailable on this device."); return }
         runCatching { recognizer?.destroy() }
         val sr = createRecognizer()
         recognizer = sr
@@ -271,7 +271,7 @@ object VoiceInputManager {
         }
         if (!isAvailable()) {
             wakeLoopActive = false
-            onError("Reconocimiento de voz no disponible.")
+            onError("Voice recognition is unavailable.")
             return
         }
         BeepSuppressor.mute()   // silence the per-cycle recognition beep

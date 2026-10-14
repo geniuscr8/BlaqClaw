@@ -870,7 +870,7 @@ private fun AssistScreen(
                         QuickAssistActivity.Phase.LISTENING -> "ESCUCHANDO"
                         QuickAssistActivity.Phase.THINKING -> "PENSANDO"
                         QuickAssistActivity.Phase.SPEAKING -> "BLAQCLAW"
-                        QuickAssistActivity.Phase.NEED_MIC -> "PERMISO"
+                        QuickAssistActivity.Phase.NEED_MIC -> "PERMISSION"
                         QuickAssistActivity.Phase.IDLE -> "EN PAUSA"
                     },
                     color = ObsidianGold.GoldLight, fontSize = 11.sp, fontWeight = FontWeight.Bold,

@@ -64,7 +64,7 @@ class ZimIndexService : Service() {
                 stopSelf()
                 return START_NOT_STICKY
             }
-            updateNotification("Pausando índice…", 0, 0, false)
+            updateNotification("Pausing index…", 0, 0, false)
             return START_NOT_STICKY
         }
         val path = intent?.getStringExtra(EXTRA_PATH).orEmpty()
@@ -77,7 +77,7 @@ class ZimIndexService : Service() {
         isRunning = true
         activePath = file.absolutePath
         val promoted = runCatching {
-            promote("Preparando índice de ${file.name}…", 0, 0)
+        promote("Preparing index for ${file.name}…", 0, 0)
         }.onFailure { XLog.e(TAG, "Unable to start ZIM index foreground service", it) }.isSuccess
         if (!promoted) {
             isRunning = false
@@ -114,9 +114,9 @@ class ZimIndexService : Service() {
                     }
                     status = index.status()
                     val finalText = if (status.complete) {
-                        "Índice listo · ${status.indexed} artículos de ${file.name}"
+                        "Index ready · ${status.indexed} articles from ${file.name}"
                     } else {
-                        "Índice pausado en ${status.percent}% · di “reanuda el índice ZIM”"
+                        "Index paused at ${status.percent}% · say “resume the ZIM index”"
                     }
                     updateNotification(finalText, status.position, status.total, false)
                 }
@@ -133,7 +133,7 @@ class ZimIndexService : Service() {
     }
 
     private fun statusText(file: File, status: ZimContentIndex.Status) =
-        "${file.name} · ${status.percent}% · ${status.indexed} artículos indexados"
+        "${file.name} · ${status.percent}% · ${status.indexed} articles indexed"
 
     private fun promote(text: String, progress: Long, total: Long) {
         ServiceCompat.startForeground(
@@ -154,7 +154,7 @@ class ZimIndexService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("BlaqClaw · Índice ZIM offline")
+            .setContentTitle("BlaqClaw · Offline ZIM index")
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(open)
@@ -170,8 +170,8 @@ class ZimIndexService : Service() {
 
     private fun createChannel() {
         getSystemService(NotificationManager::class.java).createNotificationChannel(
-            NotificationChannel(CHANNEL_ID, "Índices ZIM offline", NotificationManager.IMPORTANCE_LOW).apply {
-                description = "Progreso de creación de índices locales para archivos ZIM"
+            NotificationChannel(CHANNEL_ID, "Offline ZIM indexes", NotificationManager.IMPORTANCE_LOW).apply {
+                description = "Local index creation progress for ZIM files"
             }
         )
     }

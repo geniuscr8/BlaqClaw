@@ -109,7 +109,7 @@ object GameAutoclickerOverlay {
             button(service, "■") { GameAutomationRuntime.stop() },
         ))
         box.addView(TextView(service).apply {
-            text = "${draft.size} acciones · arrastra desde el título"
+            text = "${draft.size} actions · drag from the title"
             setTextColor(0xff9aa4b2.toInt()); textSize = 11f
         })
         panel = box
@@ -167,7 +167,7 @@ object GameAutoclickerOverlay {
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(nameInput?.windowToken, 0)
         val macro = GameMacroStore.find(name)
-        if (macro == null) toast(context, "No encontré la macro '$name'")
+        if (macro == null) toast(context, "Macro '$name' not found")
         else GameAutomationRuntime.playMacro(macro, repeat = 1, speed = 1.0, loop = false,
             maxDurationMs = 10 * 60_000L).onFailure { toast(context, it.message ?: "No pude iniciarla") }
     }
@@ -221,7 +221,7 @@ object GameAutoclickerOverlay {
         override fun onDraw(canvas: Canvas) {
             paint.color = 0xdd11151c.toInt(); canvas.drawRoundRect(16f, 20f, width - 16f, 86f * density, 20f, 20f, paint)
             paint.color = Color.WHITE; paint.textSize = 16f * density
-            canvas.drawText("Toca o desliza para añadir acciones", 30f, 52f * density, paint)
+            canvas.drawText("Tap or swipe to add actions", 30f, 52f * density, paint)
             paint.textSize = 13f * density
             canvas.drawText("LISTO (${gestures.size})", width - 130f * density, 52f * density, paint)
             gestures.forEachIndexed { index, g ->
@@ -243,7 +243,7 @@ object GameAutoclickerOverlay {
                 MotionEvent.ACTION_DOWN -> { downX = event.x; downY = event.y; downAt = event.eventTime; return true }
                 MotionEvent.ACTION_UP -> {
                     if (gestures.size >= 300) {
-                        Toast.makeText(context, "Límite de 300 acciones", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "300-action limit reached", Toast.LENGTH_SHORT).show()
                         return true
                     }
                     val now = event.eventTime

@@ -93,7 +93,7 @@ object LocalModelManager {
         ),
         ModelInfo(
             id = "gemma4-e4b",
-            displayName = "Gemma 4 E4B — 3.6 GB (más potente)",
+            displayName = "Gemma 4 E4B — 3.6 GB (more powerful)",
             url = "https://huggingface.co/litert-community/gemma-4-E4B-it-litert-lm/resolve/main/gemma-4-E4B-it.litertlm",
             fileName = "gemma-4-E4B-it.litertlm",
             sizeBytes = 3_650_000_000L,
@@ -133,7 +133,7 @@ object LocalModelManager {
         // Solo se incluyen repos públicos, no-gated, con .litertlm descargable.
         ModelInfo(
             id = "gemma4-e4b-olekk-abliterated",
-            displayName = "Gemma 4 E4B Abliterated MTP — 3.7 GB · sin censura · visión",
+            displayName = "Gemma 4 E4B Abliterated MTP — 3.7 GB · uncensored · vision",
             url = "https://huggingface.co/olekk/gemma-4-E4B-it-abliterated-litert-lm/resolve/main/gemma-4-E4B-it-abliterated.litertlm",
             fileName = "gemma-4-E4B-it-abliterated.litertlm",
             sizeBytes = 3_659_530_240L,
@@ -142,7 +142,7 @@ object LocalModelManager {
         ),
         ModelInfo(
             id = "huihui-gemma4-e2b-abliterated-vision",
-            displayName = "Huihui Gemma 4 E2B Abliterated — 5.2 GB · sin censura · visión",
+            displayName = "Huihui Gemma 4 E2B Abliterated — 5.2 GB · uncensored · vision",
             url = "https://huggingface.co/edp1096/Huihui-gemma-4-E2B-it-abliterated-litert-lm/resolve/main/Huihui-gemma-4-E2B-it-abliterated.litertlm",
             fileName = "Huihui-gemma-4-E2B-it-abliterated.litertlm",
             sizeBytes = 5_247_716_576L,
@@ -151,7 +151,7 @@ object LocalModelManager {
         ),
         ModelInfo(
             id = "huihui-gemma4-e4b-abliterated-vision",
-            displayName = "Huihui Gemma 4 E4B Abliterated — 8.4 GB · sin censura · visión · pesado",
+            displayName = "Huihui Gemma 4 E4B Abliterated — 8.4 GB · uncensored · vision · heavy",
             url = "https://huggingface.co/vokash3/Huihui-gemma-4-E4B-it-abliterated-LiteRT-LM/resolve/main/Huihui-gemma-4-E4B-it-abliterated.litertlm",
             fileName = "Huihui-gemma-4-E4B-it-abliterated.litertlm",
             sizeBytes = 8_376_372_448L,

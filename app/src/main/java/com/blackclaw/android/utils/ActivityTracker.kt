@@ -172,7 +172,7 @@ object ActivityTracker {
     /** Quick summary string for display. */
     fun todaySummary(): String {
         val s = todayStat()
-        if (s.tasksRun == 0 && s.proactiveActions == 0) return "Sin actividad hoy"
+        if (s.tasksRun == 0 && s.proactiveActions == 0) return "No activity today"
         return buildString {
             if (s.tasksRun > 0) append("${s.tasksRun} tareas (${s.tasksSuccess}✓ ${s.tasksFailed}✗)")
             if (s.proactiveActions > 0) {

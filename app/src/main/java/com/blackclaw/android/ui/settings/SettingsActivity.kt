@@ -586,7 +586,7 @@ private fun ModernSettingsScreen(
                 SwitchRow(
                     icon = Icons.Outlined.Code,
                     title = "Internal terminal",
-                    subtitle = "Linux fijo con bash, Python, Git y curl sin Shizuku ni ADB. " +
+                    subtitle = "Fixed Linux environment with bash, Python, Git, and curl without Shizuku or ADB. " +
                         "The manual console keeps optional Pro mode access.",
                     checked = terminalOn,
                     colors = colors,

@@ -97,7 +97,7 @@ class AssistantReceiver : BroadcastReceiver() {
                 .setContentTitle(title).setContentText(body)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(body))
                 .setPriority(NotificationCompat.PRIORITY_HIGH).setAutoCancel(true)
-                .addAction(0, "Sí", yes).addAction(0, "No", no)
+                .addAction(0, "Yes", yes).addAction(0, "No", no)
                 .build()
             nm.notify(id.hashCode(), notification)
             return id

@@ -188,8 +188,8 @@ class EmergencyService : Service() {
             handler.postDelayed(locationRunnable, LOCATION_INTERVAL_MS)
         }
         val status = when {
-            alertSent && recorder != null -> "Alerta enviada · grabando audio y ubicación"
-            alertSent -> "Alerta enviada · grabación no disponible"
+            alertSent && recorder != null -> "Alert sent · recording audio and location"
+            alertSent -> "Alert sent · recording unavailable"
             else -> "No se pudo enviar SMS · evidencia local activa"
         }
         promote(if (options.silent) discreetStatus() else status, false, recorder != null, options.cameras != EmergencyCameras.NONE)
@@ -342,7 +342,7 @@ class EmergencyService : Service() {
             recorder = null
             evidenceFile?.delete()
             evidenceFile = null
-            promote(if (options.silent) discreetStatus() else "Alerta activa · evidencia no disponible", false, false,
+            promote(if (options.silent) discreetStatus() else "Alert active · evidence unavailable", false, false,
                 options.cameras != EmergencyCameras.NONE)
             EmergencyEventLog.append(this, "audio_failed ${e.javaClass.simpleName}")
         }
@@ -423,7 +423,7 @@ class EmergencyService : Service() {
         val discreet = options.silent
         return NotificationCompat.Builder(this, if (discreet) DISCREET_CHANNEL_ID else CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(if (discreet) "BlaqClaw · Protección activa" else "BlaqClaw · Modo emergencia")
+            .setContentTitle(if (discreet) "BlaqClaw · Protection active" else "BlaqClaw · Emergency mode")
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(open)
@@ -438,12 +438,12 @@ class EmergencyService : Service() {
 
     private fun createChannel() {
         val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(NotificationChannel(CHANNEL_ID, "Modo emergencia", NotificationManager.IMPORTANCE_HIGH).apply {
-            description = "Estado, cancelación y evidencia del modo emergencia"
+        manager.createNotificationChannel(NotificationChannel(CHANNEL_ID, "Emergency mode", NotificationManager.IMPORTANCE_HIGH).apply {
+            description = "Emergency mode status, cancellation, and evidence"
             setSound(null, null)
         })
-        manager.createNotificationChannel(NotificationChannel(DISCREET_CHANNEL_ID, "Protección activa", NotificationManager.IMPORTANCE_LOW).apply {
-            description = "Estado silencioso de protección de BlaqClaw"
+        manager.createNotificationChannel(NotificationChannel(DISCREET_CHANNEL_ID, "Protection active", NotificationManager.IMPORTANCE_LOW).apply {
+            description = "BlaqClaw silent protection status"
             setSound(null, null)
             enableVibration(false)
             setShowBadge(false)

@@ -398,7 +398,7 @@ private fun VoiceSettingsScreen(
                         }
                         .padding(horizontal = 16.dp, vertical = 10.dp),
                 ) {
-                    Text(if (calibrating) "Escuchando…" else "Calibrar ahora", color = accent, fontWeight = FontWeight.Bold)
+                    Text(if (calibrating) "Listening…" else "Calibrate now", color = accent, fontWeight = FontWeight.Bold)
                 }
             }
 

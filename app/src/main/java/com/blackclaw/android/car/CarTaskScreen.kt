@@ -52,7 +52,7 @@ class CarTaskScreen(
                 when (event) {
                     is TaskEvent.Completed -> finishWith(State.DONE, event.answer.ifBlank { "Listo." })
                     is TaskEvent.Failed -> finishWith(State.ERROR, "No pude completarlo: ${event.error}")
-                    is TaskEvent.Blocked -> finishWith(State.ERROR, "Se bloqueó por un diálogo del sistema.")
+                    is TaskEvent.Blocked -> finishWith(State.ERROR, "Blocked by a system dialog.")
                     is TaskEvent.Cancelled -> finishWith(State.ERROR, "Cancelado.")
                     is TaskEvent.ToolAction -> update("${event.toolName}…")
                     else -> { /* progress noise — ignore on the car */ }

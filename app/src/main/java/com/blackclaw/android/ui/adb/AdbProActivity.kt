@@ -109,7 +109,7 @@ private fun AdbProScreen(
                     Column {
                         Text("Pro mode", fontSize = 18.sp, fontWeight = FontWeight.Bold,
                             color = colors.textPrimary)
-                        Text("ADB integrado · sin Shizuku · sin PC",
+                        Text("Built-in ADB · no Shizuku · no PC",
                             fontSize = 11.sp, color = colors.textSecondary)
                     }
                 },
