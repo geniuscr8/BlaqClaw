@@ -26,6 +26,12 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.6
+
+- Replaced the launcher icon and splash-screen logo with the supplied BlaqClaw
+  purple-claw artwork.
+- Updated adaptive and legacy Android icon resources for consistent branding.
+
 ### v1.3.5
 
 - Completed the English-only migration for command parsing, voice recognition,
