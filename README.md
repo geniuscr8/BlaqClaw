@@ -28,6 +28,11 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.13
+
+- Fixed conversational routing for English topic statements such as “set theory is interesting”.
+- Added regression coverage for apostrophe-normalized English topic phrases.
+
 ### v1.3.12
 
 - Added a branded splash screen and a tested first-launch setup flow.

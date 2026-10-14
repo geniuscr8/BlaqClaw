@@ -208,6 +208,8 @@ object CapabilityQuestionDetector {
         Regex("""^(?:se\s+llama|(?:mi|mis|el|la|los|las|este|esta|ese|esa)\s+\w+(?:\s+\w+){0,3}\s+se\s+llama)\b"""),
         Regex("""^tengo\s+tiempo\s+para\b"""),
         Regex("""^(?:i am|im|i'm)\s+(?:interested|learning|studying)\b"""),
+        Regex("""^i\s+m\s+(?:interested|learning|studying)\b"""),
+        Regex("""^.+\b(?:is|are)\s+(?:interesting|fascinating|boring)\b"""),
     )
 
     private val CONTENT_REQUEST = Regex(

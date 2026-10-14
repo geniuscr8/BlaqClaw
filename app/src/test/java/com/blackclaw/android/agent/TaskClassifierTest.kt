@@ -131,6 +131,7 @@ class TaskClassifierTest {
         chat("mi perro se llama Max")
         chat("do you like music")
         chat("set theory is interesting")
+        chat("I'm interested in local AI")
         chat("no apagues el wifi")
         chat("no leas mis notificaciones")
         chat("please do not open WhatsApp")
