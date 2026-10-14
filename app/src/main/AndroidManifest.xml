@@ -122,7 +122,7 @@
             </intent-filter>
         </service>
 
-        <!-- 启动页 -->
+        <!-- Branded splash and first-launch setup entry point -->
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"

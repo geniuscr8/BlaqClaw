@@ -47,13 +47,14 @@ import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.ui.chat.BlaqClawColors
 import com.blackclaw.android.ui.chat.ThemeManager
 import com.blackclaw.android.ui.chat.ThemeManager.toComposeColors
+import com.blackclaw.android.ui.settings.LlmConfigActivity
 import com.blackclaw.android.utils.KVUtils
 
 /**
  * Guided permission onboarding. BlaqClaw needs several non-obvious permissions
  * (Accessibility, Notification access, Overlay, exact alarms, battery whitelist)
  * spread across different system screens. New users get lost finding them, so
- * this screen walks through each one with live status and a one-tap "Activar"
+ * this screen walks through each one with live status and a one-tap "Enable"
  * that opens the right settings page. State refreshes automatically on resume.
  */
 class OnboardingActivity : BaseActivity() {
@@ -69,6 +70,8 @@ class OnboardingActivity : BaseActivity() {
                 KVUtils.putBoolean(KEY_ONBOARDING_DONE, true)
                 KVUtils.sync()
                 finish()
+            }, onOpenModelSetup = {
+                startActivity(Intent(this, LlmConfigActivity::class.java))
             })
         }
     }
@@ -125,7 +128,11 @@ private fun liteSnapshot(ctx: Context): AppCapabilitySnapshotLite {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OnboardingScreen(colors: BlaqClawColors, onDone: () -> Unit) {
+private fun OnboardingScreen(
+    colors: BlaqClawColors,
+    onDone: () -> Unit,
+    onOpenModelSetup: () -> Unit,
+) {
     val ctx = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var snap by remember { mutableStateOf(liteSnapshot(ctx)) }
@@ -309,6 +316,12 @@ private fun OnboardingScreen(colors: BlaqClawColors, onDone: () -> Unit) {
                     Text("The steps marked essential (Accessibility and notifications) are required to get started.",
                         fontSize = 11.sp, color = colors.textTertiary,
                         modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp))
+                }
+                TextButton(
+                    onClick = onOpenModelSetup,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                ) {
+                    Text("Configure an AI model", color = colors.accent, fontSize = 13.sp)
                 }
                 TextButton(onClick = onDone, modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 4.dp)) {
                     Text("Skip for now", color = colors.textSecondary, fontSize = 13.sp)

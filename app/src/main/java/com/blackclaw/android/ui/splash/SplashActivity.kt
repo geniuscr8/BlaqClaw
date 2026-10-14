@@ -14,6 +14,7 @@ import androidx.activity.OnBackPressedCallback
 import com.blackclaw.android.R
 import com.blackclaw.android.base.BaseActivity
 import com.blackclaw.android.ui.chat.ComposeChatActivity
+import com.blackclaw.android.ui.onboarding.FirstLaunchSetup
 import com.blackclaw.android.ui.onboarding.OnboardingActivity
 
 /**
@@ -110,12 +111,14 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun handOffToChat() {
-        // First launch (or missing essentials): walk the user through permissions.
-        // We only auto-show onboarding once; afterwards they reach it from Settings.
         val task = intent?.getStringExtra("task")
-        if (task.isNullOrBlank() &&
-            !OnboardingActivity.wasCompleted() &&
-            !OnboardingActivity.hasEssentials(this)) {
+        val chat = intent?.getStringExtra("chat")
+        val hasLaunchTask = !task.isNullOrBlank() || !chat.isNullOrBlank()
+        if (FirstLaunchSetup.shouldOpen(
+                hasLaunchTask,
+                OnboardingActivity.wasCompleted(),
+                OnboardingActivity.hasEssentials(this),
+            )) {
             startActivity(Intent(this, OnboardingActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })
@@ -126,8 +129,8 @@ class SplashActivity : BaseActivity() {
         }
         val next = Intent(this, ComposeChatActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent?.getStringExtra("task")?.let { putExtra("task", it) }
-            intent?.getStringExtra("chat")?.let { putExtra("chat", it) }
+            task?.let { putExtra("task", it) }
+            chat?.let { putExtra("chat", it) }
         }
         startActivity(next)
         // Subtle cross-fade
