@@ -28,6 +28,13 @@ the task is complete.
 
 ## Release notes
 
+### v1.3.12
+
+- Added a branded splash screen and a tested first-launch setup flow.
+- Added direct AI model configuration from onboarding.
+- Fixed notification data fast-path matching, negated English commands, and Wi-Fi automation task routing.
+- Corrected the privileged-tool guidance label and release test regressions.
+
 ### v1.3.11
 
 - Fixed the release test suite after the English-only migration.

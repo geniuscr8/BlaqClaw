@@ -67,11 +67,11 @@ android {
         // Accept the rebranded keys first while retaining the old names for existing CI jobs.
         versionCode = readLocalOrEnvInt(
             "BLAQCLAW_VERSION_CODE",
-            readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 143),
+            readLocalOrEnvInt("BLACKCLAW_VERSION_CODE", 144),
         )
         versionName = readLocalOrEnvString(
             "BLAQCLAW_VERSION_NAME",
-            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.11"),
+            readLocalOrEnvString("BLACKCLAW_VERSION_NAME", "1.3.12"),
         )
         buildConfigField("String", "VERSION_INFO", getVersionGit())
         buildConfigField("String", "APP_ORIGIN", "\"BlaqClaw | github.com/geniuscr8/BlaqClaw\"")
