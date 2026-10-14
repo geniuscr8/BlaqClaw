@@ -123,7 +123,7 @@ class ZimIndexService : Service() {
             }
         } catch (e: Exception) {
             XLog.e(TAG, "ZIM indexing failed", e)
-            updateNotification("Error al indexar ${file.name}: ${e.message}", 0, 0, false)
+            updateNotification("Error indexing ${file.name}: ${e.message}", 0, 0, false)
         } finally {
             isRunning = false
             activePath = null

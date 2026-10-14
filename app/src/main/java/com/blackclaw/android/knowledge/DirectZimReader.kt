@@ -322,7 +322,7 @@ class DirectZimReader(private val file: File) : Closeable {
             else -> error("Unknown ZIM compression: $compression")
         }
         val width = if (extended) 8 else 4
-        require(decoded.size >= width) { "Cabecera de cluster incompleta" }
+        require(decoded.size >= width) { "Incomplete cluster header" }
         val firstOffset = leUnsigned(decoded, 0, width)
         require(firstOffset % width == 0L && firstOffset in (2L * width)..decoded.size.toLong()) { "Tabla de blobs inválida" }
         val blobCount = firstOffset / width - 1

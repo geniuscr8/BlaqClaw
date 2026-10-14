@@ -17,7 +17,7 @@ import java.io.File
  */
 class ImportChatExportTool : BaseTool() {
     override fun getName() = "import_chat_export"
-    override fun getDisplayName() = "Importar chat"
+    override fun getDisplayName() = "Import chat"
     override fun getDescriptionEN() =
         "Parse a WhatsApp chat export (.txt or .zip) the user shared with BlaqClaw. " +
         "Either returns the rendered transcript or saves it as conversationContext for " +
@@ -84,13 +84,13 @@ class ImportChatExportTool : BaseTool() {
                 return ToolResult.error("Could not store the imported conversation securely.")
             }
             return ToolResult.success(
-                "Importadas ${stats.messageCount} mensajes (${sendersStr}). " +
-                "Guardado en perfil de auto-respuesta para '$contactName'."
+                "Imported ${stats.messageCount} messages (${sendersStr}). " +
+                "Saved to the auto-reply profile for '$contactName'."
             )
         }
 
         return ToolResult.success(
-            "Importadas ${stats.messageCount} mensajes. Remitentes: $sendersStr.\n\n" +
+            "Imported ${stats.messageCount} messages. Senders: $sendersStr.\n\n" +
             rendered.take(2000) + if (rendered.length > 2000) "\n…" else ""
         )
     }

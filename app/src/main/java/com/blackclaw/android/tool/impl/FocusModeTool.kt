@@ -91,7 +91,7 @@ class FocusModeTool : BaseTool() {
             "🎯 Modo Focus activado: $label\n" +
             "⏱ Duration: $minutes min (until $endStr)\n" +
             "🔕 DND activado\n" +
-            if (autoReply.isNotBlank()) "💬 Auto-reply: '$autoReply'" else "Sin auto-reply"
+            if (autoReply.isNotBlank()) "💬 Auto-reply: '$autoReply'" else "No auto-reply"
         )
     }
 

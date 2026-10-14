@@ -30,7 +30,7 @@ class ForceStopAppTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         if (!PrivilegedShell.isAvailable()) {
-            return ToolResult.error("Sin acceso privilegiado (Shizuku/ADB). Usa close_app (HOME) en su lugar.")
+            return ToolResult.error("No privileged access (Shizuku/ADB). Use close_app (HOME) instead.")
         }
         val pkg = requireString(params, "package").trim()
         if (pkg.isEmpty()) return ToolResult.error("empty package")

@@ -269,7 +269,7 @@ private fun MonthMode(colors: BlaqClawColors, refresh: Int, showSystem: Boolean,
         Spacer(Modifier.height(10.dp))
         HorizontalDivider(color = colors.aiBubbleBorder)
 
-        val dayLabel = SimpleDateFormat("EEEE dd 'de' MMMM", Locale.getDefault())
+        val dayLabel = SimpleDateFormat("EEEE dd MMMM", Locale.ENGLISH)
             .format(Date(selectedDay)).replaceFirstChar { it.uppercase() }
         Text(dayLabel, Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp),
             fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)

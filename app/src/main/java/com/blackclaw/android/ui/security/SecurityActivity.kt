@@ -230,12 +230,12 @@ private fun RiskCard(
                             containerColor = colors.accent, contentColor = colors.background),
                         shape = RoundedCornerShape(10.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                    ) { Text("Bloquear anuncios", fontSize = 12.sp) }
+                    ) { Text("Block ads", fontSize = 12.sp) }
                 }
                 OutlinedButton(
                     onClick = onUninstall, shape = RoundedCornerShape(10.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                ) { Text("Desinstalar", fontSize = 12.sp, color = colors.accent) }
+                ) { Text("Uninstall", fontSize = 12.sp, color = colors.accent) }
                 OutlinedButton(
                     onClick = onSettings, shape = RoundedCornerShape(10.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),

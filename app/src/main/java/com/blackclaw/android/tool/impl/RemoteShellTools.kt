@@ -142,9 +142,9 @@ class RemoteDisconnectTool : BaseTool() {
         val alias = requireString(params, "alias").trim()
         if (alias == "all") {
             return if (RemoteConnectionStore.clearAll()) {
-                ToolResult.success("Todas las conexiones remotas eliminadas.")
+                ToolResult.success("All remote connections deleted.")
             } else {
-                ToolResult.error("No pude borrar las conexiones remotas del almacenamiento seguro.")
+                ToolResult.error("Could not delete remote connections from secure storage.")
             }
         }
         if (RemoteConnectionStore.getConnection(alias) == null) {
@@ -160,14 +160,14 @@ class RemoteDisconnectTool : BaseTool() {
 
 class RemoteListTool : BaseTool() {
     override fun getName() = "remote_list"
-    override fun getDisplayName() = "Ver conexiones remotas"
+    override fun getDisplayName() = "View remote connections"
     override fun getDescriptionEN() = "List saved remote SSH connections."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getBrief() = "lista las conexiones SSH guardadas"
     override fun getParameters() = emptyList<ToolParameter>()
     override fun execute(params: Map<String, Any>): ToolResult {
         val connections = RemoteConnectionStore.allConnections()
-        if (connections.isEmpty()) return ToolResult.success("No hay conexiones remotas configuradas.")
+        if (connections.isEmpty()) return ToolResult.success("No remote connections configured.")
         val sb = StringBuilder("Conexiones remotas:\n")
         connections.forEach { c ->
             sb.append("- ${c.alias}: ${c.user}@${c.host}:${c.port}\n")

@@ -114,7 +114,7 @@ object VoskSingleShot {
                 }
             } catch (e: Throwable) {
                 XLog.w(TAG, "Vosk one-shot failed: ${e.message}")
-                finish(null, "Fallo el reconocimiento offline: ${e.message}")
+                finish(null, "Offline speech recognition failed: ${e.message}")
             } finally {
                 running = false
                 runCatching { ar?.stop() }

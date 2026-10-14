@@ -54,7 +54,7 @@ class RandomTool : BaseTool() {
                     val pw = (1..len).map { chars.random() }.joinToString("")
                     ToolResult.success("🔐 $pw")
                 }
-                else -> ToolResult.error("mode desconocido '$mode'")
+                else -> ToolResult.error("unknown mode '$mode'")
             }
         } catch (e: Exception) {
             ToolResult.error("Random failed: ${e.message}")

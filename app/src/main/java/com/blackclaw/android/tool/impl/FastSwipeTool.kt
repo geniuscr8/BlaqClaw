@@ -25,7 +25,7 @@ class FastSwipeTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         if (!PrivilegedShell.isAvailable()) {
-            return ToolResult.error("Sin acceso privilegiado (Shizuku/ADB). Usa 'swipe' en su lugar.")
+            return ToolResult.error("No privileged access (Shizuku/ADB). Use 'swipe' instead.")
         }
         val x1 = requireInt(params, "x1")
         val y1 = requireInt(params, "y1")

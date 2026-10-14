@@ -90,7 +90,7 @@ class ExecutePlanTool : BaseTool() {
         repeat(2) { attempt ->
             val r = ToolRegistry.getInstance().executeTool(step.tool, step.params)
             if (!r.isSuccess) {
-                lastDetail = r.error ?: "error desconocido"
+                lastDetail = r.error ?: "unknown error"
                 return@repeat // retry
             }
             val data = r.data ?: ""

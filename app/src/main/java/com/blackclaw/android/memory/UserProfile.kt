@@ -397,17 +397,17 @@ object UserProfile {
      * without this they would be what pushes the section over the limit.
      */
     fun snippetLines(p: Profile): List<String> = buildList {
-        if (p.name.isNotBlank()) add("- Nombre: ${p.name}")
-        if (p.city.isNotBlank()) add("- Ciudad: ${p.city}")
-        if (p.wakeUpHour >= 0) add("- Sueles despertar ~${p.wakeUpHour}:00")
-        if (p.sleepHour >= 0) add("- Sueles dormir ~${p.sleepHour}:00")
-        if (p.workStartHour >= 0) add("- Trabajo: ${p.workStartHour}:00–${p.workEndHour}:00")
-        if (p.routineNotes.isNotBlank()) add("- Rutina: ${p.routineNotes}")
-        if (p.topContacts.isNotEmpty()) add("- Contactos frecuentes: ${p.topContacts.joinToString()}")
-        if (p.topApps.isNotEmpty()) add("- Apps favoritas: ${p.topApps.joinToString()}")
-        if (p.interests.isNotEmpty()) add("- Intereses: ${p.interests.joinToString()}")
+        if (p.name.isNotBlank()) add("- Name: ${p.name}")
+        if (p.city.isNotBlank()) add("- City: ${p.city}")
+        if (p.wakeUpHour >= 0) add("- Usually wakes up around ${p.wakeUpHour}:00")
+        if (p.sleepHour >= 0) add("- Usually sleeps around ${p.sleepHour}:00")
+        if (p.workStartHour >= 0) add("- Work: ${p.workStartHour}:00–${p.workEndHour}:00")
+        if (p.routineNotes.isNotBlank()) add("- Routine: ${p.routineNotes}")
+        if (p.topContacts.isNotEmpty()) add("- Frequent contacts: ${p.topContacts.joinToString()}")
+        if (p.topApps.isNotEmpty()) add("- Favorite apps: ${p.topApps.joinToString()}")
+        if (p.interests.isNotEmpty()) add("- Interests: ${p.interests.joinToString()}")
         if (p.preferredAlarmLead != 30) {
-            add("- Prefiere alarmas ${p.preferredAlarmLead} min antes del evento")
+            add("- Prefers alarms ${p.preferredAlarmLead} minutes before the event")
         }
         p.traits.forEach { (k, v) -> if (v.isNotBlank()) add("- $k: $v") }
     }
@@ -422,7 +422,7 @@ object UserProfile {
     fun renderSnippet(lines: List<String>, budgetChars: Int = MAX_SNIPPET_CHARS): String {
         if (lines.isEmpty() || budgetChars <= 0) return ""
         val header = "\n\n## What I know about you (learned profile)\n"
-        val footer = "Usa esta info para personalizar tu respuesta y anticipar lo que necesita.\n"
+        val footer = "Use this information to personalize the response and anticipate needs.\n"
         var used = header.length + footer.length
         val kept = ArrayList<String>(lines.size)
         for (line in lines) {

@@ -20,7 +20,7 @@ class FastTapTool : BaseTool() {
     override fun getDescriptionEN() =
         "Tap at (x, y) using shell input via Shizuku or paired ADB — ~10x faster than tap, " +
         "and works in games / SurfaceView. Requires Shizuku active OR ADB self-paired. " +
-        "Falls back: if it errors with 'sin acceso privilegiado', use the regular tap tool."
+        "Falls back: if it errors with 'no privileged access', use the regular tap tool."
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
@@ -30,7 +30,7 @@ class FastTapTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         if (!PrivilegedShell.isAvailable()) {
-            return ToolResult.error("Sin acceso privilegiado (Shizuku/ADB). Usa 'tap' en su lugar.")
+            return ToolResult.error("No privileged access (Shizuku/ADB). Use 'tap' instead.")
         }
         val x = requireInt(params, "x")
         val y = requireInt(params, "y")

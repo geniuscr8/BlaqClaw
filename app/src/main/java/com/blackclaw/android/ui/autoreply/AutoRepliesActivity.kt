@@ -114,7 +114,7 @@ private fun AutoRepliesScreen(
                     Column {
                         Text("Auto-replies", fontSize = 18.sp,
                             fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                        Text("La IA responde por ti", fontSize = 11.sp,
+                        Text("AI replies for you", fontSize = 11.sp,
                             color = colors.textSecondary)
                     }
                 },
@@ -497,7 +497,7 @@ private fun ProfileEditorDialog(
                         ) {
                             Icon(Icons.Default.UploadFile, null, tint = colors.accent, modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(6.dp))
-                            Text("Importar export de WhatsApp", fontSize = 12.sp, color = colors.accent)
+                            Text("Import WhatsApp export", fontSize = 12.sp, color = colors.accent)
                         }
                     }
 

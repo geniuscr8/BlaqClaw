@@ -68,7 +68,7 @@ class RecognizeSongTool : BaseTool() {
                     title = (metadata as? android.media.MediaMetadata)
                         ?.getString(android.media.MediaMetadata.METADATA_KEY_TITLE) ?: "Desconocida"
                     artist = (metadata as? android.media.MediaMetadata)
-                        ?.getString(android.media.MediaMetadata.METADATA_KEY_ARTIST) ?: "Artista desconocido"
+                        ?.getString(android.media.MediaMetadata.METADATA_KEY_ARTIST) ?: "Unknown artist"
                     album = (metadata as? android.media.MediaMetadata)
                         ?.getString(android.media.MediaMetadata.METADATA_KEY_ALBUM)
                     resultText = buildString {

@@ -35,7 +35,7 @@ class WebAnswerTool : BaseTool() {
     }
 
     override fun getName() = "web_answer"
-    override fun getDisplayName() = "Buscar en internet"
+    override fun getDisplayName() = "Search the web"
     override fun getDescriptionEN() =
         "Search the web and RETURN the results as text so you can answer the user. " +
         "Use for anything needing current/online info: movie releases, news, scores, prices, " +

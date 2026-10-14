@@ -58,7 +58,7 @@ object AppActionScanner {
             Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:123"))),
         Triple("call", "Llamar",
             Intent(Intent.ACTION_DIAL, Uri.parse("tel:123"))),
-        Triple("browser", "Abrir webs / buscar",
+        Triple("browser", "Open websites / search",
             Intent(Intent.ACTION_VIEW, Uri.parse("https://example.com"))),
         Triple("share", "Compartir texto",
             Intent(Intent.ACTION_SEND).apply { type = "text/plain" }),

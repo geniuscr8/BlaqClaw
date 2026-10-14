@@ -51,14 +51,14 @@ class CarTaskScreen(
                 surface = com.blackclaw.android.conversation.ConversationRepository.Surface.ANDROID_AUTO) { event ->
                 when (event) {
                     is TaskEvent.Completed -> finishWith(State.DONE, event.answer.ifBlank { "Listo." })
-                    is TaskEvent.Failed -> finishWith(State.ERROR, "No pude completarlo: ${event.error}")
+                    is TaskEvent.Failed -> finishWith(State.ERROR, "Could not complete it: ${event.error}")
                     is TaskEvent.Blocked -> finishWith(State.ERROR, "Blocked by a system dialog.")
                     is TaskEvent.Cancelled -> finishWith(State.ERROR, "Cancelado.")
                     is TaskEvent.ToolAction -> update("${event.toolName}…")
                     else -> { /* progress noise — ignore on the car */ }
                 }
             }
-        }.onFailure { finishWith(State.ERROR, "No pude iniciar la tarea.") }
+        }.onFailure { finishWith(State.ERROR, "Could not start the task.") }
     }
 
     private fun update(text: String) {

@@ -32,16 +32,16 @@ class PowerInfoTool : BaseTool() {
         val sb = StringBuilder()
 
         val pct = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-        sb.append("Carga: ").append(pct).append("%\n")
+        sb.append("Charge: ").append(pct).append("%\n")
 
         val current = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000
-        sb.append("Corriente: ").append(current).append(" mA\n")
+        sb.append("Current: ").append(current).append(" mA\n")
 
         val avgCurrent = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE) / 1000
-        sb.append("Corriente media: ").append(avgCurrent).append(" mA\n")
+        sb.append("Average current: ").append(avgCurrent).append(" mA\n")
 
         val charge = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) / 1000
-        sb.append("Contador de carga: ").append(charge).append(" mAh\n")
+        sb.append("Charge counter: ").append(charge).append(" mAh\n")
 
         var temperature: String? = null
         var health: String? = null

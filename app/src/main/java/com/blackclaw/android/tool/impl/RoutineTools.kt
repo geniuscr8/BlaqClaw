@@ -19,7 +19,7 @@ class RunRoutineTool : BaseTool() {
         "Execute a saved routine by name (fuzzy match). Routines are multi-step automated " +
         "sequences like 'morning routine', 'focus mode', 'workout'. Use list_routines to see available ones."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "ejecuta una rutina guardada (secuencia multi-paso)"
+    override fun getBrief() = "runs a saved routine (multi-step sequence)"
     override fun getParameters() = listOf(
         ToolParameter("name", "string", "Routine name or id (fuzzy match).", true),
     )

@@ -84,7 +84,7 @@ class MemoryStoreLogicTest {
         val summary = ConversationMemory.extractSummary(
             turns("USER" to "pon una alarma", "ASSISTANT" to "Alarma puesta a las 7")
         )
-        assertTrue(summary, summary.contains("Resultado"))
+        assertTrue(summary, summary.contains("Result"))
         assertTrue(summary, summary.contains("Alarma puesta"))
     }
 

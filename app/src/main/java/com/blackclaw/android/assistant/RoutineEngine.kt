@@ -220,7 +220,7 @@ object RoutineEngine {
             success = true,
             stepsCompleted = completed,
             totalSteps = routine.steps.size,
-            summary = "Rutina '${routine.name}' completada (${completed} pasos).",
+            summary = "Routine '${routine.name}' completed (${completed} steps).",
         )
     }
 
@@ -265,7 +265,7 @@ object RoutineEngine {
         val routines = all().filter { it.enabled }
         if (routines.isEmpty()) return ""
         return buildString {
-            append("\n\n## Rutinas disponibles del usuario\n")
+            append("\n\n## User's available routines\n")
             routines.forEach { r ->
                 append("- ${r.icon} ${r.name}")
                 if (r.triggerTime.isNotBlank()) append(" (auto: ${r.triggerTime} ${r.triggerDays})")

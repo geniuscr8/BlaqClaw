@@ -12,7 +12,7 @@ import com.blackclaw.android.tool.ToolResult
 
 class ZimSearchTool : BaseTool() {
     override fun getName() = "zim_search"
-    override fun getDisplayName() = "Buscar en ZIM offline"
+    override fun getDisplayName() = "Search offline ZIM"
     override fun getDescriptionEN() = "Search titles and, when built, the local full-content index of a .zim archive offline. Returns bounded snippets and never injects an entire archive."
     override fun getDescriptionCN() = getDescriptionEN()
     override fun getParameters() = listOf(

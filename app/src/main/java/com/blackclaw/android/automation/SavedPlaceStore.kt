@@ -161,7 +161,7 @@ object SavedPlaceStore {
             updatedAtMs = now,
         )
         if (existingIndex >= 0) all[existingIndex] = place else all += place
-        check(saveAll(all)) { "No se pudo guardar el lugar de forma segura." }
+        check(saveAll(all)) { "Could not save the place securely." }
         place
     }
 
@@ -195,7 +195,7 @@ object SavedPlaceStore {
         val places = list()
         if (places.isEmpty()) return ""
         return buildString {
-            append("\n\n## Lugares guardados del usuario\n")
+            append("\n\n## User's saved places\n")
             places.takeLast(40).forEach { p ->
                 append("- [${p.id}] ${p.name}")
                 if (p.aliases.isNotEmpty()) append(" · aliases: ${p.aliases.joinToString()}")

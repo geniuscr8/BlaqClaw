@@ -101,7 +101,7 @@ class GameObserveTool : BaseTool() {
             return ToolResult.error("Concede captura de pantalla, espera 2 segundos y vuelve a observar.")
         }
         val packageName = GameScreenState.revealAndGetGamePackage()
-            ?: return ToolResult.error("No pude identificar la app en primer plano; revisa Accesibilidad.")
+            ?: return ToolResult.error("Could not identify the foreground app; check Accessibility.")
         val bitmap = ScreenCaptureService.captureBitmap()
             ?: return ToolResult.error("The capture does not have a frame yet. Wait and retry.")
         val hash = GameScreenState.frameHash(bitmap)
@@ -140,7 +140,7 @@ class GameActionTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val packageName = GameScreenState.revealAndGetGamePackage()
-            ?: return ToolResult.error("No pude identificar la app en primer plano.")
+            ?: return ToolResult.error("Could not identify the foreground app.")
         GameControlSession.validate(packageName)?.let { return ToolResult.error(it) }
         if (!GameScreenState.isGame(packageName)) {
             return ToolResult.error("$packageName is not classified as a game; I will not send blind input.")
@@ -171,7 +171,7 @@ class GameActionTool : BaseTool() {
             }
             else -> return ToolResult.error("action debe ser 'tap' o 'swipe'.")
         }
-        if (!dispatched) return ToolResult.error("No se pudo enviar el gesto; activa Accesibilidad o ADB/Shizuku.")
+        if (!dispatched) return ToolResult.error("Could not send the gesture; enable Accessibility or ADB/Shizuku.")
 
         try { Thread.sleep(450L) } catch (_: InterruptedException) { Thread.currentThread().interrupt() }
         val bitmap = ScreenCaptureService.captureBitmap()

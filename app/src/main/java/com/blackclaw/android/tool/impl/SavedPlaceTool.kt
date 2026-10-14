@@ -11,7 +11,7 @@ import com.blackclaw.android.tool.ToolResult
 /** Natural-language bridge for arbitrary semantic places used by automations. */
 class SavedPlaceTool : BaseTool() {
     override fun getName() = "saved_place"
-    override fun getDisplayName() = "Lugares guardados"
+    override fun getDisplayName() = "Saved places"
     override fun getDescriptionEN() =
         "Remember and resolve arbitrary user-named places such as casa, cuarto, casa de mi novia, gimnasio or escuela. " +
             "Use save_here when the user says 'este lugar es X'. Use resolve before authoring a location automation. " +

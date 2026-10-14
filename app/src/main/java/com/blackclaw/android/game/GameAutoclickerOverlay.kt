@@ -51,7 +51,7 @@ object GameAutoclickerOverlay {
 
     fun open(packageName: String): Result<Unit> {
         val service = ClawAccessibilityService.getConnectedInstance(1_500L)
-            ?: return Result.failure(IllegalStateException("Activa el servicio de Accesibilidad de BlaqClaw."))
+            ?: return Result.failure(IllegalStateException("Enable BlaqClaw's Accessibility service."))
         main.post {
             if (gamePackage != packageName) draft.clear()
             gamePackage = packageName
@@ -150,12 +150,12 @@ object GameAutoclickerOverlay {
     private fun saveDraft(context: Context) {
         val name = nameInput?.text?.toString()?.trim().orEmpty()
         when {
-            name.isBlank() -> toast(context, "Escribe un nombre para la macro")
+            name.isBlank() -> toast(context, "Enter a name for the macro")
             draft.isEmpty() -> toast(context, "Pulsa Grabar y coloca al menos un toque")
             else -> {
                 runCatching { GameMacroStore.save(name, gamePackage, draft.toList()) }.fold(
-                    onSuccess = { toast(context, "Macro '$name' guardada (${draft.size} acciones)") },
-                    onFailure = { toast(context, it.message ?: "No pude guardar la macro") },
+                    onSuccess = { toast(context, "Macro '$name' saved (${draft.size} actions)") },
+                    onFailure = { toast(context, it.message ?: "Could not save the macro") },
                 )
             }
         }
@@ -169,7 +169,7 @@ object GameAutoclickerOverlay {
         val macro = GameMacroStore.find(name)
         if (macro == null) toast(context, "Macro '$name' not found")
         else GameAutomationRuntime.playMacro(macro, repeat = 1, speed = 1.0, loop = false,
-            maxDurationMs = 10 * 60_000L).onFailure { toast(context, it.message ?: "No pude iniciarla") }
+            maxDurationMs = 10 * 60_000L).onFailure { toast(context, it.message ?: "Could not start it") }
     }
 
     private fun closeViewsOnly() {

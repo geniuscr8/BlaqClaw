@@ -67,7 +67,7 @@ class DateMathTool : BaseTool() {
                     val pattern = optionalString(params, "format", "yyyy-MM-dd")
                     ToolResult.success(SimpleDateFormat(pattern, Locale.getDefault()).format(date))
                 }
-                else -> ToolResult.error("op desconocido '$op'")
+                else -> ToolResult.error("unknown operation '$op'")
             }
         } catch (e: Exception) {
             ToolResult.error("date_math failed: ${e.message}")

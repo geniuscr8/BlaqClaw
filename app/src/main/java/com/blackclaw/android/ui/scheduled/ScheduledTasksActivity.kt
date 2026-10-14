@@ -174,7 +174,7 @@ private fun ScheduledTasksScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                         Triple("Agenda", tasks.size, "⏱"),
                         Triple("Reglas", rules.size, "⚡"),
                         Triple("Flujos", profiles.size, "✦"),
-                        Triple("Lugares", places.size, "⌖"),
+                        Triple("Places", places.size, "⌖"),
                     ).forEachIndexed { index, item ->
                         ClawGlassPill(
                             colors = colors,

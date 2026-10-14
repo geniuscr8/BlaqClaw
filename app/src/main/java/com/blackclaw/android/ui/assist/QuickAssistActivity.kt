@@ -1024,7 +1024,7 @@ private fun WelcomePanel(status: String, phase: QuickAssistActivity.Phase) {
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AssistCapabilityChip("Voice or text")
-                AssistCapabilityChip("Resultados claros")
+                AssistCapabilityChip("Clear results")
             }
         }
     }

@@ -419,7 +419,7 @@ object AutomationProfileValidator {
                     if (action.params["name"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs name.")
                 AutomationProfileStore.ActionType.WAIT -> {
                     val ms = automationLong(action.params["ms"]) ?: -1
-                    if (ms !in 0..60_000) add("wait solo permite 0..60000 ms.")
+                    if (ms !in 0..60_000) add("wait only allows 0..60000 ms.")
                 }
                 AutomationProfileStore.ActionType.NOTIFY ->
                     if (action.params["text"]?.toString().isNullOrBlank()) add("Action ${index + 1} needs text.")

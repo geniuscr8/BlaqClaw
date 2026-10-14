@@ -69,6 +69,6 @@ object PrivilegedShell {
     fun describe(): String = when (activeBackend()) {
         Backend.SHIZUKU -> "Shizuku activo"
         Backend.ADB -> AdbController.describe()
-        Backend.NONE -> "Sin acceso privilegiado (ni Shizuku ni ADB emparejado)"
+        Backend.NONE -> "No privileged access (neither Shizuku nor paired ADB)"
     }
 }

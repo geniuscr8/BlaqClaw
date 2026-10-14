@@ -64,7 +64,7 @@ fun PrivilegedToolsCard(modifier: Modifier = Modifier) {
                 Spacer(Modifier.width(10.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "Permitir herramientas de shell",
+                        "Allow shell tools",
                         fontSize = 14.5.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = ClawTextColors.Primary,

@@ -36,7 +36,7 @@ object SecurityPolicy {
             manager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
                 .mapNotNull { it.resolveInfo?.serviceInfo?.packageName }.toSet()
         }.getOrDefault(emptySet())
-        if (pkg in accessibility) return "Servicio de accesibilidad activo protegido"
+        if (pkg in accessibility) return "Protected active accessibility service"
 
         val ownerPackages = runCatching {
             val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager

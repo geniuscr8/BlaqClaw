@@ -22,7 +22,7 @@ class ConnectivityCheckTool : BaseTool() {
         val net = cm.activeNetwork
             ?: return ToolResult.success("No connection (airplane mode / out of coverage).")
         val caps = cm.getNetworkCapabilities(net)
-            ?: return ToolResult.success("Red activa pero sin capabilities (raro).")
+            ?: return ToolResult.success("Network is active but has no capabilities (unusual).")
         val transport = when {
             caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Mobile data"
@@ -36,7 +36,7 @@ class ConnectivityCheckTool : BaseTool() {
         return ToolResult.success(buildString {
             append("Transporte: ").append(transport).append("\n")
             append("Validada por internet: ").append(caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)).append("\n")
-            append("Sin restricciones: ").append(caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)).append("\n")
+            append("Unrestricted: ").append(caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)).append("\n")
             if (downKbps > 0) append("Bajada estimada: ").append(downKbps / 1000).append(" Mbps\n")
             if (upKbps > 0) append("Subida estimada: ").append(upKbps / 1000).append(" Mbps\n")
             append("VPN: ").append(!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN))

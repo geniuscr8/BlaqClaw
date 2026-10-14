@@ -190,7 +190,7 @@ class EmergencyService : Service() {
         val status = when {
             alertSent && recorder != null -> "Alert sent · recording audio and location"
             alertSent -> "Alert sent · recording unavailable"
-            else -> "No se pudo enviar SMS · evidencia local activa"
+            else -> "Could not send SMS · local evidence active"
         }
         promote(if (options.silent) discreetStatus() else status, false, recorder != null, options.cameras != EmergencyCameras.NONE)
         EmergencyEventLog.append(this, "activated mode=${options.mode} cameras=${options.cameras} alert_sent=$alertSent audio=${recorder != null} location=${location != null}")

@@ -80,7 +80,7 @@ object AppUpdater {
                 val json = httpGet(RELEASES_API)
                 if (json == null) {
                     if (force) onLiveActivity(activityRef) { act ->
-                        toast(act, "No pude comprobar actualizaciones.")
+                        toast(act, "Could not check for updates.")
                     }
                     return@execute
                 }
@@ -106,7 +106,7 @@ object AppUpdater {
             } catch (e: Exception) {
                 XLog.w(TAG, "update check failed: ${e.message}")
                 if (force) onLiveActivity(activityRef) { act ->
-                    toast(act, "No pude comprobar actualizaciones.")
+                    toast(act, "Could not check for updates.")
                 }
             }
         }
@@ -209,7 +209,7 @@ object AppUpdater {
                         // is allowed to install unknown apps. Check first so the
                         // update doesn't silently do nothing after downloading.
                         if (!canInstall(activity)) {
-                            toast(activity, "Activa \"Installr apps desconocidas\" para BlaqClaw y vuelve a pulsar Actualizar.")
+                            toast(activity, "Enable \"Install unknown apps\" for BlaqClaw, then tap Update again.")
                             requestInstallPermission(activity)
                         } else {
                             startDownload(activity, apkUrl, tag)
@@ -259,7 +259,7 @@ object AppUpdater {
             )
         } catch (e: Exception) {
             XLog.w(TAG, "startDownload failed: ${e.message}")
-            toast(activity, "No pude iniciar la descarga.")
+            toast(activity, "Could not start the download.")
         }
     }
 

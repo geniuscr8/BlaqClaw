@@ -197,10 +197,10 @@ object AssistantTime {
         val target = Calendar.getInstance().apply { timeInMillis = ms }
         val df = if (now.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
             now.get(Calendar.DAY_OF_YEAR) == target.get(Calendar.DAY_OF_YEAR)) {
-            SimpleDateFormat("'hoy' HH:mm", Locale.getDefault())
+            SimpleDateFormat("'today' HH:mm", Locale.ENGLISH)
         } else if (now.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
             now.get(Calendar.DAY_OF_YEAR) + 1 == target.get(Calendar.DAY_OF_YEAR)) {
-            SimpleDateFormat("'mañana' HH:mm", Locale.getDefault())
+            SimpleDateFormat("'tomorrow' HH:mm", Locale.ENGLISH)
         } else {
             SimpleDateFormat("dd MMM HH:mm", Locale.getDefault())
         }

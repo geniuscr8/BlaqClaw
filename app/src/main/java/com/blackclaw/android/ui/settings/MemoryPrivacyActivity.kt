@@ -275,7 +275,7 @@ private fun LeavesDeviceCard(snapshot: MemoryInventory.Snapshot?) {
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        "${snapshot.totalItems} datos guardados · " +
+                        "${snapshot.totalItems} saved items · " +
                             "~${MemoryInventory.approxTokens(snapshot.promptCostChars)} " +
                             "tokens per message",
                         color = ClawTextColors.Tertiary,

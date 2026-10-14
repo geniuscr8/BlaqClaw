@@ -9,7 +9,7 @@ class RegexExtractTool : BaseTool() {
     override fun getName() = "regex_extract"
     override fun getDisplayName() = "Regex"
     override fun getDescriptionEN() =
-        "Extrae todas las coincidencias de una regex en un texto. " +
+        "Extracts all regex matches from text. " +
         "Atajos predefinidos disponibles para 'pattern': email, url, phone, ipv4, hashtag, mention."
     override fun getDescriptionCN() = getDescriptionEN()
 
@@ -26,7 +26,7 @@ class RegexExtractTool : BaseTool() {
         return try {
             val regex = Regex(pattern)
             val matches = regex.findAll(text).map { it.value }.toList().distinct()
-            if (matches.isEmpty()) ToolResult.success("Sin coincidencias.")
+            if (matches.isEmpty()) ToolResult.success("No matches.")
             else ToolResult.success("${matches.size} coincidencia(s):\n" + matches.joinToString("\n") { "- $it" })
         } catch (e: Exception) {
             ToolResult.error("Invalid regex: ${e.message}")

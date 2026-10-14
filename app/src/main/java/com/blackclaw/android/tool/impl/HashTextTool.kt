@@ -27,7 +27,7 @@ class HashTextTool : BaseTool() {
             "sha1", "sha-1" -> "SHA-1"
             "sha256", "sha-256", "" -> "SHA-256"
             "sha512", "sha-512" -> "SHA-512"
-            else -> return ToolResult.error("algo desconocido '$algo'")
+            else -> return ToolResult.error("unknown algorithm '$algo'")
         }
         return try {
             val digest = MessageDigest.getInstance(name)

@@ -13,7 +13,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class UninstallAppTool : BaseTool() {
     override fun getName() = "uninstall_app"
-    override fun getDisplayName() = "Desinstalar"
+    override fun getDisplayName() = "Uninstall"
     override fun getDescriptionEN() =
         "Open the system uninstaller for a given package. The user must confirm — " +
         "we cannot silently uninstall apps. Use only when the user explicitly asks to uninstall."

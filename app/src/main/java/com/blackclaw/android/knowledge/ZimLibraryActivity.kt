@@ -176,7 +176,7 @@ class ZimLibraryActivity : BaseActivity() {
             result.onSuccess {
                 hits = it
                 message = if (it.isEmpty()) "No matches found. Try the topic's main name." else "${it.size} results"
-            }.onFailure { message = "No pude buscar: ${it.message}" }
+            }.onFailure { message = "Could not search: ${it.message}" }
         }
     }
 
@@ -286,7 +286,7 @@ private fun ZimLibraryScreen(
                     item {
                         Text(message, color = Color(0xFFB8AEC8), fontSize = 13.sp, modifier = Modifier.padding(6.dp))
                         if (libraries.isEmpty() && !loading) {
-                            TextButton(onClick = onGrantStorage) { Text("Conceder acceso a archivos") }
+                            TextButton(onClick = onGrantStorage) { Text("Grant file access") }
                         }
                         Spacer(Modifier.height(24.dp))
                     }

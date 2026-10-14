@@ -434,8 +434,8 @@ object VoiceInputManager {
         SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "I did not hear anything."
         SpeechRecognizer.ERROR_AUDIO -> "Microphone problem."
         SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Microphone permission is missing."
-        SpeechRecognizer.ERROR_NETWORK -> "Sin red para reconocimiento (prueba modo offline)."
-        else -> "Error de reconocimiento ($code)."
+        SpeechRecognizer.ERROR_NETWORK -> "No network for speech recognition (try offline mode)."
+        else -> "Speech recognition error ($code)."
     }
 
     /** Listener with no-op defaults so subclasses only override what they need. */

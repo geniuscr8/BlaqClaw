@@ -71,7 +71,7 @@ object AppRiskScanner {
             if (overlay) { score += 3; reasons.add("Puede dibujar sobre otras apps (anuncios/overlays)") }
 
             val hasA11y = info.packageName in a11yPkgs
-            if (hasA11y) { score += 4; reasons.add("Trae un servicio de accesibilidad (puede leer/controlar la pantalla)") }
+            if (hasA11y) { score += 4; reasons.add("Has an accessibility service (can read/control the screen)") }
 
             if (info.packageName in adminPkgs) { score += 4; reasons.add("Es administrador del dispositivo") }
 

@@ -1030,7 +1030,7 @@ class LlmConfigActivity : BaseActivity() {
             val results = AutomaticModelManager.readResults()
                 .sortedWith(compareBy<AutomaticModelManager.BenchmarkResult> { !it.success }.thenBy { it.latencyMs })
             resultsView.text = if (results.isEmpty()) "There are no measurements yet." else buildString {
-                append("Resultados guardados:\n")
+                append("Saved results:\n")
                 results.take(12).forEach { result ->
                     append(if (result.success) "✓ " else "✗ ")
                     append(result.displayName)
@@ -1074,7 +1074,7 @@ class LlmConfigActivity : BaseActivity() {
                 try {
                     val report = AutomaticModelManager.benchmark(this, template) { completed, total, result ->
                         runOnUiThread {
-                            benchmarkButton.text = "Midiendo $completed/$total…"
+                            benchmarkButton.text = "Measuring $completed/$total…"
                             resultsView.text = "${if (result.success) "✓" else "✗"} ${result.displayName} · ${result.latencyMs} ms"
                         }
                     }

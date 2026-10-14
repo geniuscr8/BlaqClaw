@@ -157,7 +157,7 @@ object ConversationMemory {
             val dropped = distinct.size - kept.size
             if (dropped > 0) append(" (+$dropped more)")
             if (lastAssistant.isNotBlank()) {
-                append(". Resultado: ").append(lastAssistant.take(LAST_REPLY_CHARS))
+                append(". Result: ").append(lastAssistant.take(LAST_REPLY_CHARS))
             }
         }.take(MAX_SUMMARY_LENGTH)
     }
@@ -167,7 +167,7 @@ object ConversationMemory {
     private const val SEPARATOR = " · "
 
     private fun lastAssistantCost(lastAssistant: String): Int =
-        if (lastAssistant.isBlank()) 0 else ". Resultado: ".length + LAST_REPLY_CHARS
+        if (lastAssistant.isBlank()) 0 else ". Result: ".length + LAST_REPLY_CHARS
 
     /**
      * Collapse near-duplicate requests, keeping first occurrence.

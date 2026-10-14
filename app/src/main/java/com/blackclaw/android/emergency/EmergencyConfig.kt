@@ -21,7 +21,7 @@ object EmergencyConfig {
         set(value) { KVUtils.putString(KEY_PHONE, normalizePhone(value)) }
 
     var message: String
-        get() = KVUtils.getString(KEY_MESSAGE, "Necesito ayuda. Esta es una alerta de emergencia enviada por BlaqClaw.")
+        get() = KVUtils.getString(KEY_MESSAGE, "I need help. This is an emergency alert sent by BlaqClaw.")
         set(value) { KVUtils.putString(KEY_MESSAGE, value.trim()) }
 
     var recordAudio: Boolean

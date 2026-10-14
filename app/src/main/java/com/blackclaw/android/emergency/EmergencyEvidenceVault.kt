@@ -67,9 +67,9 @@ object EmergencyEvidenceVault {
 
         try {
             encryptFile(plain, temporary, secretKey())
-            require(temporary.length() > plain.length()) { "Salida cifrada incompleta" }
-            if (target.exists()) require(target.delete()) { "No se pudo reemplazar el segmento" }
-            require(temporary.renameTo(target)) { "No se pudo publicar el segmento cifrado" }
+            require(temporary.length() > plain.length()) { "Incomplete encrypted output" }
+            if (target.exists()) require(target.delete()) { "Could not replace the segment" }
+            require(temporary.renameTo(target)) { "Could not publish the encrypted segment" }
         require(plain.delete()) { "The segment was encrypted, but the original could not be removed" }
             return target
         } catch (e: Exception) {
@@ -133,7 +133,7 @@ object EmergencyEvidenceVault {
         try {
             decryptFile(encrypted, temporary, secretKey())
         require(temporary.length() > 0) { "Decrypted evidence is empty" }
-            require(temporary.renameTo(output)) { "No se pudo preparar la evidencia" }
+            require(temporary.renameTo(output)) { "Could not prepare the evidence" }
             return output
         } catch (error: Exception) {
             temporary.delete()
@@ -202,7 +202,7 @@ object EmergencyEvidenceVault {
      */
     internal fun decryptFile(encrypted: File, plain: File, key: SecretKey) {
         DataInputStream(BufferedInputStream(FileInputStream(encrypted))).use { input ->
-            require(input.readInt() == MAGIC) { "Formato de evidencia desconocido" }
+            require(input.readInt() == MAGIC) { "Unknown evidence format" }
             val ivSize = input.readUnsignedByte()
         require(ivSize in 12..32) { "Invalid evidence header" }
             val iv = ByteArray(ivSize)

@@ -31,7 +31,7 @@ class UserProfileLogicTest {
     @Test fun `the most valuable lines survive a tight budget`() {
         val p = UserProfile.Profile(name = "Ana", city = "Madrid", traits = manyTraits(40))
         val out = UserProfile.asPromptSnippetOf(p, budgetChars = 200)
-        assertTrue(out.contains("Nombre: Ana"))
+        assertTrue(out.contains("Name: Ana"))
         // Arbitrary traits are the unbounded field, so they are the first to go.
         assertTrue(out, !out.contains("rasgo40"))
     }
@@ -44,7 +44,7 @@ class UserProfileLogicTest {
         val out = UserProfile.asPromptSnippetOf(p, budgetChars = UserProfile.MAX_SNIPPET_CHARS)
         assertTrue(out.isNotEmpty())
         assertTrue(out.length <= UserProfile.MAX_SNIPPET_CHARS)
-        assertTrue(out.contains("Nombre: Ana"))
+        assertTrue(out.contains("Name: Ana"))
     }
 
     @Test fun `an empty profile yields nothing`() {
@@ -55,7 +55,7 @@ class UserProfileLogicTest {
     @Test fun `a budget too small for even one line yields nothing, not a bare header`() {
         // A heading with no content would spend budget announcing a section and then
         // say nothing.
-        assertEquals("", UserProfile.renderSnippet(listOf("- Nombre: Ana"), budgetChars = 20))
+        assertEquals("", UserProfile.renderSnippet(listOf("- Name: Ana"), budgetChars = 20))
     }
 
     @Test fun `line order is the drop order`() {
@@ -64,8 +64,8 @@ class UserProfileLogicTest {
             topApps = listOf("whatsapp"), traits = mapOf("z" to "1"),
         )
         val lines = UserProfile.snippetLines(p)
-        val nameIdx = lines.indexOfFirst { it.contains("Nombre") }
-        val appsIdx = lines.indexOfFirst { it.contains("Apps") }
+        val nameIdx = lines.indexOfFirst { it.contains("Name") }
+        val appsIdx = lines.indexOfFirst { it.contains("apps") }
         val traitIdx = lines.indexOfFirst { it.startsWith("- z:") }
         assertTrue(nameIdx < appsIdx)
         assertTrue(appsIdx < traitIdx)

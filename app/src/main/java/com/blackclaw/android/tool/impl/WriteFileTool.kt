@@ -49,7 +49,7 @@ class WriteFileTool : BaseTool() {
             }
             ToolResult.success("Escrito ${content.length} caracteres en ${file.absolutePath}")
         } catch (e: Exception) {
-            ToolResult.error("No se pudo escribir el archivo: ${e.message}")
+            ToolResult.error("Could not write the file: ${e.message}")
         }
     }
 }

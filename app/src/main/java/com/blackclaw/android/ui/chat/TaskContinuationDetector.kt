@@ -54,9 +54,9 @@ object TaskContinuationDetector {
 
     fun buildPrompt(userText: String): String =
             "Continue the previous task from its current state. Preserve what is already complete, " +
-            "no repitas pasos confirmados y termina solo lo pendiente. Los resultados de las " +
-            "tools are the only proof that something happened: do not turn a previous model " +
-            "response into success and verify before claiming it. User instruction: $userText"
+            "do not repeat confirmed steps, and finish only what remains. Tool results are the " +
+            "only proof that something happened: do not turn a previous model response into " +
+            "success and verify before claiming it. User instruction: $userText"
 
     private fun normalize(value: String): String =
         Normalizer.normalize(value.lowercase(), Normalizer.Form.NFD)

@@ -50,7 +50,7 @@ class VoiceModeTool : BaseTool() {
                 val backend = if (VoskModelManager.isReady())
                     "offline (say 'claw' + your command; no beep or internet required)"
                 else
-                    "online (di '${VoiceInputManager.wakeWord}' + tu orden). Para el modo offline sin beep, usa download_offline."
+                    "online (say '${VoiceInputManager.wakeWord}' followed by your command). For offline mode without a beep, use download_offline."
                 ToolResult.success("🎤 Voice mode enabled — $backend")
             }
             "off" -> {

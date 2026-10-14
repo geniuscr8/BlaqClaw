@@ -341,9 +341,9 @@ private fun PcInstructions(colors: BlaqClawColors) {
             "Terminal/CMD: `adb devices`. Your device should be listed as \"device\".",
             colors)
         StepCard(4, "Start Shizuku from your PC",
-            "Ejecuta:\n" +
+            "Run:\n" +
             "    adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh\n\n" +
-            "(Algunas builds usan /storage/emulated/0/... — la ruta correcta sale en " +
+            "(Some builds use /storage/emulated/0/... — the correct path is shown in " +
                 "the Shizuku app itself, under \"Start via ADB\".)",
             colors)
         StepCard(5, "BlaqClaw permission",

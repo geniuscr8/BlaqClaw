@@ -708,7 +708,7 @@ private fun QuietHoursRow(colors: BlaqClawColors, ctx: android.content.Context) 
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
-            Text("🌙 Horas de silencio", fontSize = 14.sp,
+            Text("🌙 Quiet hours", fontSize = 14.sp,
                 color = colors.textPrimary, fontWeight = FontWeight.Medium)
             Text("No alerts from %02d:00 to %02d:00 (alarms still ring)".format(start, end),
                 fontSize = 11.sp, color = colors.textSecondary, lineHeight = 15.sp)

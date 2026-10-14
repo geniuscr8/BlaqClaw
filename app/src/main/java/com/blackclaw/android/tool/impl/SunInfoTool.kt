@@ -36,7 +36,7 @@ class SunInfoTool : BaseTool() {
     override fun getDescriptionCN() = getDescriptionEN()
 
     override fun getParameters() = listOf(
-        ToolParameter("lat", "number", "Latitud (opcional). Si se omite, usa GPS.", false),
+        ToolParameter("lat", "number", "Latitude (optional). Uses GPS if omitted.", false),
         ToolParameter("lon", "number", "Longitud (opcional).", false),
     )
 

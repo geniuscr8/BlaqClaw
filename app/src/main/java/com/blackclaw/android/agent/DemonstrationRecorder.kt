@@ -132,12 +132,12 @@ object DemonstrationRecorder {
 
     private fun buildDescription(toolName: String, params: Map<String, Any>): String {
         return when (toolName) {
-            "open_app" -> "Abrir ${params["package_name"] ?: params["app"] ?: "app"}"
+            "open_app" -> "Open ${params["package_name"] ?: params["app"] ?: "app"}"
             "input_text" -> "Escribir \"${(params["text"] ?: "").toString().take(30)}\""
             "find_and_tap" -> "Tocar \"${params["text"]}\""
             "send_message" -> "Enviar mensaje a ${params["contact"]}"
             "system_key" -> "Tecla ${params["key"]}"
-            "open_url" -> "Abrir ${params["url"]}"
+            "open_url" -> "Open ${params["url"]}"
             "toggle_setting" -> "${params["setting"]} → ${params["state"]}"
             else -> "$toolName ${params.entries.take(2).joinToString(", ") { "${it.key}=${it.value}" }}"
         }

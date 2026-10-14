@@ -205,7 +205,7 @@ private fun EvidenceCard(
                 else AssistChip(onClick = {}, enabled = false,
                     label = { Text(formatBytes(item.bytes)) })
             }
-            Text(if (item.backedUp) "Respaldo completado · original cifrado" else "Pendiente de respaldo · original cifrado",
+            Text(if (item.backedUp) "Backup complete · original encrypted" else "Backup pending · original encrypted",
                 color = if (item.backedUp) Color(0xFF61D5B0) else Color(0xFFFFC46B),
                 style = MaterialTheme.typography.labelSmall)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {

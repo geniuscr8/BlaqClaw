@@ -20,7 +20,7 @@ class ColorTool : BaseTool() {
 
     override fun execute(params: Map<String, Any>): ToolResult {
         val raw = requireString(params, "input").trim().lowercase()
-        val (r, g, b) = parse(raw) ?: return ToolResult.error("No pude interpretar '$raw'")
+        val (r, g, b) = parse(raw) ?: return ToolResult.error("Could not interpret '$raw'")
         val hex = "#%02X%02X%02X".format(r, g, b)
         val (h, s, l) = rgbToHsl(r, g, b)
         return ToolResult.success(

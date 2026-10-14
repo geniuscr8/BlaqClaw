@@ -46,7 +46,7 @@ object EmergencyEvidenceUploader {
             val uploadedDir = File(EmergencyEvidenceVault.directory(context), "uploaded").apply { mkdirs() }
             val archived = File(uploadedDir, file.name)
             if (archived.exists()) archived.delete()
-            require(file.renameTo(archived)) { "No se pudo archivar el segmento respaldado" }
+            require(file.renameTo(archived)) { "Could not archive the backed-up segment" }
             EmergencyEventLog.append(context, "evidence_uploaded file=${archived.name}")
         }.onFailure {
             EmergencyEventLog.append(context, "evidence_upload_pending file=${file.name} error=${it.javaClass.simpleName}")

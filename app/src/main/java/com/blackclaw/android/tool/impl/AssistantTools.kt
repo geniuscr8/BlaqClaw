@@ -101,7 +101,7 @@ class AssistantNoteTool : BaseTool() {    override fun getName() = "assistant_no
             type = AssistantItemType.NOTE, title = title,
             body = optionalString(params, "body", ""), source = "ai",
         )
-        return ToolResult.success("Nota guardada: '$title'")
+        return ToolResult.success("Note saved: '$title'")
     }
 }
 

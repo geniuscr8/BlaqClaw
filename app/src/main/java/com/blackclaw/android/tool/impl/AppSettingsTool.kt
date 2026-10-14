@@ -14,7 +14,7 @@ import com.blackclaw.android.tool.ToolResult
  */
 class AppSettingsTool : BaseTool() {
     override fun getName() = "open_app_settings"
-    override fun getDisplayName() = "Ajustes de app"
+    override fun getDisplayName() = "App settings"
     override fun getDescriptionEN() =
         "Open the system App Info screen for a given package, where the user can " +
         "grant/revoke permissions, force-stop, or clear app data. Use when the user wants " +

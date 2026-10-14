@@ -82,8 +82,8 @@ class AutomationRuleTool : BaseTool() {
             name, trigger, optionalString(params, "match", ""), optionalString(params, "package_name", ""), action,
             lat, lon, optionalInt(params, "radius_m", 150).toFloat(),
             optionalInt(params, "cooldown_minutes", 5).coerceAtLeast(1) * 60_000L,
-        ) ?: return ToolResult.error("No se pudo guardar la regla de forma segura.")
+        ) ?: return ToolResult.error("Could not save the rule securely.")
         AutomationGeofenceManager.sync(ClawApplication.instance)
-        return ToolResult.success("✓ Regla '${rule.name}' activa [${rule.id}]: SI ${rule.trigger.name.lowercase()} ENTONCES $action")
+        return ToolResult.success("✓ Rule '${rule.name}' active [${rule.id}]: IF ${rule.trigger.name.lowercase()} THEN $action")
     }
 }

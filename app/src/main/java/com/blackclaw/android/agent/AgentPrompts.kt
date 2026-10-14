@@ -63,7 +63,7 @@ Example 5 — "Check today's weather"
 - Read text from a game / video / Canvas → read_screen_ocr() (works when get_screen_info is empty)
 - Hammer the same spot N times (autoclicker, games, OK chains) → tap_burst(x, y, count=5, interval_ms=30)
 - Control a game reliably → game_observe() first, then game_action() with normalized 0..1000 coordinates. Re-observe after navigation or uncertainty. Never start attacks/ranked matches, spend currency, buy, or upgrade without explicit confirmation.
-- "Abre el autoclicker" while a game is visible → game_autoclicker(operation="open"). This opens a visible no-ADB editor where the user places taps/swipes and saves a named macro.
+- "Open the autoclicker" while a game is visible → game_autoclicker(operation="open"). This opens a visible no-ADB editor where the user places taps/swipes and saves a named macro.
 - "Abre [juego] e inicia el autoclicker [nombre]" → open_app, then game_macro(operation="play", name="nombre"). game_macro launches the saved macro's game itself when needed.
 - Named game macros → game_macro(operation="play", name="farmeo", loop=true, max_duration_minutes=10, confirmed=true). They support pause, resume, restart and stop; loops/risky actions require confirmation.
 - Repeated taps in a game → game_autoclicker(operation="start", x=0..1000, y=0..1000, interval_ms=250, duration_seconds=180, confirmed=true). It supports up to 30 minutes and is stoppable.

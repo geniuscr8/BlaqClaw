@@ -87,7 +87,7 @@ object GameAutomationRuntime {
                         if (count % 10 == 0) notify("${macro.name}: $count acciones")
                     }
                     completedLoops++
-                    if (loop) state = state.copy(message = "Bucle ${completedLoops + 1}")
+                    if (loop) state = state.copy(message = "Loop ${completedLoops + 1}")
                 }
                 state = state.copy(message = "Completada")
             }

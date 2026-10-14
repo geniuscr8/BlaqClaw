@@ -349,6 +349,6 @@ object AdbController {
         State.PAIRED_DISCONNECTED -> "ADB emparejado · desconectado"
         State.CONNECTING -> "ADB conectando…"
         State.CONNECTED -> "ADB connected · quick actions active"
-        State.ERROR -> "ADB error: ${lastError ?: "desconocido"}"
+        State.ERROR -> "ADB error: ${lastError ?: "unknown"}"
     }
 }

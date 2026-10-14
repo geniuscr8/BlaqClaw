@@ -37,7 +37,7 @@ class TapOcrTool : BaseTool() {
 
     override fun getParameters() = listOf(
         ToolParameter("text", "string",
-            "Texto exacto o substring a buscar (case-insensitive).", true),
+            "Exact text or substring to find (case-insensitive).", true),
     )
 
     override fun execute(params: Map<String, Any>): ToolResult {

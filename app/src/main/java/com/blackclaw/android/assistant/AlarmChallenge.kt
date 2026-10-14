@@ -47,7 +47,7 @@ sealed class AlarmChallenge {
 
     /** Type: copy a short phrase exactly (case-insensitive, trimmed). */
     data class Type(val phrase: String) : AlarmChallenge() {
-        override val prompt = "Escribe exactamente: \"$phrase\""
+        override val prompt = "Type exactly: \"$phrase\""
         override fun check(answer: String) =
             answer.trim().equals(phrase.trim(), ignoreCase = true)
     }

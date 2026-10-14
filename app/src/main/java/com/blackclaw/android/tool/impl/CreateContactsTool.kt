@@ -28,7 +28,7 @@ class CreateContactsTool : BaseTool() {
             "objects with name and phone, e.g. [{\"name\":\"Ana\",\"phone\":\"+521...\"}]. " +
             "Exact existing name+phone pairs are skipped by default, so a resumed task does not duplicate them."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "crea varios contactos directamente, sin abrir la app Contactos"
+    override fun getBrief() = "creates multiple contacts directly without opening the Contacts app"
 
     override fun getParameters() = listOf(
         ToolParameter(

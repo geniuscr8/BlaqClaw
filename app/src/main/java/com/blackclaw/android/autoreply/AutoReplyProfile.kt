@@ -46,7 +46,7 @@ data class AutoReplyProfile(
 
     /** Compose the prompt the agent will receive when this profile fires. */
     fun composeAgentPrompt(): String = buildString {
-        appendLine("Eres BlaqClaw actuando como $app auto-reply para el contacto \"$contactName\".")
+        appendLine("You are BlaqClaw acting as an auto-reply for $app contact \"$contactName\".")
         appendLine()
         if (personality.isNotBlank()) {
             appendLine("## Personalidad / estilo de respuesta")
@@ -59,7 +59,7 @@ data class AutoReplyProfile(
             appendLine()
         }
         appendLine("## Execution instructions")
-        appendLine("1. Abre $app y revisa los mensajes recientes de \"$contactName\".")
+        appendLine("1. Open $app and review the recent messages from \"$contactName\".")
         appendLine("2. Si hay un mensaje sin responder, escribe una respuesta siguiendo la personalidad y el historial.")
         appendLine("3. If the context suggests the user is busy, reply briefly and apologize.")
         appendLine("4. NO respondas a mensajes que no sean del contacto especificado.")

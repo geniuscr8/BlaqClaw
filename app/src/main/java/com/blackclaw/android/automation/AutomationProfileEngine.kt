@@ -389,7 +389,7 @@ object AutomationProfileEngine {
             val value = expandString(action.params["value"]?.toString().orEmpty(), profile, event).take(2_000)
             if (name.isBlank()) Result.failure(IllegalArgumentException("La variable necesita nombre."))
             else if (SecretStore.putString(VARIABLE_PREFIX + name, value)) Result.success(Unit)
-            else Result.failure(IllegalStateException("No se pudo guardar la variable de forma segura."))
+            else Result.failure(IllegalStateException("Could not save the variable securely."))
         }
         AutomationProfileStore.ActionType.NOTIFY -> {
             AssistantReceiver.postNotification(
