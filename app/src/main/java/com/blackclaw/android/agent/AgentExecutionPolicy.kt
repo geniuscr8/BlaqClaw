@@ -5,10 +5,11 @@ internal object AgentExecutionPolicy {
     private val actionTools = setOf(
         "phone_click_node", "phone_tap", "phone_swipe", "phone_long_press",
         "tap", "long_press", "swipe", "scroll_to_find",
-        "input_text", "type_text", "system_key", "open_app",
+        "tap_node", "tap_ocr", "find_and_tap",
+        "input_text", "type_text", "system_key", "open_app", "open_url",
         "dpad_up", "dpad_down", "dpad_left", "dpad_right", "dpad_center",
         "volume_up", "volume_down", "press_menu", "press_power",
-        "clipboard", "send_file", "repeat_actions", "wait"
+        "clipboard", "send_file", "repeat_actions", "wait", "media_control"
     )
     private val fastSettleTools = setOf(
         "input_text", "type_text", "system_key", "clipboard",

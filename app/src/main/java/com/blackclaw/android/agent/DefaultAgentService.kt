@@ -180,12 +180,11 @@ class DefaultAgentService : AgentService {
     }
 
     override fun executeTask(userPrompt: String, callback: AgentCallback) {
-        if (running.get()) {
+        if (!running.compareAndSet(false, true)) {
             callback.onError(0, IllegalStateException("Agent is already running a task"), 0)
             return
         }
 
-        running.set(true)
         cancelled.set(false)
         var terminalCallback: (() -> Unit)? = null
 
@@ -255,6 +254,7 @@ class DefaultAgentService : AgentService {
                     XLog.d(TAG, "Keeping cloud LlmClient warm for the next turn")
                 }
                 running.set(false)
+                taskFuture = null
                 val terminal = terminalCallback
                 terminalCallback = null
                 terminal?.invoke()
@@ -493,6 +493,9 @@ class DefaultAgentService : AgentService {
         var successfulToolsSinceCheckpoint = 0
         var lastScreenHash = 0
         var previousScreenTexts: Set<String> = emptySet()
+        var lastActionFingerprint = ""
+        var lastScreenDiffCount = 0
+        var lastToolError: String? = null
         val tokenMonitor = TokenMonitor(config.modelName)
         val stuckDetector = StuckDetector()
         val taskBudget = TaskBudget.fromSettings()
@@ -646,6 +649,9 @@ class DefaultAgentService : AgentService {
             consecutiveNoToolCalls = 0
 
             // Execute tool calls
+            lastActionFingerprint = ""
+            lastScreenDiffCount = 0
+            lastToolError = null
             for (toolRequest in llmResponse.toolExecutionRequests) {
                 if (cancelled.get()) {
                     callback.onComplete(iterations, ClawApplication.instance.getString(R.string.agent_task_cancel), totalTokens, actualModelName)
@@ -732,6 +738,9 @@ class DefaultAgentService : AgentService {
                 }
 
                 val result = ToolRegistry.getInstance().executeTool(toolName, params)
+                lastActionFingerprint = "$toolName:${toolArgs.take(80)}"
+                lastToolError = if (result.isSuccess) null
+                else result.error?.take(160) ?: "Tool '$toolName' failed"
                 runCatching { com.blackclaw.android.utils.ActivityTracker.recordToolUsed(toolName) }
                 // Learning by demonstration: capture replayable steps when recording.
                 runCatching { com.blackclaw.android.agent.DemonstrationRecorder.record(toolName, params, result.isSuccess) }
@@ -806,6 +815,7 @@ class DefaultAgentService : AgentService {
                                 .map { it.trim() }.filter { it.isNotEmpty() }.toSet()
                             val added = currentTexts - previousScreenTexts
                             val removed = previousScreenTexts - currentTexts
+                            lastScreenDiffCount = added.size + removed.size
                             previousScreenTexts = currentTexts
                             val diffSection = buildString {
                                 if (added.isNotEmpty()) append("\nNew on screen: ${added.take(10).joinToString(", ")}")
@@ -827,6 +837,12 @@ class DefaultAgentService : AgentService {
                 } else {
                     // Record fingerprint for dead-loop detection (non-action tools path)
                     if (toolName == "get_screen_info" && result.isSuccess && result.data != null) {
+                        val currentTexts = result.data!!.lines()
+                            .map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+                        val added = currentTexts - previousScreenTexts
+                        val removed = previousScreenTexts - currentTexts
+                        lastScreenDiffCount = added.size + removed.size
+                        previousScreenTexts = currentTexts
                         lastScreenHash = result.data.hashCode()
                     }
                     GSON.toJson(result)
@@ -836,6 +852,9 @@ class DefaultAgentService : AgentService {
                 // minifies JSON envelope + collapses repetitive screen rows).
                 val compacted = ContextCompactor.compactToolResult(toolName, combinedResultData)
                 messages.add(ToolExecutionResultMessage.from(toolRequest, compacted))
+                if (!result.isSuccess && ActionRecoveryPolicy.isRecoverable(toolName)) {
+                    messages.add(UserMessage.from(ActionRecoveryPolicy.hint(toolName, result.error)))
+                }
                 repeatedPattern?.let { match ->
                     messages.add(UserMessage.from(match.buildHint()))
                     XLog.i(TAG, "Detected repeated UI pattern (${match.steps.size} steps); suggested execute_plan acceleration")
@@ -844,15 +863,12 @@ class DefaultAgentService : AgentService {
             }
 
             // Stuck detection (5-signal, 3-level recovery)
-            val lastAction = llmResponse.toolExecutionRequests?.firstOrNull()?.let {
-                "${it.name()}:${it.arguments()?.take(50)}"
-            } ?: ""
-            val screenDiffCount = (previousScreenTexts as? Set<*>)?.size ?: 0
-            val toolError = llmResponse.toolExecutionRequests?.firstOrNull()?.let { req ->
-                val result = ToolRegistry.getInstance().getTool(req.name() ?: "")
-                null // error tracked per-tool above; simplified here
-            }
-            val detection = stuckDetector.record(lastAction, lastScreenHash, screenDiffCount, null)
+            val detection = stuckDetector.record(
+                lastActionFingerprint,
+                lastScreenHash,
+                lastScreenDiffCount,
+                lastToolError
+            )
             if (detection != null) {
                 when (detection.level) {
                     StuckDetector.RecoveryLevel.AUTO_KILL -> {
