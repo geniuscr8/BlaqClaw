@@ -30,6 +30,10 @@ object TaskClassifier {
         val t = normalize(raw)
         val words = t.split(' ').filter { it.isNotBlank() }
 
+        // A negated command is a conversational constraint, not an action to
+        // execute. Check this before the broad action-verb and app-name rules.
+        if (isNegatedEnglishCommand(t)) return false
+
         // Keep explicit reads of the user's real notifications aligned with the
         // deterministic fast path. DirectDeviceDataGuard already distinguishes
         // actual data requests from conceptual/how-to/negated mentions, so using
@@ -100,6 +104,17 @@ object TaskClassifier {
         return next == null || next in setOf(
             "this", "that", "everything", "all", "now", "music", "video", "song", "process", "download", "task",
         )
+    }
+
+    private fun isNegatedEnglishCommand(text: String): Boolean {
+        return Regex(
+            """\b(?:please\s+)?(?:do\s+not|don't|never)\s+""" +
+                """(?:open|launch|start|send|message|text|reply|call|search|play|""" +
+                """create|add|schedule|set|remind|turn|enable|disable|increase|""" +
+                """decrease|adjust|mute|toggle|tap|click|swipe|scroll|navigate|""" +
+                """close|download|install|delete|share|copy|paste|translate|""" +
+                """capture|record|scan|run|remove|check|read|show|list|stop|cancel)\b"""
+        ).containsMatchIn(text)
     }
 
     /** English words such as set/make/run/do are too common to be global signals. */

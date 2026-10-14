@@ -121,7 +121,7 @@ object ToolRiskPolicy {
                 )
                 Origin.LOCAL -> if (privilegedArmed) Decision.Allow else Decision.Deny(
                     "'$toolName' requires privileged access. Go to Settings → " +
-                        "Pro mode and enable \"Allow shell tools\" (it disables itself)."
+                        "Pro Mode and enable \"Allow shell tools\" (it disables itself)."
                 )
             }
         }
