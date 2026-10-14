@@ -500,12 +500,12 @@ class AssistantMedicationTool : BaseTool() {
 /** Promise tracking: create a follow-up reminder so the user keeps a commitment. */
 class AssistantTrackPromiseTool : BaseTool() {
     override fun getName() = "assistant_track_promise"
-    override fun getDisplayName() = "Seguir promesa"
+    override fun getDisplayName() = "Track promise"
     override fun getDescriptionEN() =
         "Track a commitment the user made (e.g. 'I'll call Ana tomorrow') so BlaqClaw reminds " +
         "them if they haven't done it. Provide what was promised and when to follow up."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "crea un seguimiento de una promesa/compromiso del usuario"
+    override fun getBrief() = "creates a follow-up for a user promise or commitment"
     override fun getParameters() = listOf(
         ToolParameter("promise", "string", "What the user committed to do.", true),
         ToolParameter("follow_up", "string", "When to remind, e.g. 'tomorrow 18:00', 'in 3h'.", true),

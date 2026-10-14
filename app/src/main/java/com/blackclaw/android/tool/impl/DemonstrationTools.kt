@@ -40,7 +40,7 @@ class SaveDemoTool : BaseTool() {
         "Save the actions recorded since start_demo as a reusable routine. Provide a name. " +
         "Optionally schedule it with trigger_time (HH:MM)."
     override fun getDescriptionCN() = getDescriptionEN()
-    override fun getBrief() = "guarda lo grabado como una rutina reutilizable"
+    override fun getBrief() = "saves the recording as a reusable routine"
     override fun getParameters() = listOf(
         ToolParameter("name", "string", "Name for the new routine.", true),
         ToolParameter("trigger_time", "string", "Optional HH:MM to auto-run daily.", false),
@@ -94,13 +94,13 @@ class SaveLastAsRoutineTool : BaseTool() {
     )
     override fun execute(params: Map<String, Any>): ToolResult {
         val name = requireString(params, "name").trim()
-        if (name.isEmpty()) return ToolResult.error("Dame un nombre para la rutina.")
+        if (name.isEmpty()) return ToolResult.error("Provide a name for the routine.")
         val triggerTime = optionalString(params, "trigger_time", "")
         val icon = optionalString(params, "icon", "🐾")
         val saved = DemonstrationRecorder.saveLastAsRoutine(name, icon, triggerTime)
             ?: return ToolResult.error(
                 "There are no repeatable steps from the latest flow. This works immediately after " +
-                "BlaqClaw haga una tarea con acciones (abrir apps, tocar, escribir).")
+                "BlaqClaw performs a task with actions (open apps, tap, type).")
         val sched = if (triggerTime.isNotBlank()) " It will run at $triggerTime." else ""
         return ToolResult.success("Saved the latest flow as routine '$saved'.$sched Ask me to 'run $saved' whenever you want.")
     }

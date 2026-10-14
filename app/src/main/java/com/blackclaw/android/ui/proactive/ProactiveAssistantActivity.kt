@@ -241,7 +241,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                                 val next = watchedApps + visible
                                 watchedApps = next
                                 ProactiveConfig.replaceWatchedApps(next)
-                            }) { Text("Todas", color = colors.accent) }
+                            }) { Text("All", color = colors.accent) }
                             TextButton(onClick = {
                                 installedApps.forEach { com.blackclaw.android.proactive.NotificationBatcher.discard(it.packageName) }
                                 val next = emptySet<String>()
@@ -389,7 +389,7 @@ private fun ProactiveScreen(colors: BlaqClawColors, onBack: () -> Unit) {
                 Text("RECENT ACTIVITY", fontSize = 11.sp, fontWeight = FontWeight.Bold,
                     color = colors.textTertiary, letterSpacing = 0.8.sp, modifier = Modifier.weight(1f))
                 if (log.isNotEmpty()) {
-                    Text("Limpiar", fontSize = 12.sp, color = colors.accent,
+                    Text("Clear", fontSize = 12.sp, color = colors.accent,
                         modifier = Modifier.clip(RoundedCornerShape(6.dp))
                             .background(colors.accent.copy(alpha = 0.10f))
                             .clickable { ProactiveAssistantManager.clearLog(); log = emptyList() }

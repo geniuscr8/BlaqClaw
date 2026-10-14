@@ -29,8 +29,8 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
         val task = match ?: return ""
         val destination = when (task.kind) {
             Kind.TODO -> "assistant_note o kb_add_todo"
-            Kind.SCHEDULED -> "schedule_task (o assistant_reminder si solo debe notificar)"
-            Kind.AUTOMATION -> "automation_profile; usa automation_rule solo para una regla simple"
+            Kind.SCHEDULED -> "schedule_task (or assistant_reminder if it should only notify)"
+            Kind.AUTOMATION -> "automation_profile; use automation_rule only for a simple rule"
         }
         return """
 
@@ -101,7 +101,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
                     task.trim(),
                     Kind.AUTOMATION,
                     setOf("automation_profile", "automation_rule"),
-                    "Crea el perfil/regla con el disparador y la acción completos; si falta un dato, pide solo ese dato.",
+                    "Create the profile/rule with the complete trigger and action; if a detail is missing, ask only for that detail.",
                 )
             }
 
@@ -115,7 +115,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
                     task.trim(),
                     Kind.SCHEDULED,
                     setOf("schedule_task", "assistant_reminder"),
-                    "Programa la ejecución con el texto completo, la fecha/hora y la recurrencia solicitada.",
+                    "Schedule the execution with the full text, date/time, and requested recurrence.",
                 )
             }
 
@@ -123,7 +123,7 @@ internal class TaskCreationGuard private constructor(private val match: Match?) 
                 task.trim(),
                 Kind.TODO,
                 setOf("assistant_note", "kb_add_todo"),
-                "Guarda el título y el detalle como una tarea pendiente nativa de BlaqClaw.",
+                "Save the title and detail as a native BlaqClaw pending task.",
             )
         }
 

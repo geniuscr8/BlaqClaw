@@ -60,7 +60,7 @@ object TerminalEngine {
         val command = rawCommand.trim()
         val verb = command.takeWhile { !it.isWhitespace() }.lowercase()
         if (verb == "adb") return "adb is not available in the agent terminal."
-        if (verb == "backend") return "El agente usa siempre el Linux local aislado."
+        if (verb == "backend") return "The agent always uses the isolated local Linux environment."
 
         val manualBackend = backend
         val manualCwd = cwd
@@ -184,7 +184,7 @@ object TerminalEngine {
           <cmd>             run in isolated Linux (bash, python3, git, curl, jq…)
           cd <dir> / pwd    navigation (the session remembers the directory)
           backend [auto|local|privileged]   cambia el backend manual opcional
-          whoami            usuario efectivo
+          whoami            effective user
           clear             limpia la pantalla
           adb ...           control through Wireless Debugging (see 'adb')
         Local mode does not require Shizuku or ADB. Privileged backend requires Pro Mode.

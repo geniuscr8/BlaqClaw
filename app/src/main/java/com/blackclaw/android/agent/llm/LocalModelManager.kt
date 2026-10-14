@@ -85,7 +85,7 @@ object LocalModelManager {
         // ── Modelos por defecto (Google Gemma 4, censurados pero estables) ─────
         ModelInfo(
             id = "gemma4-e2b",
-            displayName = "Gemma 4 E2B — 2.6 GB (recomendado)",
+            displayName = "Gemma 4 E2B — 2.6 GB (recommended)",
             url = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/gemma-4-E2B-it.litertlm",
             fileName = "gemma-4-E2B-it.litertlm",
             sizeBytes = 2_580_000_000L,
@@ -106,7 +106,7 @@ object LocalModelManager {
         // app no se rompe — el usuario puede pegar una URL custom desde Ajustes.
         ModelInfo(
             id = "gemma4-e2b-uncensored",
-            displayName = "Gemma 4 E2B abliterated — 2.6 GB · sin censura",
+            displayName = "Gemma 4 E2B abliterated — 2.6 GB · uncensored",
             url = "https://huggingface.co/DuoNeural/Gemma-4-Abliterated-LiteRT/resolve/main/Gemma-4-E2B-Abliterated.litertlm",
             fileName = "gemma-4-E2B-abliterated.litertlm",
             sizeBytes = 2_556_215_296L,
@@ -114,7 +114,7 @@ object LocalModelManager {
         ),
         ModelInfo(
             id = "gemma4-e2b-uncensored-max",
-            displayName = "Gemma 4 E2B Uncensored MAX — 2.6 GB · sin censura · texto",
+            displayName = "Gemma 4 E2B Uncensored MAX — 2.6 GB · uncensored · text",
             url = "https://huggingface.co/PeppX/gemma-4-e2b-uncensored-litertlm/resolve/main/gemma-4-E2B-it-Uncensored-MAX.litertlm",
             fileName = "gemma-4-E2B-uncensored-max.litertlm",
             sizeBytes = 2_550_041_824L,

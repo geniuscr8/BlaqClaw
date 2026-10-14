@@ -49,34 +49,34 @@ class PowerInfoTool : BaseTool() {
         var chargingStatus: String? = null
         intent?.let {
             val voltage = it.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
-            if (voltage > 0) sb.append("Voltaje: ").append(voltage).append(" mV\n")
+            if (voltage > 0) sb.append("Voltage: ").append(voltage).append(" mV\n")
             val tempRaw = it.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
             temperature = "%.1f°C".format(tempRaw / 10.0)
-            sb.append("Temperatura: ").append(temperature).append("\n")
+            sb.append("Temperature: ").append(temperature).append("\n")
             val tech = it.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
             if (!tech.isNullOrBlank()) sb.append("Technology: ").append(tech).append("\n")
             health = when (it.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)) {
-                BatteryManager.BATTERY_HEALTH_GOOD -> "Buena"
-                BatteryManager.BATTERY_HEALTH_OVERHEAT -> "Sobrecalentada"
-                BatteryManager.BATTERY_HEALTH_DEAD -> "Muerta"
-                BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> "Voltaje alto"
-                BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> "Fallo no especificado"
+                BatteryManager.BATTERY_HEALTH_GOOD -> "Good"
+                BatteryManager.BATTERY_HEALTH_OVERHEAT -> "Overheated"
+                BatteryManager.BATTERY_HEALTH_DEAD -> "Dead"
+                BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> "High voltage"
+                BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> "Unspecified failure"
                 BatteryManager.BATTERY_HEALTH_COLD -> "Cold"
-                else -> "Desconocida"
+                else -> "Unknown"
             }
-            sb.append("Estado: ").append(health).append("\n")
+            sb.append("Health: ").append(health).append("\n")
             plug = when (it.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)) {
                 BatteryManager.BATTERY_PLUGGED_USB -> "USB"
-                BatteryManager.BATTERY_PLUGGED_AC -> "Cargador"
+                BatteryManager.BATTERY_PLUGGED_AC -> "AC charger"
                 BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless"
-                else -> "No conectada"
+                else -> "Not connected"
             }
             sb.append("Connection: ").append(plug).append("\n")
             chargingStatus = when (it.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
-                BatteryManager.BATTERY_STATUS_CHARGING -> "Cargando"
-                BatteryManager.BATTERY_STATUS_DISCHARGING -> "Descargando"
-                BatteryManager.BATTERY_STATUS_FULL -> "Llena"
-                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> "No carga"
+                BatteryManager.BATTERY_STATUS_CHARGING -> "Charging"
+                BatteryManager.BATTERY_STATUS_DISCHARGING -> "Discharging"
+                BatteryManager.BATTERY_STATUS_FULL -> "Full"
+                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> "Not charging"
                 else -> "Unknown"
             }
             sb.append("Status: ").append(chargingStatus)

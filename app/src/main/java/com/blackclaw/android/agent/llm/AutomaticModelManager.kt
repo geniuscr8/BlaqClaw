@@ -25,7 +25,7 @@ object AutomaticModelManager {
 
     private const val BENCHMARK_KEY = "blaqclaw_auto_model_benchmarks_v1"
     private const val PROBE_PROMPT = "Respond only with OK."
-    private const val PROBE_SYSTEM = "Responde con una sola palabra: OK."
+    private const val PROBE_SYSTEM = "Answer with a single word: OK."
 
     private val gson = Gson()
     private val resultLock = Any()
@@ -388,7 +388,7 @@ object AutomaticModelManager {
         return if (fastest != null && latency != null) {
             "AUTO · ${fastest.displayName} · ${latency} ms"
         } else {
-            "AUTO · toca Probar modelos para medir velocidad"
+            "AUTO · tap Test models to measure speed"
         }
     }
 

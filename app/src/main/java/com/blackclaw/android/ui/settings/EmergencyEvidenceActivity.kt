@@ -100,7 +100,7 @@ class EmergencyEvidenceActivity : BaseActivity() {
                         TopAppBar(
                             title = {
                                 Column {
-                                    Text("Evidencias", fontWeight = FontWeight.Bold)
+                                    Text("Evidence", fontWeight = FontWeight.Bold)
                                     Text("Encrypted on this device", style = MaterialTheme.typography.labelSmall,
                                         color = Color(0xFF998DAD))
                                 }
@@ -213,7 +213,7 @@ private fun EvidenceCard(
                     Icon(Icons.Outlined.PlayArrow, null); Spacer(Modifier.width(4.dp)); Text("VER")
                 }
                 TextButton(onClick = onShare, enabled = !busy) {
-                    Icon(Icons.Outlined.Share, null); Spacer(Modifier.width(4.dp)); Text("EXPORTAR")
+                                    Icon(Icons.Outlined.Share, null); Spacer(Modifier.width(4.dp)); Text("EXPORT")
                 }
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = onDelete, enabled = !busy) {

@@ -110,7 +110,7 @@ private fun SecurityScreen(
                     }
                 },
                 actions = {
-                    TextButton(onClick = { reloadKey++ }) { Text("Reescanear", color = colors.accent) }
+                    TextButton(onClick = { reloadKey++ }) { Text("Rescan", color = colors.accent) }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = colors.surface, titleContentColor = colors.textPrimary),
@@ -122,7 +122,7 @@ private fun SecurityScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     CircularProgressIndicator(color = colors.accent)
                     Spacer(Modifier.height(12.dp))
-                    Text("Escaneando apps…", color = colors.textSecondary, fontSize = 13.sp)
+                    Text("Scanning apps…", color = colors.textSecondary, fontSize = 13.sp)
                 }
             }
             return@Scaffold

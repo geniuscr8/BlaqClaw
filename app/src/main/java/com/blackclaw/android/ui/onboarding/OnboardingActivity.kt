@@ -232,7 +232,7 @@ private fun OnboardingScreen(colors: BlaqClawColors, onDone: () -> Unit) {
                             modifier = Modifier.size(30.dp))
                     }
                     Spacer(Modifier.height(16.dp))
-                    Text("Pon a punto BlaqClaw", fontSize = 26.sp, fontWeight = FontWeight.Bold,
+                    Text("Set up BlaqClaw", fontSize = 26.sp, fontWeight = FontWeight.Bold,
                         color = colors.textPrimary)
                     Text("A few quick permissions and your assistant will be ready to work for you.",
                         fontSize = 14.sp, color = colors.textSecondary, lineHeight = 19.sp,

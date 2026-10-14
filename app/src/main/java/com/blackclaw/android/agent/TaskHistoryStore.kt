@@ -112,7 +112,7 @@ object TaskHistoryStore {
         if (recent.isEmpty()) return ""
         val df = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
         return buildString {
-            append("\n\n## Tareas recientes (contexto; resuelve referencias como \"otra vez\" o \"a la misma persona\")\n")
+            append("\n\n## Recent tasks (context; resolve references like \"again\" or \"the same person\")\n")
             recent.forEach {
                 append("- [${df.format(java.util.Date(it.t))}] ${it.task}")
                 if (it.outcome.isNotBlank()) append(" → ${it.outcome}")

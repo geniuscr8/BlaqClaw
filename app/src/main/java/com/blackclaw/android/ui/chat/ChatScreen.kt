@@ -2028,7 +2028,7 @@ private fun SidebarContent(
                         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.Edit, contentDescription = null, tint = colors.textPrimary, modifier = Modifier.size(20.dp))
                             Spacer(Modifier.width(12.dp))
-                            Text("Renombrar", color = colors.textPrimary)
+                            Text("Rename", color = colors.textPrimary)
                         }
                     }
                     TextButton(

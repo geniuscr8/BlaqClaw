@@ -429,8 +429,8 @@ private fun SavePlaceDialog(
             Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
                 Text("Give it any name. BlaqClaw will understand it later in your automations.", color = colors.textSecondary, fontSize = 12.sp)
                 OutlinedTextField(name, { name = it }, label = { Text("Name: home, bedroom, gym…") }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(radius, { radius = it.filter(Char::isDigit) }, label = { Text("Radio en metros") }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(aliases, { aliases = it }, label = { Text("Aliases opcionales, separados por coma") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(radius, { radius = it.filter(Char::isDigit) }, label = { Text("Radius in meters") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(aliases, { aliases = it }, label = { Text("Optional aliases, comma-separated") }, modifier = Modifier.fillMaxWidth())
                 error?.let { Text(it, color = colors.textTertiary, fontSize = 11.sp) }
             }
         },
@@ -600,7 +600,7 @@ private fun FlowHeroCard(
             TextButton(onClick = onCreateManual, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Icon(Icons.Default.Tune, contentDescription = null, tint = colors.textSecondary)
                 Spacer(Modifier.width(6.dp))
-                Text("Editor manual", color = colors.textSecondary)
+                    Text("Manual editor", color = colors.textSecondary)
             }
         }
     }
@@ -684,7 +684,7 @@ private fun ProfileCard(profile: AutomationProfileStore.Profile, colors: BlaqCla
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 TextButton(enabled = validationErrors.isEmpty(), onClick = onRun) {
-                    Text("Probar", color = if (validationErrors.isEmpty()) colors.accent else colors.textTertiary)
+                    Text("Test", color = if (validationErrors.isEmpty()) colors.accent else colors.textTertiary)
                 }
                 IconButton(onClick = onEdit) {
                     Icon(Icons.Default.Edit, "Edit", tint = colors.accent)
@@ -713,7 +713,7 @@ private fun RuleCard(rule: AutomationRuleStore.Rule, colors: BlaqClawColors,
             Text("THEN: ${rule.actionText}", color = colors.textPrimary, fontSize = 12.sp,
                 modifier = Modifier.padding(top = 6.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(onClick = onRun) { Text("Probar", color = colors.accent) }
+                TextButton(onClick = onRun) { Text("Test", color = colors.accent) }
                 IconButton(onClick = onDelete) { Icon(Icons.Default.Delete, "Delete", tint = colors.textTertiary) }
             }
         }
@@ -741,7 +741,7 @@ private fun AddRuleDialog(colors: BlaqClawColors, onDismiss: () -> Unit, onSaved
             }
             if (trigger == AutomationRuleStore.Trigger.NOTIFICATION) {
                 OutlinedTextField(match, { match = it }, label = { Text("Contact or text") }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(pkg, { pkg = it }, label = { Text("Paquete opcional (com.whatsapp)") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(pkg, { pkg = it }, label = { Text("Optional package (com.whatsapp)") }, modifier = Modifier.fillMaxWidth())
             } else {
                 OutlinedTextField(lat, { lat = it }, label = { Text("Latitud") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(lon, { lon = it }, label = { Text("Longitud") }, modifier = Modifier.fillMaxWidth())

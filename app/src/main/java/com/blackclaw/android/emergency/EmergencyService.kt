@@ -148,7 +148,7 @@ class EmergencyService : Service() {
             activateNow()
             return
         }
-        promote("Activando emergencia en 5 segundos…", true, false, false)
+        promote("Activating emergency in 5 seconds…", true, false, false)
         EmergencyEventLog.append(this, "countdown_started")
         handler.removeCallbacks(activateRunnable)
         handler.postDelayed(activateRunnable, COUNTDOWN_MS)
@@ -175,7 +175,7 @@ class EmergencyService : Service() {
         alertSent = if (options.sendLocation) sendAlert(location, initial = true) else true
         // Promote with every requested sensor type before opening while-in-use
         // resources; Android 14+ validates this synchronously.
-        promote(if (options.silent) discreetStatus() else "Alerta activa · preparando evidencia", false,
+        promote(if (options.silent) discreetStatus() else "Alert active · preparing evidence", false,
             EmergencyConfig.recordAudio, options.cameras != EmergencyCameras.NONE)
         startCameraEvidence()
         if (EmergencyConfig.recordAudio) startAudioEvidence()
@@ -323,7 +323,7 @@ class EmergencyService : Service() {
         val stamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US).format(Date())
         evidenceFile = EmergencyEvidenceVault.newPlainSegment(this, stamp)
         try {
-            promote(if (options.silent) discreetStatus() else "Alerta activa · iniciando evidencia", false, true,
+            promote(if (options.silent) discreetStatus() else "Alert active · starting evidence", false, true,
                 options.cameras != EmergencyCameras.NONE)
             recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MediaRecorder(this) else @Suppress("DEPRECATION") MediaRecorder()
             recorder?.apply {
@@ -465,5 +465,5 @@ class EmergencyService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun discreetStatus() = "Modo discreto activo · toca para administrar"
+    private fun discreetStatus() = "Discreet mode active · tap to manage"
 }

@@ -342,7 +342,7 @@ class AutomationProfileTool : BaseTool() {
             when {
                 resolution.place != null -> resolution.place
                 resolution.isAmbiguous -> throw IllegalArgumentException(
-                    "Lugar ambiguo '$placeName': ${resolution.candidates.joinToString { it.name }}. Usa saved_place(resolve) y un place_id exacto."
+                    "Ambiguous place '$placeName': ${resolution.candidates.joinToString { it.name }}. Use saved_place(resolve) with an exact place_id."
                 )
                 else -> null
             }
@@ -371,17 +371,17 @@ class AutomationProfileTool : BaseTool() {
         is Map<*, *> -> buildMap {
             value.forEach { (rawKey, rawValue) ->
                 val key = rawKey as? String
-                    ?: throw IllegalArgumentException("$field contiene una clave que no es texto.")
+                    ?: throw IllegalArgumentException("$field contains a non-text key.")
                 if (rawValue != null) put(key, rawValue)
             }
         }
-        else -> throw IllegalArgumentException("$field debe ser un objeto JSON.")
+        else -> throw IllegalArgumentException("$field must be a JSON object.")
     }
 
     private fun objectList(value: Any?, field: String): List<Map<String, Any>> = when (value) {
         null -> emptyList()
         is List<*> -> value.mapIndexed { index, item -> objectMap(item, "$field[$index]") }
-        else -> throw IllegalArgumentException("$field debe ser una lista JSON.")
+        else -> throw IllegalArgumentException("$field must be a JSON list.")
     }
 
     /** Tool transports sometimes preserve arrays/maps instead of serializing them. */
@@ -405,10 +405,10 @@ class AutomationProfileTool : BaseTool() {
                 AutomationProfileStore.TriggerType.LOCATION_ENTER,
                 AutomationProfileStore.TriggerType.LOCATION_EXIT -> permissions += "Precise background location"
                 AutomationProfileStore.TriggerType.APP_FOREGROUND,
-                AutomationProfileStore.TriggerType.APP_CLOSED -> permissions += "Accesibilidad"
+                AutomationProfileStore.TriggerType.APP_CLOSED -> permissions += "Accessibility"
                 AutomationProfileStore.TriggerType.CALL_STATE -> permissions += "Phone state"
                 AutomationProfileStore.TriggerType.SMS_RECEIVED -> permissions += "SMS permission received"
-                AutomationProfileStore.TriggerType.WEBHOOK -> permissions += "Intent externo con token"
+                AutomationProfileStore.TriggerType.WEBHOOK -> permissions += "External intent with token"
                 else -> Unit
             }
         }

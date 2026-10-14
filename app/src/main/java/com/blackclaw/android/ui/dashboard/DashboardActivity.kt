@@ -63,7 +63,7 @@ fun DashboardScreen(colors: BlaqClawColors, onBack: () -> Unit) {
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("📊 Actividad", color = textPrimary) },
+                title = { Text("📊 Activity", color = textPrimary) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.Filled.ArrowBack, "Back", tint = textPrimary)

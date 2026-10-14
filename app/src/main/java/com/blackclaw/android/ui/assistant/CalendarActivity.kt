@@ -484,7 +484,7 @@ private fun RescheduleDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = colors.surface,
-        title = { Text("Reprogramar", color = colors.textPrimary, fontWeight = FontWeight.Bold) },
+        title = { Text("Reschedule", color = colors.textPrimary, fontWeight = FontWeight.Bold) },
         text = {
             Column {
                 Text(item.title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold,
